@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "sourceKind": "development-sample",
+  "school": {"id":"sample.local","displayName":"BellSync Demo School","timeZone":"America/New_York"},
+  "calendar":{"days":{}},
+  "templates":{"regular":[
+    {"id":"p1","label":"Period 1","start":"07:30","end":"08:20"},
+    {"id":"p2","label":"Period 2","start":"08:25","end":"09:15"},
+    {"id":"lunch","label":"Lunch","start":"11:00","end":"11:30","kind":"lunch"},
+    {"id":"p3","label":"Period 3","start":"11:35","end":"12:25"}
+  ]},
+  "assignments":{"every":{"p1":{"title":"Introduction to Film & Video","room":"1304"},"p2":{"title":"Multimedia Presentation","room":"1304"},"p3":{"title":"Academic Support","room":"Library"}}}
+}

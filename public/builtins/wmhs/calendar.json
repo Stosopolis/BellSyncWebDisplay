@@ -1,0 +1,1426 @@
+{
+  "school_year": "2026-2027",
+  "source": "2026-2027 Calendar by Days .pdf (all four pages), supplied by Constantine",
+  "bell_schedule_rule": "Explicit calendar exceptions first; otherwise Wednesday FLEX per Constantine's personal bell schedule, regular on other weekdays. Delayed-start times are not supplied.",
+  "days": {
+    "2026-09-01": {
+      "date": "2026-09-01",
+      "day": 1,
+      "schedule": "regular",
+      "term": 1,
+      "weekday": "Tuesday"
+    },
+    "2026-09-02": {
+      "date": "2026-09-02",
+      "day": 2,
+      "schedule": "flex",
+      "term": 1,
+      "weekday": "Wednesday"
+    },
+    "2026-09-03": {
+      "date": "2026-09-03",
+      "day": 3,
+      "schedule": "regular",
+      "term": 1,
+      "weekday": "Thursday"
+    },
+    "2026-09-08": {
+      "date": "2026-09-08",
+      "day": 4,
+      "schedule": "regular",
+      "term": 1,
+      "weekday": "Tuesday"
+    },
+    "2026-09-09": {
+      "date": "2026-09-09",
+      "day": 5,
+      "schedule": "flex",
+      "term": 1,
+      "weekday": "Wednesday"
+    },
+    "2026-09-10": {
+      "date": "2026-09-10",
+      "day": 6,
+      "schedule": "regular",
+      "term": 1,
+      "weekday": "Thursday"
+    },
+    "2026-09-11": {
+      "date": "2026-09-11",
+      "day": 7,
+      "schedule": "regular",
+      "term": 1,
+      "weekday": "Friday"
+    },
+    "2026-09-14": {
+      "date": "2026-09-14",
+      "day": 1,
+      "schedule": "regular",
+      "term": 1,
+      "weekday": "Monday"
+    },
+    "2026-09-15": {
+      "date": "2026-09-15",
+      "day": 2,
+      "schedule": "regular",
+      "term": 1,
+      "weekday": "Tuesday"
+    },
+    "2026-09-16": {
+      "date": "2026-09-16",
+      "day": 3,
+      "schedule": "flex",
+      "term": 1,
+      "weekday": "Wednesday"
+    },
+    "2026-09-17": {
+      "date": "2026-09-17",
+      "day": 4,
+      "schedule": "regular",
+      "term": 1,
+      "weekday": "Thursday"
+    },
+    "2026-09-18": {
+      "date": "2026-09-18",
+      "day": 5,
+      "schedule": "regular",
+      "term": 1,
+      "weekday": "Friday"
+    },
+    "2026-09-21": {
+      "date": "2026-09-21",
+      "day": 6,
+      "schedule": "regular",
+      "term": 1,
+      "weekday": "Monday"
+    },
+    "2026-09-22": {
+      "date": "2026-09-22",
+      "day": 7,
+      "schedule": "regular",
+      "term": 1,
+      "weekday": "Tuesday"
+    },
+    "2026-09-23": {
+      "date": "2026-09-23",
+      "day": 1,
+      "schedule": "flex",
+      "term": 1,
+      "weekday": "Wednesday"
+    },
+    "2026-09-24": {
+      "date": "2026-09-24",
+      "day": 2,
+      "schedule": "regular",
+      "term": 1,
+      "weekday": "Thursday"
+    },
+    "2026-09-25": {
+      "date": "2026-09-25",
+      "day": 3,
+      "schedule": "er",
+      "term": 1,
+      "weekday": "Friday",
+      "note": "EARLY RELEASE"
+    },
+    "2026-09-28": {
+      "date": "2026-09-28",
+      "day": 4,
+      "schedule": "regular",
+      "term": 1,
+      "weekday": "Monday"
+    },
+    "2026-09-29": {
+      "date": "2026-09-29",
+      "day": 5,
+      "schedule": "regular",
+      "term": 1,
+      "weekday": "Tuesday"
+    },
+    "2026-09-30": {
+      "date": "2026-09-30",
+      "day": 6,
+      "schedule": "flex",
+      "term": 1,
+      "weekday": "Wednesday"
+    },
+    "2026-10-01": {
+      "date": "2026-10-01",
+      "day": 7,
+      "schedule": "regular",
+      "term": 1,
+      "weekday": "Thursday"
+    },
+    "2026-10-02": {
+      "date": "2026-10-02",
+      "day": 1,
+      "schedule": "regular",
+      "term": 1,
+      "weekday": "Friday"
+    },
+    "2026-10-05": {
+      "date": "2026-10-05",
+      "day": 2,
+      "schedule": "regular",
+      "term": 1,
+      "weekday": "Monday"
+    },
+    "2026-10-06": {
+      "date": "2026-10-06",
+      "day": 3,
+      "schedule": "regular",
+      "term": 1,
+      "weekday": "Tuesday"
+    },
+    "2026-10-07": {
+      "date": "2026-10-07",
+      "day": 4,
+      "schedule": "flex",
+      "term": 1,
+      "weekday": "Wednesday"
+    },
+    "2026-10-08": {
+      "date": "2026-10-08",
+      "day": 5,
+      "schedule": "regular",
+      "term": 1,
+      "weekday": "Thursday"
+    },
+    "2026-10-09": {
+      "date": "2026-10-09",
+      "day": 6,
+      "schedule": "regular",
+      "term": 1,
+      "weekday": "Friday"
+    },
+    "2026-10-13": {
+      "date": "2026-10-13",
+      "day": 7,
+      "schedule": "regular",
+      "term": 1,
+      "weekday": "Tuesday"
+    },
+    "2026-10-14": {
+      "date": "2026-10-14",
+      "day": 1,
+      "schedule": "flex",
+      "term": 1,
+      "weekday": "Wednesday"
+    },
+    "2026-10-15": {
+      "date": "2026-10-15",
+      "day": 2,
+      "schedule": "regular",
+      "term": 1,
+      "weekday": "Thursday"
+    },
+    "2026-10-16": {
+      "date": "2026-10-16",
+      "day": 3,
+      "schedule": "regular",
+      "term": 1,
+      "weekday": "Friday"
+    },
+    "2026-10-19": {
+      "date": "2026-10-19",
+      "day": 4,
+      "schedule": "regular",
+      "term": 1,
+      "weekday": "Monday"
+    },
+    "2026-10-20": {
+      "date": "2026-10-20",
+      "day": 5,
+      "schedule": "regular",
+      "term": 1,
+      "weekday": "Tuesday"
+    },
+    "2026-10-21": {
+      "date": "2026-10-21",
+      "day": 6,
+      "schedule": "flex",
+      "term": 1,
+      "weekday": "Wednesday"
+    },
+    "2026-10-22": {
+      "date": "2026-10-22",
+      "day": 7,
+      "schedule": "regular",
+      "term": 1,
+      "weekday": "Thursday"
+    },
+    "2026-10-23": {
+      "date": "2026-10-23",
+      "day": 1,
+      "schedule": "regular",
+      "term": 1,
+      "weekday": "Friday"
+    },
+    "2026-10-26": {
+      "date": "2026-10-26",
+      "day": 2,
+      "schedule": "regular",
+      "term": 1,
+      "weekday": "Monday"
+    },
+    "2026-10-27": {
+      "date": "2026-10-27",
+      "day": 3,
+      "schedule": "regular",
+      "term": 1,
+      "weekday": "Tuesday"
+    },
+    "2026-10-28": {
+      "date": "2026-10-28",
+      "day": 4,
+      "schedule": "flex",
+      "term": 1,
+      "weekday": "Wednesday"
+    },
+    "2026-10-29": {
+      "date": "2026-10-29",
+      "day": 5,
+      "schedule": "regular",
+      "term": 1,
+      "weekday": "Thursday"
+    },
+    "2026-10-30": {
+      "date": "2026-10-30",
+      "day": 6,
+      "schedule": "er",
+      "term": 1,
+      "weekday": "Friday",
+      "note": "EARLY RELEASE"
+    },
+    "2026-11-02": {
+      "date": "2026-11-02",
+      "day": 7,
+      "schedule": "regular",
+      "term": 1,
+      "weekday": "Monday"
+    },
+    "2026-11-04": {
+      "date": "2026-11-04",
+      "day": 1,
+      "schedule": "flex",
+      "term": 1,
+      "weekday": "Wednesday"
+    },
+    "2026-11-05": {
+      "date": "2026-11-05",
+      "day": 2,
+      "schedule": "regular",
+      "term": 1,
+      "weekday": "Thursday"
+    },
+    "2026-11-06": {
+      "date": "2026-11-06",
+      "day": 3,
+      "schedule": "regular",
+      "term": 1,
+      "weekday": "Friday",
+      "note": "TERM 1 ENDS"
+    },
+    "2026-11-09": {
+      "date": "2026-11-09",
+      "day": 4,
+      "schedule": "regular",
+      "term": 2,
+      "weekday": "Monday"
+    },
+    "2026-11-10": {
+      "date": "2026-11-10",
+      "day": 5,
+      "schedule": "regular",
+      "term": 2,
+      "weekday": "Tuesday"
+    },
+    "2026-11-12": {
+      "date": "2026-11-12",
+      "day": 6,
+      "schedule": "regular",
+      "term": 2,
+      "weekday": "Thursday"
+    },
+    "2026-11-13": {
+      "date": "2026-11-13",
+      "day": 7,
+      "schedule": "regular",
+      "term": 2,
+      "weekday": "Friday"
+    },
+    "2026-11-16": {
+      "date": "2026-11-16",
+      "day": 1,
+      "schedule": "regular",
+      "term": 2,
+      "weekday": "Monday"
+    },
+    "2026-11-17": {
+      "date": "2026-11-17",
+      "day": 2,
+      "schedule": "regular",
+      "term": 2,
+      "weekday": "Tuesday"
+    },
+    "2026-11-18": {
+      "date": "2026-11-18",
+      "day": 3,
+      "schedule": "flex",
+      "term": 2,
+      "weekday": "Wednesday"
+    },
+    "2026-11-19": {
+      "date": "2026-11-19",
+      "day": 4,
+      "schedule": "regular",
+      "term": 2,
+      "weekday": "Thursday"
+    },
+    "2026-11-20": {
+      "date": "2026-11-20",
+      "day": 5,
+      "schedule": "regular",
+      "term": 2,
+      "weekday": "Friday"
+    },
+    "2026-11-23": {
+      "date": "2026-11-23",
+      "day": 6,
+      "schedule": "regular",
+      "term": 2,
+      "weekday": "Monday"
+    },
+    "2026-11-24": {
+      "date": "2026-11-24",
+      "day": 7,
+      "schedule": "regular",
+      "term": 2,
+      "weekday": "Tuesday"
+    },
+    "2026-11-25": {
+      "date": "2026-11-25",
+      "day": 1,
+      "schedule": "er",
+      "term": 2,
+      "weekday": "Wednesday",
+      "note": "EARLY RELEASE"
+    },
+    "2026-11-30": {
+      "date": "2026-11-30",
+      "day": 2,
+      "schedule": "regular",
+      "term": 2,
+      "weekday": "Monday"
+    },
+    "2026-12-01": {
+      "date": "2026-12-01",
+      "day": 3,
+      "schedule": "regular",
+      "term": 2,
+      "weekday": "Tuesday"
+    },
+    "2026-12-02": {
+      "date": "2026-12-02",
+      "day": 4,
+      "schedule": "flex",
+      "term": 2,
+      "weekday": "Wednesday"
+    },
+    "2026-12-03": {
+      "date": "2026-12-03",
+      "day": 5,
+      "schedule": "regular",
+      "term": 2,
+      "weekday": "Thursday"
+    },
+    "2026-12-04": {
+      "date": "2026-12-04",
+      "day": 6,
+      "schedule": "regular",
+      "term": 2,
+      "weekday": "Friday"
+    },
+    "2026-12-07": {
+      "date": "2026-12-07",
+      "day": 7,
+      "schedule": "regular",
+      "term": 2,
+      "weekday": "Monday"
+    },
+    "2026-12-08": {
+      "date": "2026-12-08",
+      "day": 1,
+      "schedule": "regular",
+      "term": 2,
+      "weekday": "Tuesday"
+    },
+    "2026-12-09": {
+      "date": "2026-12-09",
+      "day": 2,
+      "schedule": "flex",
+      "term": 2,
+      "weekday": "Wednesday"
+    },
+    "2026-12-10": {
+      "date": "2026-12-10",
+      "day": 3,
+      "schedule": "regular",
+      "term": 2,
+      "weekday": "Thursday"
+    },
+    "2026-12-11": {
+      "date": "2026-12-11",
+      "day": 4,
+      "schedule": "regular",
+      "term": 2,
+      "weekday": "Friday"
+    },
+    "2026-12-14": {
+      "date": "2026-12-14",
+      "day": 5,
+      "schedule": "regular",
+      "term": 2,
+      "weekday": "Monday"
+    },
+    "2026-12-15": {
+      "date": "2026-12-15",
+      "day": 6,
+      "schedule": "regular",
+      "term": 2,
+      "weekday": "Tuesday"
+    },
+    "2026-12-16": {
+      "date": "2026-12-16",
+      "day": 7,
+      "schedule": "flex",
+      "term": 2,
+      "weekday": "Wednesday"
+    },
+    "2026-12-17": {
+      "date": "2026-12-17",
+      "day": 1,
+      "schedule": "regular",
+      "term": 2,
+      "weekday": "Thursday"
+    },
+    "2026-12-18": {
+      "date": "2026-12-18",
+      "day": 2,
+      "schedule": "er",
+      "term": 2,
+      "weekday": "Friday",
+      "note": "EARLY RELEASE"
+    },
+    "2026-12-21": {
+      "date": "2026-12-21",
+      "day": 3,
+      "schedule": "er",
+      "term": 2,
+      "weekday": "Monday",
+      "note": "EARLY RELEASE"
+    },
+    "2026-12-22": {
+      "date": "2026-12-22",
+      "day": 4,
+      "schedule": "regular",
+      "term": 2,
+      "weekday": "Tuesday"
+    },
+    "2027-01-05": {
+      "date": "2027-01-05",
+      "day": 5,
+      "schedule": "delayed",
+      "term": 2,
+      "weekday": "Tuesday",
+      "note": "DELAYED START"
+    },
+    "2027-01-06": {
+      "date": "2027-01-06",
+      "day": 6,
+      "schedule": "flex",
+      "term": 2,
+      "weekday": "Wednesday"
+    },
+    "2027-01-07": {
+      "date": "2027-01-07",
+      "day": 7,
+      "schedule": "regular",
+      "term": 2,
+      "weekday": "Thursday"
+    },
+    "2027-01-08": {
+      "date": "2027-01-08",
+      "day": 1,
+      "schedule": "regular",
+      "term": 2,
+      "weekday": "Friday"
+    },
+    "2027-01-11": {
+      "date": "2027-01-11",
+      "day": 2,
+      "schedule": "regular",
+      "term": 2,
+      "weekday": "Monday"
+    },
+    "2027-01-12": {
+      "date": "2027-01-12",
+      "day": 3,
+      "schedule": "regular",
+      "term": 2,
+      "weekday": "Tuesday"
+    },
+    "2027-01-13": {
+      "date": "2027-01-13",
+      "day": 4,
+      "schedule": "flex",
+      "term": 2,
+      "weekday": "Wednesday"
+    },
+    "2027-01-14": {
+      "date": "2027-01-14",
+      "day": 5,
+      "schedule": "regular",
+      "term": 2,
+      "weekday": "Thursday"
+    },
+    "2027-01-15": {
+      "date": "2027-01-15",
+      "day": 6,
+      "schedule": "regular",
+      "term": 2,
+      "weekday": "Friday"
+    },
+    "2027-01-19": {
+      "date": "2027-01-19",
+      "day": 7,
+      "schedule": "regular",
+      "term": 2,
+      "weekday": "Tuesday"
+    },
+    "2027-01-20": {
+      "date": "2027-01-20",
+      "day": 1,
+      "schedule": "flex",
+      "term": 2,
+      "weekday": "Wednesday"
+    },
+    "2027-01-21": {
+      "date": "2027-01-21",
+      "day": 2,
+      "schedule": "regular",
+      "term": 2,
+      "weekday": "Thursday"
+    },
+    "2027-01-22": {
+      "date": "2027-01-22",
+      "day": 3,
+      "schedule": "regular",
+      "term": 2,
+      "weekday": "Friday"
+    },
+    "2027-01-25": {
+      "date": "2027-01-25",
+      "day": 4,
+      "schedule": "regular",
+      "term": 2,
+      "weekday": "Monday"
+    },
+    "2027-01-26": {
+      "date": "2027-01-26",
+      "day": 5,
+      "schedule": "regular",
+      "term": 2,
+      "weekday": "Tuesday"
+    },
+    "2027-01-27": {
+      "date": "2027-01-27",
+      "day": 6,
+      "schedule": "flex",
+      "term": 2,
+      "weekday": "Wednesday"
+    },
+    "2027-01-28": {
+      "date": "2027-01-28",
+      "day": 7,
+      "schedule": "regular",
+      "term": 2,
+      "weekday": "Thursday"
+    },
+    "2027-01-29": {
+      "date": "2027-01-29",
+      "day": 1,
+      "schedule": "er",
+      "term": 2,
+      "weekday": "Friday",
+      "note": "TERM 2 ENDS; EARLY RELEASE"
+    },
+    "2027-02-01": {
+      "date": "2027-02-01",
+      "day": 2,
+      "schedule": "regular",
+      "term": 3,
+      "weekday": "Monday"
+    },
+    "2027-02-02": {
+      "date": "2027-02-02",
+      "day": 3,
+      "schedule": "regular",
+      "term": 3,
+      "weekday": "Tuesday"
+    },
+    "2027-02-03": {
+      "date": "2027-02-03",
+      "day": 4,
+      "schedule": "flex",
+      "term": 3,
+      "weekday": "Wednesday"
+    },
+    "2027-02-04": {
+      "date": "2027-02-04",
+      "day": 5,
+      "schedule": "regular",
+      "term": 3,
+      "weekday": "Thursday"
+    },
+    "2027-02-05": {
+      "date": "2027-02-05",
+      "day": 6,
+      "schedule": "regular",
+      "term": 3,
+      "weekday": "Friday"
+    },
+    "2027-02-08": {
+      "date": "2027-02-08",
+      "day": 7,
+      "schedule": "regular",
+      "term": 3,
+      "weekday": "Monday"
+    },
+    "2027-02-09": {
+      "date": "2027-02-09",
+      "day": 1,
+      "schedule": "regular",
+      "term": 3,
+      "weekday": "Tuesday"
+    },
+    "2027-02-10": {
+      "date": "2027-02-10",
+      "day": 2,
+      "schedule": "flex",
+      "term": 3,
+      "weekday": "Wednesday"
+    },
+    "2027-02-11": {
+      "date": "2027-02-11",
+      "day": 3,
+      "schedule": "regular",
+      "term": 3,
+      "weekday": "Thursday"
+    },
+    "2027-02-12": {
+      "date": "2027-02-12",
+      "day": 4,
+      "schedule": "regular",
+      "term": 3,
+      "weekday": "Friday"
+    },
+    "2027-02-22": {
+      "date": "2027-02-22",
+      "day": 5,
+      "schedule": "regular",
+      "term": 3,
+      "weekday": "Monday"
+    },
+    "2027-02-23": {
+      "date": "2027-02-23",
+      "day": 6,
+      "schedule": "regular",
+      "term": 3,
+      "weekday": "Tuesday"
+    },
+    "2027-02-24": {
+      "date": "2027-02-24",
+      "day": 7,
+      "schedule": "flex",
+      "term": 3,
+      "weekday": "Wednesday"
+    },
+    "2027-02-25": {
+      "date": "2027-02-25",
+      "day": 1,
+      "schedule": "regular",
+      "term": 3,
+      "weekday": "Thursday"
+    },
+    "2027-02-26": {
+      "date": "2027-02-26",
+      "day": 2,
+      "schedule": "er",
+      "term": 3,
+      "weekday": "Friday",
+      "note": "EARLY RELEASE"
+    },
+    "2027-03-01": {
+      "date": "2027-03-01",
+      "day": 3,
+      "schedule": "regular",
+      "term": 3,
+      "weekday": "Monday"
+    },
+    "2027-03-02": {
+      "date": "2027-03-02",
+      "day": 4,
+      "schedule": "regular",
+      "term": 3,
+      "weekday": "Tuesday"
+    },
+    "2027-03-03": {
+      "date": "2027-03-03",
+      "day": 5,
+      "schedule": "flex",
+      "term": 3,
+      "weekday": "Wednesday"
+    },
+    "2027-03-04": {
+      "date": "2027-03-04",
+      "day": 6,
+      "schedule": "regular",
+      "term": 3,
+      "weekday": "Thursday"
+    },
+    "2027-03-05": {
+      "date": "2027-03-05",
+      "day": 7,
+      "schedule": "regular",
+      "term": 3,
+      "weekday": "Friday"
+    },
+    "2027-03-08": {
+      "date": "2027-03-08",
+      "day": 1,
+      "schedule": "regular",
+      "term": 3,
+      "weekday": "Monday"
+    },
+    "2027-03-09": {
+      "date": "2027-03-09",
+      "day": 2,
+      "schedule": "regular",
+      "term": 3,
+      "weekday": "Tuesday"
+    },
+    "2027-03-10": {
+      "date": "2027-03-10",
+      "day": 3,
+      "schedule": "flex",
+      "term": 3,
+      "weekday": "Wednesday"
+    },
+    "2027-03-11": {
+      "date": "2027-03-11",
+      "day": 4,
+      "schedule": "regular",
+      "term": 3,
+      "weekday": "Thursday"
+    },
+    "2027-03-12": {
+      "date": "2027-03-12",
+      "day": 5,
+      "schedule": "regular",
+      "term": 3,
+      "weekday": "Friday"
+    },
+    "2027-03-15": {
+      "date": "2027-03-15",
+      "day": 6,
+      "schedule": "regular",
+      "term": 3,
+      "weekday": "Monday"
+    },
+    "2027-03-16": {
+      "date": "2027-03-16",
+      "day": 7,
+      "schedule": "regular",
+      "term": 3,
+      "weekday": "Tuesday"
+    },
+    "2027-03-17": {
+      "date": "2027-03-17",
+      "day": 1,
+      "schedule": "flex",
+      "term": 3,
+      "weekday": "Wednesday"
+    },
+    "2027-03-18": {
+      "date": "2027-03-18",
+      "day": 2,
+      "schedule": "regular",
+      "term": 3,
+      "weekday": "Thursday"
+    },
+    "2027-03-19": {
+      "date": "2027-03-19",
+      "day": 3,
+      "schedule": "regular",
+      "term": 3,
+      "weekday": "Friday"
+    },
+    "2027-03-22": {
+      "date": "2027-03-22",
+      "day": 4,
+      "schedule": "regular",
+      "term": 3,
+      "weekday": "Monday"
+    },
+    "2027-03-23": {
+      "date": "2027-03-23",
+      "day": 5,
+      "schedule": "regular",
+      "term": 3,
+      "weekday": "Tuesday",
+      "note": "ELA MCAS"
+    },
+    "2027-03-24": {
+      "date": "2027-03-24",
+      "day": 6,
+      "schedule": "flex",
+      "term": 3,
+      "weekday": "Wednesday",
+      "note": "ELA MCAS"
+    },
+    "2027-03-25": {
+      "date": "2027-03-25",
+      "day": 7,
+      "schedule": "regular",
+      "term": 3,
+      "weekday": "Thursday"
+    },
+    "2027-03-26": {
+      "date": "2027-03-26",
+      "day": 1,
+      "schedule": "regular",
+      "term": 3,
+      "weekday": "Friday"
+    },
+    "2027-03-29": {
+      "date": "2027-03-29",
+      "day": 2,
+      "schedule": "regular",
+      "term": 3,
+      "weekday": "Monday"
+    },
+    "2027-03-30": {
+      "date": "2027-03-30",
+      "day": 3,
+      "schedule": "regular",
+      "term": 3,
+      "weekday": "Tuesday"
+    },
+    "2027-03-31": {
+      "date": "2027-03-31",
+      "day": 4,
+      "schedule": "flex",
+      "term": 3,
+      "weekday": "Wednesday"
+    },
+    "2027-04-01": {
+      "date": "2027-04-01",
+      "day": 5,
+      "schedule": "regular",
+      "term": 3,
+      "weekday": "Thursday"
+    },
+    "2027-04-02": {
+      "date": "2027-04-02",
+      "day": 6,
+      "schedule": "regular",
+      "term": 3,
+      "weekday": "Friday"
+    },
+    "2027-04-05": {
+      "date": "2027-04-05",
+      "day": 7,
+      "schedule": "regular",
+      "term": 3,
+      "weekday": "Monday"
+    },
+    "2027-04-06": {
+      "date": "2027-04-06",
+      "day": 1,
+      "schedule": "regular",
+      "term": 3,
+      "weekday": "Tuesday"
+    },
+    "2027-04-07": {
+      "date": "2027-04-07",
+      "day": 2,
+      "schedule": "flex",
+      "term": 3,
+      "weekday": "Wednesday"
+    },
+    "2027-04-08": {
+      "date": "2027-04-08",
+      "day": 3,
+      "schedule": "regular",
+      "term": 3,
+      "weekday": "Thursday"
+    },
+    "2027-04-09": {
+      "date": "2027-04-09",
+      "day": 4,
+      "schedule": "regular",
+      "term": 3,
+      "weekday": "Friday",
+      "note": "TERM 3 ENDS"
+    },
+    "2027-04-12": {
+      "date": "2027-04-12",
+      "day": 5,
+      "schedule": "regular",
+      "term": 4,
+      "weekday": "Monday"
+    },
+    "2027-04-13": {
+      "date": "2027-04-13",
+      "day": 6,
+      "schedule": "regular",
+      "term": 4,
+      "weekday": "Tuesday"
+    },
+    "2027-04-14": {
+      "date": "2027-04-14",
+      "day": 7,
+      "schedule": "flex",
+      "term": 4,
+      "weekday": "Wednesday"
+    },
+    "2027-04-15": {
+      "date": "2027-04-15",
+      "day": 1,
+      "schedule": "regular",
+      "term": 4,
+      "weekday": "Thursday"
+    },
+    "2027-04-16": {
+      "date": "2027-04-16",
+      "day": 2,
+      "schedule": "regular",
+      "term": 4,
+      "weekday": "Friday"
+    },
+    "2027-04-26": {
+      "date": "2027-04-26",
+      "day": 3,
+      "schedule": "regular",
+      "term": 4,
+      "weekday": "Monday"
+    },
+    "2027-04-27": {
+      "date": "2027-04-27",
+      "day": 4,
+      "schedule": "regular",
+      "term": 4,
+      "weekday": "Tuesday"
+    },
+    "2027-04-28": {
+      "date": "2027-04-28",
+      "day": 5,
+      "schedule": "flex",
+      "term": 4,
+      "weekday": "Wednesday"
+    },
+    "2027-04-29": {
+      "date": "2027-04-29",
+      "day": 6,
+      "schedule": "regular",
+      "term": 4,
+      "weekday": "Thursday"
+    },
+    "2027-04-30": {
+      "date": "2027-04-30",
+      "day": 7,
+      "schedule": "regular",
+      "term": 4,
+      "weekday": "Friday"
+    },
+    "2027-05-03": {
+      "date": "2027-05-03",
+      "day": 1,
+      "schedule": "regular",
+      "term": 4,
+      "weekday": "Monday"
+    },
+    "2027-05-04": {
+      "date": "2027-05-04",
+      "day": 2,
+      "schedule": "regular",
+      "term": 4,
+      "weekday": "Tuesday"
+    },
+    "2027-05-05": {
+      "date": "2027-05-05",
+      "day": 3,
+      "schedule": "flex",
+      "term": 4,
+      "weekday": "Wednesday"
+    },
+    "2027-05-06": {
+      "date": "2027-05-06",
+      "day": 4,
+      "schedule": "regular",
+      "term": 4,
+      "weekday": "Thursday"
+    },
+    "2027-05-07": {
+      "date": "2027-05-07",
+      "day": 5,
+      "schedule": "regular",
+      "term": 4,
+      "weekday": "Friday"
+    },
+    "2027-05-10": {
+      "date": "2027-05-10",
+      "day": 6,
+      "schedule": "regular",
+      "term": 4,
+      "weekday": "Monday"
+    },
+    "2027-05-11": {
+      "date": "2027-05-11",
+      "day": 7,
+      "schedule": "regular",
+      "term": 4,
+      "weekday": "Tuesday"
+    },
+    "2027-05-12": {
+      "date": "2027-05-12",
+      "day": 1,
+      "schedule": "flex",
+      "term": 4,
+      "weekday": "Wednesday"
+    },
+    "2027-05-13": {
+      "date": "2027-05-13",
+      "day": 2,
+      "schedule": "regular",
+      "term": 4,
+      "weekday": "Thursday"
+    },
+    "2027-05-14": {
+      "date": "2027-05-14",
+      "day": 3,
+      "schedule": "regular",
+      "term": 4,
+      "weekday": "Friday"
+    },
+    "2027-05-17": {
+      "date": "2027-05-17",
+      "day": 4,
+      "schedule": "regular",
+      "term": 4,
+      "weekday": "Monday"
+    },
+    "2027-05-18": {
+      "date": "2027-05-18",
+      "day": 5,
+      "schedule": "regular",
+      "term": 4,
+      "weekday": "Tuesday",
+      "note": "MATH MCAS"
+    },
+    "2027-05-19": {
+      "date": "2027-05-19",
+      "day": 6,
+      "schedule": "flex",
+      "term": 4,
+      "weekday": "Wednesday",
+      "note": "MATH MCAS"
+    },
+    "2027-05-20": {
+      "date": "2027-05-20",
+      "day": 7,
+      "schedule": "regular",
+      "term": 4,
+      "weekday": "Thursday"
+    },
+    "2027-05-21": {
+      "date": "2027-05-21",
+      "day": 1,
+      "schedule": "regular",
+      "term": 4,
+      "weekday": "Friday"
+    },
+    "2027-05-24": {
+      "date": "2027-05-24",
+      "day": 2,
+      "schedule": "regular",
+      "term": 4,
+      "weekday": "Monday"
+    },
+    "2027-05-25": {
+      "date": "2027-05-25",
+      "day": 3,
+      "schedule": "regular",
+      "term": 4,
+      "weekday": "Tuesday"
+    },
+    "2027-05-26": {
+      "date": "2027-05-26",
+      "day": 4,
+      "schedule": "flex",
+      "term": 4,
+      "weekday": "Wednesday"
+    },
+    "2027-05-27": {
+      "date": "2027-05-27",
+      "day": 5,
+      "schedule": "regular",
+      "term": 4,
+      "weekday": "Thursday"
+    },
+    "2027-05-28": {
+      "date": "2027-05-28",
+      "day": 6,
+      "schedule": "regular",
+      "term": 4,
+      "weekday": "Friday"
+    },
+    "2027-06-01": {
+      "date": "2027-06-01",
+      "day": 7,
+      "schedule": "regular",
+      "term": 4,
+      "weekday": "Tuesday",
+      "note": "STE MCAS"
+    },
+    "2027-06-02": {
+      "date": "2027-06-02",
+      "day": 1,
+      "schedule": "flex",
+      "term": 4,
+      "weekday": "Wednesday",
+      "note": "STE MCAS"
+    },
+    "2027-06-03": {
+      "date": "2027-06-03",
+      "day": 2,
+      "schedule": "regular",
+      "term": 4,
+      "weekday": "Thursday"
+    },
+    "2027-06-04": {
+      "date": "2027-06-04",
+      "day": 3,
+      "schedule": "regular",
+      "term": 4,
+      "weekday": "Friday"
+    },
+    "2027-06-07": {
+      "date": "2027-06-07",
+      "day": 4,
+      "schedule": "regular",
+      "term": 4,
+      "weekday": "Monday"
+    },
+    "2027-06-08": {
+      "date": "2027-06-08",
+      "day": 5,
+      "schedule": "regular",
+      "term": 4,
+      "weekday": "Tuesday"
+    },
+    "2027-06-09": {
+      "date": "2027-06-09",
+      "day": 6,
+      "schedule": "flex",
+      "term": 4,
+      "weekday": "Wednesday"
+    },
+    "2027-06-10": {
+      "date": "2027-06-10",
+      "day": 7,
+      "schedule": "regular",
+      "term": 4,
+      "weekday": "Thursday"
+    },
+    "2027-06-11": {
+      "date": "2027-06-11",
+      "day": 1,
+      "schedule": "regular",
+      "term": 4,
+      "weekday": "Friday"
+    },
+    "2027-06-14": {
+      "date": "2027-06-14",
+      "day": 2,
+      "schedule": "regular",
+      "term": 4,
+      "weekday": "Monday"
+    },
+    "2027-06-15": {
+      "date": "2027-06-15",
+      "day": 3,
+      "schedule": "regular",
+      "term": 4,
+      "weekday": "Tuesday"
+    },
+    "2027-06-16": {
+      "date": "2027-06-16",
+      "day": 4,
+      "schedule": "flex",
+      "term": 4,
+      "weekday": "Wednesday"
+    },
+    "2027-06-17": {
+      "date": "2027-06-17",
+      "day": 5,
+      "schedule": "regular",
+      "term": 4,
+      "weekday": "Thursday"
+    }
+  },
+  "nonStudentDays": {
+    "2026-08-31": {
+      "title": "Professional Development",
+      "kind": "staff"
+    },
+    "2026-09-04": {
+      "title": "Labor Day Weekend",
+      "kind": "recess"
+    },
+    "2026-09-07": {
+      "title": "Labor Day Weekend",
+      "kind": "recess"
+    },
+    "2026-10-12": {
+      "title": "Columbus Day",
+      "kind": "holiday"
+    },
+    "2026-11-03": {
+      "title": "Building Pack Up",
+      "kind": "staff"
+    },
+    "2026-11-11": {
+      "title": "Veterans Day",
+      "kind": "holiday"
+    },
+    "2026-11-26": {
+      "title": "Thanksgiving Break",
+      "kind": "recess"
+    },
+    "2026-11-27": {
+      "title": "Thanksgiving Break",
+      "kind": "recess"
+    },
+    "2026-12-23": {
+      "title": "Winter Recess",
+      "kind": "recess"
+    },
+    "2026-12-24": {
+      "title": "Winter Recess",
+      "kind": "recess"
+    },
+    "2026-12-25": {
+      "title": "Winter Recess",
+      "kind": "recess"
+    },
+    "2026-12-26": {
+      "title": "Winter Recess",
+      "kind": "recess"
+    },
+    "2026-12-27": {
+      "title": "Winter Recess",
+      "kind": "recess"
+    },
+    "2026-12-28": {
+      "title": "Winter Recess",
+      "kind": "recess"
+    },
+    "2026-12-29": {
+      "title": "Winter Recess",
+      "kind": "recess"
+    },
+    "2026-12-30": {
+      "title": "Winter Recess",
+      "kind": "recess"
+    },
+    "2026-12-31": {
+      "title": "Winter Recess",
+      "kind": "recess"
+    },
+    "2027-01-01": {
+      "title": "Winter Recess",
+      "kind": "recess"
+    },
+    "2027-01-04": {
+      "title": "Building Unpacking",
+      "kind": "staff"
+    },
+    "2027-01-18": {
+      "title": "MLK Day",
+      "kind": "holiday"
+    },
+    "2027-02-15": {
+      "title": "Presidents Day",
+      "kind": "holiday"
+    },
+    "2027-02-16": {
+      "title": "Winter Recess",
+      "kind": "recess"
+    },
+    "2027-02-17": {
+      "title": "Winter Recess",
+      "kind": "recess"
+    },
+    "2027-02-18": {
+      "title": "Winter Recess",
+      "kind": "recess"
+    },
+    "2027-02-19": {
+      "title": "Winter Recess",
+      "kind": "recess"
+    },
+    "2027-04-19": {
+      "title": "Patriots Day",
+      "kind": "holiday"
+    },
+    "2027-04-20": {
+      "title": "Spring Recess",
+      "kind": "recess"
+    },
+    "2027-04-21": {
+      "title": "Spring Recess",
+      "kind": "recess"
+    },
+    "2027-04-22": {
+      "title": "Spring Recess",
+      "kind": "recess"
+    },
+    "2027-04-23": {
+      "title": "Spring Recess",
+      "kind": "recess"
+    },
+    "2027-05-31": {
+      "title": "Memorial Day",
+      "kind": "holiday"
+    },
+    "2027-06-18": {
+      "title": "Juneteenth Observed",
+      "kind": "holiday"
+    }
+  },
+  "statusLabelSources": [
+    "Final WMHS 26-27 Calendar (approved 1.27.26).pdf",
+    "WMHS Academic_Meeting Calendar 26-27.pdf"
+  ],
+  "studentDayStatusLabels": {
+    "2026-09-25": "Professional Development",
+    "2026-10-30": "Professional Development",
+    "2026-11-25": "Thanksgiving Break",
+    "2026-12-18": "Building Pack Up",
+    "2026-12-21": "Building Pack Up",
+    "2027-01-29": "Building Unpacking",
+    "2027-02-26": "Professional Development"
+  }
+}
