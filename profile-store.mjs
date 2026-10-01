@@ -1,3 +1,4 @@
+import { parseNativeV2 } from './native-v2.mjs';
 import { normalize, importBackup, validateNative, defaultPreferences } from './display-core.mjs';
 
 export const PROFILE_KEY = 'bellsync.webDisplay.profiles.v1';
@@ -103,7 +104,7 @@ export function inspectNativeImport(raw) {
   const entries=bundle ? raw.schedules : [raw];
   const supported=[],unsupported=[];
   entries.forEach((entry,index)=>{
-    if(!object(entry) || !Number.isInteger(entry.formatVersion) || typeof entry.schoolProfileID !== 'string' || !entry.schoolProfileID.trim() || !object(entry.assignments)) fail(`Schedule ${index+1} is malformed. Nothing was imported.`);
+    if(!object(entry) || !Number.isInteger(entry.formatVersion) || typeof entry.schoolProfileID !== 'string' || !/^[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}$/.test(entry.schoolProfileID) || !object(entry.assignments)) fail(`Schedule ${index+1} is malformed. Nothing was imported.`);
     if(entry.scheduleName != null && typeof entry.scheduleName !== 'string') fail(`Schedule ${index+1} has an invalid name.`);
     for(const rows of Object.values(entry.assignments)) {
       if(!object(rows)) fail(`Schedule ${index+1} has malformed assignments.`);
@@ -113,11 +114,17 @@ export function inspectNativeImport(raw) {
     }
     const name=entry.scheduleName?.trim() || `Imported Schedule ${index+1}`;
     const reject=reason=>unsupported.push({name,schoolID:entry.schoolProfileID,reason});
-    if(entry.formatVersion !== 1) { reject(`Schedule version ${entry.formatVersion} is not supported.`);return; }
+    if(![1,2].includes(entry.formatVersion)) { reject(`Schedule version ${entry.formatVersion} is not supported.`);return; }
     if(entry.schoolProfileID !== 'wmhs') { reject(`School “${entry.schoolProfileID}” has no supported web definition.`);return; }
     if(entry.sharedSchool != null) {
       if(!object(entry.sharedSchool)) fail(`Schedule ${index+1} has malformed school data.`);
       reject('Embedded school definitions are not yet supported.');return;
+    }
+    if(entry.formatVersion===2) {
+      if(typeof entry.scheduleName!=='string' || !entry.scheduleName.trim()) fail('Version 2 requires a valid scheduleName.');
+      const parsed=parseNativeV2({...entry,scheduleName:name});
+      if(parsed.unsupportedReason) {reject(parsed.unsupportedReason);return;}
+      supported.push({shared:parsed.shared,name,needsName:!entry.scheduleName?.trim(),nativeMetadata:parsed.nativeMetadata,warnings:parsed.warnings});return;
     }
     const shared={...entry,scheduleName:name};
     // Full Phase 1 validation remains mandatory for supported WMHS entries.
@@ -132,13 +139,21 @@ export function inspectNativeImport(raw) {
   });
   return {bundle,supported,unsupported};
 }
+function effectiveNativeAssignments(shared,schedule,nativeMetadata) {
+  if(nativeMetadata?.formatVersion!==2 || shared.usesSchoolSchedule!==true) return shared.assignments;
+  // Explicit native school-wide mode uses published assignments, then overlays
+  // profile values; no synthetic class names or timing are generated.
+  const assignments=copy(schedule.assignments);
+  for(const [day,rows] of Object.entries(shared.assignments)) assignments[day]={...assignments[day],...rows};
+  return assignments;
+}
 export function nativeConfigurations(plan, schedule, calendar) {
-  return plan.supported.map(({shared})=>normalize({
+  return plan.supported.map(({shared,nativeMetadata})=>normalize({
     schemaVersion:2,sourceKind:'bellsync-v1',
     school:{id:'wmhs',displayName:'Wakefield Memorial High School',timeZone:schedule.time_zone},
-    profileName:shared.scheduleName,assignments:shared.assignments,templates:schedule.bells,calendar,
+    profileName:shared.scheduleName,assignments:effectiveNativeAssignments(shared,schedule,nativeMetadata),templates:schedule.bells,calendar,
     preferences:defaultPreferences({},'blocks'),
-    nativeMetadata:{schoolContentVersion:shared.schoolContentVersion ?? null,notes:shared.notes ?? null,createdAt:shared.createdAt ?? null}
+    nativeMetadata:nativeMetadata ?? {schoolContentVersion:shared.schoolContentVersion ?? null,notes:shared.notes ?? null,createdAt:shared.createdAt ?? null}
   }));
 }
 export function exportProfiles(store) {

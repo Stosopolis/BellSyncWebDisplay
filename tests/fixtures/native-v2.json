@@ -1,0 +1,253 @@
+{
+  "formatVersion": 2,
+  "schoolContentVersion": "2026-2027.1",
+  "schoolProfileID": "wmhs",
+  "scheduleName": "Constantine v2 fixture",
+  "assignments": {
+    "1": {
+      "1": {
+        "block": "A",
+        "title": "Class A",
+        "room": "Room 11"
+      },
+      "2": {
+        "block": "B",
+        "title": "Class B",
+        "room": "Room 12"
+      },
+      "3": {
+        "block": "C",
+        "title": "Class C",
+        "room": "Room 13"
+      },
+      "4": {
+        "block": "D",
+        "title": "Class D",
+        "room": "Room 14",
+        "lunch": "L1"
+      },
+      "5": {
+        "block": "E",
+        "title": "Class E",
+        "room": "Room 15"
+      },
+      "6": {
+        "block": "F",
+        "title": "Class F",
+        "room": "Room 16"
+      }
+    },
+    "2": {
+      "1": {
+        "block": "G",
+        "title": "Class G",
+        "room": "Room 21"
+      },
+      "2": {
+        "block": "A",
+        "title": "Class A",
+        "room": "Room 22"
+      },
+      "3": {
+        "block": "B",
+        "title": "Class B",
+        "room": "Room 23"
+      },
+      "4": {
+        "block": "C",
+        "title": "Class C",
+        "room": "Room 24",
+        "lunch": "L2"
+      },
+      "5": {
+        "block": "D",
+        "title": "Class D",
+        "room": "Room 25"
+      },
+      "6": {
+        "block": "E",
+        "title": "Class E",
+        "room": "Room 26"
+      }
+    },
+    "3": {
+      "1": {
+        "block": "F",
+        "title": "Class F",
+        "room": "Room 31"
+      },
+      "2": {
+        "block": "G",
+        "title": "Class G",
+        "room": "Room 32"
+      },
+      "3": {
+        "block": "A",
+        "title": "Class A",
+        "room": "Room 33"
+      },
+      "4": {
+        "block": "B",
+        "title": "Class B",
+        "room": "Room 34",
+        "lunch": "L3"
+      },
+      "5": {
+        "block": "C",
+        "title": "Class C",
+        "room": "Room 35"
+      },
+      "6": {
+        "block": "D",
+        "title": "Class D",
+        "room": "Room 36"
+      }
+    },
+    "4": {
+      "1": {
+        "block": "E",
+        "title": "Class E",
+        "room": "Room 41"
+      },
+      "2": {
+        "block": "F",
+        "title": "Class F",
+        "room": "Room 42"
+      },
+      "3": {
+        "block": "G",
+        "title": "Class G",
+        "room": "Room 43"
+      },
+      "4": {
+        "block": "A",
+        "title": "Class A",
+        "room": "Room 44",
+        "lunch": "NO_LUNCH"
+      },
+      "5": {
+        "block": "B",
+        "title": "Class B",
+        "room": "Room 45"
+      },
+      "6": {
+        "block": "C",
+        "title": "Class C",
+        "room": "Room 46"
+      }
+    },
+    "5": {
+      "1": {
+        "block": "D",
+        "title": "Class D",
+        "room": "Room 51"
+      },
+      "2": {
+        "block": "E",
+        "title": "Class E",
+        "room": "Room 52"
+      },
+      "3": {
+        "block": "F",
+        "title": "Class F",
+        "room": "Room 53"
+      },
+      "4": {
+        "block": "G",
+        "title": "Class G",
+        "room": "Room 54"
+      },
+      "5": {
+        "block": "A",
+        "title": "Class A",
+        "room": "Room 55"
+      },
+      "6": {
+        "block": "B",
+        "title": "Class B",
+        "room": "Room 56"
+      }
+    },
+    "6": {
+      "1": {
+        "block": "C",
+        "title": "Class C",
+        "room": "Room 61"
+      },
+      "2": {
+        "block": "D",
+        "title": "Class D",
+        "room": "Room 62"
+      },
+      "3": {
+        "block": "E",
+        "title": "Class E",
+        "room": "Room 63"
+      },
+      "4": {
+        "block": "F",
+        "title": "Class F",
+        "room": "Room 64",
+        "lunch": "L2"
+      },
+      "5": {
+        "block": "G",
+        "title": "Class G",
+        "room": "Room 65"
+      },
+      "6": {
+        "block": "A",
+        "title": "Class A",
+        "room": "Room 66"
+      }
+    },
+    "7": {
+      "1": {
+        "block": "B",
+        "title": "Class B",
+        "room": "Room 71"
+      },
+      "2": {
+        "block": "C",
+        "title": "Class C",
+        "room": "Room 72"
+      },
+      "3": {
+        "block": "D",
+        "title": "Class D",
+        "room": "Room 73"
+      },
+      "4": {
+        "block": "E",
+        "title": "Class E",
+        "room": "Room 74",
+        "lunch": "L1"
+      },
+      "5": {
+        "block": "F",
+        "title": "Class F",
+        "room": "Room 75"
+      },
+      "6": {
+        "block": "G",
+        "title": "Class G",
+        "room": "Room 76"
+      }
+    }
+  },
+  "activityNameOverrides": [
+    {
+      "source": {
+        "schoolID": "wmhs",
+        "layer": "wmhs",
+        "dayID": "1",
+        "templateID": "regular",
+        "itemID": "1",
+        "periodID": "1"
+      },
+      "title": "Honors English"
+    }
+  ],
+  "createdAt": 812000000,
+  "notes": "Synthetic native v2 fixture; no personal data."
+}

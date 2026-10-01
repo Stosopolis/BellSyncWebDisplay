@@ -127,6 +127,7 @@ export function normalize(raw) {
       for (const [key,item] of Object.entries(v.calendar[field])) { date(key); if (field === 'studentDayStatusLabels') text(item,'day status'); else { if (!object(item)) fail('Invalid nonstudent day.'); text(item.title,'nonstudent title',true); text(item.kind,'nonstudent kind',true); } }
     }
   }
+  if(v.nativeMetadata?.activityNameOverrides !== undefined) validateActivityNameOverrides(v.nativeMetadata.activityNameOverrides,v.school.id);
   v.preferences = defaultPreferences(v.preferences,isManagedWMHS(v)?'blocks':'periods');
   v.schemaVersion = 2;
   return v;
@@ -135,6 +136,18 @@ export function validate(v) { normalize(v); }
 export function importBackup(raw) {
   if (!object(raw) || raw.format !== WEB_FORMAT || raw.formatVersion !== 1) fail('Unsupported BellSync Display backup format or version.');
   return normalize(raw.configuration);
+}
+export function validateActivityNameOverrides(entries,schoolID) {
+  if(entries == null) return;
+  if(!Array.isArray(entries) || entries.length>5000) fail('Invalid activityNameOverrides.');
+  const seen=new Set();
+  for(const entry of entries) {
+    const source=entry?.source;
+    if(!object(entry) || !object(source) || source.schoolID!==schoolID || !['classroom','personal','wmhs','gms'].includes(source.layer) || typeof entry.title!=='string' || !entry.title.trim() || entry.title.length>100) fail('Invalid activity-name override.');
+    for(const key of ['dayID','templateID','itemID','periodID']) if(typeof source[key]!=='string' || !/^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,199}$/.test(source[key])) fail('Invalid activity source ID.');
+    const key=JSON.stringify([source.schoolID,source.layer,source.dayID,source.templateID,source.itemID,source.periodID]);
+    if(seen.has(key)) fail('Duplicate activity-name override.');seen.add(key);
+  }
 }
 export function validateNative(raw) {
   if (!object(raw)) fail('Invalid BellSync file.'); safeTree(raw);
@@ -197,6 +210,9 @@ export function editManagedAssignments(value,profileName,changes) {
     const {day,period,title,room}=change;
     if(!Object.hasOwn(draft.assignments,day) || !Object.hasOwn(draft.assignments[day],period)) fail('Unknown imported assignment.');
     const assignment=draft.assignments[day][period];
+    if(Object.hasOwn(change,'title') && title!==assignment.title && draft.nativeMetadata?.activityNameOverrides) {
+      draft.nativeMetadata.activityNameOverrides=draft.nativeMetadata.activityNameOverrides.filter(o=>!(o.source.layer==='wmhs' && o.source.dayID===day && o.source.itemID===period && o.source.periodID===period));
+    }
     if(Object.hasOwn(change,'title')) assignment.title=title;
     if(Object.hasOwn(change,'room')) assignment.room=room;
     if(Object.hasOwn(change,'lunch')) {
@@ -254,7 +270,15 @@ export function timelineFor(config, key) {
     if (start >= end) return;
     const blockID=a.block?.trim() || null;
     const sourcePeriodLabel=p.label || (managed ? `Period ${p.id}` : p.id);
-    events.push({...p,...a,blockID,blockName:blockID ? (/\bBlock$/i.test(blockID) ? blockID : `${blockID} Block`) : null,sourcePeriodLabel,id:`${p.id}${suffix}`,periodID:p.id,label:p.label || (managed ? `Period ${p.id}` : p.id),startAt:start,endAt:end,...extras});
+    const event={...p,...a,blockID,blockName:blockID ? (/\bBlock$/i.test(blockID) ? blockID : `${blockID} Block`) : null,sourcePeriodLabel,id:`${p.id}${suffix}`,periodID:p.id,label:p.label || (managed ? `Period ${p.id}` : p.id),startAt:start,endAt:end,...extras};
+    if(managed && event.kind!=='passing') {
+      const selection=event.kind==='lunch' ? event.lunch?.selection : null;
+      const source={schoolID:config.school.id,layer:'wmhs',dayID:String(day.day),templateID:day.schedule,itemID:selection?`${p.id}-${selection}`:p.id,periodID:selection?`lunch-${selection}`:p.id};
+      event.activitySource=source;
+      const override=config.nativeMetadata?.activityNameOverrides?.find(o=>Object.keys(source).every(key=>o.source[key]===source[key]));
+      if(override) {event.originalTitle=event.title;event.title=override.title;}
+    }
+    events.push(event);
   };
   for (const p of bells) {
     const a = assignments[p.id] || {};
