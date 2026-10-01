@@ -7,3 +7,5 @@
 
 @media (max-width:520px){.setup-card{padding:28px 22px}.modal{padding:20px 16px}.modal-footer{flex-direction:column-reverse}.modal-footer button{width:100%}.toolbar button{flex:1 1 140px}.clock{font-size:clamp(2.5rem,14vw,4.5rem)}}
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
+.managed-lunch { margin:16px 0;max-width:440px }

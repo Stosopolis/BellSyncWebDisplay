@@ -1,5 +1,6 @@
 // Data validation and small shared helpers; no browser globals or dependencies.
 export const WEB_FORMAT = 'bellsync-display-web';
+export const LUNCH_CHOICES = Object.freeze(['L1','L2','L3','NO_LUNCH']);
 const object = v => v !== null && typeof v === 'object' && !Array.isArray(v);
 const fail = message => { throw Error(message); };
 const text = (v, name, required = false) => {
@@ -54,7 +55,7 @@ function assignments(value, days, periods) {
       if (!periods.has(period) || !object(a)) fail(`Invalid assignment period: ${period}.`);
       for (const key of Object.keys(a)) if (!['title','room','block','lunch'].includes(key)) fail(`Unsupported assignment field: ${key}.`);
       for (const key of ['title','room','block']) if (a[key] !== undefined) text(a[key], `assignment ${key}`);
-      if (a.lunch !== undefined && a.lunch !== null && !['L1','L2','L3','NO_LUNCH'].includes(a.lunch)) fail('Invalid lunch selection.');
+      if (a.lunch !== undefined && a.lunch !== null && !LUNCH_CHOICES.includes(a.lunch)) fail('Invalid lunch selection.');
     }
   }
 }
@@ -175,12 +176,27 @@ export function presentation(s,showRooms=true) {
 }
 // One encoder is safe for both text and quoted attribute contexts.
 export function escapeHTML(value='') { return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+// The source bell templates identify lunch-owning periods; imported assignments
+// identify the rotating block/class. Early-release templates have no lunch rules.
+export function managedLunchPeriods(value) {
+  if(!isManagedWMHS(value)) return [];
+  return [...new Set(Object.values(value.templates).flat().filter(p=>p.lunches && Object.keys(p.lunches).length).map(p=>p.id))];
+}
 export function editManagedAssignments(value,profileName,changes) {
   if(!isManagedWMHS(value)) fail('This editor requires a WMHS import.');
   const draft=JSON.parse(JSON.stringify(value)); draft.profileName=profileName;
-  for(const {day,period,title,room} of changes) {
+  const lunchPeriods=new Set(managedLunchPeriods(draft));
+  for(const change of changes) {
+    const {day,period,title,room}=change;
     if(!Object.hasOwn(draft.assignments,day) || !Object.hasOwn(draft.assignments[day],period)) fail('Unknown imported assignment.');
-    Object.assign(draft.assignments[day][period],{title,room});
+    const assignment=draft.assignments[day][period];
+    if(Object.hasOwn(change,'title')) assignment.title=title;
+    if(Object.hasOwn(change,'room')) assignment.room=room;
+    if(Object.hasOwn(change,'lunch')) {
+      if(!lunchPeriods.has(period)) fail('Lunch does not apply to this period.');
+      if(!LUNCH_CHOICES.includes(change.lunch)) fail('Invalid lunch selection.');
+      assignment.lunch=change.lunch;
+    }
   }
   return normalize(draft);
 }
