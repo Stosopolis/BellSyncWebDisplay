@@ -87,4 +87,28 @@ Configuration schema versions 1 and 2 and Display backup format version 1 are su
 
 The bundled WMHS June 17, 2027 entry uses early-release bells. Its known delayed-start date has no authoritative bell template and shows **Bell Times Unavailable** rather than regular bells. Existing browser backups retain their embedded calendar; reimport a native WMHS schedule to load updated bundled school data.
 
-Demo display settings stay in memory. Only saving the demo through Edit Schedule persists it. This pass does not add pre-school thresholds, passing/gap states, or lunch splitting.
+Demo display settings stay in memory. Only saving the demo through Edit Schedule persists it. Phase 1 did not add pre-school thresholds, passing/gap states, or lunch splitting; these are implemented by Phase 2 below.
+
+## Phase 2 schedule presentation
+
+The pure timeline generator in `display-core.mjs` and resolver in `schedule-presentation.mjs` supply one effective timeline to both the dashboard and Today’s Schedule. Run the additional checks with:
+
+```sh
+node tests/phase2.mjs
+node --check schedule-presentation.mjs
+```
+
+- **Upcoming:** earlier than 30 minutes before the first meaningful activity, show its name and start time with no live countdown.
+- **Before School:** begins exactly 30 minutes before that activity; counts down to its start.
+- **Now:** an active activity counts down to its end.
+- **Passing Time:** only explicit passing rows or published adjacent WMHS bell boundaries qualify. Published boundaries must meet both effective activities; missing assignments cannot stretch passing across an open period.
+- **Up Next:** an ordinary gap counts down to the next meaningful activity without keeping the previous class active.
+- **Done for Today:** at the final meaningful activity’s end, clear the countdown, current activity, and Next card.
+
+Academic rows with missing or blank personal class names represent open time and are omitted from the effective timeline. Lunch, FLEX, advisory/support, and other explicitly scheduled activities can display without a personal class name. Manual schedule gaps remain neutral; choose **Passing Time** as the period type to enter an authoritative transition explicitly. Orphan transition rows with no activity at their end are omitted.
+
+WMHS imports respect L1/L2/L3 selections and published regular/FLEX lunch rules. The effective timeline splits the block into class-before, any published passing-to-lunch interval, Lunch, and class-after, omitting zero-length segments. Lunch has its own countdown and no borrowed class room. Missing selections and early-release templates do not invent lunch timing. Lunch-duty focus and native personal activity-name overrides are not implemented.
+
+No-school dates, weekends, and missing/expired WMHS calendar dates cannot show live school states. Delayed-start dates without authoritative bells remain **Bell Times Unavailable**. The resolver supports static past/future-date previews internally; no date-picker UI was added.
+
+Phase 2 does not change the storage key, backup format, or configuration schema. Existing schema 1/2 data still loads through Phase 1 validation. Generated events and presentation states are not persisted, and protected WMHS editing continues to preserve all source-managed data.

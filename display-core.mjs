@@ -184,3 +184,88 @@ export function editManagedAssignments(value,profileName,changes) {
   }
   return normalize(draft);
 }
+
+// Resolve canonical local times in the school's timezone, independent of the host.
+export function dateInZone(now, timeZone) {
+  const p = zoneParts(now, timeZone);
+  return `${p.year}-${p.month}-${p.day}`;
+}
+function zoneParts(now, timeZone) {
+  return Object.fromEntries(new Intl.DateTimeFormat('en-CA', {
+    timeZone, year:'numeric', month:'2-digit', day:'2-digit',
+    hour:'2-digit', minute:'2-digit', hourCycle:'h23'
+  }).formatToParts(now).filter(p=>p.type !== 'literal').map(p=>[p.type,p.value]));
+}
+export function zonedTimestamp(key, time, timeZone) {
+  const [y,m,d] = key.split('-').map(Number), [h,min] = time.split(':').map(Number);
+  const desired = Date.UTC(y,m-1,d,h,min);
+  let guess = desired;
+  for (let i=0;i<3;i++) {
+    const p = zoneParts(guess,timeZone);
+    const seen = Date.UTC(+p.year,+p.month-1,+p.day,+p.hour,+p.minute);
+    guess += desired-seen;
+  }
+  return guess;
+}
+export const isMeaningfulEvent = e => e.kind !== 'passing';
+
+// Returns one effective timeline for the hero and full-day list. Missing/blank
+// academic assignments are open time; automatic lunch/support rows remain.
+export function timelineFor(config, key) {
+  date(key);
+  const timeZone = config.school.timeZone;
+  const day = schoolDay(config,key);
+  const result = {key,timeZone,day,status:'scheduled',events:[],passing:[]};
+  if (!day) {
+    result.status = [0,6].includes(new Date(`${key}T12:00:00Z`).getUTCDay()) ? 'weekend' : 'no-school';
+    return result;
+  }
+  const managed = isManagedWMHS(config);
+  const rows = managed ? config.templates[day.schedule] : config.periods;
+  if (!rows) return {...result,status:'unavailable'};
+  const bells = chronological(rows);
+  const assignments = config.assignments[String(day.day)] || config.assignments.every || {};
+  const at = time => zonedTimestamp(key,time,timeZone);
+  const events = [];
+  const add = (p, a, start, end, suffix='', extras={}) => {
+    if (start >= end) return;
+    events.push({...p,...a,id:`${p.id}${suffix}`,periodID:p.id,label:p.label || (managed ? `Period ${p.id}` : p.id),startAt:start,endAt:end,...extras});
+  };
+  for (const p of bells) {
+    const a = assignments[p.id] || {};
+    const kind = p.kind || (managed && p.id === 'flex' ? 'flex' : 'academic');
+    const start = at(p.start), end = at(p.end);
+    if (kind === 'passing') {
+      add(p,{},start,end,'',{kind,title:p.label || 'Passing Time',room:''});
+      continue;
+    }
+    const hasClass = !!a.title?.trim();
+    const lunch = managed && a.lunch ? p.lunches?.[a.lunch] : null;
+    if (lunch) {
+      const lunchStart=at(lunch.start), lunchEnd=at(lunch.end);
+      const lunchBell=at(lunch.bell_start || lunch.start);
+      const context={selection:a.lunch,periodID:p.id,startAt:lunchStart,endAt:lunchEnd};
+      if(hasClass) add(p,a,start,Math.min(end,lunchBell),'::before',{kind,lunch:context,countdownLabel:lunchBell < lunchStart ? 'Passing begins' : 'Lunch starts'});
+      // An L1 bell may precede the lunch block. Include only the published
+      // preceding bell boundary, never overlap an unrelated earlier class.
+      const safeLead = lunchBell >= start || bells.some(previous=>previous.id !== p.id && at(previous.end) === lunchBell);
+      if(safeLead && lunchBell < lunchStart) add(p,{},lunchBell,lunchStart,'::passing',{kind:'passing',title:'Passing to lunch',label:'PASSING',room:'',lunch:context});
+      add(p,{},lunchStart,lunchEnd,'::lunch',{kind:'lunch',title:'Lunch',label:'LUNCH',room:'',lunch:context,countdownLabel:'Lunch ends'});
+      if(hasClass) add(p,a,lunchEnd,end,'::after',{kind,lunch:context,countdownLabel:'Block ends'});
+      continue;
+    }
+    const automatic = ['lunch','support','advisory','flex','other'].includes(kind);
+    if (!hasClass && !automatic) continue;
+    add(p,a,start,end,'',{kind,title:a.title?.trim() || (kind==='lunch'?'Lunch':p.label || p.id),room:a.room || ''});
+  }
+  events.sort((a,b)=>a.startAt-b.startAt);
+  // An explicit transition cannot stretch across a missing destination.
+  result.events = events.filter(e=>e.kind !== 'passing' || events.some(next=>isMeaningfulEvent(next) && next.startAt === e.endAt));
+  if (managed) {
+    for(let i=1;i<bells.length;i++) {
+      const startAt=at(bells[i-1].end), endAt=at(bells[i].start);
+      if(startAt < endAt) result.passing.push({startAt,endAt,source:'published-bells'});
+    }
+  }
+  return result;
+}
