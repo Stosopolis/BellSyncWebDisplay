@@ -67,6 +67,23 @@ await test('native bundle preserves names, school, assignments, rooms, lunch and
   });
   store.select(ids[1]);assert.equal(store.activeConfiguration.profileName,'Afternoon Support');
 });
+await test('NO_LUNCH bundle review, import, persistence and backup preserve every profile',()=>{
+  const raw=copy(bundle);raw.schedules[0].assignments['1']['4'].lunch='NO_LUNCH';
+  const original=copy(raw),plan=inspectNativeImport(raw);
+  assert.equal(plan.supported.length,2);assert.equal(plan.unsupported.length,0);
+  const storage=memory(),store=create(storage),[existing]=store.add([cfg('Existing')]),before=store.snapshot.savedProfiles[0];
+  const prepared=nativeConfigurations(plan,school,calendar),ids=store.add(prepared,{activate:false});
+  assert.equal(ids.length,2);assert.equal(store.snapshot.activeProfileID,existing);
+  assert.deepEqual(store.snapshot.savedProfiles[0],before);
+  prepared.forEach((c,i)=>{
+    assert.deepEqual(c.assignments,raw.schedules[i].assignments);
+    assert.equal(c.profileName,raw.schedules[i].scheduleName);assert.equal(c.school.id,'wmhs');
+  });
+  store.select(ids[0]);assert.equal(store.activeConfiguration.assignments['1']['4'].lunch,'NO_LUNCH');
+  assert.deepEqual(create(storage).snapshot,store.snapshot);
+  assert.deepEqual(importDisplayProfiles(exportProfiles(store.snapshot)),store.snapshot.savedProfiles.map(p=>p.configuration));
+  assert.deepEqual(raw,original);
+});
 await test('multi-import into an empty collection waits for user selection',()=>{
   const store=create(),ids=store.add(native(bundle),{activate:false});
   assert.equal(store.snapshot.activeProfileID,null);assert.equal(store.activeConfiguration,null);

@@ -125,6 +125,31 @@ test('missing lunch selection and early-release templates do not invent lunches'
   assert.equal(timeline.events.at(-1).endAt,at('10:54',date));
 });
 
+for (const selection of ['L1','L2','L3','NO_LUNCH',undefined]) {
+  test(`native lunch ${selection ?? 'absent'} validates and uses only published splits`,()=>{
+    const c=wmhs(selection),original=copy(c);
+    for (const date of [regularDate,flexDate,'2027-06-17']) {
+      const timeline=timelineFor(c,date),period=c.templates[timeline.day.schedule].find(p=>p.id==='4');
+      const rows=timeline.events.filter(e=>e.periodID==='4');
+      const rule=period.lunches?.[selection];
+      if (rule) {
+        const lunch=rows.filter(e=>e.kind==='lunch');
+        assert.equal(lunch.length,1);assert.equal(lunch[0].startAt,at(rule.start,date));assert.equal(lunch[0].endAt,at(rule.end,date));
+        assert.ok(rows.some(e=>e.kind==='academic'));assert.ok(rows.length>1);
+      } else {
+        assert.equal(rows.length,1);assert.equal(rows[0].kind,'academic');
+        assert.equal(rows[0].startAt,at(period.start,date));assert.equal(rows[0].endAt,at(period.end,date));
+        assert.equal(rows[0].title,'Class 4');assert.equal(rows[0].room,'204');assert.equal(rows[0].block,'A');
+        assert.equal(timeline.events.filter(e=>e.kind==='lunch').length,0);
+      }
+    }
+    assert.deepEqual(c,original);
+  });
+}
+test('arbitrary native lunch selection remains invalid',()=>{
+  assert.throws(()=>wmhs('NOT_A_LUNCH'),/Invalid lunch selection/);
+});
+
 test('completion at exact final meaningful end clears current/Next/countdown',()=>{
   for(const time of ['14:10','15:00']) {
     const s=scheduleSnapshot(wmhs('L2'),at(time));assert.equal(s.state,'complete');assert.equal(s.label,'DONE FOR TODAY');

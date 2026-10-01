@@ -54,7 +54,7 @@ function assignments(value, days, periods) {
       if (!periods.has(period) || !object(a)) fail(`Invalid assignment period: ${period}.`);
       for (const key of Object.keys(a)) if (!['title','room','block','lunch'].includes(key)) fail(`Unsupported assignment field: ${key}.`);
       for (const key of ['title','room','block']) if (a[key] !== undefined) text(a[key], `assignment ${key}`);
-      if (a.lunch !== undefined && a.lunch !== null && !['L1','L2','L3'].includes(a.lunch)) fail('Invalid lunch selection.');
+      if (a.lunch !== undefined && a.lunch !== null && !['L1','L2','L3','NO_LUNCH'].includes(a.lunch)) fail('Invalid lunch selection.');
     }
   }
 }
@@ -240,7 +240,8 @@ export function timelineFor(config, key) {
       continue;
     }
     const hasClass = !!a.title?.trim();
-    const lunch = managed && a.lunch ? p.lunches?.[a.lunch] : null;
+    // Only published lunch selections split a block; NO_LUNCH and absent values keep it intact.
+    const lunch = managed && ['L1','L2','L3'].includes(a.lunch) ? p.lunches?.[a.lunch] : null;
     if (lunch) {
       const lunchStart=at(lunch.start), lunchEnd=at(lunch.end);
       const lunchBell=at(lunch.bell_start || lunch.start);
