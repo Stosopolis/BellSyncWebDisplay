@@ -104,7 +104,7 @@ await test('real editor L1 → L2 → L3 → NO_LUNCH → L1 saves, redraws, and
       const lunch=rows.find(e=>e.kind==='lunch');assert.ok(lunch);assert.equal(lunch.startAt,at(rule.start));assert.equal(lunch.endAt,at(rule.end));
       assert.equal(states.scheduleSnapshot(updated,at(rule.start)).current.kind,'lunch');
     }
-    const html=a.node('#display').innerHTML,hero=choice==='L2'?'Lunch':'D Block';
+    const html=a.node('#display').innerHTML,hero=choice==='L2'?'Lunch 2':'D Block';
     assert.ok(html.includes(`<div class="event-title">${hero}</div>`));
     assert.match(html,/TODAY'S SCHEDULE/);
     assert.ok(html.includes(`<strong>${hero}</strong>`));

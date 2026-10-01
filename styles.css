@@ -9,3 +9,5 @@
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 
 .managed-lunch { margin:16px 0;max-width:440px }
+
+.row.no-label { grid-template-columns:1fr auto }

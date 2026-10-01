@@ -33,7 +33,7 @@ export function resolvePresentation(timeline, now, {isLive=true,showRooms=true}=
   if(!isLive || key !== dateInZone(now,timeZone)) return result('preview',null,first);
   const current = events.find(e=>e.startAt <= now && now < e.endAt) || null;
   if(current) {
-    if(current.kind === 'passing') return result('passing',current,next,next?.startAt ?? null);
+    if(current.kind === 'passing') return result('passing',current,next,next?.startAt ?? null,current.lunch ? eventTitle(current) : null);
     return result('active',current,next,current.endAt);
   }
   if(now < first.startAt) {

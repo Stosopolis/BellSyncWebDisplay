@@ -62,12 +62,13 @@ function assignments(value, days, periods) {
 function preferences(p) {
   if (!object(p)) fail('Invalid display preferences.');
   if (p.accent !== undefined && !['mint','blue','purple','pink','orange','red'].includes(p.accent)) fail('Invalid accent color.');
+  if (p.scheduleLabels !== undefined && !['blocks','periods','hidden'].includes(p.scheduleLabels)) fail('Invalid schedule label preference.');
   if (p.displaySize !== undefined && !['compact','standard','large'].includes(p.displaySize)) fail('Invalid display size.');
   for (const k of ['hour24','showRooms','showSchedule','showSchoolName']) if (p[k] !== undefined && typeof p[k] !== 'boolean') fail(`Invalid preference: ${k}.`);
 }
-export function defaultPreferences(p = {}) {
+export function defaultPreferences(p = {}, scheduleLabels = 'periods') {
   preferences(p);
-  return {accent:p.accent ?? 'mint',hour24:p.hour24 ?? false,showRooms:p.showRooms ?? true,showSchedule:p.showSchedule ?? true,showSchoolName:p.showSchoolName ?? true,displaySize:p.displaySize ?? 'standard'};
+  return {accent:p.accent ?? 'mint',hour24:p.hour24 ?? false,showRooms:p.showRooms ?? true,showSchedule:p.showSchedule ?? true,showSchoolName:p.showSchoolName ?? true,displaySize:p.displaySize ?? 'standard',scheduleLabels:p.scheduleLabels ?? scheduleLabels};
 }
 export function isManagedWMHS(v) { return v.school?.id === 'wmhs' && v.sourceKind === 'bellsync-v1'; }
 export function normalize(raw) {
@@ -126,7 +127,7 @@ export function normalize(raw) {
       for (const [key,item] of Object.entries(v.calendar[field])) { date(key); if (field === 'studentDayStatusLabels') text(item,'day status'); else { if (!object(item)) fail('Invalid nonstudent day.'); text(item.title,'nonstudent title',true); text(item.kind,'nonstudent kind',true); } }
     }
   }
-  v.preferences = defaultPreferences(v.preferences);
+  v.preferences = defaultPreferences(v.preferences,isManagedWMHS(v)?'blocks':'periods');
   v.schemaVersion = 2;
   return v;
 }
@@ -168,6 +169,12 @@ export function schoolDay(v,key) {
 }
 export function formatClock(timestamp,tz,hour24=false) {
   return new Intl.DateTimeFormat(hour24?'en-GB':'en-US',{timeZone:tz,hour:hour24?'2-digit':'numeric',minute:'2-digit',hourCycle:hour24?'h23':'h12'}).format(timestamp);
+}
+export function lunchName(selection) { return ['L1','L2','L3'].includes(selection) ? `Lunch ${selection.slice(1)}` : null; }
+export function scheduleRowLabel(e, mode='blocks') {
+  if(mode==='hidden') return '';
+  if(e.kind==='lunch' || e.kind==='passing') return e.label || e.sourcePeriodLabel || e.id;
+  return (mode==='blocks' && e.blockName) || e.sourcePeriodLabel || e.label || e.id;
 }
 export function eventTitle(e) { return e.title?.trim() || (e.kind==='lunch'?'Lunch':e.label?.trim() || e.id); }
 export function presentation(s,showRooms=true) {
@@ -245,7 +252,9 @@ export function timelineFor(config, key) {
   const events = [];
   const add = (p, a, start, end, suffix='', extras={}) => {
     if (start >= end) return;
-    events.push({...p,...a,id:`${p.id}${suffix}`,periodID:p.id,label:p.label || (managed ? `Period ${p.id}` : p.id),startAt:start,endAt:end,...extras});
+    const blockID=a.block?.trim() || null;
+    const sourcePeriodLabel=p.label || (managed ? `Period ${p.id}` : p.id);
+    events.push({...p,...a,blockID,blockName:blockID ? (/\bBlock$/i.test(blockID) ? blockID : `${blockID} Block`) : null,sourcePeriodLabel,id:`${p.id}${suffix}`,periodID:p.id,label:p.label || (managed ? `Period ${p.id}` : p.id),startAt:start,endAt:end,...extras});
   };
   for (const p of bells) {
     const a = assignments[p.id] || {};
@@ -261,13 +270,14 @@ export function timelineFor(config, key) {
     if (lunch) {
       const lunchStart=at(lunch.start), lunchEnd=at(lunch.end);
       const lunchBell=at(lunch.bell_start || lunch.start);
+      const lunchTitle=lunchName(a.lunch);
       const context={selection:a.lunch,periodID:p.id,startAt:lunchStart,endAt:lunchEnd};
       if(hasClass) add(p,a,start,Math.min(end,lunchBell),'::before',{kind,lunch:context,countdownLabel:lunchBell < lunchStart ? 'Passing begins' : 'Lunch starts'});
       // An L1 bell may precede the lunch block. Include only the published
       // preceding bell boundary, never overlap an unrelated earlier class.
       const safeLead = lunchBell >= start || bells.some(previous=>previous.id !== p.id && at(previous.end) === lunchBell);
-      if(safeLead && lunchBell < lunchStart) add(p,{},lunchBell,lunchStart,'::passing',{kind:'passing',title:'Passing to lunch',label:'PASSING',room:'',lunch:context});
-      add(p,{},lunchStart,lunchEnd,'::lunch',{kind:'lunch',title:'Lunch',label:'LUNCH',room:'',lunch:context,countdownLabel:'Lunch ends'});
+      if(safeLead && lunchBell < lunchStart) add(p,{},lunchBell,lunchStart,'::passing',{kind:'passing',title:`Passing to ${lunchTitle}`,label:'PASSING',room:'',lunch:context});
+      add(p,{},lunchStart,lunchEnd,'::lunch',{kind:'lunch',title:lunchTitle,label:lunchTitle,room:'',lunch:context,countdownLabel:'Lunch ends'});
       if(hasClass) add(p,a,lunchEnd,end,'::after',{kind,lunch:context,countdownLabel:'Block ends'});
       continue;
     }

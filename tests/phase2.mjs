@@ -98,8 +98,8 @@ test('WMHS L2 splits class/passing/lunch/class at published boundaries',()=>{
     ['lunch',at('11:10'),at('11:34')],['academic',at('11:34'),at('12:14')]
   ]);
   const before=scheduleSnapshot(c,at('11:06'));assert.equal(before.countdownTarget,at('11:07'));assert.equal(before.next.kind,'lunch');
-  const pass=scheduleSnapshot(c,at('11:07'));assert.equal(pass.state,'passing');assert.equal(pass.title,'Lunch');assert.equal(pass.room,'');assert.equal(pass.countdownTarget,at('11:10'));
-  const lunch=scheduleSnapshot(c,at('11:10'));assert.equal(lunch.state,'active');assert.equal(lunch.title,'Lunch');assert.equal(lunch.countdownTarget,at('11:34'));assert.equal(lunch.lunch.selection,'L2');
+  const pass=scheduleSnapshot(c,at('11:07'));assert.equal(pass.state,'passing');assert.equal(pass.title,'Passing to Lunch 2');assert.equal(pass.room,'');assert.equal(pass.countdownTarget,at('11:10'));
+  const lunch=scheduleSnapshot(c,at('11:10'));assert.equal(lunch.state,'active');assert.equal(lunch.title,'Lunch 2');assert.equal(lunch.countdownTarget,at('11:34'));assert.equal(lunch.lunch.selection,'L2');
   const after=scheduleSnapshot(c,at('11:34'));assert.equal(after.title,'Class 4');assert.equal(after.room,'204');assert.equal(after.countdownTarget,at('12:14'));
 });
 

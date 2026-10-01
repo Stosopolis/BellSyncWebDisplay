@@ -137,7 +137,7 @@ export function nativeConfigurations(plan, schedule, calendar) {
     schemaVersion:2,sourceKind:'bellsync-v1',
     school:{id:'wmhs',displayName:'Wakefield Memorial High School',timeZone:schedule.time_zone},
     profileName:shared.scheduleName,assignments:shared.assignments,templates:schedule.bells,calendar,
-    preferences:defaultPreferences(),
+    preferences:defaultPreferences({},'blocks'),
     nativeMetadata:{schoolContentVersion:shared.schoolContentVersion ?? null,notes:shared.notes ?? null,createdAt:shared.createdAt ?? null}
   }));
 }
