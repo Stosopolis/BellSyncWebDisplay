@@ -22,16 +22,16 @@ Choose **Enter My Schedule** on the first screen to create a browser-local schoo
 5. Set a rotation seed date/day and mark no-school dates. Rotation advances only across weekdays that are not marked no-school.
 6. Save. The live classroom Display opens immediately.
 
-**Edit Schedule** returns to the same teacher-friendly working-copy editor for browser-created schedules. WMHS native imports instead open a protected personal-class editor: display name, existing class names, and rooms can change, while imported period/day IDs, all bell templates, calendar data, blocks, and lunch selections remain intact. Reimport from BellSync to change those source-managed values. Cancelling leaves the active local schedule unchanged; saving validates and atomically replaces it. The browser stores the saved configuration in `localStorage`, so reopening the page returns to the Display.
+**Edit Schedule** returns to the same teacher-friendly working-copy editor for browser-created schedules. WMHS native imports instead open a protected personal-class editor: display name, existing class names, and rooms can change, while imported period/day IDs, all bell templates, calendar data, blocks, and lunch selections remain intact. Reimport from BellSync to change those source-managed values. Cancelling leaves the active local schedule unchanged; saving validates and atomically replaces it. The browser stores each saved profile in `localStorage`, so reopening the page returns to the last selection.
 
 ## Upload, import, and export
 
 **Upload My Schedule** is shown honestly as coming soon. Browser-only PDF/photo recognition would require a local PDF renderer and OCR implementation or a processing service; neither has been added to this dependency-free client.
 
 
-- **Import from BellSync** is the quickest option for teachers already using BellSync on their phone. It imports a `.bellsync` v1 *WMHS* personal schedule and combines it with the bundled public WMHS calendar and bell data.
+- **Import from BellSync** is the quickest option for teachers already using BellSync on their phone. It imports single `.bellsync` v1 *WMHS* personal schedules or native version 1 schedule bundles and combines supported entries with the bundled public WMHS calendar and bell data. An import review lists entries that cannot be supported.
 - **Export Display Schedule** downloads a browser-native `.bellsyncdisplay` JSON backup. It includes the browser school structure, rotation/calendar settings, personal assignments, and display preferences.
-- **Import Display Schedule** restores a `.bellsyncdisplay` backup on another browser/computer after validating the configuration.
+- **Import Display Schedule** adds a `.bellsyncdisplay` backup on another browser/computer after validating the configuration. It also accepts the versioned Export All backup; existing profiles are kept.
 
 The browser-native format is intentionally separate from `.bellsync`; it does not redefine the native BellSync sharing format. GMS and custom-school `.bellsync` files lack the school-owned definitions needed by this static browser client, so they are not claimed as supported by the native import path.
 
@@ -50,7 +50,7 @@ All preferences are local to this browser.
 
 ## Demo
 
-**Try Demo** loads a development/testing schedule into the current page. It is never written to local storage unless you explicitly save it through **Edit Schedule**.
+**Try Demo** loads a development/testing schedule into the current page. Demo Classroom is always available under **Change Schedule**. Its configuration is never written to local storage unless you explicitly choose **Save as New Schedule** or **Save Demo as New Schedule**. Normal switching stores only the Demo selection marker.
 
 ## Deploy to GitHub Pages
 
@@ -112,3 +112,27 @@ WMHS imports respect L1/L2/L3 selections and published regular/FLEX lunch rules.
 No-school dates, weekends, and missing/expired WMHS calendar dates cannot show live school states. Delayed-start dates without authoritative bells remain **Bell Times Unavailable**. The resolver supports static past/future-date previews internally; no date-picker UI was added.
 
 Phase 2 does not change the storage key, backup format, or configuration schema. Existing schema 1/2 data still loads through Phase 1 validation. Generated events and presentation states are not persisted, and protected WMHS editing continues to preserve all source-managed data.
+
+## Phase 3 browser profiles
+
+**Change Schedule** opens a picker containing Demo Classroom, all saved profiles, and Add / Import Schedule. Each profile shows its name and school, with the active choice marked. Open, Rename, and Remove affect only that profile. Removal asks for confirmation; removing the active profile selects another saved profile if available and returns to the picker.
+
+The versioned store is `bellsync.webDisplay.profiles.v1` with `schemaVersion: 1`, `activeProfileID`, `lastRealProfileID`, and `savedProfiles: [{id, configuration}]`. IDs are random UUIDs independent of school IDs. The reserved `demo` selection has no stored configuration. Demo preferences and edits stay temporary until explicitly saved as a new profile. Leaving Demo returns to the last real profile when available.
+
+On first load, an existing `bellsync.webDisplay.config.v1` configuration is validated and migrated into one active profile. The legacy key is retained unchanged as a recovery copy. Once the new collection exists, the legacy key is no longer read—even after all profiles are removed—so deleted schedules are not resurrected. If reading, validation, or migration fails, the UI reports it and preserves the original data; saves/imports stay blocked until the storage problem is resolved. Each profile mutation is validated and saved in one write. A stale tab must reload before it can overwrite a collection changed by another tab.
+
+Native bundle support follows `BellSyncScheduleBundle` in native `Sources/BellSyncConfiguration.swift`: `{bundleFormatVersion: 1, schedules: [BellSyncSharedSchedule], createdAt}`. Only the contract was inspected; native files were not changed. The synthetic fixture in `tests/fixtures/native-bundle-v1.json` contains no personal data.
+
+Imports show a review before writing anything. Names can be edited there; unnamed single exports receive an editable suggestion. A single imported profile becomes active. Multiple imports keep the current selection and open the picker so you can choose. Supported WMHS entries preserve names, assignments, rooms, lunch choices, source calendar/templates, and available source-version/notes/export-time metadata.
+
+Other schools, unknown schedule versions, embedded school definitions, date-specific schedules, personal activity-name overrides, personal block colors, and school-wide schedule mode are reported as unsupported rather than being silently approximated. Supported entries may be added after reviewing the skipped entries. Malformed bundle envelopes or malformed supported schedule data abort the import without adding any profiles.
+
+**Export Display Schedule** still exports the active configuration in the original single-profile format. **Export All Display Schedules** in the picker exports all real profiles with format `bellsync-display-profiles`, version 1. Importing it validates the entire collection and adds profiles with new IDs; it never replaces the existing collection. A Demo selection marker may be present in the backup, but its temporary configuration is excluded.
+
+Run all deterministic checks without a browser or npm dependencies:
+
+```sh
+node tests/phase1.mjs
+node tests/phase2.mjs
+node tests/phase3.mjs
+```

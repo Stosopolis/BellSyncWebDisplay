@@ -1,0 +1,23 @@
+{
+  "bundleFormatVersion": 1,
+  "createdAt": 812000000,
+  "schedules": [
+    {
+      "formatVersion": 1,
+      "schoolProfileID": "wmhs",
+      "schoolContentVersion": "2026-2027.1",
+      "scheduleName": "Classroom Teaching",
+      "createdAt": 812000000,
+      "notes": "Synthetic fixture; no personal data.",
+      "assignments": {"1": {"1": {"title": "English", "room": "101", "block": "A"}, "4": {"title": "History", "room": "104", "block": "D", "lunch": "L2"}}}
+    },
+    {
+      "formatVersion": 1,
+      "schoolProfileID": "wmhs",
+      "schoolContentVersion": "2026-2027.1",
+      "scheduleName": "Afternoon Support",
+      "createdAt": 812000001,
+      "assignments": {"1": {"1": {"title": "Support", "room": "Library", "block": "A"}, "4": {"title": "Workshop", "room": "204", "block": "D", "lunch": "L3"}}}
+    }
+  ]
+}
