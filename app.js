@@ -190,7 +190,7 @@ function labelsFor(kind, customText) { if(kind==='same') return [{id:'every',lab
 function periodRow(p,index) { return `<div class="period-row" data-index="${index}"><input data-key="label" value="${esc(p.label)}" aria-label="Period name"><input data-key="start" type="time" value="${esc(p.start)}" aria-label="Start time"><input data-key="end" type="time" value="${esc(p.end)}" aria-label="End time"><select data-key="kind">${option('academic',p.kind||'academic','Class')}${option('support',p.kind,'Advisory / FLEX / WIN')}${option('lunch',p.kind,'Lunch')}${option('passing',p.kind,'Passing Time')}${option('other',p.kind,'Other')}</select><button type="button" class="small-button up">↑</button><button type="button" class="small-button down">↓</button><button type="button" class="small-button destructive remove-period">Delete</button></div>`; }
 function openManagedEditor(value, targetID) {
   const working=clone(value);
-  modal('<header class="modal-head"><h2>Edit Imported WMHS Classes</h2><button id="close" class="icon-button" aria-label="Close dialog">×</button></header><p class="help">School timing, rotation, and calendar come from the source schedule. Customize class names, rooms, and lunch selections for this Web Display profile. These edits stay in this browser and do not sync to BellSync. Reimport for source schedule, timing, or calendar changes.</p><form id="managed-editor"><label>Display name<input name="profileName" required></label><div id="managed-classes"></div><p class="form-error" id="form-error"></p><footer class="modal-footer"><button type="button" class="secondary" id="cancel">Cancel</button><button type="submit" class="primary">Save Classes</button></footer></form>');
+  modal('<header class="modal-head"><h2>Edit Imported WMHS Classes</h2><button id="close" class="icon-button" aria-label="Close dialog">×</button></header><p class="help">Schedule structure and timing come from BellSync. You can customize class names, rooms, and lunch selections for this Web Display profile.</p><p class="help source-note">Block and period assignments are locked to the source schedule.</p><form id="managed-editor"><label>Display name<input name="profileName" required></label><div id="managed-classes"></div><p class="form-error" id="form-error"></p><footer class="modal-footer"><button type="button" class="secondary" id="cancel">Cancel</button><button type="submit" class="primary">Save Classes</button></footer></form>');
   const form=document.querySelector('#managed-editor');
   form.elements.profileName.value=working.profileName;
   const fields=[],lunchFields=[];
@@ -200,14 +200,27 @@ function openManagedEditor(value, targetID) {
     const section=document.createElement('section'); section.className='editor-section';
     const heading=document.createElement('h3'); heading.textContent=`Day ${day}`; section.append(heading);
     for(const [period,a] of Object.entries(rows)) {
-      const row=document.createElement('div'); row.className='assignment-row';
-      const label=document.createElement('span'); label.textContent=`${period === 'flex' ? 'FLEX' : `Period ${period}`}${a.block ? ` · ${a.block} Block` : ''}`;
+      const row=document.createElement('div'); row.className='managed-assignment';
+      const periodName=period === 'flex' ? 'FLEX' : `Period ${period}`;
+      const blockID=a.block?.trim();
+      const blockName=blockID ? (/\bBlock$/i.test(blockID) ? blockID : `${blockID} Block`) : periodName;
+      const source=document.createElement('div'); source.className='managed-source';
+      const block=document.createElement('strong'); block.textContent=blockName;
+      const detail=document.createElement('small'); detail.textContent=blockID ? `${periodName} · From BellSync` : 'From BellSync';
+      source.append(block,detail);
+      const titleLabel=document.createElement('label');
+      const titleCaption=document.createElement('span'); titleCaption.textContent='Class name';
       const title=document.createElement('input'); title.value=a.title || ''; title.setAttribute('aria-label',`Day ${day}, period ${period}, class name`);
-      const room=document.createElement('input'); room.value=a.room || ''; room.setAttribute('aria-label',`Day ${day}, period ${period}, room`);
-      row.append(label,title,room); section.append(row); fields.push({day,period,title,room});
+      titleLabel.append(titleCaption,title);
+      const roomLabel=document.createElement('label');
+      const roomCaption=document.createElement('span'); roomCaption.textContent='Room';
+      const optional=document.createElement('small'); optional.className='field-note'; optional.textContent=' (optional)'; roomCaption.append(optional);
+      const room=document.createElement('input'); room.value=a.room || ''; room.setAttribute('aria-label',`Day ${day}, period ${period}, room (optional)`);
+      roomLabel.append(roomCaption,room);
+      row.append(source,titleLabel,roomLabel); section.append(row); fields.push({day,period,title,room});
       if(lunchPeriods.has(period)) {
         const lunchLabel=document.createElement('label'); lunchLabel.className='managed-lunch';
-        const caption=document.createElement('span'); caption.textContent=`Lunch · ${a.block ? `${a.block} Block` : `Period ${period}`}${a.title ? ` · ${a.title}` : ''}`;
+        const caption=document.createElement('span'); caption.textContent=`Lunch · ${blockName}${a.title ? ` · ${a.title}` : ''}`;
         const select=document.createElement('select'); select.setAttribute('aria-label',`Day ${day}, period ${period}, lunch selection`);
         select.innerHTML=LUNCH_CHOICES.map((choice,i)=>option(choice,a.lunch ?? 'NO_LUNCH',i===3?'No Lunch':`Lunch ${i+1}`)).join('');
         select.value=a.lunch ?? 'NO_LUNCH';

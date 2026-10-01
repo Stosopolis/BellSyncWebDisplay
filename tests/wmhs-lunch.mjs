@@ -149,4 +149,45 @@ await test('lunch controls follow source rules rather than a hardcoded period nu
   const a=app();a.sandbox.input=alternate;a.run('save(input,null);openEditor(config,store.snapshot.activeProfileID)');
   for(const section of a.node('#managed-classes').children)assert.equal(lunchSelect(section),undefined);
 });
+await test('WMHS editor shows block-first locked metadata and labeled editable fields',async()=>{
+  const a=app(),saved=await a.import(bundle('L2')),sections=a.edit(saved.savedProfiles[0].id);
+  const copyText=a.node('#modal-root').innerHTML;
+  assert.match(copyText,/Schedule structure and timing come from BellSync/);
+  assert.match(copyText,/Block and period assignments are locked to the source schedule/);
+  for(const [i,section] of sections.entries()) {
+    const row=section.children.find(n=>n.className==='managed-assignment');
+    const [source,titleLabel,roomLabel]=row.children;
+    assert.equal(source.className,'managed-source');
+    assert.equal(source.children[0].tag,'strong');
+    assert.equal(source.children[0].textContent,`${school.assignments[String(i+1)]['1'].block} Block`);
+    assert.equal(source.children[1].tag,'small');assert.equal(source.children[1].textContent,'Period 1 · From BellSync');
+    assert.equal(source.children.filter(n=>['input','select','button'].includes(n.tag)).length,0);
+    assert.equal(titleLabel.tag,'label');assert.equal(titleLabel.children[0].textContent,'Class name');
+    assert.equal(roomLabel.tag,'label');assert.equal(roomLabel.children[0].textContent,'Room');
+    assert.equal(roomLabel.children[0].children[0].textContent,' (optional)');
+    for(const label of [titleLabel,roomLabel]) {
+      const input=label.children.find(n=>n.tag==='input');assert.ok(input);
+      assert.equal(input.disabled,undefined);assert.equal(input.readOnly,undefined);assert.equal(input.attributes.disabled,undefined);
+    }
+  }
+});
+await test('labeled class and room fields save alongside lunch without editing source structure',async()=>{
+  const a=app(),raw=bundle('L2'),original=copy(raw),saved=await a.import(raw),profile=saved.savedProfiles[0];
+  const section=a.edit(profile.id)[0],row=section.children.find(n=>n.className==='managed-assignment');
+  row.children[1].children.find(n=>n.tag==='input').value='New class';
+  row.children[2].children.find(n=>n.tag==='input').value='New room';
+  const select=lunchSelect(section);select.value='L3';select.onchange();
+  const after=a.submit().savedProfiles.find(p=>p.id===profile.id).configuration;
+  const expected=copy(profile.configuration);expected.assignments['1']['1'].title='New class';expected.assignments['1']['1'].room='New room';expected.assignments['1']['4'].lunch='L3';
+  assert.deepEqual(after,expected);assert.deepEqual(raw,original);
+});
+await test('editor fallback and responsive grid avoid presenting source fields as controls',async()=>{
+  const raw=bundle('NO_LUNCH');delete raw.schedules[0].assignments['1']['1'].block;
+  const a=app(),saved=await a.import(raw),section=a.edit(saved.savedProfiles[0].id)[0];
+  const source=section.children.find(n=>n.className==='managed-assignment').children[0];
+  assert.equal(source.children[0].textContent,'Period 1');assert.equal(source.children[1].textContent,'From BellSync');
+  const css=fs.readFileSync(new URL('../styles.css',import.meta.url),'utf8');
+  assert.match(css,/\.managed-assignment\s*\{[^}]*grid-template-columns:minmax\(0,\.7fr\) minmax\(0,1fr\) minmax\(0,\.5fr\)/);
+  assert.match(css,/@media\(max-width:850px\)\{\.managed-assignment\{grid-template-columns:1fr/);
+});
 console.log(`\n${passed} WMHS lunch tests passed.`);

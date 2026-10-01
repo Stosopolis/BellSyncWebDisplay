@@ -18,3 +18,12 @@
 .row-trailing { display:flex;align-items:center;justify-content:flex-end;gap:8px }
 .row-check { width:18px;height:18px;flex:0 0 18px;color:var(--mint);opacity:.8 }
 @media(max-width:520px){.row{gap:8px;padding:10px}.badge{font-size:.8rem;min-width:0;padding:6px}.row-trailing{gap:4px}.row time{font-size:.85rem}.row-check{width:15px;height:15px;flex-basis:15px}}
+
+.source-note { font-size:.85rem;margin-top:-4px }
+.managed-assignment { display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1fr) minmax(0,.5fr);gap:14px;align-items:center;margin:16px 0 }
+.managed-source { min-width:0;overflow-wrap:anywhere }
+.managed-source strong { display:block;color:var(--text);font-size:1.05rem }
+.managed-source small { display:block;color:var(--muted);font-size:.8rem;margin-top:4px }
+.managed-assignment label { min-width:0;font-size:.9rem }
+.field-note { color:var(--muted);font-size:.8em;font-weight:400 }
+@media(max-width:850px){.managed-assignment{grid-template-columns:1fr;gap:10px}.managed-source{margin-bottom:2px}}
