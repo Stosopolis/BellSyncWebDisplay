@@ -1,6 +1,7 @@
 {
   "schemaVersion": 1,
   "sourceKind": "development-sample",
+  "profileName": "Demo Classroom",
   "school": {"id":"sample.local","displayName":"BellSync Demo School","timeZone":"America/New_York"},
   "calendar":{"days":{}},
   "templates":{"regular":[

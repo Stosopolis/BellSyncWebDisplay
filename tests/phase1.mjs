@@ -1,0 +1,53 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import vm from 'node:vm';
+import * as core from '../display-core.mjs';
+const read=p=>JSON.parse(fs.readFileSync(new URL(p,import.meta.url),'utf8'));
+let passed=0;
+function test(name,fn){try{fn();passed++;console.log(`PASS ${name}`);}catch(error){console.error(`FAIL ${name}`);throw error;}}
+const demo=core.normalize(read('../public/samples/classroom-demo.json'));
+const schedule=read('../public/builtins/wmhs/schedule.json');
+const calendar=read('../public/builtins/wmhs/calendar.json');
+const shared={formatVersion:1,schoolProfileID:'wmhs',scheduleName:'Teacher',assignments:{'1':{'1':{title:'English',room:'',block:'A'},'4':{title:'History',room:'204',block:'D',lunch:'L2'}}}};
+const wmhs=core.normalize({schemaVersion:2,sourceKind:'bellsync-v1',school:{id:'wmhs',displayName:'WMHS',timeZone:schedule.time_zone},profileName:shared.scheduleName,assignments:shared.assignments,templates:schedule.bells,calendar});
+const copy=v=>structuredClone(v);
+const reject=(v,pattern)=>assert.throws(()=>core.normalize(v),pattern);
+// Execute the actual app's date/event logic with inert browser globals; no browser or UI automation.
+const nodes=new Map();
+const node=key=>{if(!nodes.has(key))nodes.set(key,{innerHTML:'',addEventListener(){},remove(){}});return nodes.get(key);};
+const sandbox={...core,resolveSchoolDay:core.schoolDay,esc:core.escapeHTML,Intl,Date,JSON,Set,crypto:{randomUUID:()=> 'test-id'},document:{querySelector:node,addEventListener(){}},localStorage:{getItem:()=>null},clearInterval(){},setInterval(){}};
+vm.createContext(sandbox);
+const source=fs.readFileSync(new URL('../app.js',import.meta.url),'utf8');
+vm.runInContext(source.replace(/^import .*;\n/,''),sandbox);
+function appState(value,now){sandbox.input=value;sandbox.now=now;return vm.runInContext('config=input;state(now)',sandbox);}
+test('demo and initial manual configuration satisfy real validation',()=>{core.validate(demo);const initial=vm.runInContext('newWebConfig()',sandbox);core.validate(initial);assert.equal(demo.profileName,'Demo Classroom');});
+test('same-day exclusions and weekends; nonstudent exclusions override explicit calendar',()=>{const d=copy(demo);d.rotation.noSchoolDates=['2026-10-01'];assert.equal(core.schoolDay(d,'2026-10-01'),null);assert.equal(appState(d,Date.parse('2026-10-01T08:00:00-04:00')).mode,'no-school');assert.equal(core.schoolDay(d,'2026-10-03'),null);const w=copy(wmhs);w.calendar.nonStudentDays['2026-10-01']={title:'Closed',kind:'holiday'};assert.equal(core.schoolDay(w,'2026-10-01'),null);w.rotation.noSchoolDates=['2026-10-02'];assert.equal(core.schoolDay(w,'2026-10-02'),null);});
+test('all rotation types skip excluded dates and reverse across weekends',()=>{for(const [kind,count] of [['day-1-5',5],['day-1-6',6],['day-1-7',7],['ab',2],['ag',7],['custom',3]]){const d=copy(demo);d.rotation={kind,labels:Array.from({length:count},(_,i)=>({id:`d${i}`,label:`Day ${i}`})),seedDate:'2026-10-02',seedDayId:'d0',noSchoolDates:['2026-10-05']};d.assignments={};core.validate(d);assert.equal(core.schoolDay(d,'2026-10-06').day,'d1');assert.equal(core.schoolDay(d,'2026-10-01').day,`d${count-1}`);assert.equal(core.schoolDay(d,'2026-10-05'),null);}});
+test('runtime order chronological; editor order and IDs remain intact',()=>{const d=copy(demo);d.periods.reverse();d.templates.regular.reverse();core.validate(d);const s=appState(d,Date.parse('2026-10-01T06:00:00-04:00'));assert.equal(s.next.id,'p1');assert.equal(s.events[0].id,'p1');assert.equal(d.periods[0].id,'p3');});
+test('overlap, invalid clock times, equal and reversed periods rejected',()=>{for(const [start,end,pattern] of [['08:00','08:30',/Overlapping/],['8:25','09:15',/Invalid time/],['24:00','25:00',/Invalid time/],['09:15','09:15',/end after/],['09:16','09:15',/end after/]]){const d=copy(demo);Object.assign(d.periods[1],{start,end});reject(d,pattern);}const d=copy(wmhs);d.templates.flex[1].start='07:31';reject(d,/Overlapping/);});
+test('12/24-hour formats consistent including midnight',()=>{const t=Date.parse('2026-10-01T13:05:00-04:00');assert.equal(core.formatClock(t,'America/New_York',true),'13:05');assert.match(core.formatClock(t,'America/New_York',false),/^1:05.*PM$/);assert.equal(core.formatClock(Date.parse('2026-10-01T00:00:00-04:00'),'America/New_York',true),'00:00');sandbox.input=copy(demo);sandbox.input.preferences.hour24=true;assert.equal(vm.runInContext(`config=input;timeText(${t},'America/New_York')`,sandbox),'13:05');});
+test('current title and room never borrow next data; standalone lunch label',()=>{const current={id:'p1',label:'Period 1',title:'',room:''},next={id:'p2',title:'English',room:'204'};assert.deepEqual(core.presentation({mode:'current',current,next}),{title:'Period 1',room:''});assert.deepEqual(core.presentation({mode:'before',next}),{title:'English',room:'204'});assert.equal(core.presentation({mode:'current',current:{id:'lunch',kind:'lunch',title:''}}).title,'Lunch');assert.equal(core.presentation({mode:'no-school'}).title,'No School');});
+test('active/start/end boundaries keep existing countdown states',()=>{assert.equal(appState(demo,Date.parse('2026-10-01T07:30:00-04:00')).mode,'current');assert.equal(appState(demo,Date.parse('2026-10-01T08:20:00-04:00')).mode,'before');assert.equal(appState(demo,Date.parse('2026-10-01T12:25:00-04:00')).mode,'after');});
+test('backup versions and malformed objects rejected without coercion',()=>{const backup={format:core.WEB_FORMAT,formatVersion:1,configuration:demo};assert.deepEqual(core.importBackup(backup),demo);assert.throws(()=>core.importBackup({...backup,formatVersion:2}),/version/);for(const mutate of [d=>d.schemaVersion=3,d=>d.school.id='',d=>d.school.timeZone='Invalid/Zone',d=>d.rotation=[],d=>d.rotation.labels[0].id='constructor',d=>d.rotation.seedDate='2026-02-30',d=>d.rotation.noSchoolDates='2026-10-01',d=>d.periods[1].id=d.periods[0].id,d=>d.templates=[],d=>d.templates.regular={},d=>d.assignments={bad:{}},d=>d.assignments.every.unknown={},d=>d.calendar.days={'2026-02-30':{day:'every',schedule:'regular'}},d=>d.calendar.days={'2026-10-01':{day:'every',schedule:'unknown'}},d=>d.calendar.days={'2026-10-01':{day:['every'],schedule:'regular'}},d=>d.calendar.days={'2026-10-01':{day:'every',schedule:['regular']}},d=>d.templates.extra=copy(d.templates.regular),d=>d.preferences.hour24='true',d=>d.profileName={}]){const d=copy(demo);mutate(d);reject(d);}assert.throws(()=>core.normalize(JSON.parse('{"schemaVersion":2,"__proto__":{}}')),/unsafe/);});
+test('native import structure and supported keys validated',()=>{assert.equal(core.validateNative(shared),shared);for(const mutate of [s=>s.formatVersion=2,s=>s.schoolProfileID='gms',s=>s.scheduleName='',s=>s.assignments=[],s=>s.assignments={'day-1':{}},s=>s.assignments['1']['99']={},s=>s.assignments['1']['4'].lunch='L4',s=>s.assignments['1']['1'].room={},s=>s.assignments['1']['1'].start='08:00']){const s=copy(shared);mutate(s);assert.throws(()=>core.validateNative(s));}});
+test('WMHS names/rooms editing preserves all school data and lunch choices',()=>{const original=copy(wmhs);const edited=core.editManagedAssignments(wmhs,'New name',[{day:'1',period:'4',title:'New class',room:'205'}]);assert.deepEqual(edited.templates,original.templates);assert.deepEqual(edited.calendar,original.calendar);assert.deepEqual(edited.rotation,original.rotation);assert.deepEqual(edited.periods,original.periods);assert.equal(edited.assignments['1']['4'].lunch,'L2');assert.equal(edited.assignments['1']['4'].block,'D');assert.deepEqual(wmhs,original);assert.equal(edited.assignments['1']['4'].room,'205');assert.throws(()=>core.editManagedAssignments(wmhs,'Teacher',[{day:'day-1',period:'4',title:'',room:''}]),/Unknown/);assert.match(source,/if\(isManagedWMHS\(draft\)\)\{openManagedEditor\(draft\);return;/);assert.deepEqual(core.importBackup({format:core.WEB_FORMAT,formatVersion:1,configuration:edited}),edited);});
+test('legacy saved WMHS generated rotation labels remain readable and protected',()=>{const old=copy(wmhs);old.rotation.labels=Array.from({length:7},(_,i)=>({id:`day-${i+1}`,label:`Day ${i+1}`}));old.rotation.seedDayId='day-1';const restored=core.normalize(old);assert.ok(core.isManagedWMHS(restored));assert.equal(core.schoolDay(restored,'2026-10-01').day,calendar.days['2026-10-01'].day);assert.deepEqual(restored.templates,wmhs.templates);});
+test('text and quoted attributes safely encode hostile names',()=>{assert.equal(core.escapeHTML(`"'><img src=x onerror=alert(1)>&`),'&quot;&#39;&gt;&lt;img src=x onerror=alert(1)&gt;&amp;');assert.equal(core.escapeHTML('&quot;'),'&amp;quot;');assert.match(source,/esc\(dayLabel\)/);assert.match(source,/data-remove-date="\$\{esc\(d\)\}"/);});
+test('June 17 early release corrected without replacing calendar or assignment bundles',()=>{assert.equal(calendar.days['2027-06-17'].schedule,'er');assert.equal(calendar.days['2027-06-17'].note,'EARLY RELEASE');assert.equal(core.schoolDay(wmhs,'2027-06-17').schedule,'er');assert.equal(appState(wmhs,Date.parse('2027-06-17T11:00:00-04:00')).mode,'after');assert.equal(schedule.assignments['1']['1'].title,'A Block');});
+test('known delayed-start calendar date never falls back to regular bells',()=>{const s=appState(wmhs,Date.parse('2027-01-05T08:00:00-05:00'));assert.equal(s.mode,'unavailable');assert.equal(s.events.length,0);assert.equal(core.presentation(s).title,'Bell Times Unavailable');});
+test('storage round trip and failed saves leave active/stored data intact',()=>{
+  let stored=null,writes=0;
+  sandbox.localStorage={getItem:()=>stored,setItem:(_key,value)=>{writes++;stored=value;}};
+  sandbox.input=copy(demo);
+  vm.runInContext('save(input)',sandbox);
+  assert.equal(writes,1);assert.deepEqual(JSON.parse(stored),demo);
+  assert.deepEqual(JSON.parse(JSON.stringify(vm.runInContext('load()',sandbox))),demo);
+  const original=stored; sandbox.input=copy(demo);sandbox.input.schemaVersion=999;
+  assert.throws(()=>vm.runInContext('save(input)',sandbox),/version/);
+  assert.equal(stored,original);assert.equal(writes,1);
+  sandbox.input=copy(demo);sandbox.localStorage.setItem=()=>{throw Error('Storage unavailable');};
+  assert.throws(()=>vm.runInContext('save(input)',sandbox),/could not save/);
+  assert.equal(stored,original);
+  stored='{bad json';assert.equal(vm.runInContext('load()',sandbox),null);assert.equal(stored,'{bad json');
+});
+console.log(`\n${passed} tests passed.`);

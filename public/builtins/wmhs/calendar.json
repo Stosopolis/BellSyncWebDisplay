@@ -1275,9 +1275,10 @@
     "2027-06-17": {
       "date": "2027-06-17",
       "day": 5,
-      "schedule": "regular",
+      "schedule": "er",
       "term": 4,
-      "weekday": "Thursday"
+      "weekday": "Thursday",
+      "note": "EARLY RELEASE"
     }
   },
   "nonStudentDays": {

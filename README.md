@@ -22,7 +22,7 @@ Choose **Enter My Schedule** on the first screen to create a browser-local schoo
 5. Set a rotation seed date/day and mark no-school dates. Rotation advances only across weekdays that are not marked no-school.
 6. Save. The live classroom Display opens immediately.
 
-**Edit Schedule** returns to the same teacher-friendly working-copy editor. Cancelling leaves the active local schedule unchanged; saving validates and atomically replaces it. The browser stores the saved configuration in `localStorage`, so reopening the page returns to the Display.
+**Edit Schedule** returns to the same teacher-friendly working-copy editor for browser-created schedules. WMHS native imports instead open a protected personal-class editor: display name, existing class names, and rooms can change, while imported period/day IDs, all bell templates, calendar data, blocks, and lunch selections remain intact. Reimport from BellSync to change those source-managed values. Cancelling leaves the active local schedule unchanged; saving validates and atomically replaces it. The browser stores the saved configuration in `localStorage`, so reopening the page returns to the Display.
 
 ## Upload, import, and export
 
@@ -60,7 +60,7 @@ There is no build step. This folder is ready to publish as a static site: it use
 2. In **Settings → Pages**, publish from the branch/folder that contains this `index.html`.
 3. Open the GitHub Pages URL, including its repository subpath when applicable, such as `https://username.github.io/BellSyncWebDisplay/`.
 
-A custom domain can be configured later in GitHub Pages after DNS is prepared. No server configuration, secret, API key, or machine-specific path is required.
+To use the intended custom domain later, add `display.bellsync.app` in GitHub Pages and create the DNS record GitHub provides. Keep the included `.nojekyll` file at the published root. No server configuration, secret, API key, or machine-specific path is required.
 
 Before publishing, test locally:
 
@@ -70,3 +70,21 @@ python3 -m http.server 8080
 ```
 
 Then open [http://localhost:8080](http://localhost:8080). Serving through HTTP is required because the bundled WMHS resources are loaded with `fetch`.
+
+## Phase 1 reliability checks
+
+Run the dependency-free deterministic checks with a current Node.js runtime:
+
+```sh
+node tests/phase1.mjs
+node --check app.js
+node --check display-core.mjs
+```
+
+No npm install or browser is required. Checks cover configuration/import validation, exclusions, rotations, chronological runtime ordering, overlap rejection, clock formats, display fallbacks, safe output encoding, WMHS preservation, and the included demo.
+
+Configuration schema versions 1 and 2 and Display backup format version 1 are supported. Known template-only configurations are migrated explicitly; malformed objects, unknown versions, invalid dates/times/IDs, unknown assignment keys, and overlapping periods are rejected before replacing browser storage. Runtime events are sorted chronologically without changing editor row order. Browser-created schedules currently use one regular bell template.
+
+The bundled WMHS June 17, 2027 entry uses early-release bells. Its known delayed-start date has no authoritative bell template and shows **Bell Times Unavailable** rather than regular bells. Existing browser backups retain their embedded calendar; reimport a native WMHS schedule to load updated bundled school data.
+
+Demo display settings stay in memory. Only saving the demo through Edit Schedule persists it. This pass does not add pre-school thresholds, passing/gap states, or lunch splitting.
