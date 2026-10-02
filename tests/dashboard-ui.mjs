@@ -203,4 +203,34 @@ test('Galvin dashboard keeps useful period labels and source data unchanged',()=
   const r=renderer(input,'2026-09-02'),before=r.stored(),html=r.render('08:30');
   assert.match(html,/class="badge"[^>]*>P1<\/span>/);assert.match(html,/Multimedia Presentation/);assert.deepEqual(r.stored(),before);
 });
+const navigationProfiles=[
+  ['WMHS imported',imported(),date],
+  ['WMHS built-in',builtInConfiguration('wmhs',school,calendar),date],
+  ['Galvin',builtInConfiguration('gms',read('../public/builtins/gms/schedule.json'),read('../public/builtins/gms/calendar.json'),6),'2026-09-02'],
+  ['portable Canterbury',profiles.nativeConfigurations(profiles.inspectNativeImport(read('./fixtures/canterbury-room2-v2.json')))[0],'2026-10-01'],
+  ['manual',core.normalize({...copy(demo),sourceKind:'browser-local'}),date]
+];
+for(const [name,input,today] of navigationProfiles)test(`${name} date controls browse and survive ticks without replacing the scroller`,()=>{
+  const r=renderer(input,today),before=r.stored(),markup=r.render('11:30');
+  assert.match(markup,/<h2>TODAY'S SCHEDULE<\/h2><div class="snapshot-dates">/);
+  for(const id of ['previous-date','view-date','next-date','tomorrow-date','today-date'])assert.ok(markup.includes(`id="${id}"`),id);
+  assert.match(markup,/>Tomorrow<\/button>/);assert.match(markup,/>Today<\/button>/);
+  const shift=(key,days)=>new Date(Date.parse(`${key}T12:00Z`)+days*86400000).toISOString().slice(0,10);
+  const selected=html=>html.match(/id="view-date"[^>]*value="([^"]+)"/)[1];
+  r.node('#previous-date').onclick();assert.equal(selected(r.render('11:31')),shift(today,-1));
+  r.node('#next-date').onclick();assert.equal(selected(r.render('11:32')),today);
+  r.node('#tomorrow-date').onclick();assert.equal(selected(r.render('11:33')),shift(today,1));
+  const region=r.scroller();region.scrollTop=320;
+  const tick=r.render('11:34');assert.equal(selected(tick),shift(today,1));assert.strictEqual(r.scroller(),region);assert.equal(region.scrollTop,320);
+  const chosen='2026-10-01';r.node('#view-date').onchange({target:{value:chosen,blur(){}}});
+  const preview=r.render('11:35');assert.equal(selected(preview),chosen);assert.equal(cards(preview).length,core.timelineFor(input,chosen).events.length);
+  if(chosen!==today){assert.match(preview,/<h2>SCHEDULE<\/h2>/);assert.ok(!preview.includes('class="now">NOW'));}
+  r.node('#today-date').onclick();assert.equal(selected(r.render('11:36')),today);assert.equal(r.scroller().scrollTop,0);
+  assert.deepEqual(r.stored(),before);
+});
+test('date controls stay outside the scroll rows and wrap at every width',()=>{
+  const html=renderer(imported()).render('11:30');assert.match(html,/id="today-date">Today<\/button><\/div><div class="rows /);
+  assert.match(css,/\.snapshot-dates\s*\{[^}]*flex:0 0 auto[^}]*flex-wrap:wrap/);
+  assert.ok(!/\.snapshot-dates[^{}]*\{[^}]*display:none/.test(css));
+});
 console.log(`\n${passed} dashboard UI tests passed.`);
