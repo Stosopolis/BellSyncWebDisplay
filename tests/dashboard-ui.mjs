@@ -11,14 +11,24 @@ const date='2026-09-01',at=t=>core.zonedTimestamp(date,t,'America/New_York');
 const source=fs.readFileSync(new URL('../app.js',import.meta.url),'utf8').replace(/^import .*;\n/gm,'');
 const css=fs.readFileSync(new URL('../styles.css',import.meta.url),'utf8');
 const copy=v=>structuredClone(v);
-function renderer(input) {
-  let now=at('11:30');
+function renderer(input,renderDate=date) {
+  const fixedAt=t=>core.zonedTimestamp(renderDate,t,'America/New_York');
+  let now=fixedAt('11:30'),lastMarkup='',scroller=null;
+  const rowMarkup=html=>html.match(/<div class="rows [^>]*>([\s\S]*)<\/div><\/aside>/)?.[1] || '';
+  function scrollNode(html) {
+    let content=html;
+    return {scrollTop:0,writes:0,get innerHTML(){return content.replace(/(<path\b[^>]*?)\/>/g,'$1></path>');},set innerHTML(value){content=value;this.writes++;}};
+  }
   const nodes=new Map(),node=k=>{if(!nodes.has(k))nodes.set(k,{innerHTML:'',addEventListener(){},remove(){},append(){},querySelector:node,focus(){}});return nodes.get(k);};
+  const display=node('#display');
+  Object.defineProperty(display,'innerHTML',{get:()=>lastMarkup,set:html=>{lastMarkup=html;scroller=html.includes('class="rows ')?scrollNode(rowMarkup(html)):null;}});
+  display.querySelector=selector=>selector==='.rows'?scroller:{replaceWith(next){lastMarkup=next.markup;}};
+  const temporary=()=>{let markup='';return {get innerHTML(){return markup;},set innerHTML(value){markup=value;},querySelector:()=>({markup})};};
   const data=new Map(),storage={getItem:k=>data.get(k)??null,setItem:(k,v)=>data.set(k,v)};
   class FixedDate extends Date {constructor(...args){super(...(args.length?args:[now]));}static now(){return now;}}
-  const sandbox={...core,...states,...profiles,esc:core.escapeHTML,Intl,Date:FixedDate,JSON,Set,crypto:globalThis.crypto,document:{querySelector:node,querySelectorAll:()=>[],createElement:()=>node('new'),body:node('body'),addEventListener(){}},localStorage:storage,clearInterval(){},setInterval(){},alert:m=>{throw Error(m);}};
+  const sandbox={...core,...states,...profiles,esc:core.escapeHTML,Intl,Date:FixedDate,JSON,Set,crypto:globalThis.crypto,document:{querySelector:node,querySelectorAll:()=>[],createElement:temporary,body:node('body'),addEventListener(){}},localStorage:storage,clearInterval(){},setInterval(){},alert:m=>{throw Error(m);}};
   vm.createContext(sandbox);vm.runInContext(source,sandbox);sandbox.input=input;vm.runInContext('save(input,null)',sandbox);
-  return {render(time){now=at(time);vm.runInContext('update()',sandbox);return node('#display').innerHTML;},stored:()=>JSON.parse(storage.getItem(profiles.PROFILE_KEY)),badge(event,mode){sandbox.event=event;sandbox.mode=mode;return vm.runInContext('scheduleBadge(event,mode)',sandbox);},density(count){sandbox.count=count;return vm.runInContext('scheduleDensity(count)',sandbox);}};
+  return {scroller:()=>scroller,node,render(time){now=fixedAt(time);vm.runInContext('update()',sandbox);return lastMarkup;},stored:()=>JSON.parse(storage.getItem(profiles.PROFILE_KEY)),badge(event,mode){sandbox.event=event;sandbox.mode=mode;return vm.runInContext('scheduleBadge(event,mode)',sandbox);},density(count){sandbox.count=count;return vm.runInContext('scheduleDensity(count)',sandbox);}};
 }
 function imported() {
   const assignments=copy(school.assignments);
@@ -129,5 +139,27 @@ test('live long countdown uses hour typography and the rendered mint ring decrea
   assert.match(start,/class="countdown has-hours">1:46:00/);assert.match(middle,/class="countdown">53:00/);
   assert.match(css,/conic-gradient\(var\(--mint\) calc\(var\(--progress\)\*1%\)/);
   assert.match(css,/font-variant-numeric:tabular-nums/);assert.match(css,/\.countdown.has-hours[^}]*font-size:clamp/);
+});
+test('schedule layout gives only rows a bounded shrinking scroll region',()=>{
+  assert.match(css,/\.schedule\s*\{[^}]*min-height:0[^}]*display:flex[^}]*flex-direction:column[^}]*height:calc\(100dvh[^}]*overflow:hidden/);
+  assert.match(css,/\.rows\s*\{[^}]*overflow-y:auto[^}]*overflow-x:hidden[^}]*overscroll-behavior-y:contain[^}]*flex:1 1 0[^}]*min-height:0/);
+  assert.match(css,/\.schedule h2\s*\{[^}]*flex:0 0 auto/);
+  assert.match(css,/\.snapshot-dates\s*\{[^}]*flex:0 0 auto/);
+  assert.match(css,/@media\(max-width:850px\)[^\n]*\.schedule\{height:48vh;height:48dvh;max-height:48dvh\}/);
+});
+test('live countdown ticks retain the same mounted scroller and row content',()=>{
+  const input=profiles.nativeConfigurations(profiles.inspectNativeImport(read('./fixtures/canterbury-room2-v2.json')))[0];
+  const r=renderer(input,'2026-10-01');r.render('11:30');const region=r.scroller();region.scrollTop=640;const writes=region.writes;
+  const first=r.render('11:31'),next=r.render('11:32');
+  assert.strictEqual(r.scroller(),region);assert.equal(region.scrollTop,640);assert.equal(region.writes,writes);
+  assert.notEqual(first.match(/class="countdown">([^<]*)/)[1],next.match(/class="countdown">([^<]*)/)[1]);
+  r.render('12:01');assert.strictEqual(r.scroller(),region);assert.equal(region.scrollTop,640);assert.ok(region.writes>writes);
+});
+test('date changes reset the schedule region while subsequent ticks preserve it',()=>{
+  const input=profiles.nativeConfigurations(profiles.inspectNativeImport(read('./fixtures/canterbury-room2-v2.json')))[0];
+  const r=renderer(input,'2026-10-01');const today=r.scroller();today.scrollTop=500;r.node('#next-date').onclick();
+  const tomorrow=r.scroller();assert.notStrictEqual(tomorrow,today);assert.equal(tomorrow.scrollTop,0);
+  tomorrow.scrollTop=200;r.render('11:31');assert.strictEqual(r.scroller(),tomorrow);assert.equal(tomorrow.scrollTop,200);
+  r.node('#today-date').onclick();assert.notStrictEqual(r.scroller(),tomorrow);assert.equal(r.scroller().scrollTop,0);
 });
 console.log(`\n${passed} dashboard UI tests passed.`);

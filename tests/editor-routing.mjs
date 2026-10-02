@@ -27,6 +27,7 @@ function app(storage=memory(),fixedNow=null) {
     remove(){if(this.id)nodes.delete(`#${this.id}`);}
     setAttribute(k,v){this.attributes[k]=v;}
     removeAttribute(k){delete this.attributes[k];}
+    replaceWith(){}
     replaceChildren(...children){this.children=[];this.append(...children);}
     addEventListener(k,fn){this.listeners[k]=fn;}
     querySelector(k){return this.fields?.[k] || node(k);}
