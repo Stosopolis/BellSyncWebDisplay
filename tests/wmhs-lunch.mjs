@@ -107,8 +107,8 @@ await test('real editor L1 → L2 → L3 → NO_LUNCH → L1 saves, redraws, and
     const html=a.node('#display').innerHTML,hero=choice==='L2'?'Lunch 2':'D Block';
     assert.ok(html.includes(`<div class="event-title">${hero}</div>`));
     assert.match(html,/TODAY'S SCHEDULE/);
-    assert.ok(html.includes(`<strong>${hero}</strong>`));
-    if(choice==='NO_LUNCH')assert.ok(!html.includes('<strong>Lunch</strong>'));
+    assert.ok(html.includes(`>${hero}</strong>`));
+    if(choice==='NO_LUNCH')assert.ok(!/>Lunch [123]<\/strong>/.test(html));
     assert.match(a.node('#display').innerHTML,/bellsync-display-icon/);
   }
   // Reimport appends independent profiles, retaining the local choice.

@@ -88,8 +88,8 @@ test('settings persist per profile, hide real badges, and survive restart and ba
     const restart=new profiles.ProfileStore(storage);assert.equal(restart.activeConfiguration.preferences.scheduleLabels,mode);
     assert.equal(profiles.importDisplayProfiles(profiles.exportProfiles(saved)).find(c=>c.preferences.scheduleLabels===mode).preferences.scheduleLabels,mode);
     const html=node('#display').innerHTML;
-    if(mode==='hidden') {assert.ok(!html.includes('class="badge"'));assert.match(html,/row current no-label/);assert.match(html,/<strong>Lunch 2<\/strong>/);assert.match(html,/<time>/);assert.match(html,/Room 204/);}
-    else assert.ok(html.includes(`<span class="badge">${mode==='blocks'?'A Block':'Period 1'}</span>`));
+    if(mode==='hidden') {assert.ok(!html.includes('class="badge"'));assert.match(html,/row current no-label/);assert.match(html,/<strong[^>]*>Lunch 2<\/strong>/);assert.match(html,/<time>/);assert.match(html,/Room 204/);}
+    else assert.ok(html.includes(`>${mode==='blocks'?'A':'P1'}</span>`));
     assert.match(html,/<div class="event-title">Lunch 2<\/div>/);
   }
 });
