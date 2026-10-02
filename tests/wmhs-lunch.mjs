@@ -26,9 +26,11 @@ function app() {
   const data=new Map(),storage={getItem:k=>data.get(k)??null,setItem:(k,v)=>data.set(k,v)};
   const nodes=new Map();
   class Node {
-    constructor(tag='div') {this.tag=tag;this.children=[];this.attributes={};this.listeners={};this.innerHTML='';this.textContent='';this.value='';this.elements={profileName:{value:''}};}
+    constructor(tag='div') {this.tag=tag;this.children=[];this.attributes={};this.listeners={};this.innerHTML='';this.textContent='';this.value='';this.dataset={};this.classList={add(){}};this.elements={profileName:{value:''}};}
     append(...children){this.children.push(...children);for(const child of children)if(child.id)nodes.set(`#${child.id}`,child);}
     setAttribute(k,v){this.attributes[k]=v;}
+    removeAttribute(k){delete this.attributes[k];}
+    replaceChildren(...children){this.children=[];this.append(...children);}
     addEventListener(k,fn){this.listeners[k]=fn;}
     querySelector(k){return node(k);}
     remove(){}
@@ -59,7 +61,8 @@ function app() {
     }
   };
 }
-const lunchSelect=section=>section.children.find(n=>n.className==='managed-lunch')?.children.find(n=>n.tag==='select');
+const lunchLabel=section=>section.children.flatMap(n=>n.children).find(n=>n.className==='managed-lunch');
+const lunchSelect=section=>lunchLabel(section)?.children.find(n=>n.tag==='select');
 let passed=0;
 async function test(name,fn){await fn();passed++;console.log(`PASS ${name}`);}
 
@@ -67,13 +70,13 @@ for(const lunch of ['NO_LUNCH',undefined]) await test(`${lunch ?? 'missing'} sur
   const raw=bundle(lunch),original=copy(raw),a=app(),saved=await a.import(raw);
   assert.equal(saved.savedProfiles.length,2);
   for(const profile of saved.savedProfiles) {
-    const sections=a.edit(profile.id);assert.equal(sections.length,7);
+    a.edit(profile.id);assert.equal(a.node('#managed-classes').children.length,1);const sections=a.node('#managed-days').children.map(button=>{button.onclick();return a.node('#managed-classes').children[0];});
     sections.forEach((section,i)=>{
       const select=lunchSelect(section);assert.ok(select);assert.equal(select.value,'NO_LUNCH');
       assert.match(select.innerHTML,/value="NO_LUNCH"/);
-      assert.equal(section.children.filter(n=>n.className==='managed-lunch').length,1);
-      const label=section.children.find(n=>n.className==='managed-lunch').children[0].textContent;
-      assert.ok(label.includes(`${school.long_block_meta[String(i+1)].long} Block`));
+      assert.equal(section.children.flatMap(n=>n.children).filter(n=>n.className==='managed-lunch').length,1);
+      const label=lunchLabel(section).children[0].textContent;
+      assert.equal(label,'Lunch');assert.ok(select.attributes['aria-label'].includes(school.long_block_meta[String(i+1)].long));
     });
     const after=a.submit().savedProfiles.find(p=>p.id===profile.id).configuration;
     assert.deepEqual(after,profile.configuration);
@@ -152,19 +155,18 @@ await test('lunch controls follow source rules rather than a hardcoded period nu
 await test('WMHS editor shows block-first locked metadata and labeled editable fields',async()=>{
   const a=app(),saved=await a.import(bundle('L2')),sections=a.edit(saved.savedProfiles[0].id);
   const copyText=a.node('#modal-root').innerHTML;
-  assert.match(copyText,/Schedule structure and timing come from BellSync/);
-  assert.match(copyText,/Block and period assignments are locked to the source schedule/);
+  assert.match(copyText,/Schedule timing and rotation come from BellSync/);
+  assert.match(copyText,/Customize your class names, rooms, and lunch/);
   for(const [i,section] of sections.entries()) {
     const row=section.children.find(n=>n.className==='managed-assignment');
     const [source,titleLabel,roomLabel]=row.children;
     assert.equal(source.className,'managed-source');
     assert.equal(source.children[0].tag,'strong');
-    assert.equal(source.children[0].textContent,`${school.assignments[String(i+1)]['1'].block} Block`);
-    assert.equal(source.children[1].tag,'small');assert.equal(source.children[1].textContent,'Period 1 · From BellSync');
+    assert.equal(source.children[0].textContent,school.assignments[String(i+1)]['1'].block);
+    assert.equal(source.children[1].tag,'small');assert.equal(source.children[1].textContent,'Period 1');
     assert.equal(source.children.filter(n=>['input','select','button'].includes(n.tag)).length,0);
-    assert.equal(titleLabel.tag,'label');assert.equal(titleLabel.children[0].textContent,'Class name');
-    assert.equal(roomLabel.tag,'label');assert.equal(roomLabel.children[0].textContent,'Room');
-    assert.equal(roomLabel.children[0].children[0].textContent,' (optional)');
+    assert.equal(titleLabel.tag,'label');assert.equal(titleLabel.children[0].textContent,'Class');
+    assert.equal(roomLabel.tag,'label');assert.equal(roomLabel.children[0].textContent,'Room (optional)');
     for(const label of [titleLabel,roomLabel]) {
       const input=label.children.find(n=>n.tag==='input');assert.ok(input);
       assert.equal(input.disabled,undefined);assert.equal(input.readOnly,undefined);assert.equal(input.attributes.disabled,undefined);
@@ -185,7 +187,7 @@ await test('editor fallback and responsive grid avoid presenting source fields a
   const raw=bundle('NO_LUNCH');delete raw.schedules[0].assignments['1']['1'].block;
   const a=app(),saved=await a.import(raw),section=a.edit(saved.savedProfiles[0].id)[0];
   const source=section.children.find(n=>n.className==='managed-assignment').children[0];
-  assert.equal(source.children[0].textContent,'Period 1');assert.equal(source.children[1].textContent,'From BellSync');
+  assert.equal(source.children[0].textContent,'P1');assert.equal(source.children[1].textContent,'Period 1');
   const css=fs.readFileSync(new URL('../styles.css',import.meta.url),'utf8');
   assert.match(css,/\.managed-assignment\s*\{[^}]*grid-template-columns:minmax\(0,\.7fr\) minmax\(0,1fr\) minmax\(0,\.5fr\)/);
   assert.match(css,/@media\(max-width:850px\)\{\.managed-assignment\{grid-template-columns:1fr/);

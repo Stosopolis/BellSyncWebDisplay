@@ -17,23 +17,25 @@ const decode=s=>s.replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&lt;/g,'
 // A small inert HTML/DOM adapter supplies named form controls and queries to the
 // actual app handlers. It does not launch a browser or implement layout.
 function app(storage=memory()) {
-  const nodes=new Map(),alerts=[];
+  const nodes=new Map(),alerts=[],documentListeners={};
   class Node {
-    constructor(tag='div'){this.tag=tag;this.innerHTML='';this.textContent='';this.children=[];this.attributes={};this.listeners={};this.elements={profileName:{value:''}};this.value='';this.dataset={};}
+    constructor(tag='div'){this.tag=tag;this.innerHTML='';this.textContent='';this.children=[];this.attributes={};this.listeners={};this.elements={profileName:{value:''}};this.value='';this.dataset={};this.classList={add(){}};}
     append(...children){this.children.push(...children);for(const child of children)if(child.id){
       if(child.id==='modal-root')for(const key of ['#managed-editor','#managed-classes','#schedule-editor','#form-error'])nodes.delete(key);
       nodes.set(`#${child.id}`,child);
     }}
     remove(){if(this.id)nodes.delete(`#${this.id}`);}
     setAttribute(k,v){this.attributes[k]=v;}
+    removeAttribute(k){delete this.attributes[k];}
+    replaceChildren(...children){this.children=[];this.append(...children);}
     addEventListener(k,fn){this.listeners[k]=fn;}
     querySelector(k){return this.fields?.[k] || node(k);}
-    focus(){}
+    focus(){sandbox.document.activeElement=this;}
   }
   const markup=()=>nodes.get('#modal-root')?.innerHTML || '';
   const node=k=>{
     if(!nodes.has(k))nodes.set(k,new Node());
-    const result=nodes.get(k);
+    const result=nodes.get(k);if(k.startsWith('#'))result.id=k.slice(1);
     if(k==='#schedule-editor' && result.markup!==markup()) {
       result.markup=markup();
       for(const {tag,attrs,body} of controls(markup())) {
@@ -65,10 +67,10 @@ function app(storage=memory()) {
     });
     return [];
   };
-  const sandbox={...core,...states,...profiles,...schools,esc:core.escapeHTML,Intl,Date,JSON,Set,crypto:globalThis.crypto,document:{querySelector:node,querySelectorAll:queryAll,createElement:t=>new Node(t),body:new Node(),addEventListener(){}},localStorage:storage,clearInterval(){},setInterval(){},alert:m=>alerts.push(m),fetch:async path=>({ok:true,json:async()=>structuredClone(path.includes('/gms/')?read(`../public/builtins/gms/${path.includes('calendar')?'calendar':'schedule'}.json`):path.includes('classroom-demo')?demo:path.includes('calendar')?calendar:school)})};
+  const sandbox={...core,...states,...profiles,...schools,esc:core.escapeHTML,Intl,Date,JSON,Set,crypto:globalThis.crypto,document:{querySelector:node,querySelectorAll:queryAll,createElement:t=>new Node(t),body:new Node(),addEventListener(k,fn){documentListeners[k]=fn;}},localStorage:storage,clearInterval(){},setInterval(){},alert:m=>alerts.push(m),fetch:async path=>({ok:true,json:async()=>structuredClone(path.includes('/gms/')?read(`../public/builtins/gms/${path.includes('calendar')?'calendar':'schedule'}.json`):path.includes('classroom-demo')?demo:path.includes('calendar')?calendar:school)})};
   vm.createContext(sandbox);vm.runInContext(fs.readFileSync(new URL('../app.js',import.meta.url),'utf8').replace(/^import .*;\n/gm,''),sandbox);
   const run=s=>vm.runInContext(s,sandbox);
-  return {run,node,sandbox,storage,alerts,markup,snapshot:()=>JSON.parse(storage.getItem(profiles.PROFILE_KEY)),
+  return {run,node,sandbox,storage,alerts,markup,documentListeners,snapshot:()=>JSON.parse(storage.getItem(profiles.PROFILE_KEY)),
     add(c){sandbox.input=c;run('save(input,null)');return this.snapshot().activeProfileID;},
     clickEdit(){node('#edit').onclick();assert.deepEqual(alerts,[]);return markup();},
     async import(raw){node('#schedule-file').files=[{text:async()=>JSON.stringify(raw)}];await node('#schedule-file').listeners.change();assert.deepEqual(alerts,[]);this.reviewMarkup=markup();node('#import-review').onsubmit({preventDefault(){}});assert.equal(node('#form-error').textContent,'');return this.snapshot();}
@@ -78,18 +80,18 @@ let passed=0;async function test(name,fn){await fn();passed++;console.log(`PASS 
 
 for(const [version,raw] of [[1,v1],[2,v2]])await test(`saved WMHS v${version} Edit button opens its imported data, including after reload`,()=>{
   const a=app(),input=native(raw),id=a.add(input),html=a.clickEdit();
-  assert.match(html,/Edit Imported WMHS Classes/);assert.ok(!html.includes('Demo Classroom'));assert.ok(!html.includes('schedule-editor'));
+  assert.match(html,/Edit WMHS Schedule/);assert.ok(!html.includes('Demo Classroom'));assert.ok(!html.includes('schedule-editor'));
   assert.equal(a.node('#managed-editor').elements.profileName.value,input.profileName);
   const rows=a.node('#managed-classes').children.flatMap(s=>s.children.filter(r=>r.className==='managed-assignment'));
-  assert.equal(rows[0].children[0].children[0].textContent,`${input.assignments['1']['1'].block} Block`);
+  assert.equal(rows[0].children[0].children[0].textContent,input.assignments['1']['1'].block);
   assert.equal(rows[0].children[1].children[1].value,input.assignments['1']['1'].title);
-  const restart=app(a.storage);assert.match(restart.clickEdit(),/Edit Imported WMHS Classes/);assert.equal(restart.snapshot().activeProfileID,id);
+  const restart=app(a.storage);assert.match(restart.clickEdit(),/Edit WMHS Schedule/);assert.equal(restart.snapshot().activeProfileID,id);
 });
 await test('active saved profile overrides stale Demo display globals instead of opening Add',()=>{
   const a=app(),input=native(v2);a.add(input);a.sandbox.stale=core.normalize(demo);a.run('config=stale;isDemo=true');
   a.run('openEditor(clone(config),isDemo?null:store.snapshot.activeProfileID)');
   assert.match(a.markup(),/<h2>Add Schedule<\/h2>/);assert.ok(a.markup().includes('Demo Classroom'));
-  assert.match(a.clickEdit(),/Edit Imported WMHS Classes/);assert.equal(a.node('#managed-editor').elements.profileName.value,input.profileName);assert.equal(a.run('isDemo'),false);assert.equal(a.run('config.profileName'),input.profileName);
+  assert.match(a.clickEdit(),/Edit WMHS Schedule/);assert.equal(a.node('#managed-editor').elements.profileName.value,input.profileName);assert.equal(a.run('isDemo'),false);assert.equal(a.run('config.profileName'),input.profileName);
 });
 await test('A → B Edit and saves remain isolated',()=>{
   const a=app(),first=a.add(native(v1)),second=a.add(native(v2)),before=a.snapshot();
@@ -120,7 +122,7 @@ await test('Add workflow creates an independent manual schedule using creation d
 });
 await test('real file handler imports mixed v1/v2 and routes the selected v2 editor',async()=>{
   const a=app(),saved=await a.import({bundleFormatVersion:1,schedules:[v1,v2],createdAt:812000000});assert.equal(saved.savedProfiles.length,2);
-  a.sandbox.id=saved.savedProfiles[1].id;a.run('selectProfile(id)');assert.match(a.clickEdit(),/Edit Imported WMHS Classes/);
+  a.sandbox.id=saved.savedProfiles[1].id;a.run('selectProfile(id)');assert.match(a.clickEdit(),/Edit WMHS Schedule/);
   assert.equal(a.node('#managed-editor').elements.profileName.value,v2.scheduleName);
 });
 await test('manual time controls have full-width reflow rules for 12/24-hour formats',()=>{
@@ -131,11 +133,11 @@ await test('manual time controls have full-width reflow rules for 12/24-hour for
 await test('v2 cosmetic compatibility notes appear in real import review without excluding the profile',async()=>{
   const raw=structuredClone(v2);raw.personalBlockColors=[{identity:{wmhsBlock:{schoolID:'wmhs',blockID:'A'}},color:'mint'}];
   const a=app(),saved=await a.import(raw);assert.equal(saved.savedProfiles.length,1);
-  assert.match(a.reviewMarkup,/Import notes/);assert.match(a.reviewMarkup,/Native personal block colors/);assert.match(a.clickEdit(),/Edit Imported WMHS Classes/);
+  assert.match(a.reviewMarkup,/Import notes/);assert.match(a.reviewMarkup,/Native personal block colors/);assert.match(a.clickEdit(),/Edit WMHS Schedule/);
 });
 await test('legacy active WMHS migration routes correctly; missing source metadata does not create Demo defaults',()=>{
   const storage=memory();storage.setItem(profiles.LEGACY_KEY,JSON.stringify(native(v1)));
-  const a=app(storage);assert.match(a.clickEdit(),/Edit Imported WMHS Classes/);
+  const a=app(storage);assert.match(a.clickEdit(),/Edit WMHS Schedule/);
   const saved=a.snapshot();delete saved.savedProfiles[0].configuration.sourceKind;
   storage.setItem(profiles.PROFILE_KEY,JSON.stringify(saved));const bytes=storage.getItem(profiles.PROFILE_KEY),broken=app(storage);
   broken.run('editActiveSchedule()');assert.match(broken.alerts[0],/Saved schedules are unavailable/);
@@ -158,7 +160,7 @@ for(const schoolID of ['wmhs','gms']) await test(`${schoolID} first-run quick se
   assert.match(a.markup(),/managed-editor/);assert.ok(!a.markup().includes('schedule-editor'));
   const rows=a.node('#managed-classes').children.flatMap(s=>s.children.filter(r=>r.className==='managed-assignment'));
   rows[0].children[1].children[1].value='My First Class';rows[0].children[2].children[1].value='204';
-  if(schoolID==='wmhs') {const lunch=a.node('#managed-classes').children[0].children.find(r=>r.className==='managed-lunch').children[1];lunch.value='L2';lunch.onchange();}
+  if(schoolID==='wmhs') {const lunch=a.node('#managed-classes').children[0].children.find(r=>r.children.some(c=>c.className==='managed-lunch')).children.find(c=>c.className==='managed-lunch').children[1];lunch.value='L2';lunch.onchange();}
   const f=a.node('#managed-editor');f.elements.profileName.value='Faculty Display';f.onsubmit({preventDefault(){}});
   assert.equal(a.node('#form-error').textContent,'');assert.deepEqual(a.alerts,[]);
   const saved=a.snapshot();assert.equal(saved.savedProfiles.length,1);const id=saved.activeProfileID;assert.match(id,/^[0-9a-f-]{36}$/i);
@@ -170,5 +172,49 @@ for(const schoolID of ['wmhs','gms']) await test(`${schoolID} first-run quick se
   await a.run(`startSchoolSetup('${schoolID}'${schoolID==='gms'?',6':''})`);a.node('#managed-editor').onsubmit({preventDefault(){}});
   assert.equal(a.snapshot().savedProfiles.length,2);assert.notEqual(a.snapshot().activeProfileID,id);
   const store=new profiles.ProfileStore(a.storage);store.select(id);store.rename(id,'Renamed');assert.equal(store.activeConfiguration.profileName,'Renamed');store.remove(id);assert.equal(store.snapshot.savedProfiles.length,1);
+});
+await test('Schedule menu has only three top-level controls and keyboard/click-away closing',()=>{
+  const a=app();a.add(native(v2));
+  const html=a.node('#display').innerHTML,toolbar=html.slice(html.indexOf('<div class="toolbar">'),html.indexOf('</header>'));
+  const visible=[...toolbar.matchAll(/<button id="([^"]+)"([^>]*)>/g)].filter(m=>!m[2].includes('role="menuitem"')).map(m=>m[1]);
+  assert.deepEqual(visible,['schedule-toggle','settings','full']);
+  for(const label of ['Edit Schedule','Switch Schedule','Export / Backup Schedule','Remove This Schedule'])assert.ok(toolbar.includes(label));
+  assert.match(toolbar,/role="menu"/);assert.match(toolbar,/aria-expanded="false"/);assert.match(toolbar,/class="destructive" role="menuitem"/);
+  a.node('#schedule-toggle').onclick();assert.equal(a.run('scheduleMenuOpen'),true);assert.equal(a.sandbox.document.activeElement,a.node('#edit'));
+  a.node('#edit').onkeydown({key:'ArrowDown',preventDefault(){}});assert.equal(a.sandbox.document.activeElement,a.node('#change'));
+  a.run('update()');assert.equal(a.run('scheduleMenuOpen'),true);assert.equal(a.sandbox.document.activeElement,a.node('#change')); // tick retains menu/focus
+  a.documentListeners.keydown({key:'Escape',preventDefault(){}});assert.equal(a.run('scheduleMenuOpen'),false);assert.equal(a.node('#schedule-toggle').attributes['aria-expanded'],'false');assert.equal(a.sandbox.document.activeElement,a.node('#schedule-toggle'));
+  a.node('#schedule-toggle').onclick();a.documentListeners.click({target:{closest:()=>null}});assert.equal(a.run('scheduleMenuOpen'),false);assert.equal(a.node('#schedule-menu').attributes.hidden,'');
+  const before=a.snapshot();a.sandbox.confirm=()=>false;a.node('#remove').onclick();assert.deepEqual(a.snapshot(),before);
+});
+await test('WMHS day selector retains drafts and focus, then saves multiple days atomically',()=>{
+  const a=app(),c=schools.builtInConfiguration('wmhs',school,calendar);a.add(c);const before=a.snapshot();a.clickEdit();
+  const tabs=a.node('#managed-days').children;assert.equal(tabs.length,7);assert.equal(tabs[0].attributes['aria-pressed'],'true');
+  const row=()=>a.node('#managed-classes').children[0].children.find(n=>n.className==='managed-assignment');
+  const lunch=()=>a.node('#managed-classes').children[0].children.flatMap(n=>n.children).find(n=>n.className==='managed-lunch').children[1];
+  row().children[1].children[1].value='Day One Draft';row().children[2].children[1].value='101';lunch().value='L1';lunch().onchange();
+  tabs[3].focus();tabs[3].onclick();assert.equal(a.sandbox.document.activeElement,tabs[3]);assert.equal(a.node('#managed-classes').children.length,1);assert.equal(tabs[3].attributes['aria-pressed'],'true');assert.equal(tabs[0].attributes['aria-pressed'],'false');
+  row().children[1].children[1].value='Day Four Draft';row().children[2].children[1].value='404';lunch().value='L3';lunch().onchange();
+  tabs[0].onclick();assert.equal(row().children[1].children[1].value,'Day One Draft');assert.equal(row().children[2].children[1].value,'101');assert.equal(lunch().value,'L1');assert.deepEqual(a.snapshot(),before);
+  tabs[0].onkeydown({key:'ArrowRight',preventDefault(){}});assert.equal(tabs[1].attributes['aria-pressed'],'true');assert.equal(a.sandbox.document.activeElement,tabs[1]);
+  a.node('#managed-editor').onsubmit({preventDefault(){}});assert.equal(a.node('#form-error').textContent,'');
+  const saved=a.snapshot().savedProfiles[0].configuration;assert.equal(saved.assignments['1']['1'].title,'Day One Draft');assert.equal(saved.assignments['1']['1'].room,'101');assert.equal(saved.assignments['1']['4'].lunch,'L1');assert.equal(saved.assignments['4']['1'].title,'Day Four Draft');assert.equal(saved.assignments['4']['1'].room,'404');assert.equal(saved.assignments['4']['4'].lunch,'L3');
+  assert.deepEqual(saved.templates,c.templates);assert.deepEqual(saved.calendar,c.calendar);assert.deepEqual(saved.rotation,c.rotation);
+  for(const day of ['1','4']) assert.equal(saved.assignments[day]['1'].block,c.assignments[day]['1'].block);
+  assert.deepEqual(new profiles.ProfileStore(a.storage).activeConfiguration,saved);
+});
+await test('Cancel discards cross-day drafts; missing lunch remains absent when tabs are visited',()=>{
+  const a=app(),input=schools.builtInConfiguration('wmhs',school,calendar);delete input.assignments['2']['1'].room;a.add(input);const before=a.snapshot();a.clickEdit();
+  const tabs=a.node('#managed-days').children,row=a.node('#managed-classes').children[0].children.find(n=>n.className==='managed-assignment');row.children[1].children[1].value='Discard me';tabs[3].onclick();a.node('#managed-editor').elements.profileName.value='Discard name';a.node('#cancel').onclick();assert.deepEqual(a.snapshot(),before);
+  a.clickEdit();assert.equal(a.node('#managed-classes').children[0].children.find(n=>n.className==='managed-assignment').children[1].children[1].value,school.assignments['1']['1'].title);
+  for(const tab of a.node('#managed-days').children)tab.onclick();a.node('#managed-editor').onsubmit({preventDefault(){}});assert.deepEqual(a.snapshot().savedProfiles,before.savedProfiles);
+});
+await test('compact editor preserves FLEX identity and accessible fields, shared with Galvin',()=>{
+  const a=app();a.add(schools.builtInConfiguration('wmhs',school,calendar));a.clickEdit();const rows=a.node('#managed-classes').children[0].children.filter(n=>n.className==='managed-assignment');
+  const flex=rows.at(-1);assert.equal(flex.children[0].children[0].textContent,'FLEX');assert.equal(flex.children[0].children[1].textContent,'');
+  for(const row of rows) {assert.ok(row.children[1].children[1].attributes['aria-label'].includes('class name'));assert.ok(row.children[2].children[1].attributes['aria-label'].includes('room'));assert.equal(row.children[0].children.some(c=>['input','select'].includes(c.tag)),false);}
+  assert.match(a.markup(),/Save Changes/);assert.match(a.markup(),/managed-footer/);
+  a.add(schools.builtInConfiguration('gms',read('../public/builtins/gms/schedule.json'),read('../public/builtins/gms/calendar.json'),6));a.clickEdit();assert.equal(a.node('#managed-days').children.length,6);assert.equal(a.node('#managed-classes').children.length,1);assert.equal(a.node('#managed-classes').children[0].children.find(n=>n.className==='managed-assignment').children[0].children[0].textContent,'HR');
+  const css=fs.readFileSync(new URL('../styles.css',import.meta.url),'utf8');assert.match(css,/\.managed-classes[^}]*overflow-y:auto/);assert.match(css,/\.managed-footer[^}]*flex:0 0 auto/);assert.match(css,/\.managed-modal \.managed-assignment[^}]*grid-template-columns:minmax\(0,1fr\)/);
 });
 console.log(`\n${passed} editor routing tests passed.`);

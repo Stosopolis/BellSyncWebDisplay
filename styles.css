@@ -21,6 +21,45 @@
 
 .source-note { font-size:.85rem;margin-top:-4px }
 .setup-heading { font-size:.9rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:26px 0 10px }
+.schedule-actions { position:relative }
+.schedule-menu { position:absolute;top:calc(100% + 8px);right:0;z-index:5;min-width:240px;padding:6px;border:1px solid var(--line);border-radius:12px;background:#0c1b20;box-shadow:0 10px 30px #0008 }
+.schedule-menu[hidden] { display:none }
+.toolbar .schedule-menu button { display:block;width:100%;text-align:left;border:0;background:transparent;padding:11px 12px }
+.toolbar .schedule-menu button:hover,.toolbar .schedule-menu button:focus-visible { background:#163138 }
+.toolbar .schedule-menu .destructive { color:#ffaaa4 }
+.schedule-menu hr { border:0;border-top:1px solid var(--line);margin:5px }
+.sr-only { position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0 }
+.modal.managed-modal { display:flex;flex-direction:column;overflow:hidden;padding-bottom:0 }
+.managed-modal .modal-head { flex:0 0 auto }
+.managed-modal .modal-head p { margin:8px 0 16px;font-size:.9rem }
+.managed-editor { display:flex;flex-direction:column;min-height:0;overflow:hidden }
+.managed-editor-top { flex:0 0 auto }
+.managed-days { display:flex;gap:6px;overflow-x:auto;max-width:100%;padding:12px 2px }
+.managed-days button { flex:0 0 auto }
+.managed-classes { overflow-y:auto;min-height:0;padding-right:5px }
+.managed-columns,.managed-modal .managed-assignment { display:grid;grid-template-columns:minmax(95px,.45fr) minmax(0,1.5fr) minmax(90px,.45fr);gap:12px }
+.managed-columns { font-size:.8rem;color:var(--muted);padding:0 5px 8px 0 }
+.managed-columns small { font-size:.85em }
+.managed-modal .managed-assignment { margin:0 0 10px;padding:10px;border:1px solid #ffffff18;border-radius:10px;align-items:center }
+.managed-source { display:flex;flex-direction:column;align-items:flex-start;gap:4px }
+.managed-source .managed-badge { min-width:38px;max-width:10ch;padding:7px 9px;border-radius:9px;background:#163138;color:var(--mint);text-align:center;overflow-wrap:anywhere }
+.managed-modal .managed-source small { margin:0;font-size:.75rem }
+.managed-field-caption { position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%) }
+.managed-modal .managed-lunch { grid-column:2 / -1;display:flex;align-items:center;gap:10px;margin:0;max-width:none;font-size:.8rem }
+.managed-modal .managed-lunch select { width:auto;min-width:130px;padding:7px 10px }
+.managed-footer { flex:0 0 auto;margin:0;padding:12px 0 16px;background:#0c1b20 }
+.managed-editor .form-error { margin:4px 0;flex:0 0 auto;font-size:.85rem }
+@media(max-width:850px){.managed-columns,.managed-modal .managed-assignment{grid-template-columns:90px minmax(0,1fr) 100px;gap:8px}}
+@media(max-width:520px){
+  .schedule-menu { right:auto;left:0;min-width:230px;max-width:calc(100vw - 48px) }
+  .managed-columns { display:none }
+  .managed-modal .managed-assignment { grid-template-columns:minmax(0,1fr);gap:8px }
+  .managed-modal .managed-source { flex-direction:row;align-items:center;margin:0 }
+  .managed-field-caption { position:static;width:auto;height:auto;clip-path:none;font-size:.8rem }
+  .managed-modal .managed-lunch { grid-column:auto }
+  .managed-modal .managed-footer { flex-direction:row }
+  .managed-modal .managed-footer button { width:auto;flex:1 }
+}
 .setup-heading + .setup-options { margin-top:0 }
 .countdown { font-variant-numeric:tabular-nums }
 .countdown.has-hours { font-size:clamp(2rem,5.6vw,6.2rem);letter-spacing:-.04em }

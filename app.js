@@ -11,6 +11,38 @@ let config = load();
 let tickHandle;
 let isDemo = false;
 let viewRequest = 0;
+let scheduleMenuOpen = false;
+const scheduleActionIDs=['schedule-toggle','edit','change','export','remove','settings','full'];
+function closeScheduleMenu(returnFocus=false) {
+  scheduleMenuOpen=false;
+  document.querySelector('#schedule-menu')?.setAttribute('hidden','');
+  document.querySelector('#schedule-toggle')?.setAttribute('aria-expanded','false');
+  if(returnFocus) document.querySelector('#schedule-toggle')?.focus();
+}
+document.addEventListener('click',event=>{
+  if(scheduleMenuOpen && !event.target.closest('#schedule-actions')) closeScheduleMenu();
+});
+document.addEventListener('keydown',event=>{
+  if(scheduleMenuOpen && event.key==='Escape') {event.preventDefault();closeScheduleMenu(true);}
+});
+function bindScheduleMenu() {
+  const toggle=document.querySelector('#schedule-toggle'),menu=document.querySelector('#schedule-menu');
+  const items=['edit','change','export','remove'].map(id=>document.querySelector(`#${id}`));
+  const open=()=>{scheduleMenuOpen=true;menu.removeAttribute('hidden');toggle.setAttribute('aria-expanded','true');};
+  toggle.onclick=()=>{if(scheduleMenuOpen)closeScheduleMenu();else{open();items[0].focus();}};
+  toggle.onkeydown=event=>{if(['ArrowDown','ArrowUp'].includes(event.key)){event.preventDefault();open();items[event.key==='ArrowUp'?3:0].focus();}};
+  items.forEach((item,index)=>{
+    item.onkeydown=event=>{
+      if(['ArrowDown','ArrowUp','Home','End'].includes(event.key)) {
+        event.preventDefault();items[event.key==='Home'?0:event.key==='End'?3:(index+(event.key==='ArrowDown'?1:3))%4].focus();
+      } else if(event.key==='Tab') closeScheduleMenu(true);
+    };
+  });
+  document.querySelector('#edit').onclick=()=>{closeScheduleMenu();editActiveSchedule();};
+  document.querySelector('#change').onclick=()=>{closeScheduleMenu();openChange();};
+  document.querySelector('#export').onclick=()=>{closeScheduleMenu(true);exportDisplay();};
+  document.querySelector('#remove').onclick=()=>{closeScheduleMenu();if(!isDemo || confirm('Leave Demo? Temporary edits will be discarded.')) clearSchedule();};
+}
 
 document.addEventListener('fullscreenchange', () => {
   if (config) update();
@@ -166,7 +198,7 @@ displayInput.addEventListener('change',async()=>{
   catch(error) { alert(error.message || 'This Display schedule could not be read.'); }
 });
 
-function render(){ clearInterval(tickHandle); if(!config){setup();return;} app.innerHTML='<div id="display"></div>'; update(); tickHandle=setInterval(update,500); }
+function render(){ scheduleMenuOpen=false;clearInterval(tickHandle); if(!config){setup();return;} app.innerHTML='<div id="display"></div>'; update(); tickHandle=setInterval(update,500); }
 function timeText(timestamp, tz) { return formatClock(timestamp,tz,config.preferences?.hour24); }
 function completionCheck(className) { return `<svg class="${className}" viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="M14 33L26 45L51 20" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>`; }
 function scheduleBadge(event,mode) {
@@ -177,13 +209,13 @@ function scheduleBadge(event,mode) {
   return label.replace(/^Period (\d+)$/,'P$1');
 }
 function scheduleDensity(count) { return count<=8 ? 'relaxed' : count<=11 ? 'balanced' : 'busy'; }
-function update(){ if(!config)return; const now=Date.now(), tz=config.school.timeZone, s=state(now); const current=s.current, next=s.next; const target=s.countdownTarget; const modeTitle=s.label; const {title,room}=s; const remaining=target!==null?duration(target-now):'—'; const progress=100*countdownFraction(s,now); const dayLabel=s.day?`${s.day.dayLabel || s.day.day} · ${(s.day.schedule||'regular').toUpperCase()}`:'No student schedule';
+function update(){ if(!config)return; const focusedAction=scheduleActionIDs.includes(document.activeElement?.id)?document.activeElement.id:null; const now=Date.now(), tz=config.school.timeZone, s=state(now); const current=s.current, next=s.next; const target=s.countdownTarget; const modeTitle=s.label; const {title,room}=s; const remaining=target!==null?duration(target-now):'—'; const progress=100*countdownFraction(s,now); const dayLabel=s.day?`${s.day.dayLabel || s.day.day} · ${(s.day.schedule||'regular').toUpperCase()}`:'No student schedule';
   const isComplete=s.state==='complete';
   const detailTime = target ?? next?.startAt;
   const detailLabel = s.state === 'active' ? current.countdownLabel || (current.kind==='lunch'?'Lunch ends':'Bell at') : 'Starts';
   const rows=s.events.map(e=>{const status=current?.id===e.id?'current':e.endAt<=now?'complete':'future'; const displayRoom=config.preferences.showRooms && e.room ? `<small>Room ${esc(e.room)}</small>` : ''; const fullLabel=scheduleRowLabel(e,config.preferences.scheduleLabels),rowLabel=scheduleBadge(e,config.preferences.scheduleLabels); return `<div class="row ${status} ${rowLabel?'':'no-label'} schedule-card">${rowLabel?`<span class="badge" title="${esc(fullLabel)}" aria-label="${esc(fullLabel)}">${esc(rowLabel)}</span>`:''}<div class="row-activity"><strong title="${esc(eventTitle(e))}">${esc(eventTitle(e))}</strong>${displayRoom}<span class="row-state">${status==='current'?'<span class="now">NOW</span>':''}</span></div><div class="row-trailing"><time>${timeText(e.startAt,tz)}<small>Ends ${timeText(e.endAt,tz)}</small></time><span class="row-completion">${status==='complete'?completionCheck('row-check'):''}</span></div></div>`}).join('')||'<p class="sub">No schedule is listed for this date.</p>';
-  document.querySelector('#display').innerHTML=`<main class="dashboard size-${esc(config.preferences.displaySize)}" style="--accent:${accent()}"><section class="left"><header class="header"><div class="identity"><img class="mark" src="./public/assets/bellsync-display-icon.png" alt="BellSync" width="48" height="48"><div><strong>${esc(config.profileName||config.school.displayName)}</strong>${config.preferences.showSchoolName?`<small>${esc(config.school.displayName)}</small>`:''}</div></div><div><div class="clock">${timeText(now,tz)}</div><span class="meta">${esc(dayName(now,tz))} · ${esc(dayLabel)}</span><div class="toolbar"><button id="edit">Edit Schedule</button><button id="settings">Display Settings</button><button id="export">Export Display Schedule</button><button id="change">Change Schedule</button><button id="remove">${isDemo?'Leave Demo':'Remove Schedule'}</button><button id="full" aria-pressed="${document.fullscreenElement ? 'true' : 'false'}">${document.fullscreenElement ? 'Exit Full Screen' : 'Full Screen'}</button></div></div></header><div class="status"><article class="status-card"><div class="ring ${isComplete?'is-complete':''}" style="--progress:${isComplete?100:progress}"><div>${isComplete?completionCheck('completion-check'):`<div class="countdown${remaining.split(':').length===3?' has-hours':''}">${target?remaining:'—'}</div>`}<div class="state-label">${isComplete?'COMPLETE':modeTitle}</div></div></div><div class="event-title">${esc(isComplete?'Done for today':title)}</div>${isComplete?'':`<div class="details">${room?`Room ${esc(room)} · `:''}${detailTime != null?`${esc(detailLabel)} ${timeText(detailTime,tz)}`:s.state==='preview'?'No scheduled activities':'No active bell'}</div>`}</article></div>${next?`<article class="next-card"><div class="next-label">NEXT</div><b>${scheduleRowLabel(next,'blocks')===eventTitle(next)?'':`${esc(scheduleRowLabel(next,'blocks'))} · `}${esc(eventTitle(next))}</b><div class="sub">Starts ${timeText(next.startAt,tz)}${config.preferences.showRooms && next.room?` · Room ${esc(next.room)}`:''}</div></article>`:''}</section>${config.preferences.showSchedule?`<aside class="schedule"><h2>TODAY'S SCHEDULE</h2><div class="rows ${scheduleDensity(s.events.length)}" data-row-count="${s.events.length}">${rows}</div></aside>`:''}</main>`;
-  document.querySelector('#edit').onclick=editActiveSchedule; document.querySelector('#settings').onclick=openSettings; document.querySelector('#export').onclick=exportDisplay; document.querySelector('#change').onclick=()=>openChange(); document.querySelector('#remove').onclick=clearSchedule; document.querySelector('#full').onclick=toggleFullscreen; }
+  document.querySelector('#display').innerHTML=`<main class="dashboard size-${esc(config.preferences.displaySize)}" style="--accent:${accent()}"><section class="left"><header class="header"><div class="identity"><img class="mark" src="./public/assets/bellsync-display-icon.png" alt="BellSync" width="48" height="48"><div><strong>${esc(config.profileName||config.school.displayName)}</strong>${config.preferences.showSchoolName?`<small>${esc(config.school.displayName)}</small>`:''}</div></div><div><div class="clock">${timeText(now,tz)}</div><span class="meta">${esc(dayName(now,tz))} · ${esc(dayLabel)}</span><div class="toolbar"><div class="schedule-actions" id="schedule-actions"><button id="schedule-toggle" aria-haspopup="menu" aria-expanded="${scheduleMenuOpen}" aria-controls="schedule-menu">Schedule ▾</button><div class="schedule-menu" id="schedule-menu" role="menu" aria-label="Schedule" ${scheduleMenuOpen?'':'hidden'}><button id="edit" role="menuitem" tabindex="-1">Edit Schedule</button><button id="change" role="menuitem" tabindex="-1">Switch Schedule</button><button id="export" role="menuitem" tabindex="-1">Export / Backup Schedule</button><hr role="separator"><button id="remove" class="destructive" role="menuitem" tabindex="-1">Remove This Schedule</button></div></div><button id="settings">Display Settings</button><button id="full" aria-pressed="${document.fullscreenElement ? 'true' : 'false'}">${document.fullscreenElement ? 'Exit Full Screen' : 'Full Screen'}</button></div></div></header><div class="status"><article class="status-card"><div class="ring ${isComplete?'is-complete':''}" style="--progress:${isComplete?100:progress}"><div>${isComplete?completionCheck('completion-check'):`<div class="countdown${remaining.split(':').length===3?' has-hours':''}">${target?remaining:'—'}</div>`}<div class="state-label">${isComplete?'COMPLETE':modeTitle}</div></div></div><div class="event-title">${esc(isComplete?'Done for today':title)}</div>${isComplete?'':`<div class="details">${room?`Room ${esc(room)} · `:''}${detailTime != null?`${esc(detailLabel)} ${timeText(detailTime,tz)}`:s.state==='preview'?'No scheduled activities':'No active bell'}</div>`}</article></div>${next?`<article class="next-card"><div class="next-label">NEXT</div><b>${scheduleRowLabel(next,'blocks')===eventTitle(next)?'':`${esc(scheduleRowLabel(next,'blocks'))} · `}${esc(eventTitle(next))}</b><div class="sub">Starts ${timeText(next.startAt,tz)}${config.preferences.showRooms && next.room?` · Room ${esc(next.room)}`:''}</div></article>`:''}</section>${config.preferences.showSchedule?`<aside class="schedule"><h2>TODAY'S SCHEDULE</h2><div class="rows ${scheduleDensity(s.events.length)}" data-row-count="${s.events.length}">${rows}</div></aside>`:''}</main>`;
+  bindScheduleMenu();document.querySelector('#settings').onclick=openSettings;document.querySelector('#full').onclick=toggleFullscreen;if(focusedAction)document.querySelector(`#${focusedAction}`)?.focus(); }
 function accent(){ return ({mint:'#7cf0c1',blue:'#84c7ff',purple:'#c3a2ff',pink:'#ff9ac8',orange:'#ffbd75',red:'#ff8e8e'})[config.preferences?.accent] || '#7cf0c1'; }
 async function toggleFullscreen() {
   try {
@@ -235,51 +267,77 @@ function rotationChoices() { return [['same','Same Every Day'],['day-1-5','Day 1
 function labelsFor(kind, customText) { if(kind==='same') return [{id:'every',label:'Every Day'}]; if(kind==='ab') return ['A','B'].map(x=>({id:x.toLowerCase(),label:x})); if(kind==='ag') return 'ABCDEFG'.split('').map(x=>({id:x.toLowerCase(),label:x})); const count=Number(kind.match(/\d$/)?.[0]); if(count) return Array.from({length:count},(_,i)=>({id:`day-${i+1}`,label:`Day ${i+1}`})); return String(customText||'').split(',').map(x=>x.trim()).filter(Boolean).map((label,i)=>({id:`rotation-${i+1}-${slug(label)}`,label})); }
 function periodRow(p,index) { return `<div class="period-row" data-index="${index}"><input data-key="label" value="${esc(p.label)}" aria-label="Period name"><input data-key="start" type="time" value="${esc(p.start)}" aria-label="Start time"><input data-key="end" type="time" value="${esc(p.end)}" aria-label="End time"><select data-key="kind">${option('academic',p.kind||'academic','Class')}${option('support',p.kind,'Advisory / FLEX / WIN')}${option('lunch',p.kind,'Lunch')}${option('passing',p.kind,'Passing Time')}${option('other',p.kind,'Other')}</select><button type="button" class="small-button up">↑</button><button type="button" class="small-button down">↓</button><button type="button" class="small-button destructive remove-period">Delete</button></div>`; }
 function openManagedEditor(value, targetID) {
-  const working=clone(value);
-  modal(`<header class="modal-head"><h2>${working.school.id==='wmhs'?'Edit Imported WMHS Classes':'Edit Galvin Classes'}</h2><button id="close" class="icon-button" aria-label="Close dialog">×</button></header><p class="help">Schedule structure and timing come from BellSync. ${working.school.id==='wmhs'?'You can customize class names, rooms, and lunch selections for this Web Display profile.':'You can customize class names and rooms for this Web Display profile. Lunch time comes from your grade schedule.'}</p><p class="help source-note">Block and period assignments are locked to the source schedule.</p><form id="managed-editor"><label>Display name<input name="profileName" required></label><div id="managed-classes"></div><p class="form-error" id="form-error"></p><footer class="modal-footer"><button type="button" class="secondary" id="cancel">Cancel</button><button type="submit" class="primary">Save Classes</button></footer></form>`);
-  const form=document.querySelector('#managed-editor');
-  form.elements.profileName.value=working.profileName;
-  const fields=[],lunchFields=[];
+  const working=clone(value),wmhs=working.school.id==='wmhs';
+  const days=[...new Set([...Array.from({length:wmhs?7:6},(_,i)=>String(i+1)),...Object.keys(working.assignments)])];
+  for(const day of days) working.assignments[day] ??= {};
+  let activeDay=days[0],fields=[],lunchFields=[];
+  const changes=new Map(),draftLunch=new Map();
   const lunchPeriods=new Set(managedLunchPeriods(working));
-  const root=document.querySelector('#managed-classes');
-  for(const [day,rows] of Object.entries(working.assignments)) {
-    const section=document.createElement('section'); section.className='editor-section';
-    const heading=document.createElement('h3'); heading.textContent=`Day ${day}`; section.append(heading);
-    for(const [period,a] of Object.entries(rows)) {
-      const row=document.createElement('div'); row.className='managed-assignment';
-      const periodName=working.school.id==='gms' ? (period==='HR'?'Homeroom':`Period ${period.slice(1)}`) : period === 'flex' ? 'FLEX' : `Period ${period}`;
+  modal(`<header class="modal-head"><div><h2>${wmhs?'Edit WMHS Schedule':'Edit Galvin Schedule'}</h2><p>Schedule timing and rotation come from BellSync. ${wmhs?'Customize your class names, rooms, and lunch.':'Customize your class names and rooms. Lunch follows your grade schedule.'}</p></div><button id="close" class="icon-button" aria-label="Close dialog">×</button></header><form id="managed-editor" class="managed-editor"><div class="managed-editor-top"><label>Display name<input name="profileName" required></label><div id="managed-days" class="managed-days" role="group" aria-label="Rotation day"></div><div class="managed-columns" aria-hidden="true"><span>${wmhs?'Block':'Period'}</span><span>Class</span><span>Room <small>(optional)</small></span></div></div><div id="managed-classes" class="managed-classes" role="region" aria-label="Selected rotation day"></div><p class="form-error" id="form-error" role="alert"></p><footer class="modal-footer managed-footer"><button type="button" class="secondary" id="cancel">Cancel</button><button type="submit" class="primary">Save Changes</button></footer></form>`);
+  document.querySelector('#modal-root .modal')?.classList.add('managed-modal');
+  const form=document.querySelector('#managed-editor'),root=document.querySelector('#managed-classes'),tabs=document.querySelector('#managed-days');
+  form.elements.profileName.value=working.profileName;
+  const key=(day,period)=>`${day}:${period}`;
+  const syncDraft=()=>{
+    for(const f of fields) {
+      working.assignments[f.day][f.period].title=f.title.value;
+      working.assignments[f.day][f.period].room=f.room.value;
+      const original=value.assignments[f.day][f.period],change={day:f.day,period:f.period};
+      if(f.title.value!==(original.title || '')) change.title=f.title.value;
+      if(f.room.value!==(original.room || '')) change.room=f.room.value;
+      if(draftLunch.has(key(f.day,f.period))) change.lunch=draftLunch.get(key(f.day,f.period));
+      if(Object.keys(change).length>2) changes.set(key(f.day,f.period),change);
+      else changes.delete(key(f.day,f.period));
+    }
+    for(const f of lunchFields) if(f.changed) {
+      draftLunch.set(key(f.day,f.period),f.select.value);
+      changes.set(key(f.day,f.period),{...changes.get(key(f.day,f.period)),day:f.day,period:f.period,lunch:f.select.value});
+    }
+  };
+  const buttons=[];tabs.replaceChildren();
+  const renderDay=()=>{
+    fields=[];lunchFields=[];root.replaceChildren();
+    root.setAttribute('aria-label',`Day ${activeDay} classes`);
+    for(const button of buttons) {const selected=button.dataset.day===activeDay;button.setAttribute('aria-pressed',String(selected));button.className=`day-tab${selected?' active':''}`;}
+    const section=document.createElement('section');section.className='managed-day';
+    section.setAttribute('data-day',activeDay);
+    const heading=document.createElement('h3');heading.className='sr-only';heading.textContent=`Day ${activeDay}`;section.append(heading);
+    for(const [period,a] of Object.entries(working.assignments[activeDay])) {
+      const row=document.createElement('div');row.className='managed-assignment';
+      const periodName=wmhs?(period==='flex'?'FLEX':`Period ${period}`):(period==='HR'?'Homeroom':`Period ${period.slice(1)}`);
       const blockID=a.block?.trim();
-      const blockName=blockID ? (/\bBlock$/i.test(blockID) ? blockID : `${blockID} Block`) : periodName;
-      const source=document.createElement('div'); source.className='managed-source';
-      const block=document.createElement('strong'); block.textContent=blockName;
-      const detail=document.createElement('small'); detail.textContent=blockID ? `${periodName} · From BellSync` : 'From BellSync';
-      source.append(block,detail);
-      const titleLabel=document.createElement('label');
-      const titleCaption=document.createElement('span'); titleCaption.textContent='Class name';
-      const title=document.createElement('input'); title.value=a.title || ''; title.setAttribute('aria-label',`Day ${day}, period ${period}, class name`);
-      titleLabel.append(titleCaption,title);
-      const roomLabel=document.createElement('label');
-      const roomCaption=document.createElement('span'); roomCaption.textContent='Room';
-      const optional=document.createElement('small'); optional.className='field-note'; optional.textContent=' (optional)'; roomCaption.append(optional);
-      const room=document.createElement('input'); room.value=a.room || ''; room.setAttribute('aria-label',`Day ${day}, period ${period}, room (optional)`);
-      roomLabel.append(roomCaption,room);
-      row.append(source,titleLabel,roomLabel); section.append(row); fields.push({day,period,title,room});
+      const badgeText=wmhs ? (period==='flex'?'FLEX':blockID?.replace(/^([A-G])(?: Block)?$/i,'$1') || `P${period}`) : period;
+      const source=document.createElement('div');source.className='managed-source';
+      const badge=document.createElement('strong');badge.className='managed-badge';badge.textContent=badgeText;
+      const detail=document.createElement('small');detail.textContent=period==='flex'?'':periodName;
+      source.append(badge,detail);
+      const titleLabel=document.createElement('label'),titleCaption=document.createElement('span');titleCaption.className='managed-field-caption';titleCaption.textContent='Class';
+      const title=document.createElement('input');title.value=a.title || '';title.setAttribute('aria-label',`Day ${activeDay}, ${periodName}, class name`);titleLabel.append(titleCaption,title);
+      const roomLabel=document.createElement('label'),roomCaption=document.createElement('span');roomCaption.className='managed-field-caption';roomCaption.textContent='Room (optional)';
+      const room=document.createElement('input');room.value=a.room || '';room.setAttribute('aria-label',`Day ${activeDay}, ${periodName}, room (optional)`);roomLabel.append(roomCaption,room);
+      row.append(source,titleLabel,roomLabel);fields.push({day:activeDay,period,title,room});
       if(lunchPeriods.has(period)) {
-        const lunchLabel=document.createElement('label'); lunchLabel.className='managed-lunch';
-        const caption=document.createElement('span'); caption.textContent=`Lunch · ${blockName}${a.title ? ` · ${a.title}` : ''}`;
-        const select=document.createElement('select'); select.setAttribute('aria-label',`Day ${day}, period ${period}, lunch selection`);
-        select.innerHTML=LUNCH_CHOICES.map((choice,i)=>option(choice,a.lunch ?? 'NO_LUNCH',i===3?'No Lunch':`Lunch ${i+1}`)).join('');
-        select.value=a.lunch ?? 'NO_LUNCH';
-        const field={day,period,select,changed:false};
-        select.onchange=()=>{field.changed=true;};
-        lunchFields.push(field);lunchLabel.append(caption,select);section.append(lunchLabel);
+        const lunchLabel=document.createElement('label');lunchLabel.className='managed-lunch';
+        const caption=document.createElement('span');caption.textContent='Lunch';
+        const select=document.createElement('select');select.setAttribute('aria-label',`Day ${activeDay}, ${badgeText}, ${periodName}, lunch selection`);
+        const selected=draftLunch.get(key(activeDay,period)) ?? a.lunch ?? 'NO_LUNCH';
+        select.innerHTML=LUNCH_CHOICES.map((choice,i)=>option(choice,selected,i===3?'No Lunch':`Lunch ${i+1}`)).join('');select.value=selected;
+        const field={day:activeDay,period,select,changed:draftLunch.has(key(activeDay,period))};select.onchange=()=>{field.changed=true;};lunchFields.push(field);
+        lunchLabel.append(caption,select);row.append(lunchLabel);
       }
+      section.append(row);
     }
     root.append(section);
+  };
+  for(const day of days) {
+    const button=document.createElement('button');button.type='button';button.dataset.day=day;button.textContent=`Day ${day}`;
+    button.onclick=()=>{syncDraft();activeDay=day;renderDay();};
+    button.onkeydown=event=>{if(['ArrowLeft','ArrowRight','Home','End'].includes(event.key)){event.preventDefault();const i=days.indexOf(activeDay),next=event.key==='Home'?0:event.key==='End'?days.length-1:(i+(event.key==='ArrowRight'?1:days.length-1))%days.length;buttons[next].onclick();buttons[next].focus();}};
+    buttons.push(button);tabs.append(button);
   }
-  document.querySelector('#close').onclick=closeModal;
-  document.querySelector('#cancel').onclick=closeModal;
-  form.onsubmit=e=>{e.preventDefault();try{save(editManagedAssignments(working,form.elements.profileName.value.trim(),[...fields.map(f=>({day:f.day,period:f.period,title:f.title.value,room:f.room.value})),...lunchFields.filter(f=>f.changed).map(f=>({day:f.day,period:f.period,lunch:f.select.value}))]),targetID);}catch(error){showEditorError(error.message)}};
+  renderDay();
+  document.querySelector('#close').onclick=closeModal;document.querySelector('#cancel').onclick=closeModal;
+  form.onsubmit=e=>{e.preventDefault();syncDraft();try{save(editManagedAssignments(value,form.elements.profileName.value.trim(),[...changes.values()]),targetID);}catch(error){showEditorError(error.message)}};
 }
 
 function openEditor(draft, targetID = null, mode = targetID ? 'edit' : 'create') { if(isManagedSchool(draft)){openManagedEditor(draft,targetID);return;} const working=normalize(clone(draft)); let activeDay=working.rotation.labels[0]?.id || 'every'; const renderEditor=()=>{ modal(`<header class="modal-head"><div><h2>${mode==='demo' ? 'Edit Demo Schedule' : targetID ? 'Edit Schedule' : 'Add Schedule'}</h2><p>Start with the bell times, then add your classes. You can return later to change one class, room, or bell time.</p></div><button class="icon-button" id="close" aria-label="Close dialog">×</button></header><form id="schedule-editor"><section class="editor-section"><h3>School Details</h3><div class="form-grid"><label>School name<input name="schoolName" value="${esc(working.school.displayName)}" required></label><label>Name for this classroom display<input name="profileName" value="${esc(working.profileName)}" required></label><label>Timezone<input name="timeZone" value="${esc(working.school.timeZone)}" required></label></div></section><section class="editor-section"><h3>Rotation Days</h3><div class="form-grid"><label>Schedule type<select name="rotationKind">${rotationChoices().map(([v,l])=>option(v,working.rotation.kind,l)).join('')}</select></label><label>First date in the rotation<input name="seedDate" type="date" value="${esc(working.rotation.seedDate || localDate())}"></label><label>Day on that date<select name="seedDay">${working.rotation.labels.map(x=>option(x.id,working.rotation.seedDayId,x.label)).join('')}</select></label></div>${working.rotation.kind==='custom'?`<label>Custom rotation day labels (comma separated)<input name="customLabels" value="${esc(working.rotation.labels.map(x=>x.label).join(', '))}" placeholder="Red, Blue, Gold"></label><button type="button" class="secondary" id="apply-custom">Apply Rotation Days</button>`:''}<p class="help">BellSync starts from this date and moves through school weekdays. Dates you mark as no school are skipped.</p></section><section class="editor-section"><h3>Bell Times</h3><p class="help">Start with the example rows, then add, rename, reorder, or remove periods to match your school day.</p><div class="period-head"><span>Name</span><span>Start</span><span>End</span><span>Type</span></div><div id="period-list">${working.periods.map(periodRow).join('')}</div><button type="button" class="secondary" id="add-period">Add Period</button></section><section class="editor-section"><h3>My Classes</h3><div class="day-tabs">${working.rotation.labels.map(x=>`<button type="button" class="day-tab ${x.id===activeDay?'active':''}" data-day="${esc(x.id)}">${esc(x.label)}</button>`).join('')}</div><p class="help">Choose a rotation day, then enter the class and room you have during each period. You can leave any field blank.</p><div class="assignment-table"><div class="assignment-head"><span>Period</span><span>Class / Assignment</span><span>Room</span></div>${working.periods.map(p=>{const a=assignmentFrom(working,activeDay,p.id);return `<div class="assignment-row"><span>${esc(p.label)}</span><input data-period="${esc(p.id)}" data-assignment="title" value="${esc(a.title)}" placeholder="English"><input data-period="${esc(p.id)}" data-assignment="room" value="${esc(a.room)}" placeholder="Room 204"></div>`}).join('')}</div></section><section class="editor-section"><h3>School Calendar</h3><label>No-school dates <input id="no-school-date" type="date"></label><button type="button" class="secondary" id="add-no-school">Add No-School Date</button><div class="date-chips">${(working.rotation.noSchoolDates || []).map(d=>`<button type="button" class="date-chip" data-remove-date="${esc(d)}">${esc(d)} ×</button>`).join('') || '<span class="help">No dates marked.</span>'}</div></section><p class="form-error" id="form-error"></p><footer class="modal-footer"><button type="button" class="secondary" id="cancel">Cancel</button><button type="submit" class="primary">${mode==='demo' ? 'Apply Demo Changes' : targetID ? 'Save Schedule' : 'Save as New Schedule'}</button></footer></form>`); bindEditor(); };
