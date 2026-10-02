@@ -4,6 +4,7 @@ import vm from 'node:vm';
 import * as core from '../display-core.mjs';
 import * as states from '../schedule-presentation.mjs';
 import * as profiles from '../profile-store.mjs';
+import * as schools from '../school-setup.mjs';
 const read=p=>JSON.parse(fs.readFileSync(new URL(p,import.meta.url),'utf8'));
 const school=read('../public/builtins/wmhs/schedule.json'),calendar=read('../public/builtins/wmhs/calendar.json'),demo=read('../public/samples/classroom-demo.json');
 const v2=read('./fixtures/native-v2.json'),v1=read('./fixtures/native-bundle-v1.json').schedules[0];
@@ -47,6 +48,10 @@ function app(storage=memory()) {
   };
   const inputFrom=attrs=>{const n=new Node('input');n.value=decode(attrs.match(/\bvalue="([^"]*)"/)?.[1] || '');return n;};
   const queryAll=selector=>{
+    if(selector==='[data-school]' || selector==='[data-grade]') {
+      const key=selector.slice(6,-1),html=markup() || node('#app').innerHTML;
+      return [...html.matchAll(new RegExp(`data-${key}="([^"\\s]+)"`,'g'))].map(m=>{const n=node(`[data-${key}="${m[1]}"]`);n.dataset[key]=m[1];return n;});
+    }
     if(selector==='[data-import-index]')return [...markup().matchAll(/<input([^>]*data-import-index="(\d+)"[^>]*)>/g)].map(m=>{const n=inputFrom(m[1]);n.dataset.importIndex=m[2];return n;});
     if(selector==='[data-assignment]')return [...markup().matchAll(/<input([^>]*data-period="([^"]*)"[^>]*data-assignment="([^"]*)"[^>]*)>/g)].map(m=>{const n=inputFrom(m[1]);n.dataset={period:decode(m[2]),assignment:m[3]};n.closest=()=>({dataset:{}});return n;});
     if(selector==='.period-row')return [...markup().matchAll(/<div class="period-row" data-index="(\d+)">([\s\S]*?)<\/div>/g)].map(m=>{
@@ -60,7 +65,7 @@ function app(storage=memory()) {
     });
     return [];
   };
-  const sandbox={...core,...states,...profiles,esc:core.escapeHTML,Intl,Date,JSON,Set,crypto:globalThis.crypto,document:{querySelector:node,querySelectorAll:queryAll,createElement:t=>new Node(t),body:new Node(),addEventListener(){}},localStorage:storage,clearInterval(){},setInterval(){},alert:m=>alerts.push(m),fetch:async path=>({ok:true,json:async()=>structuredClone(path.includes('classroom-demo')?demo:path.includes('calendar')?calendar:school)})};
+  const sandbox={...core,...states,...profiles,...schools,esc:core.escapeHTML,Intl,Date,JSON,Set,crypto:globalThis.crypto,document:{querySelector:node,querySelectorAll:queryAll,createElement:t=>new Node(t),body:new Node(),addEventListener(){}},localStorage:storage,clearInterval(){},setInterval(){},alert:m=>alerts.push(m),fetch:async path=>({ok:true,json:async()=>structuredClone(path.includes('/gms/')?read(`../public/builtins/gms/${path.includes('calendar')?'calendar':'schedule'}.json`):path.includes('classroom-demo')?demo:path.includes('calendar')?calendar:school)})};
   vm.createContext(sandbox);vm.runInContext(fs.readFileSync(new URL('../app.js',import.meta.url),'utf8').replace(/^import .*;\n/gm,''),sandbox);
   const run=s=>vm.runInContext(s,sandbox);
   return {run,node,sandbox,storage,alerts,markup,snapshot:()=>JSON.parse(storage.getItem(profiles.PROFILE_KEY)),
@@ -141,5 +146,29 @@ await test('temporary Demo editing remains available when saved storage is malfo
   await a.run('loadDemo()');assert.match(a.clickEdit(),/Edit Demo Schedule/);
   const f=a.node('#schedule-editor');f.profileName.value='Offline Demo';f.onsubmit({preventDefault(){}});
   assert.equal(a.node('#form-error').textContent,'');assert.equal(a.run('config.profileName'),'Offline Demo');assert.equal(storage.getItem(profiles.PROFILE_KEY),'{broken');
+});
+for(const schoolID of ['wmhs','gms']) await test(`${schoolID} first-run quick setup edits, saves independently, reloads, and backs up`,async()=>{
+  const a=app();const first=a.node('#app').innerHTML;
+  assert.match(first,/Start with your school/);assert.match(first,/Wakefield Memorial High School/);assert.match(first,/Galvin Middle School/);
+  assert.equal(a.snapshot(),null);
+  a.node(`[data-school="${schoolID}"]`).onclick();
+  if(schoolID==='gms') {assert.match(a.markup(),/Choose your grade/);await a.node('[data-grade="6"]').onclick();}
+  else await new Promise(resolve=>setImmediate(resolve));
+  assert.equal(a.snapshot(),null); // Opening/cancelling setup does not save a temporary profile.
+  assert.match(a.markup(),/managed-editor/);assert.ok(!a.markup().includes('schedule-editor'));
+  const rows=a.node('#managed-classes').children.flatMap(s=>s.children.filter(r=>r.className==='managed-assignment'));
+  rows[0].children[1].children[1].value='My First Class';rows[0].children[2].children[1].value='204';
+  if(schoolID==='wmhs') {const lunch=a.node('#managed-classes').children[0].children.find(r=>r.className==='managed-lunch').children[1];lunch.value='L2';lunch.onchange();}
+  const f=a.node('#managed-editor');f.elements.profileName.value='Faculty Display';f.onsubmit({preventDefault(){}});
+  assert.equal(a.node('#form-error').textContent,'');assert.deepEqual(a.alerts,[]);
+  const saved=a.snapshot();assert.equal(saved.savedProfiles.length,1);const id=saved.activeProfileID;assert.match(id,/^[0-9a-f-]{36}$/i);
+  const c=saved.savedProfiles[0].configuration;assert.equal(c.school.id,schoolID);assert.equal(c.profileName,'Faculty Display');
+  const period=schoolID==='wmhs'?'1':'HR';assert.equal(c.assignments['1'][period].title,'My First Class');assert.equal(c.assignments['1'][period].room,'204');
+  if(schoolID==='wmhs') assert.equal(c.assignments['1']['4'].lunch,'L2');
+  const restart=app(a.storage);restart.clickEdit();assert.equal(restart.snapshot().activeProfileID,id);
+  const backup=profiles.exportProfiles(new profiles.ProfileStore(a.storage).snapshot);assert.equal(profiles.importDisplayProfiles(backup)[0].school.id,schoolID);
+  await a.run(`startSchoolSetup('${schoolID}'${schoolID==='gms'?',6':''})`);a.node('#managed-editor').onsubmit({preventDefault(){}});
+  assert.equal(a.snapshot().savedProfiles.length,2);assert.notEqual(a.snapshot().activeProfileID,id);
+  const store=new profiles.ProfileStore(a.storage);store.select(id);store.rename(id,'Renamed');assert.equal(store.activeConfiguration.profileName,'Renamed');store.remove(id);assert.equal(store.snapshot.savedProfiles.length,1);
 });
 console.log(`\n${passed} editor routing tests passed.`);

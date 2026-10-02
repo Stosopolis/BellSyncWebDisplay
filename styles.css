@@ -20,6 +20,10 @@
 @media(max-width:520px){.row{gap:8px;padding:10px}.badge{font-size:1.05rem;min-width:32px;padding:8px}.row-trailing{gap:4px}.row time{font-size:.85rem}.row-check{width:15px;height:15px;flex-basis:15px}}
 
 .source-note { font-size:.85rem;margin-top:-4px }
+.setup-heading { font-size:.9rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:26px 0 10px }
+.setup-heading + .setup-options { margin-top:0 }
+.countdown { font-variant-numeric:tabular-nums }
+.countdown.has-hours { font-size:clamp(2rem,5.6vw,6.2rem);letter-spacing:-.04em }
 .managed-assignment { display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1fr) minmax(0,.5fr);gap:14px;align-items:center;margin:16px 0 }
 .managed-source { min-width:0;overflow-wrap:anywhere }
 .managed-source strong { display:block;color:var(--text);font-size:1.05rem }

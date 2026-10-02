@@ -30,6 +30,7 @@ function timedRows(rows, name, requireLabels = false) {
     if (ids.has(p.id)) fail(`Duplicate period ID in ${name}.`);
     ids.add(p.id);
     if (requireLabels || p.label !== undefined) text(p.label, 'period name', true);
+    if (p.sourceTitle !== undefined) text(p.sourceTitle,'source period title');
     if (![p.start,p.end].every(t=>typeof t === 'string' && /^(?:[01]\d|2[0-3]):[0-5]\d$/.test(t))) fail(`Invalid time in ${name}; use HH:MM.`);
     if (p.start >= p.end) fail(`${p.label || p.id} must end after it starts.`);
     if (p.kind !== undefined && !['academic','support','lunch','other','advisory','flex','passing'].includes(p.kind)) fail('Invalid period type.');
@@ -71,6 +72,7 @@ export function defaultPreferences(p = {}, scheduleLabels = 'periods') {
   return {accent:p.accent ?? 'mint',hour24:p.hour24 ?? false,showRooms:p.showRooms ?? true,showSchedule:p.showSchedule ?? true,showSchoolName:p.showSchoolName ?? true,displaySize:p.displaySize ?? 'standard',scheduleLabels:p.scheduleLabels ?? scheduleLabels};
 }
 export function isManagedWMHS(v) { return v.school?.id === 'wmhs' && v.sourceKind === 'bellsync-v1'; }
+export function isManagedSchool(v) { return isManagedWMHS(v) || (v.school?.id === 'gms' && v.sourceKind === 'builtin-gms'); }
 export function normalize(raw) {
   if (!object(raw)) fail('Schedule configuration must be an object.');
   safeTree(raw);
@@ -79,8 +81,9 @@ export function normalize(raw) {
   if (!object(v.school)) fail('Invalid school details.');
   id(v.school.id, 'school ID'); text(v.school.displayName,'school name',true); text(v.school.timeZone,'timezone',true); text(v.profileName,'display name',true);
   try { new Intl.DateTimeFormat('en-US',{timeZone:v.school.timeZone}).format(0); } catch { fail('Enter a valid IANA timezone, such as America/New_York.'); }
-  if (!['browser-local','development-sample','bellsync-v1'].includes(v.sourceKind)) fail('Unsupported schedule source.');
+  if (!['browser-local','development-sample','bellsync-v1','builtin-gms'].includes(v.sourceKind)) fail('Unsupported schedule source.');
   if (v.sourceKind === 'bellsync-v1' && v.school.id !== 'wmhs') fail('Native imports currently support WMHS only.');
+  if(v.sourceKind==='builtin-gms' && (v.school.id!=='gms' || ![5,6,7,8].includes(v.schoolMetadata?.grade) || v.schoolMetadata.winPeriod!==({5:'P1',6:'P7',7:'P1',8:'P1'})[v.schoolMetadata.grade])) fail('Invalid built-in Galvin metadata.');
   if (!object(v.assignments)) fail('Assignments must be an object.');
   // Explicit migration of the original template-only format and old WMHS rotations.
   if (v.rotation === undefined) {
@@ -108,7 +111,7 @@ export function normalize(raw) {
   for (const [name,rows] of Object.entries(v.templates)) { id(name,'template name'); for (const k of timedRows(rows,`Template ${name}`)) periodIDs.add(k); }
   if (v.periods === undefined) v.periods = v.templates.regular.map(p=>({id:p.id,label:p.label || p.id,start:p.start,end:p.end,kind:p.kind || 'academic'}));
   timedRows(v.periods,'Bell times',true).forEach(k=>periodIDs.add(k));
-  if (!isManagedWMHS(v)) {
+  if (!isManagedSchool(v)) {
     if (Object.keys(v.templates).length !== 1) fail('Browser schedules currently support only a regular bell template.');
     const signature = rows => JSON.stringify(chronological(rows).map(p=>[p.id,p.start,p.end]));
     if (signature(v.periods) !== signature(v.templates.regular)) fail('Bell times and regular template must match.');
@@ -203,7 +206,7 @@ export function managedLunchPeriods(value) {
   return [...new Set(Object.values(value.templates).flat().filter(p=>p.lunches && Object.keys(p.lunches).length).map(p=>p.id))];
 }
 export function editManagedAssignments(value,profileName,changes) {
-  if(!isManagedWMHS(value)) fail('This editor requires a WMHS import.');
+  if(!isManagedSchool(value)) fail('This editor requires a source-managed school.');
   const draft=JSON.parse(JSON.stringify(value)); draft.profileName=profileName;
   const lunchPeriods=new Set(managedLunchPeriods(draft));
   for(const change of changes) {
@@ -260,7 +263,7 @@ export function timelineFor(config, key) {
     return result;
   }
   const managed = isManagedWMHS(config);
-  const rows = managed ? config.templates[day.schedule] : config.periods;
+  const rows = isManagedSchool(config) ? config.templates[day.schedule] : config.periods;
   if (!rows) return {...result,status:'unavailable'};
   const bells = chronological(rows);
   const assignments = config.assignments[String(day.day)] || config.assignments.every || {};
@@ -281,7 +284,16 @@ export function timelineFor(config, key) {
     events.push(event);
   };
   for (const p of bells) {
-    const a = assignments[p.id] || {};
+    let a = assignments[p.id] || {};
+    if(config.sourceKind==='builtin-gms') {
+      a={...a,title:a.title?.trim() || p.sourceTitle || p.id};
+      const note=day.note?.toUpperCase() || '';
+      if(day.schedule!=='er' && p.id===config.schoolMetadata.winPeriod) {
+        if(note.includes('FLEX')) a={...a,title:'FLEX',room:''};
+        else if(note.includes('WIN')) a={...a,title:assignments[p.id]?.title?.trim() ? `WIN · ${assignments[p.id].title}` : 'WIN',room:''};
+      }
+      if(p.kind==='lunch') a={title:'Lunch',room:''};
+    }
     const kind = p.kind || (managed && p.id === 'flex' ? 'flex' : 'academic');
     const start = at(p.start), end = at(p.end);
     if (kind === 'passing') {

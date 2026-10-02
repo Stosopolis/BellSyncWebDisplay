@@ -1,0 +1,306 @@
+{
+  "source": "Sources/ScheduleEngine.swift SchoolProfile.loadGMS / gmsEvents",
+  "contentVersion": "2026-2027.1",
+  "regular": {
+    "5": [
+      {
+        "id": "HR",
+        "start": "07:45",
+        "end": "07:47",
+        "title": "Homeroom"
+      },
+      {
+        "id": "P1",
+        "start": "07:49",
+        "end": "08:38",
+        "title": ""
+      },
+      {
+        "id": "P2",
+        "start": "08:40",
+        "end": "09:40",
+        "title": ""
+      },
+      {
+        "id": "P3",
+        "start": "09:42",
+        "end": "10:22",
+        "title": ""
+      },
+      {
+        "id": "P4",
+        "start": "10:24",
+        "end": "11:14",
+        "title": ""
+      },
+      {
+        "id": "P5",
+        "start": "11:42",
+        "end": "12:42",
+        "title": ""
+      },
+      {
+        "id": "P6",
+        "start": "12:44",
+        "end": "13:24",
+        "title": ""
+      },
+      {
+        "id": "P7",
+        "start": "13:26",
+        "end": "14:15",
+        "title": ""
+      }
+    ],
+    "6": [
+      {
+        "id": "HR",
+        "start": "07:45",
+        "end": "07:47",
+        "title": "Homeroom"
+      },
+      {
+        "id": "P1",
+        "start": "07:49",
+        "end": "08:38",
+        "title": ""
+      },
+      {
+        "id": "P2",
+        "start": "08:40",
+        "end": "09:30",
+        "title": ""
+      },
+      {
+        "id": "P3",
+        "start": "09:32",
+        "end": "10:22",
+        "title": ""
+      },
+      {
+        "id": "P4",
+        "start": "10:24",
+        "end": "11:14",
+        "title": "P4 / Snack"
+      },
+      {
+        "id": "P5",
+        "start": "11:17",
+        "end": "12:07",
+        "title": ""
+      },
+      {
+        "id": "P6",
+        "start": "12:09",
+        "end": "12:59",
+        "title": ""
+      },
+      {
+        "id": "P7",
+        "start": "13:26",
+        "end": "14:15",
+        "title": ""
+      }
+    ],
+    "7": [
+      {
+        "id": "HR",
+        "start": "07:45",
+        "end": "07:47",
+        "title": "Homeroom"
+      },
+      {
+        "id": "P1",
+        "start": "07:49",
+        "end": "08:38",
+        "title": ""
+      },
+      {
+        "id": "P2",
+        "start": "08:40",
+        "end": "09:30",
+        "title": ""
+      },
+      {
+        "id": "P3",
+        "start": "09:32",
+        "end": "10:22",
+        "title": ""
+      },
+      {
+        "id": "P4",
+        "start": "10:49",
+        "end": "11:39",
+        "title": ""
+      },
+      {
+        "id": "P5",
+        "start": "11:41",
+        "end": "12:31",
+        "title": "P5 / Snack"
+      },
+      {
+        "id": "P6",
+        "start": "12:34",
+        "end": "13:24",
+        "title": ""
+      },
+      {
+        "id": "P7",
+        "start": "13:26",
+        "end": "14:15",
+        "title": ""
+      }
+    ],
+    "8": [
+      {
+        "id": "HR",
+        "start": "07:45",
+        "end": "07:47",
+        "title": "Homeroom"
+      },
+      {
+        "id": "P1",
+        "start": "07:49",
+        "end": "08:38",
+        "title": ""
+      },
+      {
+        "id": "P2",
+        "start": "08:40",
+        "end": "09:30",
+        "title": ""
+      },
+      {
+        "id": "P3",
+        "start": "09:32",
+        "end": "10:22",
+        "title": ""
+      },
+      {
+        "id": "P4",
+        "start": "10:24",
+        "end": "11:14",
+        "title": ""
+      },
+      {
+        "id": "P5",
+        "start": "11:16",
+        "end": "12:06",
+        "title": ""
+      },
+      {
+        "id": "P6",
+        "start": "12:34",
+        "end": "13:24",
+        "title": ""
+      },
+      {
+        "id": "P7",
+        "start": "13:26",
+        "end": "14:15",
+        "title": ""
+      }
+    ]
+  },
+  "earlyRelease": [
+    {
+      "id": "HR",
+      "start": "07:45",
+      "end": "07:52",
+      "title": "Homeroom"
+    },
+    {
+      "id": "P1",
+      "start": "07:54",
+      "end": "08:21",
+      "title": ""
+    },
+    {
+      "id": "P2",
+      "start": "08:23",
+      "end": "08:50",
+      "title": ""
+    },
+    {
+      "id": "P3",
+      "start": "08:52",
+      "end": "09:19",
+      "title": ""
+    },
+    {
+      "id": "P4",
+      "start": "09:21",
+      "end": "09:48",
+      "title": ""
+    },
+    {
+      "id": "P5",
+      "start": "09:50",
+      "end": "10:17",
+      "title": ""
+    },
+    {
+      "id": "P6",
+      "start": "10:19",
+      "end": "10:46",
+      "title": ""
+    },
+    {
+      "id": "P7",
+      "start": "10:48",
+      "end": "11:15",
+      "title": ""
+    }
+  ],
+  "lunchByGrade": {
+    "5": {
+      "id": "LUNCH",
+      "start": "11:17",
+      "end": "11:39",
+      "title": "Lunch"
+    },
+    "6": {
+      "id": "LUNCH",
+      "start": "13:01",
+      "end": "13:23",
+      "title": "Lunch"
+    },
+    "7": {
+      "id": "LUNCH",
+      "start": "10:24",
+      "end": "10:46",
+      "title": "Lunch"
+    },
+    "8": {
+      "id": "LUNCH",
+      "start": "12:09",
+      "end": "12:31",
+      "title": "Lunch"
+    }
+  },
+  "winPeriodByGrade": {
+    "5": "P1",
+    "6": "P7",
+    "7": "P1",
+    "8": "P1"
+  },
+  "specialistPeriodsByGrade": {
+    "5": [
+      "P4",
+      "P7"
+    ],
+    "6": [
+      "P1",
+      "P5"
+    ],
+    "7": [
+      "P3",
+      "P6"
+    ],
+    "8": [
+      "P2",
+      "P6"
+    ]
+  }
+}

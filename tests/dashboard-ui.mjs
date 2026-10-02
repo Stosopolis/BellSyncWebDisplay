@@ -121,4 +121,13 @@ test('card states are explicit without changing event inclusion or reserving ove
   assert.match(css,/@container schedule-panel \(max-width:430px\)/);
   assert.match(css,/grid-template-areas:"activity" "trailing"/);
 });
+test('live long countdown uses hour typography and the rendered mint ring decreases',()=>{
+  const c=imported();for(const rows of Object.values(c.assignments)) rows['4'].lunch='NO_LUNCH';
+  const r=renderer(c),start=r.render('10:28'),middle=r.render('11:21'),late=r.render('12:13');
+  const progress=html=>Number(html.match(/style="--progress:([^"]+)"/)[1]);
+  assert.equal(progress(start),100);assert.equal(progress(middle),50);assert.ok(progress(late)<1);
+  assert.match(start,/class="countdown has-hours">1:46:00/);assert.match(middle,/class="countdown">53:00/);
+  assert.match(css,/conic-gradient\(var\(--mint\) calc\(var\(--progress\)\*1%\)/);
+  assert.match(css,/font-variant-numeric:tabular-nums/);assert.match(css,/\.countdown.has-hours[^}]*font-size:clamp/);
+});
 console.log(`\n${passed} dashboard UI tests passed.`);
