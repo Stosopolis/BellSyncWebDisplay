@@ -195,6 +195,12 @@ export function scheduleRowLabel(e, mode='blocks') {
   if(e.kind==='lunch' || e.kind==='passing') return e.label || e.sourcePeriodLabel || e.id;
   return (mode==='blocks' && e.blockName) || e.sourcePeriodLabel || e.label || e.id;
 }
+// Compare displayed labels without case, punctuation, or whitespace noise.
+export function isRedundantScheduleBadge(badge,title) {
+  const key=value=>String(value ?? '').toLowerCase().replace(/[^\p{L}\p{N}]/gu,'');
+  const label=key(badge),activity=key(title);
+  return Boolean(label && (label===activity || (label==='lunch' && /^lunch\d+$/.test(activity))));
+}
 export function eventTitle(e) { return e.title?.trim() || (e.kind==='lunch'?'Lunch':e.label?.trim() || e.id); }
 export function presentation(s,showRooms=true) {
   const e=s.current || s.next;

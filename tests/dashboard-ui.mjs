@@ -4,6 +4,7 @@ import vm from 'node:vm';
 import * as core from '../display-core.mjs';
 import * as states from '../schedule-presentation.mjs';
 import * as profiles from '../profile-store.mjs';
+import { builtInConfiguration } from '../school-setup.mjs';
 const read=p=>JSON.parse(fs.readFileSync(new URL(p,import.meta.url),'utf8'));
 const demo=core.normalize(read('../public/samples/classroom-demo.json'));
 const school=read('../public/builtins/wmhs/schedule.json'),calendar=read('../public/builtins/wmhs/calendar.json');
@@ -161,5 +162,45 @@ test('date changes reset the schedule region while subsequent ticks preserve it'
   const tomorrow=r.scroller();assert.notStrictEqual(tomorrow,today);assert.equal(tomorrow.scrollTop,0);
   tomorrow.scrollTop=200;r.render('11:31');assert.strictEqual(r.scroller(),tomorrow);assert.equal(tomorrow.scrollTop,200);
   r.node('#today-date').onclick();assert.notStrictEqual(r.scroller(),tomorrow);assert.equal(r.scroller().scrollTop,0);
+});
+for(const [name,badge,title,hidden] of [
+  ['identical','Arrival','Arrival',true],
+  ['case-only','LUNCH','Lunch',true],
+  ['punctuation-only','Ms. Christine Prep','Ms Christine Prep!',true],
+  ['whitespace-only','  PM   Snack ','PM Snack',true],
+  ['generic lunch category','LUNCH','Lunch 3',true],
+  ['A block','A','Intro',false],
+  ['B block','B','Multimedia Presentation',false],
+  ['unrelated FLEX','FLEX','Academic Support',false]
+])test(`${name} badge semantic comparison ${hidden?'hides':'keeps'} badge`,()=>{
+  assert.equal(core.isRedundantScheduleBadge(badge,title),hidden);
+  const event={id:'test',kind:'other',label:badge,title};
+  assert.equal(renderer(demo).badge(event,'blocks'),hidden?'':badge);
+});
+test('badge-free cards reclaim the column while useful badges retain their grid',()=>{
+  const input=copy(demo);input.assignments.every[input.periods[0].id].title='P1';
+  const html=renderer(input).render('07:35'),row=cards(html)[0];
+  assert.match(row,/no-label schedule-card/);assert.ok(!row.includes('class="badge"'));assert.match(row,/row-trailing/);assert.match(row,/class="now">NOW/);
+  const useful=cards(renderer(imported()).render('07:35'))[0];assert.ok(!useful.includes('no-label'));assert.match(useful,/class="badge"/);
+  assert.match(css,/\.row.no-label\s*\{[^}]*grid-template-columns:minmax\(0,1fr\) auto;grid-template-areas:"activity trailing"/);
+  assert.match(css,/grid-template-areas:"activity" "trailing"/);
+  assert.equal(core.isRedundantScheduleBadge('Outdoor / Indoor Recess','Outdoor Indoor Recess'),true);
+  assert.equal(core.isRedundantScheduleBadge('L3','Lunch 3'),false);
+  assert.equal(core.isRedundantScheduleBadge('Lunch','Lunch Duty'),false);
+});
+test('portable Canterbury activity and owner cards omit redundant badges without losing content',()=>{
+  const input=profiles.nativeConfigurations(profiles.inspectNativeImport(read('./fixtures/canterbury-room2-v2.json')))[0];
+  const r=renderer(input,'2026-10-01'),before=r.stored(),html=r.render('13:15'),rows=cards(html);
+  for(const title of ['Arrival','Centers','Cleanup','Kidzfun','Rest','Bathroom','PM Snack','Ms. Christine Prep']) {
+    const row=rows.find(r=>r.includes(`>${title}</strong>`));assert.ok(row,title);assert.match(row,/no-label schedule-card/);assert.ok(!row.includes('class="badge"'));assert.match(row,/<time>/);assert.match(row,/Ends /);
+  }
+  const current=rows.find(r=>r.includes('row current'));assert.match(current,/Ms. Christine Prep/);assert.match(current,/class="now">NOW/);
+  assert.ok(rows.some(r=>r.includes('row-check')));assert.deepEqual(r.stored(),before);
+});
+test('Galvin dashboard keeps useful period labels and source data unchanged',()=>{
+  const input=builtInConfiguration('gms',read('../public/builtins/gms/schedule.json'),read('../public/builtins/gms/calendar.json'),6);
+  input.assignments['1'].P1.title='Multimedia Presentation';
+  const r=renderer(input,'2026-09-02'),before=r.stored(),html=r.render('08:30');
+  assert.match(html,/class="badge"[^>]*>P1<\/span>/);assert.match(html,/Multimedia Presentation/);assert.deepEqual(r.stored(),before);
 });
 console.log(`\n${passed} dashboard UI tests passed.`);

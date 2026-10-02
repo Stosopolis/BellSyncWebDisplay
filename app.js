@@ -1,4 +1,4 @@
-import { WEB_FORMAT, normalize, validate, defaultPreferences, formatClock, eventTitle, scheduleRowLabel, escapeHTML as esc, isManagedWMHS, isManagedSchool, editManagedAssignments, managedLunchPeriods, LUNCH_CHOICES, dateInZone, zonedTimestamp } from './display-core.mjs';
+import { WEB_FORMAT, normalize, validate, defaultPreferences, formatClock, eventTitle, scheduleRowLabel, isRedundantScheduleBadge, escapeHTML as esc, isManagedWMHS, isManagedSchool, editManagedAssignments, managedLunchPeriods, LUNCH_CHOICES, dateInZone, zonedTimestamp } from './display-core.mjs';
 import { builtInConfiguration } from './school-setup.mjs';
 import { scheduleSnapshot, formatCountdown, countdownFraction } from './schedule-presentation.mjs';
 import { ProfileStore, DEMO_ID, inspectNativeImport, nativeConfigurations, exportProfiles, importDisplayProfiles } from './profile-store.mjs';
@@ -208,9 +208,10 @@ function completionCheck(className) { return `<svg class="${className}" viewBox=
 function scheduleBadge(event,mode) {
   const label=scheduleRowLabel(event,mode);
   if(!label) return '';
-  if(event.kind==='lunch' && ['L1','L2','L3'].includes(event.lunch?.selection)) return event.lunch.selection;
-  if(mode==='blocks' && event.kind!=='lunch' && event.kind!=='passing' && event.blockID) return event.blockID.replace(/^([A-G]) Block$/i,'$1');
-  return label.replace(/^Period (\d+)$/,'P$1');
+  const badge=event.kind==='lunch' && ['L1','L2','L3'].includes(event.lunch?.selection) ? event.lunch.selection
+    : mode==='blocks' && event.kind!=='lunch' && event.kind!=='passing' && event.blockID ? event.blockID.replace(/^([A-G]) Block$/i,'$1')
+    : label.replace(/^Period (\d+)$/,'P$1');
+  return isRedundantScheduleBadge(badge,eventTitle(event)) ? '' : badge;
 }
 function scheduleDensity(count) { return count<=8 ? 'relaxed' : count<=11 ? 'balanced' : 'busy'; }
 function update(){ if(!config || document.activeElement?.id==='view-date')return; const focusedAction=scheduleActionIDs.includes(document.activeElement?.id)?document.activeElement.id:null; const now=Date.now(), tz=config.school.timeZone, s=state(now); const current=s.current, next=s.next; const target=s.countdownTarget; const modeTitle=s.label; const {title,room}=s; const remaining=target!==null?duration(target-now):'—'; const progress=100*countdownFraction(s,now); const dayLabel=s.day?`${s.day.dayLabel || s.day.day} · ${(s.day.schedule||'regular').toUpperCase()}`:'No student schedule';
