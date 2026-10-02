@@ -16,7 +16,7 @@ const controls=html=>[...html.matchAll(/<input\b([^>]*)>|<select\b([^>]*)>([\s\S
 const decode=s=>s.replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
 // A small inert HTML/DOM adapter supplies named form controls and queries to the
 // actual app handlers. It does not launch a browser or implement layout.
-function app(storage=memory()) {
+function app(storage=memory(),fixedNow=null) {
   const nodes=new Map(),alerts=[],documentListeners={};
   class Node {
     constructor(tag='div'){this.tag=tag;this.innerHTML='';this.textContent='';this.children=[];this.attributes={};this.listeners={};this.elements={profileName:{value:''}};this.value='';this.dataset={};this.classList={add(){}};}
@@ -31,6 +31,7 @@ function app(storage=memory()) {
     addEventListener(k,fn){this.listeners[k]=fn;}
     querySelector(k){return this.fields?.[k] || node(k);}
     focus(){sandbox.document.activeElement=this;}
+    blur(){if(sandbox.document.activeElement===this)sandbox.document.activeElement=null;}
   }
   const markup=()=>nodes.get('#modal-root')?.innerHTML || '';
   const node=k=>{
@@ -67,7 +68,8 @@ function app(storage=memory()) {
     });
     return [];
   };
-  const sandbox={...core,...states,...profiles,...schools,esc:core.escapeHTML,Intl,Date,JSON,Set,crypto:globalThis.crypto,document:{querySelector:node,querySelectorAll:queryAll,createElement:t=>new Node(t),body:new Node(),addEventListener(k,fn){documentListeners[k]=fn;}},localStorage:storage,clearInterval(){},setInterval(){},alert:m=>alerts.push(m),fetch:async path=>({ok:true,json:async()=>structuredClone(path.includes('/gms/')?read(`../public/builtins/gms/${path.includes('calendar')?'calendar':'schedule'}.json`):path.includes('classroom-demo')?demo:path.includes('calendar')?calendar:school)})};
+  class FixedDate extends Date {constructor(...args){super(...(args.length?args:[fixedNow]));}static now(){return fixedNow;}}
+  const sandbox={...core,...states,...profiles,...schools,esc:core.escapeHTML,Intl,Date:fixedNow===null?Date:FixedDate,JSON,Set,crypto:globalThis.crypto,document:{querySelector:node,querySelectorAll:queryAll,createElement:t=>new Node(t),body:new Node(),addEventListener(k,fn){documentListeners[k]=fn;}},localStorage:storage,clearInterval(){},setInterval(){},alert:m=>alerts.push(m),fetch:async path=>({ok:true,json:async()=>structuredClone(path.includes('/gms/')?read(`../public/builtins/gms/${path.includes('calendar')?'calendar':'schedule'}.json`):path.includes('classroom-demo')?demo:path.includes('calendar')?calendar:school)})};
   vm.createContext(sandbox);vm.runInContext(fs.readFileSync(new URL('../app.js',import.meta.url),'utf8').replace(/^import .*;\n/gm,''),sandbox);
   const run=s=>vm.runInContext(s,sandbox);
   return {run,node,sandbox,storage,alerts,markup,documentListeners,snapshot:()=>JSON.parse(storage.getItem(profiles.PROFILE_KEY)),
@@ -216,5 +218,32 @@ await test('compact editor preserves FLEX identity and accessible fields, shared
   assert.match(a.markup(),/Save Changes/);assert.match(a.markup(),/managed-footer/);
   a.add(schools.builtInConfiguration('gms',read('../public/builtins/gms/schedule.json'),read('../public/builtins/gms/calendar.json'),6));a.clickEdit();assert.equal(a.node('#managed-days').children.length,6);assert.equal(a.node('#managed-classes').children.length,1);assert.equal(a.node('#managed-classes').children[0].children.find(n=>n.className==='managed-assignment').children[0].children[0].textContent,'HR');
   const css=fs.readFileSync(new URL('../styles.css',import.meta.url),'utf8');assert.match(css,/\.managed-classes[^}]*overflow-y:auto/);assert.match(css,/\.managed-footer[^}]*flex:0 0 auto/);assert.match(css,/\.managed-modal \.managed-assignment[^}]*grid-template-columns:minmax\(0,1fr\)/);
+});
+await test('generic native file imports without registry resources and opens safe source editor',async()=>{
+  const raw=read('./fixtures/canterbury-room2-v2.json'),a=app();let fetches=0;a.sandbox.fetch=async()=>{fetches++;throw Error('No registry available');};
+  const saved=await a.import(raw);assert.equal(fetches,0);assert.equal(saved.savedProfiles.length,1);assert.match(a.reviewMarkup,/Canterbury/);assert.ok(!a.reviewMarkup.includes('no supported web definition'));
+  assert.match(a.clickEdit(),/Edit Imported Schedule/);assert.ok(!a.markup().includes('type="time"'));assert.ok(!a.markup().includes('schedule-editor'));
+  const rows=a.node('#portable-fields').children.flatMap(s=>s.children.filter(n=>n.className==='portable-edit-row'));
+  const centers=rows.find(r=>r.children[0].textContent==='Centers'),owner=rows.find(r=>r.children[0].textContent==='Ms. Christine Lunch');
+  centers.children[1].children[1].value='Local Centers';centers.children[2].children[1].value='Room 2';owner.children[1].children[1].value='Owner Lunch';owner.children[2].children[1].value='Staff Room';
+  const form=a.node('#portable-editor');form.elements.profileName.value='My Room 2';form.onsubmit({preventDefault(){}});assert.equal(a.node('#form-error').textContent,'');
+  const c=a.snapshot().savedProfiles[0].configuration;assert.deepEqual(c.portable.shared,raw);assert.equal(c.profileName,'My Room 2');
+  const at=time=>core.zonedTimestamp('2026-09-10',time,c.school.timeZone);assert.equal(states.scheduleSnapshot(c,at('09:00')).current.title,'Local Centers');assert.equal(states.scheduleSnapshot(c,at('09:00')).current.room,'Room 2');assert.equal(states.scheduleSnapshot(c,at('11:45')).current.title,'Owner Lunch');
+  const reload=app(a.storage);reload.clickEdit();assert.equal(reload.node('#portable-editor').elements.profileName.value,'My Room 2');assert.deepEqual(reload.snapshot().savedProfiles[0].configuration,c);
+  const restored=profiles.importDisplayProfiles(profiles.exportProfiles(new profiles.ProfileStore(a.storage).snapshot))[0];assert.deepEqual(restored,c);
+});
+await test('generic editor Cancel and invalid names preserve stored snapshot and local edits',async()=>{
+  const raw=read('./fixtures/canterbury-room2-v2.json'),a=app();await a.import(raw);const before=a.snapshot();a.clickEdit();
+  const row=a.node('#portable-fields').children[0].children.find(n=>n.className==='portable-edit-row');row.children[1].children[1].value='Discard';a.node('#cancel').onclick();assert.deepEqual(a.snapshot(),before);
+  a.clickEdit();a.node('#portable-fields').children[0].children.find(n=>n.className==='portable-edit-row').children[1].children[1].value='';a.node('#portable-editor').onsubmit({preventDefault(){}});assert.match(a.node('#form-error').textContent,/Invalid snapshot local title/);assert.deepEqual(a.snapshot(),before);
+});
+await test('physical date-control handlers stay on frozen snapshot through Kidzfun, closure, weekend and Today',async()=>{
+  const raw=read('./fixtures/canterbury-room2-v2.json'),now=core.zonedTimestamp('2026-10-01','09:45','America/New_York'),a=app(memory(),now);await a.import(raw);const before=a.snapshot();
+  assert.match(a.node('#display').innerHTML,/id="view-date"/);assert.equal(a.run('state(Date.now()).current.title'),'Kidzfun');
+  a.node('#tomorrow-date').onclick();assert.equal(a.run('viewedDate'),'2026-10-02');assert.equal(a.run('state(Date.now()).state'),'preview');assert.ok(a.node('#display').innerHTML.includes('Kidzfun'));
+  a.node('#next-date').onclick();assert.equal(a.run('viewedDate'),'2026-10-03');assert.equal(a.run('state(Date.now()).state'),'weekend');
+  a.node('#previous-date').onclick();assert.equal(a.run('viewedDate'),'2026-10-02');
+  for(const [key,state] of [['2026-10-12','no-school'],['2026-09-10','preview'],['2027-01-05','preview']]) {const input=a.node('#view-date');input.value=key;input.focus();input.onchange({target:input});assert.equal(a.run('viewedDate'),key);assert.equal(a.run('state(Date.now()).state'),state);}
+  a.node('#today-date').onclick();assert.equal(a.run('viewedDate'),null);assert.equal(a.run('state(Date.now()).current.title'),'Kidzfun');assert.deepEqual(a.snapshot(),before);
 });
 console.log(`\n${passed} editor routing tests passed.`);

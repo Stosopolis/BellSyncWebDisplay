@@ -1,3 +1,4 @@
+import { validatePortableConfig, portableDay, portableTimeline, projectOwners, profileOwnerEvents } from './portable-snapshot.mjs';
 // Data validation and small shared helpers; no browser globals or dependencies.
 export const WEB_FORMAT = 'bellsync-display-web';
 export const LUNCH_CHOICES = Object.freeze(['L1','L2','L3','NO_LUNCH']);
@@ -81,6 +82,7 @@ export function normalize(raw) {
   if (!object(v.school)) fail('Invalid school details.');
   id(v.school.id, 'school ID'); text(v.school.displayName,'school name',true); text(v.school.timeZone,'timezone',true); text(v.profileName,'display name',true);
   try { new Intl.DateTimeFormat('en-US',{timeZone:v.school.timeZone}).format(0); } catch { fail('Enter a valid IANA timezone, such as America/New_York.'); }
+  if(v.sourceKind==='bellsync-snapshot') {validatePortableConfig(v);v.preferences=defaultPreferences(v.preferences);v.schemaVersion=2;return v;}
   if (!['browser-local','development-sample','bellsync-v1','builtin-gms'].includes(v.sourceKind)) fail('Unsupported schedule source.');
   if (v.sourceKind === 'bellsync-v1' && v.school.id !== 'wmhs') fail('Native imports currently support WMHS only.');
   if(v.sourceKind==='builtin-gms' && (v.school.id!=='gms' || ![5,6,7,8].includes(v.schoolMetadata?.grade) || v.schoolMetadata.winPeriod!==({5:'P1',6:'P7',7:'P1',8:'P1'})[v.schoolMetadata.grade])) fail('Invalid built-in Galvin metadata.');
@@ -178,6 +180,7 @@ export function rotationFor(v,key) {
   return r.labels[((r.labels.findIndex(d=>d.id===r.seedDayId)+count)%r.labels.length+r.labels.length)%r.labels.length];
 }
 export function schoolDay(v,key) {
+  if(v.sourceKind==='bellsync-snapshot')return portableDay(v.portable.shared.schoolDefinitionSnapshot,key);
   if(v.rotation.noSchoolDates.includes(key) || v.calendar?.nonStudentDays?.[key]) return null;
   if (v.calendar?.days && Object.keys(v.calendar.days).length) return v.calendar.days[key] || null;
   if ([0,6].includes(new Date(`${key}T12:00:00Z`).getUTCDay())) return null;
@@ -256,6 +259,7 @@ export const isMeaningfulEvent = e => e.kind !== 'passing';
 export function timelineFor(config, key) {
   date(key);
   const timeZone = config.school.timeZone;
+  if(config.sourceKind==='bellsync-snapshot')return portableTimeline(config,key,time=>zonedTimestamp(key,time,timeZone));
   const day = schoolDay(config,key);
   const result = {key,timeZone,day,status:'scheduled',events:[],passing:[]};
   if (!day) {
@@ -329,6 +333,10 @@ export function timelineFor(config, key) {
       const startAt=at(bells[i-1].end), endAt=at(bells[i].start);
       if(startAt < endAt) result.passing.push({startAt,endAt,source:'published-bells'});
     }
+  }
+  if(config.nativeMetadata?.sharedSchedule?.personalActivities?.length) {
+    const owners=profileOwnerEvents(config.nativeMetadata.sharedSchedule,key,String(day.day),at);
+    result.classroom=result.events;result.events=projectOwners(result.events,owners);
   }
   return result;
 }

@@ -1,0 +1,6833 @@
+[
+  {
+    "date": "2026-09-10",
+    "points": [
+      {
+        "category": "departure",
+        "endsWorkday": true,
+        "id": "departure-tuth",
+        "symbol": "person.fill",
+        "time": "15:30",
+        "title": "Ms. Christine Leaves",
+        "weekdays": [
+          3,
+          5
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1789043400",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1789044300",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1789046400",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "09:45",
+        "id": "bathroom-primary-1789047000",
+        "room": "",
+        "start": "09:30",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:00",
+        "id": "snack-am-primary-1789047900",
+        "room": "",
+        "start": "09:45",
+        "title": "Snack"
+      },
+      {
+        "end": "10:15",
+        "id": "cleanup-snack-primary-1789048800",
+        "room": "",
+        "start": "10:00",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1789049700",
+        "room": "",
+        "start": "10:15",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1789052100",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1789052400",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1789053300",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1789056000",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1789057800",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1789058400",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1789061400",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1789062600",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1789063200",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      },
+      {
+        "end": "14:45",
+        "id": "cleanup-pm-primary-1789065000",
+        "room": "",
+        "start": "14:30",
+        "title": "Free Play / Classroom Cleanup"
+      },
+      {
+        "end": "15:30",
+        "id": "afternoon-recess-primary-1789065900",
+        "room": "",
+        "start": "14:45",
+        "title": "Afternoon Recess / Gym"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  },
+  {
+    "date": "2026-09-11",
+    "points": [
+      {
+        "category": "departure",
+        "endsWorkday": true,
+        "excludedDates": [
+          "2026-11-25"
+        ],
+        "id": "departure-mwf",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Ms. Christine Leaves",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      },
+      {
+        "category": "staff",
+        "id": "judy-arrives",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Judy Arrives",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1789129800",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1789130700",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1789132800",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "09:45",
+        "id": "bathroom-primary-1789133400",
+        "room": "",
+        "start": "09:30",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:00",
+        "id": "snack-am-primary-1789134300",
+        "room": "",
+        "start": "09:45",
+        "title": "Snack"
+      },
+      {
+        "end": "10:15",
+        "id": "cleanup-snack-primary-1789135200",
+        "room": "",
+        "start": "10:00",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1789136100",
+        "room": "",
+        "start": "10:15",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1789138500",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1789138800",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1789139700",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1789142400",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1789144200",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1789144800",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1789147800",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1789149000",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1789149600",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      },
+      {
+        "end": "14:45",
+        "id": "cleanup-pm-primary-1789151400",
+        "room": "",
+        "start": "14:30",
+        "title": "Free Play / Classroom Cleanup"
+      },
+      {
+        "end": "15:00",
+        "id": "afternoon-recess-primary-1789152300",
+        "room": "",
+        "start": "14:45",
+        "title": "Afternoon Recess / Gym"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  },
+  {
+    "date": "2026-09-17",
+    "points": [
+      {
+        "category": "departure",
+        "endsWorkday": true,
+        "id": "departure-tuth",
+        "symbol": "person.fill",
+        "time": "15:30",
+        "title": "Ms. Christine Leaves",
+        "weekdays": [
+          3,
+          5
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1789648200",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1789649100",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1789651200",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:00",
+        "id": "kidzfun-primary-1789651800",
+        "room": "",
+        "start": "09:30",
+        "title": "Kidzfun"
+      },
+      {
+        "end": "10:15",
+        "id": "bathroom-primary-1789653600",
+        "room": "",
+        "start": "10:00",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:30",
+        "id": "snack-am-primary-1789654500",
+        "room": "",
+        "start": "10:15",
+        "title": "Snack"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1789655400",
+        "room": "",
+        "start": "10:30",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1789656900",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1789657200",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1789658100",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1789660800",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1789662600",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1789663200",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1789666200",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1789667400",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1789668000",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      },
+      {
+        "end": "14:45",
+        "id": "cleanup-pm-primary-1789669800",
+        "room": "",
+        "start": "14:30",
+        "title": "Free Play / Classroom Cleanup"
+      },
+      {
+        "end": "15:30",
+        "id": "afternoon-recess-primary-1789670700",
+        "room": "",
+        "start": "14:45",
+        "title": "Afternoon Recess / Gym"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  },
+  {
+    "date": "2026-09-18",
+    "points": [
+      {
+        "category": "departure",
+        "endsWorkday": true,
+        "excludedDates": [
+          "2026-11-25"
+        ],
+        "id": "departure-mwf",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Ms. Christine Leaves",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      },
+      {
+        "category": "staff",
+        "id": "judy-arrives",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Judy Arrives",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1789734600",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1789735500",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1789737600",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:00",
+        "id": "kidzfun-primary-1789738200",
+        "room": "",
+        "start": "09:30",
+        "title": "Kidzfun"
+      },
+      {
+        "end": "10:15",
+        "id": "bathroom-primary-1789740000",
+        "room": "",
+        "start": "10:00",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:30",
+        "id": "snack-am-primary-1789740900",
+        "room": "",
+        "start": "10:15",
+        "title": "Snack"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1789741800",
+        "room": "",
+        "start": "10:30",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1789743300",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1789743600",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1789744500",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1789747200",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1789749000",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1789749600",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1789752600",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1789753800",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1789754400",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      },
+      {
+        "end": "14:45",
+        "id": "cleanup-pm-primary-1789756200",
+        "room": "",
+        "start": "14:30",
+        "title": "Free Play / Classroom Cleanup"
+      },
+      {
+        "end": "15:00",
+        "id": "afternoon-recess-primary-1789757100",
+        "room": "",
+        "start": "14:45",
+        "title": "Afternoon Recess / Gym"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-01",
+    "points": [
+      {
+        "category": "departure",
+        "endsWorkday": true,
+        "id": "departure-tuth",
+        "symbol": "person.fill",
+        "time": "15:30",
+        "title": "Ms. Christine Leaves",
+        "weekdays": [
+          3,
+          5
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1790857800",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1790858700",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1790860800",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:00",
+        "id": "kidzfun-primary-1790861400",
+        "room": "",
+        "start": "09:30",
+        "title": "Kidzfun"
+      },
+      {
+        "end": "10:15",
+        "id": "bathroom-primary-1790863200",
+        "room": "",
+        "start": "10:00",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:30",
+        "id": "snack-am-primary-1790864100",
+        "room": "",
+        "start": "10:15",
+        "title": "Snack"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1790865000",
+        "room": "",
+        "start": "10:30",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1790866500",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1790866800",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1790867700",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1790870400",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1790872200",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1790872800",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1790875800",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1790877000",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1790877600",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      },
+      {
+        "end": "14:45",
+        "id": "cleanup-pm-primary-1790879400",
+        "room": "",
+        "start": "14:30",
+        "title": "Free Play / Classroom Cleanup"
+      },
+      {
+        "end": "15:30",
+        "id": "afternoon-recess-primary-1790880300",
+        "room": "",
+        "start": "14:45",
+        "title": "Afternoon Recess / Gym"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-02",
+    "points": [
+      {
+        "category": "departure",
+        "endsWorkday": true,
+        "excludedDates": [
+          "2026-11-25"
+        ],
+        "id": "departure-mwf",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Ms. Christine Leaves",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      },
+      {
+        "category": "staff",
+        "id": "judy-arrives",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Judy Arrives",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1790944200",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1790945100",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1790947200",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:00",
+        "id": "kidzfun-primary-1790947800",
+        "room": "",
+        "start": "09:30",
+        "title": "Kidzfun"
+      },
+      {
+        "end": "10:15",
+        "id": "bathroom-primary-1790949600",
+        "room": "",
+        "start": "10:00",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:30",
+        "id": "snack-am-primary-1790950500",
+        "room": "",
+        "start": "10:15",
+        "title": "Snack"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1790951400",
+        "room": "",
+        "start": "10:30",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1790952900",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1790953200",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1790954100",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1790956800",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1790958600",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1790959200",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1790962200",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1790963400",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1790964000",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      },
+      {
+        "end": "14:45",
+        "id": "cleanup-pm-primary-1790965800",
+        "room": "",
+        "start": "14:30",
+        "title": "Free Play / Classroom Cleanup"
+      },
+      {
+        "end": "15:00",
+        "id": "afternoon-recess-primary-1790966700",
+        "room": "",
+        "start": "14:45",
+        "title": "Afternoon Recess / Gym"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-12",
+    "points": [],
+    "rows": [],
+    "staff": []
+  },
+  {
+    "date": "2026-10-22",
+    "points": [
+      {
+        "category": "departure",
+        "endsWorkday": true,
+        "id": "departure-tuth",
+        "symbol": "person.fill",
+        "time": "15:30",
+        "title": "Ms. Christine Leaves",
+        "weekdays": [
+          3,
+          5
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1792672200",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1792673100",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1792675200",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:00",
+        "id": "kidzfun-primary-1792675800",
+        "room": "",
+        "start": "09:30",
+        "title": "Kidzfun"
+      },
+      {
+        "end": "10:15",
+        "id": "bathroom-primary-1792677600",
+        "room": "",
+        "start": "10:00",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:30",
+        "id": "snack-am-primary-1792678500",
+        "room": "",
+        "start": "10:15",
+        "title": "Snack"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1792679400",
+        "room": "",
+        "start": "10:30",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1792680900",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1792681200",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1792682100",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1792684800",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1792686600",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1792687200",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1792690200",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1792691400",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1792692000",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      },
+      {
+        "end": "14:45",
+        "id": "cleanup-pm-primary-1792693800",
+        "room": "",
+        "start": "14:30",
+        "title": "Free Play / Classroom Cleanup"
+      },
+      {
+        "end": "15:30",
+        "id": "afternoon-recess-primary-1792694700",
+        "room": "",
+        "start": "14:45",
+        "title": "Afternoon Recess / Gym"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  },
+  {
+    "date": "2026-10-23",
+    "points": [
+      {
+        "category": "departure",
+        "endsWorkday": true,
+        "excludedDates": [
+          "2026-11-25"
+        ],
+        "id": "departure-mwf",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Ms. Christine Leaves",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      },
+      {
+        "category": "staff",
+        "id": "judy-arrives",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Judy Arrives",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1792758600",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1792759500",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1792761600",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:00",
+        "id": "kidzfun-primary-1792762200",
+        "room": "",
+        "start": "09:30",
+        "title": "Kidzfun"
+      },
+      {
+        "end": "10:15",
+        "id": "bathroom-primary-1792764000",
+        "room": "",
+        "start": "10:00",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:30",
+        "id": "snack-am-primary-1792764900",
+        "room": "",
+        "start": "10:15",
+        "title": "Snack"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1792765800",
+        "room": "",
+        "start": "10:30",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1792767300",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1792767600",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1792768500",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1792771200",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1792773000",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1792773600",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1792776600",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1792777800",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1792778400",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      },
+      {
+        "end": "14:45",
+        "id": "cleanup-pm-primary-1792780200",
+        "room": "",
+        "start": "14:30",
+        "title": "Free Play / Classroom Cleanup"
+      },
+      {
+        "end": "15:00",
+        "id": "afternoon-recess-primary-1792781100",
+        "room": "",
+        "start": "14:45",
+        "title": "Afternoon Recess / Gym"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-05",
+    "points": [
+      {
+        "category": "departure",
+        "endsWorkday": true,
+        "id": "departure-tuth",
+        "symbol": "person.fill",
+        "time": "15:30",
+        "title": "Ms. Christine Leaves",
+        "weekdays": [
+          3,
+          5
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1793885400",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1793886300",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1793888400",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:00",
+        "id": "kidzfun-primary-1793889000",
+        "room": "",
+        "start": "09:30",
+        "title": "Kidzfun"
+      },
+      {
+        "end": "10:15",
+        "id": "bathroom-primary-1793890800",
+        "room": "",
+        "start": "10:00",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:30",
+        "id": "snack-am-primary-1793891700",
+        "room": "",
+        "start": "10:15",
+        "title": "Snack"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1793892600",
+        "room": "",
+        "start": "10:30",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1793894100",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1793894400",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1793895300",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1793898000",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1793899800",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1793900400",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1793903400",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1793904600",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1793905200",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      },
+      {
+        "end": "14:45",
+        "id": "cleanup-pm-primary-1793907000",
+        "room": "",
+        "start": "14:30",
+        "title": "Free Play / Classroom Cleanup"
+      },
+      {
+        "end": "15:30",
+        "id": "afternoon-recess-primary-1793907900",
+        "room": "",
+        "start": "14:45",
+        "title": "Afternoon Recess / Gym"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-06",
+    "points": [
+      {
+        "category": "departure",
+        "endsWorkday": true,
+        "excludedDates": [
+          "2026-11-25"
+        ],
+        "id": "departure-mwf",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Ms. Christine Leaves",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      },
+      {
+        "category": "staff",
+        "id": "judy-arrives",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Judy Arrives",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1793971800",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1793972700",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1793974800",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:00",
+        "id": "kidzfun-primary-1793975400",
+        "room": "",
+        "start": "09:30",
+        "title": "Kidzfun"
+      },
+      {
+        "end": "10:15",
+        "id": "bathroom-primary-1793977200",
+        "room": "",
+        "start": "10:00",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:30",
+        "id": "snack-am-primary-1793978100",
+        "room": "",
+        "start": "10:15",
+        "title": "Snack"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1793979000",
+        "room": "",
+        "start": "10:30",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1793980500",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1793980800",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1793981700",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1793984400",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1793986200",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1793986800",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1793989800",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1793991000",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1793991600",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      },
+      {
+        "end": "14:45",
+        "id": "cleanup-pm-primary-1793993400",
+        "room": "",
+        "start": "14:30",
+        "title": "Free Play / Classroom Cleanup"
+      },
+      {
+        "end": "15:00",
+        "id": "afternoon-recess-primary-1793994300",
+        "room": "",
+        "start": "14:45",
+        "title": "Afternoon Recess / Gym"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-19",
+    "points": [
+      {
+        "category": "departure",
+        "endsWorkday": true,
+        "id": "departure-tuth",
+        "symbol": "person.fill",
+        "time": "15:30",
+        "title": "Ms. Christine Leaves",
+        "weekdays": [
+          3,
+          5
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1795095000",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1795095900",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1795098000",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:00",
+        "id": "kidzfun-primary-1795098600",
+        "room": "",
+        "start": "09:30",
+        "title": "Kidzfun"
+      },
+      {
+        "end": "10:15",
+        "id": "bathroom-primary-1795100400",
+        "room": "",
+        "start": "10:00",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:30",
+        "id": "snack-am-primary-1795101300",
+        "room": "",
+        "start": "10:15",
+        "title": "Snack"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1795102200",
+        "room": "",
+        "start": "10:30",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1795103700",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1795104000",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1795104900",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1795107600",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1795109400",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1795110000",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1795113000",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1795114200",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1795114800",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      },
+      {
+        "end": "14:45",
+        "id": "cleanup-pm-primary-1795116600",
+        "room": "",
+        "start": "14:30",
+        "title": "Free Play / Classroom Cleanup"
+      },
+      {
+        "end": "15:30",
+        "id": "afternoon-recess-primary-1795117500",
+        "room": "",
+        "start": "14:45",
+        "title": "Afternoon Recess / Gym"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-20",
+    "points": [
+      {
+        "category": "departure",
+        "endsWorkday": true,
+        "excludedDates": [
+          "2026-11-25"
+        ],
+        "id": "departure-mwf",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Ms. Christine Leaves",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      },
+      {
+        "category": "staff",
+        "id": "judy-arrives",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Judy Arrives",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1795181400",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1795182300",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1795184400",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:00",
+        "id": "kidzfun-primary-1795185000",
+        "room": "",
+        "start": "09:30",
+        "title": "Kidzfun"
+      },
+      {
+        "end": "10:15",
+        "id": "bathroom-primary-1795186800",
+        "room": "",
+        "start": "10:00",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:30",
+        "id": "snack-am-primary-1795187700",
+        "room": "",
+        "start": "10:15",
+        "title": "Snack"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1795188600",
+        "room": "",
+        "start": "10:30",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1795190100",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1795190400",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1795191300",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1795194000",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1795195800",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1795196400",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1795199400",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1795200600",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1795201200",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      },
+      {
+        "end": "14:45",
+        "id": "cleanup-pm-primary-1795203000",
+        "room": "",
+        "start": "14:30",
+        "title": "Free Play / Classroom Cleanup"
+      },
+      {
+        "end": "15:00",
+        "id": "afternoon-recess-primary-1795203900",
+        "room": "",
+        "start": "14:45",
+        "title": "Afternoon Recess / Gym"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  },
+  {
+    "date": "2026-11-25",
+    "points": [
+      {
+        "category": "departure",
+        "dates": [
+          "2026-11-25"
+        ],
+        "endsWorkday": true,
+        "id": "early-close",
+        "symbol": "clock.fill",
+        "time": "14:30",
+        "title": "Center Closes"
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1795613400",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1795614300",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1795616400",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "09:45",
+        "id": "bathroom-primary-1795617000",
+        "room": "",
+        "start": "09:30",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:00",
+        "id": "snack-am-primary-1795617900",
+        "room": "",
+        "start": "09:45",
+        "title": "Snack"
+      },
+      {
+        "end": "10:15",
+        "id": "cleanup-snack-primary-1795618800",
+        "room": "",
+        "start": "10:00",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1795619700",
+        "room": "",
+        "start": "10:15",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1795622100",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1795622400",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1795623300",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1795626000",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1795627800",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1795628400",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1795631400",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1795632600",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1795633200",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  },
+  {
+    "date": "2026-12-03",
+    "points": [
+      {
+        "category": "departure",
+        "endsWorkday": true,
+        "id": "departure-tuth",
+        "symbol": "person.fill",
+        "time": "15:30",
+        "title": "Ms. Christine Leaves",
+        "weekdays": [
+          3,
+          5
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1796304600",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1796305500",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1796307600",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:00",
+        "id": "kidzfun-primary-1796308200",
+        "room": "",
+        "start": "09:30",
+        "title": "Kidzfun"
+      },
+      {
+        "end": "10:15",
+        "id": "bathroom-primary-1796310000",
+        "room": "",
+        "start": "10:00",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:30",
+        "id": "snack-am-primary-1796310900",
+        "room": "",
+        "start": "10:15",
+        "title": "Snack"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1796311800",
+        "room": "",
+        "start": "10:30",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1796313300",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1796313600",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1796314500",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1796317200",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1796319000",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1796319600",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1796322600",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1796323800",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1796324400",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      },
+      {
+        "end": "14:45",
+        "id": "cleanup-pm-primary-1796326200",
+        "room": "",
+        "start": "14:30",
+        "title": "Free Play / Classroom Cleanup"
+      },
+      {
+        "end": "15:30",
+        "id": "afternoon-recess-primary-1796327100",
+        "room": "",
+        "start": "14:45",
+        "title": "Afternoon Recess / Gym"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  },
+  {
+    "date": "2026-12-04",
+    "points": [
+      {
+        "category": "departure",
+        "endsWorkday": true,
+        "excludedDates": [
+          "2026-11-25"
+        ],
+        "id": "departure-mwf",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Ms. Christine Leaves",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      },
+      {
+        "category": "staff",
+        "id": "judy-arrives",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Judy Arrives",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1796391000",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1796391900",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1796394000",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:00",
+        "id": "kidzfun-primary-1796394600",
+        "room": "",
+        "start": "09:30",
+        "title": "Kidzfun"
+      },
+      {
+        "end": "10:15",
+        "id": "bathroom-primary-1796396400",
+        "room": "",
+        "start": "10:00",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:30",
+        "id": "snack-am-primary-1796397300",
+        "room": "",
+        "start": "10:15",
+        "title": "Snack"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1796398200",
+        "room": "",
+        "start": "10:30",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1796399700",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1796400000",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1796400900",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1796403600",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1796405400",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1796406000",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1796409000",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1796410200",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1796410800",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      },
+      {
+        "end": "14:45",
+        "id": "cleanup-pm-primary-1796412600",
+        "room": "",
+        "start": "14:30",
+        "title": "Free Play / Classroom Cleanup"
+      },
+      {
+        "end": "15:00",
+        "id": "afternoon-recess-primary-1796413500",
+        "room": "",
+        "start": "14:45",
+        "title": "Afternoon Recess / Gym"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  },
+  {
+    "date": "2026-12-17",
+    "points": [
+      {
+        "category": "departure",
+        "endsWorkday": true,
+        "id": "departure-tuth",
+        "symbol": "person.fill",
+        "time": "15:30",
+        "title": "Ms. Christine Leaves",
+        "weekdays": [
+          3,
+          5
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1797514200",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1797515100",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1797517200",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:00",
+        "id": "kidzfun-primary-1797517800",
+        "room": "",
+        "start": "09:30",
+        "title": "Kidzfun"
+      },
+      {
+        "end": "10:15",
+        "id": "bathroom-primary-1797519600",
+        "room": "",
+        "start": "10:00",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:30",
+        "id": "snack-am-primary-1797520500",
+        "room": "",
+        "start": "10:15",
+        "title": "Snack"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1797521400",
+        "room": "",
+        "start": "10:30",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1797522900",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1797523200",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1797524100",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1797526800",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1797528600",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1797529200",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1797532200",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1797533400",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1797534000",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      },
+      {
+        "end": "14:45",
+        "id": "cleanup-pm-primary-1797535800",
+        "room": "",
+        "start": "14:30",
+        "title": "Free Play / Classroom Cleanup"
+      },
+      {
+        "end": "15:30",
+        "id": "afternoon-recess-primary-1797536700",
+        "room": "",
+        "start": "14:45",
+        "title": "Afternoon Recess / Gym"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  },
+  {
+    "date": "2026-12-18",
+    "points": [
+      {
+        "category": "departure",
+        "endsWorkday": true,
+        "excludedDates": [
+          "2026-11-25"
+        ],
+        "id": "departure-mwf",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Ms. Christine Leaves",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      },
+      {
+        "category": "staff",
+        "id": "judy-arrives",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Judy Arrives",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1797600600",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1797601500",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1797603600",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:00",
+        "id": "kidzfun-primary-1797604200",
+        "room": "",
+        "start": "09:30",
+        "title": "Kidzfun"
+      },
+      {
+        "end": "10:15",
+        "id": "bathroom-primary-1797606000",
+        "room": "",
+        "start": "10:00",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:30",
+        "id": "snack-am-primary-1797606900",
+        "room": "",
+        "start": "10:15",
+        "title": "Snack"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1797607800",
+        "room": "",
+        "start": "10:30",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1797609300",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1797609600",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1797610500",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1797613200",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1797615000",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1797615600",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1797618600",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1797619800",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1797620400",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      },
+      {
+        "end": "14:45",
+        "id": "cleanup-pm-primary-1797622200",
+        "room": "",
+        "start": "14:30",
+        "title": "Free Play / Classroom Cleanup"
+      },
+      {
+        "end": "15:00",
+        "id": "afternoon-recess-primary-1797623100",
+        "room": "",
+        "start": "14:45",
+        "title": "Afternoon Recess / Gym"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  },
+  {
+    "date": "2027-01-05",
+    "points": [
+      {
+        "category": "departure",
+        "endsWorkday": true,
+        "id": "departure-tuth",
+        "symbol": "person.fill",
+        "time": "15:30",
+        "title": "Ms. Christine Leaves",
+        "weekdays": [
+          3,
+          5
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1799155800",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1799156700",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1799158800",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:00",
+        "id": "kidzfun-primary-1799159400",
+        "room": "",
+        "start": "09:30",
+        "title": "Kidzfun"
+      },
+      {
+        "end": "10:15",
+        "id": "bathroom-primary-1799161200",
+        "room": "",
+        "start": "10:00",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:30",
+        "id": "snack-am-primary-1799162100",
+        "room": "",
+        "start": "10:15",
+        "title": "Snack"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1799163000",
+        "room": "",
+        "start": "10:30",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1799164500",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1799164800",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1799165700",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1799168400",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1799170200",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1799170800",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1799173800",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1799175000",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1799175600",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      },
+      {
+        "end": "14:45",
+        "id": "cleanup-pm-primary-1799177400",
+        "room": "",
+        "start": "14:30",
+        "title": "Free Play / Classroom Cleanup"
+      },
+      {
+        "end": "15:30",
+        "id": "afternoon-recess-primary-1799178300",
+        "room": "",
+        "start": "14:45",
+        "title": "Afternoon Recess / Gym"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  },
+  {
+    "date": "2027-01-08",
+    "points": [
+      {
+        "category": "departure",
+        "endsWorkday": true,
+        "excludedDates": [
+          "2026-11-25"
+        ],
+        "id": "departure-mwf",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Ms. Christine Leaves",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      },
+      {
+        "category": "staff",
+        "id": "judy-arrives",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Judy Arrives",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1799415000",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1799415900",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1799418000",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:00",
+        "id": "kidzfun-primary-1799418600",
+        "room": "",
+        "start": "09:30",
+        "title": "Kidzfun"
+      },
+      {
+        "end": "10:15",
+        "id": "bathroom-primary-1799420400",
+        "room": "",
+        "start": "10:00",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:30",
+        "id": "snack-am-primary-1799421300",
+        "room": "",
+        "start": "10:15",
+        "title": "Snack"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1799422200",
+        "room": "",
+        "start": "10:30",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1799423700",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1799424000",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1799424900",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1799427600",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1799429400",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1799430000",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1799433000",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1799434200",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1799434800",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      },
+      {
+        "end": "14:45",
+        "id": "cleanup-pm-primary-1799436600",
+        "room": "",
+        "start": "14:30",
+        "title": "Free Play / Classroom Cleanup"
+      },
+      {
+        "end": "15:00",
+        "id": "afternoon-recess-primary-1799437500",
+        "room": "",
+        "start": "14:45",
+        "title": "Afternoon Recess / Gym"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  },
+  {
+    "date": "2027-01-21",
+    "points": [
+      {
+        "category": "departure",
+        "endsWorkday": true,
+        "id": "departure-tuth",
+        "symbol": "person.fill",
+        "time": "15:30",
+        "title": "Ms. Christine Leaves",
+        "weekdays": [
+          3,
+          5
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1800538200",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1800539100",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1800541200",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:00",
+        "id": "kidzfun-primary-1800541800",
+        "room": "",
+        "start": "09:30",
+        "title": "Kidzfun"
+      },
+      {
+        "end": "10:15",
+        "id": "bathroom-primary-1800543600",
+        "room": "",
+        "start": "10:00",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:30",
+        "id": "snack-am-primary-1800544500",
+        "room": "",
+        "start": "10:15",
+        "title": "Snack"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1800545400",
+        "room": "",
+        "start": "10:30",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1800546900",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1800547200",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1800548100",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1800550800",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1800552600",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1800553200",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1800556200",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1800557400",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1800558000",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      },
+      {
+        "end": "14:45",
+        "id": "cleanup-pm-primary-1800559800",
+        "room": "",
+        "start": "14:30",
+        "title": "Free Play / Classroom Cleanup"
+      },
+      {
+        "end": "15:30",
+        "id": "afternoon-recess-primary-1800560700",
+        "room": "",
+        "start": "14:45",
+        "title": "Afternoon Recess / Gym"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  },
+  {
+    "date": "2027-01-22",
+    "points": [
+      {
+        "category": "departure",
+        "endsWorkday": true,
+        "excludedDates": [
+          "2026-11-25"
+        ],
+        "id": "departure-mwf",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Ms. Christine Leaves",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      },
+      {
+        "category": "staff",
+        "id": "judy-arrives",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Judy Arrives",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1800624600",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1800625500",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1800627600",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:00",
+        "id": "kidzfun-primary-1800628200",
+        "room": "",
+        "start": "09:30",
+        "title": "Kidzfun"
+      },
+      {
+        "end": "10:15",
+        "id": "bathroom-primary-1800630000",
+        "room": "",
+        "start": "10:00",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:30",
+        "id": "snack-am-primary-1800630900",
+        "room": "",
+        "start": "10:15",
+        "title": "Snack"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1800631800",
+        "room": "",
+        "start": "10:30",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1800633300",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1800633600",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1800634500",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1800637200",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1800639000",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1800639600",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1800642600",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1800643800",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1800644400",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      },
+      {
+        "end": "14:45",
+        "id": "cleanup-pm-primary-1800646200",
+        "room": "",
+        "start": "14:30",
+        "title": "Free Play / Classroom Cleanup"
+      },
+      {
+        "end": "15:00",
+        "id": "afternoon-recess-primary-1800647100",
+        "room": "",
+        "start": "14:45",
+        "title": "Afternoon Recess / Gym"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  },
+  {
+    "date": "2027-02-04",
+    "points": [
+      {
+        "category": "departure",
+        "endsWorkday": true,
+        "id": "departure-tuth",
+        "symbol": "person.fill",
+        "time": "15:30",
+        "title": "Ms. Christine Leaves",
+        "weekdays": [
+          3,
+          5
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1801747800",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1801748700",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1801750800",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:00",
+        "id": "kidzfun-primary-1801751400",
+        "room": "",
+        "start": "09:30",
+        "title": "Kidzfun"
+      },
+      {
+        "end": "10:15",
+        "id": "bathroom-primary-1801753200",
+        "room": "",
+        "start": "10:00",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:30",
+        "id": "snack-am-primary-1801754100",
+        "room": "",
+        "start": "10:15",
+        "title": "Snack"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1801755000",
+        "room": "",
+        "start": "10:30",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1801756500",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1801756800",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1801757700",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1801760400",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1801762200",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1801762800",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1801765800",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1801767000",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1801767600",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      },
+      {
+        "end": "14:45",
+        "id": "cleanup-pm-primary-1801769400",
+        "room": "",
+        "start": "14:30",
+        "title": "Free Play / Classroom Cleanup"
+      },
+      {
+        "end": "15:30",
+        "id": "afternoon-recess-primary-1801770300",
+        "room": "",
+        "start": "14:45",
+        "title": "Afternoon Recess / Gym"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  },
+  {
+    "date": "2027-02-05",
+    "points": [
+      {
+        "category": "departure",
+        "endsWorkday": true,
+        "excludedDates": [
+          "2026-11-25"
+        ],
+        "id": "departure-mwf",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Ms. Christine Leaves",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      },
+      {
+        "category": "staff",
+        "id": "judy-arrives",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Judy Arrives",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1801834200",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1801835100",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1801837200",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:00",
+        "id": "kidzfun-primary-1801837800",
+        "room": "",
+        "start": "09:30",
+        "title": "Kidzfun"
+      },
+      {
+        "end": "10:15",
+        "id": "bathroom-primary-1801839600",
+        "room": "",
+        "start": "10:00",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:30",
+        "id": "snack-am-primary-1801840500",
+        "room": "",
+        "start": "10:15",
+        "title": "Snack"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1801841400",
+        "room": "",
+        "start": "10:30",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1801842900",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1801843200",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1801844100",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1801846800",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1801848600",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1801849200",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1801852200",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1801853400",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1801854000",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      },
+      {
+        "end": "14:45",
+        "id": "cleanup-pm-primary-1801855800",
+        "room": "",
+        "start": "14:30",
+        "title": "Free Play / Classroom Cleanup"
+      },
+      {
+        "end": "15:00",
+        "id": "afternoon-recess-primary-1801856700",
+        "room": "",
+        "start": "14:45",
+        "title": "Afternoon Recess / Gym"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  },
+  {
+    "date": "2027-02-11",
+    "points": [
+      {
+        "category": "departure",
+        "endsWorkday": true,
+        "id": "departure-tuth",
+        "symbol": "person.fill",
+        "time": "15:30",
+        "title": "Ms. Christine Leaves",
+        "weekdays": [
+          3,
+          5
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1802352600",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1802353500",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1802355600",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:00",
+        "id": "kidzfun-primary-1802356200",
+        "room": "",
+        "start": "09:30",
+        "title": "Kidzfun"
+      },
+      {
+        "end": "10:15",
+        "id": "bathroom-primary-1802358000",
+        "room": "",
+        "start": "10:00",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:30",
+        "id": "snack-am-primary-1802358900",
+        "room": "",
+        "start": "10:15",
+        "title": "Snack"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1802359800",
+        "room": "",
+        "start": "10:30",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1802361300",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1802361600",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1802362500",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1802365200",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1802367000",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1802367600",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1802370600",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1802371800",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1802372400",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      },
+      {
+        "end": "14:45",
+        "id": "cleanup-pm-primary-1802374200",
+        "room": "",
+        "start": "14:30",
+        "title": "Free Play / Classroom Cleanup"
+      },
+      {
+        "end": "15:30",
+        "id": "afternoon-recess-primary-1802375100",
+        "room": "",
+        "start": "14:45",
+        "title": "Afternoon Recess / Gym"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  },
+  {
+    "date": "2027-02-12",
+    "points": [
+      {
+        "category": "departure",
+        "endsWorkday": true,
+        "excludedDates": [
+          "2026-11-25"
+        ],
+        "id": "departure-mwf",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Ms. Christine Leaves",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      },
+      {
+        "category": "staff",
+        "id": "judy-arrives",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Judy Arrives",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1802439000",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1802439900",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1802442000",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:00",
+        "id": "kidzfun-primary-1802442600",
+        "room": "",
+        "start": "09:30",
+        "title": "Kidzfun"
+      },
+      {
+        "end": "10:15",
+        "id": "bathroom-primary-1802444400",
+        "room": "",
+        "start": "10:00",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:30",
+        "id": "snack-am-primary-1802445300",
+        "room": "",
+        "start": "10:15",
+        "title": "Snack"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1802446200",
+        "room": "",
+        "start": "10:30",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1802447700",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1802448000",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1802448900",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1802451600",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1802453400",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1802454000",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1802457000",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1802458200",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1802458800",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      },
+      {
+        "end": "14:45",
+        "id": "cleanup-pm-primary-1802460600",
+        "room": "",
+        "start": "14:30",
+        "title": "Free Play / Classroom Cleanup"
+      },
+      {
+        "end": "15:00",
+        "id": "afternoon-recess-primary-1802461500",
+        "room": "",
+        "start": "14:45",
+        "title": "Afternoon Recess / Gym"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  },
+  {
+    "date": "2027-03-04",
+    "points": [
+      {
+        "category": "departure",
+        "endsWorkday": true,
+        "id": "departure-tuth",
+        "symbol": "person.fill",
+        "time": "15:30",
+        "title": "Ms. Christine Leaves",
+        "weekdays": [
+          3,
+          5
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1804167000",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1804167900",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1804170000",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:00",
+        "id": "kidzfun-primary-1804170600",
+        "room": "",
+        "start": "09:30",
+        "title": "Kidzfun"
+      },
+      {
+        "end": "10:15",
+        "id": "bathroom-primary-1804172400",
+        "room": "",
+        "start": "10:00",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:30",
+        "id": "snack-am-primary-1804173300",
+        "room": "",
+        "start": "10:15",
+        "title": "Snack"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1804174200",
+        "room": "",
+        "start": "10:30",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1804175700",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1804176000",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1804176900",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1804179600",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1804181400",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1804182000",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1804185000",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1804186200",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1804186800",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      },
+      {
+        "end": "14:45",
+        "id": "cleanup-pm-primary-1804188600",
+        "room": "",
+        "start": "14:30",
+        "title": "Free Play / Classroom Cleanup"
+      },
+      {
+        "end": "15:30",
+        "id": "afternoon-recess-primary-1804189500",
+        "room": "",
+        "start": "14:45",
+        "title": "Afternoon Recess / Gym"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  },
+  {
+    "date": "2027-03-05",
+    "points": [
+      {
+        "category": "departure",
+        "endsWorkday": true,
+        "excludedDates": [
+          "2026-11-25"
+        ],
+        "id": "departure-mwf",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Ms. Christine Leaves",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      },
+      {
+        "category": "staff",
+        "id": "judy-arrives",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Judy Arrives",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1804253400",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1804254300",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1804256400",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:00",
+        "id": "kidzfun-primary-1804257000",
+        "room": "",
+        "start": "09:30",
+        "title": "Kidzfun"
+      },
+      {
+        "end": "10:15",
+        "id": "bathroom-primary-1804258800",
+        "room": "",
+        "start": "10:00",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:30",
+        "id": "snack-am-primary-1804259700",
+        "room": "",
+        "start": "10:15",
+        "title": "Snack"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1804260600",
+        "room": "",
+        "start": "10:30",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1804262100",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1804262400",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1804263300",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1804266000",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1804267800",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1804268400",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1804271400",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1804272600",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1804273200",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      },
+      {
+        "end": "14:45",
+        "id": "cleanup-pm-primary-1804275000",
+        "room": "",
+        "start": "14:30",
+        "title": "Free Play / Classroom Cleanup"
+      },
+      {
+        "end": "15:00",
+        "id": "afternoon-recess-primary-1804275900",
+        "room": "",
+        "start": "14:45",
+        "title": "Afternoon Recess / Gym"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  },
+  {
+    "date": "2027-03-24",
+    "points": [
+      {
+        "category": "departure",
+        "endsWorkday": true,
+        "excludedDates": [
+          "2026-11-25"
+        ],
+        "id": "departure-mwf",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Ms. Christine Leaves",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      },
+      {
+        "category": "staff",
+        "id": "judy-arrives",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Judy Arrives",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1805891400",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1805892300",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1805894400",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:00",
+        "id": "kidzfun-primary-1805895000",
+        "room": "",
+        "start": "09:30",
+        "title": "Kidzfun"
+      },
+      {
+        "end": "10:15",
+        "id": "bathroom-primary-1805896800",
+        "room": "",
+        "start": "10:00",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:30",
+        "id": "snack-am-primary-1805897700",
+        "room": "",
+        "start": "10:15",
+        "title": "Snack"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1805898600",
+        "room": "",
+        "start": "10:30",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1805900100",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1805900400",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1805901300",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1805904000",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1805905800",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1805906400",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1805909400",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1805910600",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1805911200",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      },
+      {
+        "end": "14:45",
+        "id": "cleanup-pm-primary-1805913000",
+        "room": "",
+        "start": "14:30",
+        "title": "Free Play / Classroom Cleanup"
+      },
+      {
+        "end": "15:00",
+        "id": "afternoon-recess-primary-1805913900",
+        "room": "",
+        "start": "14:45",
+        "title": "Afternoon Recess / Gym"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  },
+  {
+    "date": "2027-03-25",
+    "points": [
+      {
+        "category": "departure",
+        "endsWorkday": true,
+        "id": "departure-tuth",
+        "symbol": "person.fill",
+        "time": "15:30",
+        "title": "Ms. Christine Leaves",
+        "weekdays": [
+          3,
+          5
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1805977800",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1805978700",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1805980800",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:00",
+        "id": "kidzfun-primary-1805981400",
+        "room": "",
+        "start": "09:30",
+        "title": "Kidzfun"
+      },
+      {
+        "end": "10:15",
+        "id": "bathroom-primary-1805983200",
+        "room": "",
+        "start": "10:00",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:30",
+        "id": "snack-am-primary-1805984100",
+        "room": "",
+        "start": "10:15",
+        "title": "Snack"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1805985000",
+        "room": "",
+        "start": "10:30",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1805986500",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1805986800",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1805987700",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1805990400",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1805992200",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1805992800",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1805995800",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1805997000",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1805997600",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      },
+      {
+        "end": "14:45",
+        "id": "cleanup-pm-primary-1805999400",
+        "room": "",
+        "start": "14:30",
+        "title": "Free Play / Classroom Cleanup"
+      },
+      {
+        "end": "15:30",
+        "id": "afternoon-recess-primary-1806000300",
+        "room": "",
+        "start": "14:45",
+        "title": "Afternoon Recess / Gym"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  },
+  {
+    "date": "2027-04-08",
+    "points": [
+      {
+        "category": "departure",
+        "endsWorkday": true,
+        "id": "departure-tuth",
+        "symbol": "person.fill",
+        "time": "15:30",
+        "title": "Ms. Christine Leaves",
+        "weekdays": [
+          3,
+          5
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1807187400",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1807188300",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1807190400",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:00",
+        "id": "kidzfun-primary-1807191000",
+        "room": "",
+        "start": "09:30",
+        "title": "Kidzfun"
+      },
+      {
+        "end": "10:15",
+        "id": "bathroom-primary-1807192800",
+        "room": "",
+        "start": "10:00",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:30",
+        "id": "snack-am-primary-1807193700",
+        "room": "",
+        "start": "10:15",
+        "title": "Snack"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1807194600",
+        "room": "",
+        "start": "10:30",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1807196100",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1807196400",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1807197300",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1807200000",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1807201800",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1807202400",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1807205400",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1807206600",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1807207200",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      },
+      {
+        "end": "14:45",
+        "id": "cleanup-pm-primary-1807209000",
+        "room": "",
+        "start": "14:30",
+        "title": "Free Play / Classroom Cleanup"
+      },
+      {
+        "end": "15:30",
+        "id": "afternoon-recess-primary-1807209900",
+        "room": "",
+        "start": "14:45",
+        "title": "Afternoon Recess / Gym"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  },
+  {
+    "date": "2027-04-09",
+    "points": [
+      {
+        "category": "departure",
+        "endsWorkday": true,
+        "excludedDates": [
+          "2026-11-25"
+        ],
+        "id": "departure-mwf",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Ms. Christine Leaves",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      },
+      {
+        "category": "staff",
+        "id": "judy-arrives",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Judy Arrives",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1807273800",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1807274700",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1807276800",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:00",
+        "id": "kidzfun-primary-1807277400",
+        "room": "",
+        "start": "09:30",
+        "title": "Kidzfun"
+      },
+      {
+        "end": "10:15",
+        "id": "bathroom-primary-1807279200",
+        "room": "",
+        "start": "10:00",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:30",
+        "id": "snack-am-primary-1807280100",
+        "room": "",
+        "start": "10:15",
+        "title": "Snack"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1807281000",
+        "room": "",
+        "start": "10:30",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1807282500",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1807282800",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1807283700",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1807286400",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1807288200",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1807288800",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1807291800",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1807293000",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1807293600",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      },
+      {
+        "end": "14:45",
+        "id": "cleanup-pm-primary-1807295400",
+        "room": "",
+        "start": "14:30",
+        "title": "Free Play / Classroom Cleanup"
+      },
+      {
+        "end": "15:00",
+        "id": "afternoon-recess-primary-1807296300",
+        "room": "",
+        "start": "14:45",
+        "title": "Afternoon Recess / Gym"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  },
+  {
+    "date": "2027-04-29",
+    "points": [
+      {
+        "category": "departure",
+        "endsWorkday": true,
+        "id": "departure-tuth",
+        "symbol": "person.fill",
+        "time": "15:30",
+        "title": "Ms. Christine Leaves",
+        "weekdays": [
+          3,
+          5
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1809001800",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1809002700",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1809004800",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:00",
+        "id": "kidzfun-primary-1809005400",
+        "room": "",
+        "start": "09:30",
+        "title": "Kidzfun"
+      },
+      {
+        "end": "10:15",
+        "id": "bathroom-primary-1809007200",
+        "room": "",
+        "start": "10:00",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:30",
+        "id": "snack-am-primary-1809008100",
+        "room": "",
+        "start": "10:15",
+        "title": "Snack"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1809009000",
+        "room": "",
+        "start": "10:30",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1809010500",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1809010800",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1809011700",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1809014400",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1809016200",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1809016800",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1809019800",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1809021000",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1809021600",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      },
+      {
+        "end": "14:45",
+        "id": "cleanup-pm-primary-1809023400",
+        "room": "",
+        "start": "14:30",
+        "title": "Free Play / Classroom Cleanup"
+      },
+      {
+        "end": "15:30",
+        "id": "afternoon-recess-primary-1809024300",
+        "room": "",
+        "start": "14:45",
+        "title": "Afternoon Recess / Gym"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  },
+  {
+    "date": "2027-04-30",
+    "points": [
+      {
+        "category": "departure",
+        "endsWorkday": true,
+        "excludedDates": [
+          "2026-11-25"
+        ],
+        "id": "departure-mwf",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Ms. Christine Leaves",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      },
+      {
+        "category": "staff",
+        "id": "judy-arrives",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Judy Arrives",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1809088200",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1809089100",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1809091200",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:00",
+        "id": "kidzfun-primary-1809091800",
+        "room": "",
+        "start": "09:30",
+        "title": "Kidzfun"
+      },
+      {
+        "end": "10:15",
+        "id": "bathroom-primary-1809093600",
+        "room": "",
+        "start": "10:00",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:30",
+        "id": "snack-am-primary-1809094500",
+        "room": "",
+        "start": "10:15",
+        "title": "Snack"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1809095400",
+        "room": "",
+        "start": "10:30",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1809096900",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1809097200",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1809098100",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1809100800",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1809102600",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1809103200",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1809106200",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1809107400",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1809108000",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      },
+      {
+        "end": "14:45",
+        "id": "cleanup-pm-primary-1809109800",
+        "room": "",
+        "start": "14:30",
+        "title": "Free Play / Classroom Cleanup"
+      },
+      {
+        "end": "15:00",
+        "id": "afternoon-recess-primary-1809110700",
+        "room": "",
+        "start": "14:45",
+        "title": "Afternoon Recess / Gym"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  },
+  {
+    "date": "2027-05-06",
+    "points": [
+      {
+        "category": "departure",
+        "endsWorkday": true,
+        "id": "departure-tuth",
+        "symbol": "person.fill",
+        "time": "15:30",
+        "title": "Ms. Christine Leaves",
+        "weekdays": [
+          3,
+          5
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1809606600",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1809607500",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1809609600",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:00",
+        "id": "kidzfun-primary-1809610200",
+        "room": "",
+        "start": "09:30",
+        "title": "Kidzfun"
+      },
+      {
+        "end": "10:15",
+        "id": "bathroom-primary-1809612000",
+        "room": "",
+        "start": "10:00",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:30",
+        "id": "snack-am-primary-1809612900",
+        "room": "",
+        "start": "10:15",
+        "title": "Snack"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1809613800",
+        "room": "",
+        "start": "10:30",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1809615300",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1809615600",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1809616500",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1809619200",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1809621000",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1809621600",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1809624600",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1809625800",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1809626400",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      },
+      {
+        "end": "14:45",
+        "id": "cleanup-pm-primary-1809628200",
+        "room": "",
+        "start": "14:30",
+        "title": "Free Play / Classroom Cleanup"
+      },
+      {
+        "end": "15:30",
+        "id": "afternoon-recess-primary-1809629100",
+        "room": "",
+        "start": "14:45",
+        "title": "Afternoon Recess / Gym"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  },
+  {
+    "date": "2027-05-07",
+    "points": [
+      {
+        "category": "departure",
+        "endsWorkday": true,
+        "excludedDates": [
+          "2026-11-25"
+        ],
+        "id": "departure-mwf",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Ms. Christine Leaves",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      },
+      {
+        "category": "staff",
+        "id": "judy-arrives",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Judy Arrives",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1809693000",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1809693900",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1809696000",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:00",
+        "id": "kidzfun-primary-1809696600",
+        "room": "",
+        "start": "09:30",
+        "title": "Kidzfun"
+      },
+      {
+        "end": "10:15",
+        "id": "bathroom-primary-1809698400",
+        "room": "",
+        "start": "10:00",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:30",
+        "id": "snack-am-primary-1809699300",
+        "room": "",
+        "start": "10:15",
+        "title": "Snack"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1809700200",
+        "room": "",
+        "start": "10:30",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1809701700",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1809702000",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1809702900",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1809705600",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1809707400",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1809708000",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1809711000",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1809712200",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1809712800",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      },
+      {
+        "end": "14:45",
+        "id": "cleanup-pm-primary-1809714600",
+        "room": "",
+        "start": "14:30",
+        "title": "Free Play / Classroom Cleanup"
+      },
+      {
+        "end": "15:00",
+        "id": "afternoon-recess-primary-1809715500",
+        "room": "",
+        "start": "14:45",
+        "title": "Afternoon Recess / Gym"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  },
+  {
+    "date": "2027-06-04",
+    "points": [
+      {
+        "category": "departure",
+        "endsWorkday": true,
+        "excludedDates": [
+          "2026-11-25"
+        ],
+        "id": "departure-mwf",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Ms. Christine Leaves",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      },
+      {
+        "category": "staff",
+        "id": "judy-arrives",
+        "symbol": "person.fill",
+        "time": "15:00",
+        "title": "Judy Arrives",
+        "weekdays": [
+          2,
+          4,
+          6
+        ]
+      }
+    ],
+    "rows": [
+      {
+        "end": "08:30",
+        "id": "setup",
+        "room": "",
+        "start": "08:00",
+        "title": "Prep, Plan & Setup Classroom"
+      },
+      {
+        "end": "08:45",
+        "id": "arrival-primary-1812112200",
+        "room": "",
+        "start": "08:30",
+        "title": "Arrival"
+      },
+      {
+        "end": "09:20",
+        "id": "centers-primary-1812113100",
+        "room": "",
+        "start": "08:45",
+        "title": "Centers"
+      },
+      {
+        "end": "09:30",
+        "id": "cleanup-am-primary-1812115200",
+        "room": "",
+        "start": "09:20",
+        "title": "Cleanup"
+      },
+      {
+        "end": "09:45",
+        "id": "bathroom-primary-1812115800",
+        "room": "",
+        "start": "09:30",
+        "title": "Bathroom"
+      },
+      {
+        "end": "10:00",
+        "id": "snack-am-primary-1812116700",
+        "room": "",
+        "start": "09:45",
+        "title": "Snack"
+      },
+      {
+        "end": "10:15",
+        "id": "cleanup-snack-primary-1812117600",
+        "room": "",
+        "start": "10:00",
+        "title": "Cleanup"
+      },
+      {
+        "end": "10:55",
+        "id": "recess-am-primary-1812118500",
+        "room": "",
+        "start": "10:15",
+        "title": "Outdoor / Indoor Recess"
+      },
+      {
+        "end": "11:00",
+        "id": "transition-bathroom-primary-1812120900",
+        "room": "",
+        "start": "10:55",
+        "title": "Line Up / Transition to Bathroom"
+      },
+      {
+        "end": "11:15",
+        "id": "bathroom-1100-primary-1812121200",
+        "room": "",
+        "start": "11:00",
+        "title": "Bathroom Time"
+      },
+      {
+        "end": "11:30",
+        "id": "story-primary-1812122100",
+        "room": "",
+        "start": "11:15",
+        "title": "Circle Time"
+      },
+      {
+        "end": "12:00",
+        "id": "personal-lunch",
+        "room": "",
+        "start": "11:30",
+        "title": "Ms. Christine Lunch"
+      },
+      {
+        "end": "12:30",
+        "id": "free-play-primary-1812124800",
+        "room": "",
+        "start": "12:00",
+        "title": "Recess / Indoor Free Play"
+      },
+      {
+        "end": "12:40",
+        "id": "dismissal-bathroom-primary-1812126600",
+        "room": "",
+        "start": "12:30",
+        "title": "Dismissal & Bathroom"
+      },
+      {
+        "end": "13:00",
+        "id": "rest-primary-1812127200",
+        "room": "",
+        "start": "12:40",
+        "title": "Rest"
+      },
+      {
+        "end": "13:30",
+        "id": "personal-prep",
+        "room": "",
+        "start": "13:00",
+        "title": "Ms. Christine Prep"
+      },
+      {
+        "end": "13:40",
+        "id": "rest-primary-1812130200",
+        "room": "",
+        "start": "13:30",
+        "title": "Rest"
+      },
+      {
+        "end": "14:00",
+        "id": "bathroom-pm-primary-1812131400",
+        "room": "",
+        "start": "13:50",
+        "title": "Bathroom"
+      },
+      {
+        "end": "14:30",
+        "id": "snack-pm-primary-1812132000",
+        "room": "",
+        "start": "14:00",
+        "title": "PM Snack"
+      },
+      {
+        "end": "14:45",
+        "id": "cleanup-pm-primary-1812133800",
+        "room": "",
+        "start": "14:30",
+        "title": "Free Play / Classroom Cleanup"
+      },
+      {
+        "end": "15:00",
+        "id": "afternoon-recess-primary-1812134700",
+        "room": "",
+        "start": "14:45",
+        "title": "Afternoon Recess / Gym"
+      }
+    ],
+    "staff": [
+      {
+        "end": "12:30",
+        "id": "donna-lunch",
+        "room": "",
+        "start": "12:00",
+        "title": "Ms. Donna Lunch"
+      },
+      {
+        "end": "14:00",
+        "id": "emma-lunch",
+        "room": "",
+        "start": "13:30",
+        "title": "Ms. Emma Lunch"
+      }
+    ]
+  }
+]

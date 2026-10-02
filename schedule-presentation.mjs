@@ -61,6 +61,10 @@ export function resolvePresentation(timeline, now, {isLive=true,showRooms=true}=
       meaningful.some(e=>e.endAt === p.startAt && e.startAt < e.endAt));
     return result(authoritative ? 'passing' : 'gap',null,next,next.startAt);
   }
+  if(timeline.workdayBoundary && now<timeline.workdayEndAt) {
+    const point=timeline.workdayBoundary,boundary={...point,startAt:point.at,endAt:point.at,kind:'boundary'};
+    return result('gap',null,boundary,point.at);
+  }
   return result('complete',null,null,null,'Done for Today');
 }
 

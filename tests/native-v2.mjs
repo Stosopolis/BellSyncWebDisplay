@@ -65,11 +65,13 @@ test('display-only native additions are preserved and reported without rejecting
   const [c]=profiles.nativeConfigurations(plan,school,calendar);assert.deepEqual(c.nativeMetadata.sharedSchedule,raw);
   assert.equal(core.timelineFor(c,'2026-09-01').events.find(e=>e.periodID==='1').title,'Honors English');
 });
-test('unsupported timing layers are clearly excluded rather than replaced with invented timing',()=>{
-  const raw=copy(v2);raw.personalActivities=[{id:'private',title:'Duty',room:'Office',start:'07:00',end:'07:20',weekdays:[2],dayIDs:['1']}];
-  let plan=profiles.inspectNativeImport(raw);assert.equal(plan.supported.length,0);assert.match(plan.unsupported[0].reason,/Personal Activities change/);
+test('v2 owned activities without a snapshot are imported; malformed snapshots remain rejected',()=>{
+  const raw=copy(v2);raw.personalActivities=[{id:'private',title:'Duty',room:'Office',start:'07:00',end:'07:20',weekdays:[2,3,4,5,6],dayIDs:['1']}];
+  const plan=profiles.inspectNativeImport(raw);assert.equal(plan.supported.length,1);
+  const [c]=profiles.nativeConfigurations(plan,school,calendar),owner=core.timelineFor(c,'2026-09-01').events.find(e=>e.owner);
+  assert.equal(owner.title,'Duty');assert.equal(owner.room,'Office');assert.deepEqual(c.nativeMetadata.sharedSchedule,raw);
   delete raw.personalActivities;raw.schoolDefinitionSnapshot={schemaVersion:1,id:'wmhs',cycle:{dayIDs:['1']},periodDefinitions:[],scheduleTemplates:[],calendarRule:{},calendarExceptions:{}};
-  plan=profiles.inspectNativeImport(raw);assert.equal(plan.supported.length,0);assert.match(plan.unsupported[0].reason,/snapshot/);
+  assert.throws(()=>profiles.inspectNativeImport(raw),/snapshot/);
 });
 test('explicit v2 school-wide mode uses published source data plus native profile overlays',()=>{
   const raw=copy(v2);raw.usesSchoolSchedule=true;raw.assignments={'1':{'1':{block:'A',title:'Local A',room:'201',lunch:'NO_LUNCH'}}};

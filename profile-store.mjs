@@ -1,3 +1,4 @@
+import { UnsupportedSnapshot } from './portable-snapshot.mjs';
 import { parseNativeV2 } from './native-v2.mjs';
 import { normalize, importBackup, validateNative, defaultPreferences } from './display-core.mjs';
 
@@ -115,6 +116,11 @@ export function inspectNativeImport(raw) {
     const name=entry.scheduleName?.trim() || `Imported Schedule ${index+1}`;
     const reject=reason=>unsupported.push({name,schoolID:entry.schoolProfileID,reason});
     if(![1,2].includes(entry.formatVersion)) { reject(`Schedule version ${entry.formatVersion} is not supported.`);return; }
+    if(entry.formatVersion===2 && entry.schoolDefinitionSnapshot!=null) {
+      try {const parsed=parseNativeV2(entry);supported.push({shared:parsed.shared,name,nativeMetadata:parsed.nativeMetadata,configuration:normalize(parsed.configuration),warnings:parsed.warnings});}
+      catch(error) {if(error instanceof UnsupportedSnapshot)reject(error.message);else throw error;}
+      return;
+    }
     if(entry.schoolProfileID !== 'wmhs') { reject(`School “${entry.schoolProfileID}” has no supported web definition.`);return; }
     if(entry.sharedSchool != null) {
       if(!object(entry.sharedSchool)) fail(`Schedule ${index+1} has malformed school data.`);
@@ -148,7 +154,7 @@ function effectiveNativeAssignments(shared,schedule,nativeMetadata) {
   return assignments;
 }
 export function nativeConfigurations(plan, schedule, calendar) {
-  return plan.supported.map(({shared,nativeMetadata})=>normalize({
+  return plan.supported.map(({shared,nativeMetadata,configuration})=>configuration ? normalize(configuration) : normalize({
     schemaVersion:2,sourceKind:'bellsync-v1',
     school:{id:'wmhs',displayName:'Wakefield Memorial High School',timeZone:schedule.time_zone},
     profileName:shared.scheduleName,assignments:effectiveNativeAssignments(shared,schedule,nativeMetadata),templates:schedule.bells,calendar,

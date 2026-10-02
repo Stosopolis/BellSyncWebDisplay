@@ -21,6 +21,11 @@
 
 .source-note { font-size:.85rem;margin-top:-4px }
 .setup-heading { font-size:.9rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:26px 0 10px }
+.snapshot-dates { display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px }
+.snapshot-dates button,.snapshot-dates input { min-width:0;max-width:100%;padding:7px 9px;border:1px solid var(--line);border-radius:8px;background:#10242a;color:var(--text);font:inherit;font-size:.8rem }
+.portable-edit-row { display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1fr) minmax(0,.5fr);gap:12px;align-items:center;margin:14px 0 }
+.portable-edit-row > * { min-width:0;overflow-wrap:anywhere }
+@media(max-width:650px){.portable-edit-row{grid-template-columns:minmax(0,1fr)}}
 .schedule-actions { position:relative }
 .schedule-menu { position:absolute;top:calc(100% + 8px);right:0;z-index:5;min-width:240px;padding:6px;border:1px solid var(--line);border-radius:12px;background:#0c1b20;box-shadow:0 10px 30px #0008 }
 .schedule-menu[hidden] { display:none }

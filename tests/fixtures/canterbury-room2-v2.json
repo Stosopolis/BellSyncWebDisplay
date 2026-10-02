@@ -1,0 +1,1702 @@
+{
+  "assignments" : {
+
+  },
+  "createdAt" : "2026-10-02T15:17:41Z",
+  "formatVersion" : 2,
+  "personalActivities" : [
+    {
+      "dayIDs" : [
+
+      ],
+      "end" : "08:30",
+      "id" : "setup",
+      "room" : "",
+      "sourcePeriodID" : "setup",
+      "start" : "08:00",
+      "title" : "Prep, Plan & Setup Classroom",
+      "weekdays" : [
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "dayIDs" : [
+
+      ],
+      "end" : "12:00",
+      "id" : "personal-lunch",
+      "room" : "",
+      "sourcePeriodID" : "personal-lunch",
+      "start" : "11:30",
+      "title" : "Ms. Christine Lunch",
+      "weekdays" : [
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "dayIDs" : [
+
+      ],
+      "end" : "13:30",
+      "id" : "personal-prep",
+      "room" : "",
+      "sourcePeriodID" : "personal-prep",
+      "start" : "13:00",
+      "title" : "Ms. Christine Prep",
+      "weekdays" : [
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    }
+  ],
+  "scheduleName" : "Christine Room 2",
+  "schoolContentVersion" : "2026-2027.3",
+  "schoolDefinitionSnapshot" : {
+    "activityLayers" : {
+      "personal" : [
+        {
+          "end" : "08:30",
+          "id" : "setup",
+          "periodID" : "setup",
+          "start" : "08:00"
+        },
+        {
+          "end" : "12:00",
+          "id" : "personal-lunch",
+          "periodID" : "personal-lunch",
+          "start" : "11:30"
+        },
+        {
+          "end" : "13:30",
+          "id" : "personal-prep",
+          "periodID" : "personal-prep",
+          "start" : "13:00"
+        }
+      ],
+      "staff" : [
+        {
+          "end" : "12:30",
+          "id" : "donna-lunch",
+          "periodID" : "donna-lunch",
+          "start" : "12:00"
+        },
+        {
+          "end" : "14:00",
+          "id" : "emma-lunch",
+          "periodID" : "emma-lunch",
+          "start" : "13:30"
+        }
+      ],
+      "suppressedClassroomDates" : {
+
+      }
+    },
+    "activityPresentation" : {
+      "contextLabel" : "Room 2",
+      "notes" : [
+        "Afternoon Recess \/ Gym is one 2:45–3:30 PM classroom activity. Outside versus gym is a staff decision; no weather or winter variant is inferred.",
+        "The 10:55–11:00 transition and 1:40–1:50 gap are intentional. Bathroom Time, Dismissal & Bathroom and PM Snack are timed classroom activities.",
+        "Room 2 Kidzfun is 9:30–10:00 AM on the 32 confirmed dates. January 5 uses the Tuesday–Thursday source schedule and March 24 the Wednesday–Friday source schedule; Room 2’s time is unchanged.",
+        "The existing November 25 center closing at 2:30 PM remains in effect.",
+        "Preschool starts September 8 for T\/Th and 5-day groups, September 9 for M\/W\/F and 5-day groups. Confirm your cohort’s attendance; this profile uses the operating weekdays through June 4. No summer schedule is supplied."
+      ],
+      "periodSymbols" : {
+        "afternoon-recess" : "figure.walk",
+        "arrival" : "person.fill",
+        "bathroom" : "hands.sparkles.fill",
+        "bathroom-1100" : "hands.sparkles.fill",
+        "bathroom-pm" : "hands.sparkles.fill",
+        "centers" : "square.grid.2x2.fill",
+        "cleanup-am" : "sparkles",
+        "cleanup-pm" : "sparkles",
+        "cleanup-snack" : "sparkles",
+        "dismissal-bathroom" : "hands.sparkles.fill",
+        "donna-lunch" : "person.fill",
+        "emma-lunch" : "person.fill",
+        "free-play" : "sun.max.fill",
+        "kids-lunch" : "fork.knife",
+        "kidzfun" : "star.fill",
+        "personal-lunch" : "fork.knife",
+        "personal-prep" : "pencil",
+        "recess-am" : "figure.walk",
+        "rest" : "moon.fill",
+        "setup" : "pencil",
+        "snack-am" : "fork.knife",
+        "snack-pm" : "fork.knife",
+        "story" : "book.fill",
+        "transition-bathroom" : "figure.walk"
+      },
+      "setupDetail" : "Ms. Christine’s owned staff activities, Room 2 classroom schedule, and the 2026–27 preschool calendar are ready. Only Room 2 is supported."
+    },
+    "calendarExceptions" : {
+      "2026-09-07" : {
+        "kind" : "noSchool",
+        "note" : "Labor Day"
+      },
+      "2026-09-08" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-09-09" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-09-10" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-09-11" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-09-14" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-09-15" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-09-16" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-09-17" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "note" : "Room 2 Kidzfun 9:30–10:00 AM",
+        "templateID" : "room-2-kidzfun"
+      },
+      "2026-09-18" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "note" : "Room 2 Kidzfun 9:30–10:00 AM",
+        "templateID" : "room-2-kidzfun"
+      },
+      "2026-09-21" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-09-22" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-09-23" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-09-24" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-09-25" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-09-28" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-09-29" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-09-30" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-10-01" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "note" : "Room 2 Kidzfun 9:30–10:00 AM",
+        "templateID" : "room-2-kidzfun"
+      },
+      "2026-10-02" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "note" : "Room 2 Kidzfun 9:30–10:00 AM",
+        "templateID" : "room-2-kidzfun"
+      },
+      "2026-10-05" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-10-06" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-10-07" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-10-08" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-10-09" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-10-12" : {
+        "kind" : "noSchool",
+        "note" : "Columbus Day"
+      },
+      "2026-10-13" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-10-14" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-10-15" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-10-16" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-10-19" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-10-20" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-10-21" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-10-22" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "note" : "Room 2 Kidzfun 9:30–10:00 AM",
+        "templateID" : "room-2-kidzfun"
+      },
+      "2026-10-23" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "note" : "Room 2 Kidzfun 9:30–10:00 AM",
+        "templateID" : "room-2-kidzfun"
+      },
+      "2026-10-26" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-10-27" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-10-28" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-10-29" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-10-30" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-11-02" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-11-03" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-11-04" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-11-05" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "note" : "Room 2 Kidzfun 9:30–10:00 AM",
+        "templateID" : "room-2-kidzfun"
+      },
+      "2026-11-06" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "note" : "Room 2 Kidzfun 9:30–10:00 AM",
+        "templateID" : "room-2-kidzfun"
+      },
+      "2026-11-09" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-11-10" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-11-11" : {
+        "kind" : "noSchool",
+        "note" : "Veterans Day"
+      },
+      "2026-11-12" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-11-13" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-11-16" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-11-17" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-11-18" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-11-19" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "note" : "Room 2 Kidzfun 9:30–10:00 AM",
+        "templateID" : "room-2-kidzfun"
+      },
+      "2026-11-20" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "note" : "Room 2 Kidzfun 9:30–10:00 AM",
+        "templateID" : "room-2-kidzfun"
+      },
+      "2026-11-23" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-11-24" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-11-25" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "note" : "Center closes at 2:30 PM",
+        "templateID" : "room-2-early"
+      },
+      "2026-11-26" : {
+        "kind" : "noSchool",
+        "note" : "Thanksgiving recess"
+      },
+      "2026-11-27" : {
+        "kind" : "noSchool",
+        "note" : "Thanksgiving recess"
+      },
+      "2026-11-30" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-12-01" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-12-02" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-12-03" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "note" : "Room 2 Kidzfun 9:30–10:00 AM",
+        "templateID" : "room-2-kidzfun"
+      },
+      "2026-12-04" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "note" : "Room 2 Kidzfun 9:30–10:00 AM",
+        "templateID" : "room-2-kidzfun"
+      },
+      "2026-12-07" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-12-08" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-12-09" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-12-10" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-12-11" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-12-14" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-12-15" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-12-16" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-12-17" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "note" : "Room 2 Kidzfun 9:30–10:00 AM",
+        "templateID" : "room-2-kidzfun"
+      },
+      "2026-12-18" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "note" : "Room 2 Kidzfun 9:30–10:00 AM",
+        "templateID" : "room-2-kidzfun"
+      },
+      "2026-12-21" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-12-22" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2026-12-23" : {
+        "kind" : "noSchool",
+        "note" : "Winter Break"
+      },
+      "2026-12-24" : {
+        "kind" : "noSchool",
+        "note" : "Winter Break"
+      },
+      "2026-12-25" : {
+        "kind" : "noSchool",
+        "note" : "Winter Break"
+      },
+      "2026-12-26" : {
+        "kind" : "noSchool",
+        "note" : "Winter Break"
+      },
+      "2026-12-27" : {
+        "kind" : "noSchool",
+        "note" : "Winter Break"
+      },
+      "2026-12-28" : {
+        "kind" : "noSchool",
+        "note" : "Winter Break"
+      },
+      "2026-12-29" : {
+        "kind" : "noSchool",
+        "note" : "Winter Break"
+      },
+      "2026-12-30" : {
+        "kind" : "noSchool",
+        "note" : "Winter Break"
+      },
+      "2026-12-31" : {
+        "kind" : "noSchool",
+        "note" : "Winter Break"
+      },
+      "2027-01-01" : {
+        "kind" : "noSchool",
+        "note" : "Winter Break"
+      },
+      "2027-01-04" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-01-05" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "note" : "Room 2 Kidzfun 9:30–10:00 AM · Tuesday–Thursday source schedule",
+        "templateID" : "room-2-kidzfun"
+      },
+      "2027-01-06" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-01-07" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-01-08" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "note" : "Room 2 Kidzfun 9:30–10:00 AM",
+        "templateID" : "room-2-kidzfun"
+      },
+      "2027-01-11" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-01-12" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-01-13" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-01-14" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-01-15" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-01-18" : {
+        "kind" : "noSchool",
+        "note" : "Martin Luther King Day"
+      },
+      "2027-01-19" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-01-20" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-01-21" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "note" : "Room 2 Kidzfun 9:30–10:00 AM",
+        "templateID" : "room-2-kidzfun"
+      },
+      "2027-01-22" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "note" : "Room 2 Kidzfun 9:30–10:00 AM",
+        "templateID" : "room-2-kidzfun"
+      },
+      "2027-01-25" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-01-26" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-01-27" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-01-28" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-01-29" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-02-01" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-02-02" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-02-03" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-02-04" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "note" : "Room 2 Kidzfun 9:30–10:00 AM",
+        "templateID" : "room-2-kidzfun"
+      },
+      "2027-02-05" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "note" : "Room 2 Kidzfun 9:30–10:00 AM",
+        "templateID" : "room-2-kidzfun"
+      },
+      "2027-02-08" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-02-09" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-02-10" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-02-11" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "note" : "Room 2 Kidzfun 9:30–10:00 AM",
+        "templateID" : "room-2-kidzfun"
+      },
+      "2027-02-12" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "note" : "Room 2 Kidzfun 9:30–10:00 AM",
+        "templateID" : "room-2-kidzfun"
+      },
+      "2027-02-15" : {
+        "kind" : "noSchool",
+        "note" : "Presidents Day"
+      },
+      "2027-02-16" : {
+        "kind" : "noSchool",
+        "note" : "Vacation Week"
+      },
+      "2027-02-17" : {
+        "kind" : "noSchool",
+        "note" : "Vacation Week"
+      },
+      "2027-02-18" : {
+        "kind" : "noSchool",
+        "note" : "Vacation Week"
+      },
+      "2027-02-19" : {
+        "kind" : "noSchool",
+        "note" : "Vacation Week"
+      },
+      "2027-02-22" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-02-23" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-02-24" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-02-25" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-02-26" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-03-01" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-03-02" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-03-03" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-03-04" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "note" : "Room 2 Kidzfun 9:30–10:00 AM",
+        "templateID" : "room-2-kidzfun"
+      },
+      "2027-03-05" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "note" : "Room 2 Kidzfun 9:30–10:00 AM",
+        "templateID" : "room-2-kidzfun"
+      },
+      "2027-03-08" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-03-09" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-03-10" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-03-11" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-03-12" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-03-15" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-03-16" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-03-17" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-03-18" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-03-19" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-03-22" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-03-23" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-03-24" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "note" : "Room 2 Kidzfun 9:30–10:00 AM · Wednesday–Friday source schedule",
+        "templateID" : "room-2-kidzfun"
+      },
+      "2027-03-25" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "note" : "Room 2 Kidzfun 9:30–10:00 AM",
+        "templateID" : "room-2-kidzfun"
+      },
+      "2027-03-26" : {
+        "kind" : "noSchool",
+        "note" : "Good Friday"
+      },
+      "2027-03-29" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-03-30" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-03-31" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-04-01" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-04-02" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-04-05" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-04-06" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-04-07" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-04-08" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "note" : "Room 2 Kidzfun 9:30–10:00 AM",
+        "templateID" : "room-2-kidzfun"
+      },
+      "2027-04-09" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "note" : "Room 2 Kidzfun 9:30–10:00 AM",
+        "templateID" : "room-2-kidzfun"
+      },
+      "2027-04-12" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-04-13" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-04-14" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-04-15" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-04-16" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-04-19" : {
+        "kind" : "noSchool",
+        "note" : "Patriot’s Day"
+      },
+      "2027-04-20" : {
+        "kind" : "noSchool",
+        "note" : "Vacation Week"
+      },
+      "2027-04-21" : {
+        "kind" : "noSchool",
+        "note" : "Vacation Week"
+      },
+      "2027-04-22" : {
+        "kind" : "noSchool",
+        "note" : "Vacation Week"
+      },
+      "2027-04-23" : {
+        "kind" : "noSchool",
+        "note" : "Vacation Week"
+      },
+      "2027-04-26" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-04-27" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-04-28" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-04-29" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "note" : "Room 2 Kidzfun 9:30–10:00 AM",
+        "templateID" : "room-2-kidzfun"
+      },
+      "2027-04-30" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "note" : "Room 2 Kidzfun 9:30–10:00 AM",
+        "templateID" : "room-2-kidzfun"
+      },
+      "2027-05-03" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-05-04" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-05-05" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-05-06" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "note" : "Room 2 Kidzfun 9:30–10:00 AM",
+        "templateID" : "room-2-kidzfun"
+      },
+      "2027-05-07" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "note" : "Room 2 Kidzfun 9:30–10:00 AM",
+        "templateID" : "room-2-kidzfun"
+      },
+      "2027-05-10" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-05-11" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-05-12" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-05-13" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-05-14" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-05-17" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-05-18" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-05-19" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-05-20" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-05-21" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-05-24" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-05-25" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-05-26" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-05-27" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-05-28" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-05-31" : {
+        "kind" : "noSchool",
+        "note" : "Memorial Day"
+      },
+      "2027-06-01" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-06-02" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-06-03" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      },
+      "2027-06-04" : {
+        "cycleDayID" : "room-2",
+        "kind" : "scheduled",
+        "templateID" : "room-2"
+      }
+    },
+    "calendarRule" : {
+      "cycleDayTemplateIDs" : {
+
+      },
+      "defaultTemplateID" : "room-2",
+      "mode" : "explicitDates",
+      "personalAssignmentLayout" : "sharedPeriods",
+      "schoolWeekdays" : [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "weekdayCycleDayIDs" : {
+
+      },
+      "weekdayTemplateIDs" : {
+
+      }
+    },
+    "contentVersion" : "2026-2027.3",
+    "cycle" : {
+      "dayDisplayNames" : {
+        "room-2" : "Room 2"
+      },
+      "dayIDs" : [
+        "room-2"
+      ],
+      "kind" : "sameEveryDay"
+    },
+    "displayName" : "Canterbury Children's Center",
+    "id" : "canterbury",
+    "periodDefinitions" : [
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Arrival",
+        "id" : "arrival",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Centers",
+        "id" : "centers",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Cleanup",
+        "id" : "cleanup-am",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Kidzfun",
+        "id" : "kidzfun",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Bathroom",
+        "id" : "bathroom",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Snack",
+        "id" : "snack-am",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Cleanup",
+        "id" : "cleanup-snack",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Outdoor \/ Indoor Recess",
+        "id" : "recess-am",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Line Up \/ Transition to Bathroom",
+        "id" : "transition-bathroom",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Bathroom Time",
+        "id" : "bathroom-1100",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Circle Time",
+        "id" : "story",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Kids Lunch",
+        "id" : "kids-lunch",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Recess \/ Indoor Free Play",
+        "id" : "free-play",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Dismissal & Bathroom",
+        "id" : "dismissal-bathroom",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Rest",
+        "id" : "rest",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Bathroom",
+        "id" : "bathroom-pm",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "PM Snack",
+        "id" : "snack-pm",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Free Play \/ Classroom Cleanup",
+        "id" : "cleanup-pm",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Afternoon Recess \/ Gym",
+        "id" : "afternoon-recess",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Prep, Plan & Setup Classroom",
+        "id" : "setup",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Ms. Christine Lunch",
+        "id" : "personal-lunch",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Ms. Christine Prep",
+        "id" : "personal-prep",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Ms. Donna Lunch",
+        "id" : "donna-lunch",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Ms. Emma Lunch",
+        "id" : "emma-lunch",
+        "kind" : "other"
+      }
+    ],
+    "scheduleTemplates" : [
+      {
+        "displayName" : "Normal Room 2 Day",
+        "id" : "room-2",
+        "periods" : [
+          {
+            "end" : "08:45",
+            "id" : "arrival",
+            "periodID" : "arrival",
+            "start" : "08:30"
+          },
+          {
+            "end" : "09:20",
+            "id" : "centers",
+            "periodID" : "centers",
+            "start" : "08:45"
+          },
+          {
+            "end" : "09:30",
+            "id" : "cleanup-am",
+            "periodID" : "cleanup-am",
+            "start" : "09:20"
+          },
+          {
+            "end" : "09:45",
+            "id" : "bathroom",
+            "periodID" : "bathroom",
+            "start" : "09:30"
+          },
+          {
+            "end" : "10:00",
+            "id" : "snack-am",
+            "periodID" : "snack-am",
+            "start" : "09:45"
+          },
+          {
+            "end" : "10:15",
+            "id" : "cleanup-snack",
+            "periodID" : "cleanup-snack",
+            "start" : "10:00"
+          },
+          {
+            "end" : "10:55",
+            "id" : "recess-am",
+            "periodID" : "recess-am",
+            "start" : "10:15"
+          },
+          {
+            "end" : "11:00",
+            "id" : "transition-bathroom",
+            "periodID" : "transition-bathroom",
+            "start" : "10:55"
+          },
+          {
+            "end" : "11:15",
+            "id" : "bathroom-1100",
+            "periodID" : "bathroom-1100",
+            "start" : "11:00"
+          },
+          {
+            "end" : "11:30",
+            "id" : "story",
+            "periodID" : "story",
+            "start" : "11:15"
+          },
+          {
+            "end" : "12:00",
+            "id" : "kids-lunch",
+            "periodID" : "kids-lunch",
+            "start" : "11:30"
+          },
+          {
+            "end" : "12:30",
+            "id" : "free-play",
+            "periodID" : "free-play",
+            "start" : "12:00"
+          },
+          {
+            "end" : "12:40",
+            "id" : "dismissal-bathroom",
+            "periodID" : "dismissal-bathroom",
+            "start" : "12:30"
+          },
+          {
+            "end" : "13:40",
+            "id" : "rest",
+            "periodID" : "rest",
+            "start" : "12:40"
+          },
+          {
+            "end" : "14:00",
+            "id" : "bathroom-pm",
+            "periodID" : "bathroom-pm",
+            "start" : "13:50"
+          },
+          {
+            "end" : "14:30",
+            "id" : "snack-pm",
+            "periodID" : "snack-pm",
+            "start" : "14:00"
+          },
+          {
+            "end" : "14:45",
+            "id" : "cleanup-pm",
+            "periodID" : "cleanup-pm",
+            "start" : "14:30"
+          },
+          {
+            "end" : "15:30",
+            "id" : "afternoon-recess",
+            "periodID" : "afternoon-recess",
+            "start" : "14:45"
+          }
+        ]
+      },
+      {
+        "displayName" : "Closes at 2:30 PM",
+        "id" : "room-2-early",
+        "periods" : [
+          {
+            "end" : "08:45",
+            "id" : "arrival",
+            "periodID" : "arrival",
+            "start" : "08:30"
+          },
+          {
+            "end" : "09:20",
+            "id" : "centers",
+            "periodID" : "centers",
+            "start" : "08:45"
+          },
+          {
+            "end" : "09:30",
+            "id" : "cleanup-am",
+            "periodID" : "cleanup-am",
+            "start" : "09:20"
+          },
+          {
+            "end" : "09:45",
+            "id" : "bathroom",
+            "periodID" : "bathroom",
+            "start" : "09:30"
+          },
+          {
+            "end" : "10:00",
+            "id" : "snack-am",
+            "periodID" : "snack-am",
+            "start" : "09:45"
+          },
+          {
+            "end" : "10:15",
+            "id" : "cleanup-snack",
+            "periodID" : "cleanup-snack",
+            "start" : "10:00"
+          },
+          {
+            "end" : "10:55",
+            "id" : "recess-am",
+            "periodID" : "recess-am",
+            "start" : "10:15"
+          },
+          {
+            "end" : "11:00",
+            "id" : "transition-bathroom",
+            "periodID" : "transition-bathroom",
+            "start" : "10:55"
+          },
+          {
+            "end" : "11:15",
+            "id" : "bathroom-1100",
+            "periodID" : "bathroom-1100",
+            "start" : "11:00"
+          },
+          {
+            "end" : "11:30",
+            "id" : "story",
+            "periodID" : "story",
+            "start" : "11:15"
+          },
+          {
+            "end" : "12:00",
+            "id" : "kids-lunch",
+            "periodID" : "kids-lunch",
+            "start" : "11:30"
+          },
+          {
+            "end" : "12:30",
+            "id" : "free-play",
+            "periodID" : "free-play",
+            "start" : "12:00"
+          },
+          {
+            "end" : "12:40",
+            "id" : "dismissal-bathroom",
+            "periodID" : "dismissal-bathroom",
+            "start" : "12:30"
+          },
+          {
+            "end" : "13:40",
+            "id" : "rest",
+            "periodID" : "rest",
+            "start" : "12:40"
+          },
+          {
+            "end" : "14:00",
+            "id" : "bathroom-pm",
+            "periodID" : "bathroom-pm",
+            "start" : "13:50"
+          },
+          {
+            "end" : "14:30",
+            "id" : "snack-pm",
+            "periodID" : "snack-pm",
+            "start" : "14:00"
+          }
+        ]
+      },
+      {
+        "displayName" : "Room 2 Kidzfun Day",
+        "id" : "room-2-kidzfun",
+        "periods" : [
+          {
+            "end" : "08:45",
+            "id" : "arrival",
+            "periodID" : "arrival",
+            "start" : "08:30"
+          },
+          {
+            "end" : "09:20",
+            "id" : "centers",
+            "periodID" : "centers",
+            "start" : "08:45"
+          },
+          {
+            "end" : "09:30",
+            "id" : "cleanup-am",
+            "periodID" : "cleanup-am",
+            "start" : "09:20"
+          },
+          {
+            "end" : "10:00",
+            "id" : "kidzfun",
+            "periodID" : "kidzfun",
+            "start" : "09:30"
+          },
+          {
+            "end" : "10:15",
+            "id" : "bathroom",
+            "periodID" : "bathroom",
+            "start" : "10:00"
+          },
+          {
+            "end" : "10:30",
+            "id" : "snack-am",
+            "periodID" : "snack-am",
+            "start" : "10:15"
+          },
+          {
+            "end" : "10:55",
+            "id" : "recess-am",
+            "periodID" : "recess-am",
+            "start" : "10:30"
+          },
+          {
+            "end" : "11:00",
+            "id" : "transition-bathroom",
+            "periodID" : "transition-bathroom",
+            "start" : "10:55"
+          },
+          {
+            "end" : "11:15",
+            "id" : "bathroom-1100",
+            "periodID" : "bathroom-1100",
+            "start" : "11:00"
+          },
+          {
+            "end" : "11:30",
+            "id" : "story",
+            "periodID" : "story",
+            "start" : "11:15"
+          },
+          {
+            "end" : "12:00",
+            "id" : "kids-lunch",
+            "periodID" : "kids-lunch",
+            "start" : "11:30"
+          },
+          {
+            "end" : "12:30",
+            "id" : "free-play",
+            "periodID" : "free-play",
+            "start" : "12:00"
+          },
+          {
+            "end" : "12:40",
+            "id" : "dismissal-bathroom",
+            "periodID" : "dismissal-bathroom",
+            "start" : "12:30"
+          },
+          {
+            "end" : "13:40",
+            "id" : "rest",
+            "periodID" : "rest",
+            "start" : "12:40"
+          },
+          {
+            "end" : "14:00",
+            "id" : "bathroom-pm",
+            "periodID" : "bathroom-pm",
+            "start" : "13:50"
+          },
+          {
+            "end" : "14:30",
+            "id" : "snack-pm",
+            "periodID" : "snack-pm",
+            "start" : "14:00"
+          },
+          {
+            "end" : "14:45",
+            "id" : "cleanup-pm",
+            "periodID" : "cleanup-pm",
+            "start" : "14:30"
+          },
+          {
+            "end" : "15:30",
+            "id" : "afternoon-recess",
+            "periodID" : "afternoon-recess",
+            "start" : "14:45"
+          }
+        ]
+      }
+    ],
+    "scheduledPointEvents" : [
+      {
+        "category" : "staff",
+        "id" : "judy-arrives",
+        "symbol" : "person.fill",
+        "time" : "15:00",
+        "title" : "Judy Arrives",
+        "weekdays" : [
+          2,
+          4,
+          6
+        ]
+      },
+      {
+        "category" : "departure",
+        "endsWorkday" : true,
+        "excludedDates" : [
+          "2026-11-25"
+        ],
+        "id" : "departure-mwf",
+        "symbol" : "person.fill",
+        "time" : "15:00",
+        "title" : "Ms. Christine Leaves",
+        "weekdays" : [
+          2,
+          4,
+          6
+        ]
+      },
+      {
+        "category" : "departure",
+        "endsWorkday" : true,
+        "id" : "departure-tuth",
+        "symbol" : "person.fill",
+        "time" : "15:30",
+        "title" : "Ms. Christine Leaves",
+        "weekdays" : [
+          3,
+          5
+        ]
+      },
+      {
+        "category" : "departure",
+        "dates" : [
+          "2026-11-25"
+        ],
+        "endsWorkday" : true,
+        "id" : "early-close",
+        "symbol" : "clock.fill",
+        "time" : "14:30",
+        "title" : "Center Closes"
+      }
+    ],
+    "schemaVersion" : 1,
+    "timeZoneIdentifier" : "America\/New_York"
+  },
+  "schoolProfileID" : "canterbury"
+}
