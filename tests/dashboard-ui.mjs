@@ -263,4 +263,12 @@ test('header preserves named rotations and no-day fallback without inventing num
   assert.equal(core.headerScheduleLabel({day:'room-2',dayLabel:'Room 2',schedule:'regular'}),'Room 2 · Regular');
   assert.equal(core.headerScheduleLabel({day:'day-2',dayLabel:'Day 2',schedule:'regular'}),'Day 2 · Regular');
 });
+test('optional progress stays compact, off by default, and hides day bar at completion',()=>{
+  const input=imported();assert.ok(!renderer(input).render('11:30').includes('class="school-progress"'));
+  input.preferences.schoolDayProgress=true;input.preferences.schoolYearProgress=true;
+  const r=renderer(input),html=r.render('11:30');assert.match(html,/SCHOOL DAY/);assert.match(html,/SCHOOL YEAR/);assert.match(html,/of \d+ school days complete/);assert.equal((html.match(/<progress /g)||[]).length,2);
+  const region=r.scroller();region.scrollTop=300;r.render('11:31');assert.strictEqual(r.scroller(),region);assert.equal(region.scrollTop,300);
+  const end=r.render('14:10');assert.ok(!end.includes('SCHOOL DAY'));assert.match(end,/SCHOOL YEAR/);assert.match(end,/Done for today/);
+  assert.match(css,/\.school-progress progress\s*\{[^}]*height:5px/);
+});
 console.log(`\n${passed} dashboard UI tests passed.`);

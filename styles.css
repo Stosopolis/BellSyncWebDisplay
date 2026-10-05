@@ -107,3 +107,12 @@
 .lunch-warning span { margin-top:3px;color:var(--muted);font-size:.85rem }
 
 .header .meta { font-size:clamp(1.1rem,1.8vw,1.6rem);font-weight:650;line-height:1.4;margin-top:12px;overflow-wrap:anywhere }
+
+.school-progress { max-width:440px;margin:16px auto 0;text-align:left;color:var(--muted);font-size:clamp(.8rem,1.1vw,1rem) }
+.progress-heading { display:flex;justify-content:space-between;gap:12px }
+.progress-heading strong { font-size:.8em;letter-spacing:.08em;font-weight:700 }
+.progress-detail { margin-top:4px }
+.school-progress progress { display:block;width:100%;height:5px;margin-top:7px;border:0;border-radius:999px;overflow:hidden;appearance:none;background:#ffffff16;accent-color:var(--mint) }
+.school-progress progress::-webkit-progress-bar { background:#ffffff16 }
+.school-progress progress::-webkit-progress-value { background:var(--mint) }
+.school-progress progress::-moz-progress-bar { background:var(--mint) }

@@ -66,11 +66,11 @@ function preferences(p) {
   if (p.accent !== undefined && !['mint','blue','purple','pink','orange','red'].includes(p.accent)) fail('Invalid accent color.');
   if (p.scheduleLabels !== undefined && !['blocks','periods','hidden'].includes(p.scheduleLabels)) fail('Invalid schedule label preference.');
   if (p.displaySize !== undefined && !['compact','standard','large'].includes(p.displaySize)) fail('Invalid display size.');
-  for (const k of ['hour24','showRooms','showSchedule','showSchoolName']) if (p[k] !== undefined && typeof p[k] !== 'boolean') fail(`Invalid preference: ${k}.`);
+  for (const k of ['hour24','showRooms','showSchedule','showSchoolName','schoolDayProgress','schoolYearProgress']) if (p[k] !== undefined && typeof p[k] !== 'boolean') fail(`Invalid preference: ${k}.`);
 }
 export function defaultPreferences(p = {}, scheduleLabels = 'periods') {
   preferences(p);
-  return {accent:p.accent ?? 'mint',hour24:p.hour24 ?? false,showRooms:p.showRooms ?? true,showSchedule:p.showSchedule ?? true,showSchoolName:p.showSchoolName ?? true,displaySize:p.displaySize ?? 'standard',scheduleLabels:p.scheduleLabels ?? scheduleLabels};
+  return {accent:p.accent ?? 'mint',hour24:p.hour24 ?? false,showRooms:p.showRooms ?? true,showSchedule:p.showSchedule ?? true,showSchoolName:p.showSchoolName ?? true,displaySize:p.displaySize ?? 'standard',scheduleLabels:p.scheduleLabels ?? scheduleLabels,schoolDayProgress:p.schoolDayProgress ?? false,schoolYearProgress:p.schoolYearProgress ?? false};
 }
 export function isManagedWMHS(v) { return v.school?.id === 'wmhs' && v.sourceKind === 'bellsync-v1'; }
 export function isManagedSchool(v) { return isManagedWMHS(v) || (v.school?.id === 'gms' && v.sourceKind === 'builtin-gms'); }
@@ -379,6 +379,57 @@ export function timelineFor(config, key) {
   if(config.nativeMetadata?.sharedSchedule?.personalActivities?.length) {
     const owners=profileOwnerEvents(config.nativeMetadata.sharedSchedule,key,String(day.day),at);
     result.classroom=result.events;result.events=projectOwners(result.events,owners);
+  }
+  return result;
+}
+
+// Presentation-only progress uses the same resolved day and source timing as
+// the timeline. It never adds events or changes countdown targets.
+export function confirmedWorkdayBounds(config,key) {
+  const timeline=timelineFor(config,key);
+  if(timeline.status!=='scheduled')return null;
+  let starts=[],ends=[];
+  if(config.sourceKind==='bellsync-snapshot') {
+    const template=config.portable.shared.schoolDefinitionSnapshot.scheduleTemplates.find(t=>t.id===timeline.day.schedule);
+    if(template?.unconfirmedEndFrom && key>=template.unconfirmedEndFrom)return null;
+    const events=[...(timeline.classroom || []),...timeline.events].filter(isMeaningfulEvent);
+    starts=events.map(e=>e.startAt);ends=events.map(e=>e.endAt);
+    if(Number.isFinite(timeline.workdayEndAt))ends=[timeline.workdayEndAt];
+  } else {
+    const rows=isManagedSchool(config)?config.templates[timeline.day.schedule]:config.periods;
+    const meaningful=rows.filter(p=>p.kind!=='passing');
+    starts=meaningful.map(p=>zonedTimestamp(key,p.start,config.school.timeZone));
+    ends=meaningful.map(p=>zonedTimestamp(key,p.end,config.school.timeZone));
+    for(const owner of timeline.events.filter(e=>e.owner)){starts.push(owner.startAt);ends.push(owner.endAt);}
+  }
+  const startAt=Math.min(...starts),endAt=Math.max(...ends);
+  return Number.isFinite(startAt) && Number.isFinite(endAt) && startAt<endAt?{startAt,endAt}:null;
+}
+const progressCalendarCache=new WeakMap();
+function authoritativeProgressDates(config) {
+  if(progressCalendarCache.has(config))return progressCalendarCache.get(config);
+  let candidates=null;
+  if(config.sourceKind==='bellsync-snapshot') {
+    const d=config.portable.shared.schoolDefinitionSnapshot;
+    if(d.calendarRule.mode==='explicitDates')candidates=Object.keys(d.calendarExceptions);
+  } else if(config.calendar?.school_year && config.calendar.days)candidates=Object.keys(config.calendar.days);
+  const dates=candidates?.filter(key=>schoolDay(config,key)!==null).sort() || null;
+  progressCalendarCache.set(config,dates);return dates;
+}
+export function schoolProgress(config,key,now) {
+  const result={day:null,year:null};
+  if(config.preferences.schoolDayProgress) {
+    const bounds=confirmedWorkdayBounds(config,key);
+    if(bounds && now<bounds.endAt)result.day={...bounds,fraction:Math.max(0,Math.min(1,(now-bounds.startAt)/(bounds.endAt-bounds.startAt)))};
+  }
+  if(config.preferences.schoolYearProgress) {
+    const dates=authoritativeProgressDates(config);
+    if(dates?.length) {
+      const today=dateInZone(now,config.school.timeZone),cutoff=key<today?key:today;
+      const bounds=dates.includes(cutoff)?confirmedWorkdayBounds(config,cutoff):null;
+      const completed=dates.filter(date=>date<cutoff || (date===cutoff && bounds && now>=bounds.endAt)).length;
+      result.year={completed,total:dates.length,fraction:completed/dates.length};
+    }
   }
   return result;
 }

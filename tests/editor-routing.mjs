@@ -315,4 +315,12 @@ await test('WMHS portable snapshot uses explicit lunch rules; unrelated portable
   assert.equal(core.unresolvedLunchAssignments(a.snapshot().savedProfiles[0].configuration).length,0);
   assert.deepEqual(a.snapshot().savedProfiles[0].configuration.portable.shared.schoolDefinitionSnapshot,d);
 });
+await test('Display Settings progress toggles default off and persist independently per profile',()=>{
+  const a=app(),id=a.add(resolvedWMHS());a.node('#settings').onclick();
+  assert.match(a.markup(),/name="schoolDayProgress" type="checkbox" > School Day Progress/);assert.match(a.markup(),/name="schoolYearProgress" type="checkbox" > School Year Progress/);
+  a.node('#settings-form').onsubmit({preventDefault(){},currentTarget:{accent:{value:'mint'},clock:{value:'12'},size:{value:'standard'},scheduleLabels:{value:'blocks'},rooms:{checked:true},schedule:{checked:true},school:{checked:true},schoolDayProgress:{checked:true},schoolYearProgress:{checked:true}}});
+  assert.equal(a.snapshot().savedProfiles[0].configuration.preferences.schoolDayProgress,true);assert.equal(a.snapshot().savedProfiles[0].configuration.preferences.schoolYearProgress,true);
+  const other=a.add(resolvedWMHS());assert.equal(a.snapshot().savedProfiles.find(p=>p.id===other).configuration.preferences.schoolDayProgress,false);
+  a.run('selectProfile('+JSON.stringify(id)+')');const reloaded=app(a.storage);assert.equal(reloaded.snapshot().savedProfiles.find(p=>p.id===id).configuration.preferences.schoolYearProgress,true);
+});
 console.log(`\n${passed} editor routing tests passed.`);
