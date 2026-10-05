@@ -186,6 +186,14 @@ export function schoolDay(v,key) {
   if ([0,6].includes(new Date(`${key}T12:00:00Z`).getUTCDay())) return null;
   const r=rotationFor(v,key); return r ? {day:r.id,dayLabel:r.label,schedule:'regular'} : null;
 }
+export function headerScheduleLabel(day) {
+  if(!day)return 'No student schedule';
+  const sourceLabel=String(day.dayLabel ?? day.day ?? '').trim();
+  const rotation=/^\d+$/.test(sourceLabel)?`Day ${sourceLabel}`:sourceLabel;
+  const sourceSchedule=String(day.schedule || 'regular');
+  const schedule=sourceSchedule.charAt(0).toUpperCase()+sourceSchedule.slice(1).toLowerCase();
+  return [rotation,schedule].filter(Boolean).join(' · ');
+}
 export function formatClock(timestamp,tz,hour24=false) {
   return new Intl.DateTimeFormat(hour24?'en-GB':'en-US',{timeZone:tz,hour:hour24?'2-digit':'numeric',minute:'2-digit',hourCycle:hour24?'h23':'h12'}).format(timestamp);
 }

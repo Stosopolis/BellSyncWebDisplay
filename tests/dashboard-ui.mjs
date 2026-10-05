@@ -233,4 +233,34 @@ test('date controls stay outside the scroll rows and wrap at every width',()=>{
   assert.match(css,/\.snapshot-dates\s*\{[^}]*flex:0 0 auto[^}]*flex-wrap:wrap/);
   assert.ok(!/\.snapshot-dates[^{}]*\{[^}]*display:none/.test(css));
 });
+test('today unresolved lunch uses today-specific warning copy',()=>{
+  const input=imported();delete input.assignments['2']['4'].lunch;
+  const html=renderer(input,'2026-10-05').render('11:30');assert.equal(core.schoolDay(input,'2026-10-05').day,2);
+  assert.match(html,/<strong>Lunch not set for today<\/strong>/);assert.match(html,/Today’s long-block countdown may include lunch\./);
+});
+test('today configured with other missing lunches shows incomplete setup, including NO_LUNCH',()=>{
+  for(const todayLunch of ['L2','NO_LUNCH']){
+    const input=imported();input.assignments['2']['4'].lunch=todayLunch;delete input.assignments['1']['4'].lunch;
+    const r=renderer(input,'2026-10-05'),before=r.stored(),html=r.render('11:30');
+    assert.match(html,/<strong>Lunch setup incomplete<\/strong>/);assert.match(html,/Some lunch assignments are still missing for this schedule\. Long-block countdowns may be incorrect on those days\./);
+    assert.ok(!html.includes('Lunch not set for today'));assert.deepEqual(r.stored(),before);
+  }
+});
+test('all lunch assignments configured omit the warning',()=>{
+  for(const choice of ['L1','L2','L3','NO_LUNCH']){
+    const input=imported();for(const rows of Object.values(input.assignments))rows['4'].lunch=choice;
+    assert.ok(!renderer(input,'2026-10-05').render('11:30').includes('class="lunch-warning"'));
+  }
+});
+test('header formats the effective Day 2 and Regular with readable typography',()=>{
+  assert.equal(core.headerScheduleLabel({day:2,schedule:'regular'}),'Day 2 · Regular');
+  const html=renderer(imported(),'2026-10-05').render('11:30');assert.match(html,/Monday, October 5 · Day 2 · Regular/);
+  assert.match(css,/\.header \.meta\s*\{[^}]*font-size:clamp\(1\.1rem,1\.8vw,1\.6rem\)[^}]*font-weight:650[^}]*margin-top:12px/);
+});
+test('header preserves named rotations and no-day fallback without inventing numbers',()=>{
+  assert.equal(core.headerScheduleLabel(null),'No student schedule');
+  assert.equal(core.headerScheduleLabel({schedule:'regular'}),'Regular');
+  assert.equal(core.headerScheduleLabel({day:'room-2',dayLabel:'Room 2',schedule:'regular'}),'Room 2 · Regular');
+  assert.equal(core.headerScheduleLabel({day:'day-2',dayLabel:'Day 2',schedule:'regular'}),'Day 2 · Regular');
+});
 console.log(`\n${passed} dashboard UI tests passed.`);

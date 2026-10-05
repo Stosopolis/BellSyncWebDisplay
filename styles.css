@@ -105,3 +105,5 @@
 .lunch-warning { display:block;text-align:left;margin-top:12px;padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:#10242a;color:var(--text) }
 .lunch-warning strong,.lunch-warning span { display:block }
 .lunch-warning span { margin-top:3px;color:var(--muted);font-size:.85rem }
+
+.header .meta { font-size:clamp(1.1rem,1.8vw,1.6rem);font-weight:650;line-height:1.4;margin-top:12px;overflow-wrap:anywhere }
