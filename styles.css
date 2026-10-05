@@ -101,3 +101,7 @@
   .rows .row.no-label { grid-template-columns:minmax(0,1fr);grid-template-areas:"activity" "trailing" }
   .row-trailing { justify-self:end }
 }
+
+.lunch-warning { display:block;text-align:left;margin-top:12px;padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:#10242a;color:var(--text) }
+.lunch-warning strong,.lunch-warning span { display:block }
+.lunch-warning span { margin-top:3px;color:var(--muted);font-size:.85rem }

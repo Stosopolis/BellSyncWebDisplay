@@ -72,14 +72,14 @@ for(const lunch of ['NO_LUNCH',undefined]) await test(`${lunch ?? 'missing'} sur
   for(const profile of saved.savedProfiles) {
     a.edit(profile.id);assert.equal(a.node('#managed-classes').children.length,1);const sections=a.node('#managed-days').children.map(button=>{button.onclick();return a.node('#managed-classes').children[0];});
     sections.forEach((section,i)=>{
-      const select=lunchSelect(section);assert.ok(select);assert.equal(select.value,'NO_LUNCH');
+      const select=lunchSelect(section);assert.ok(select);assert.equal(select.value,lunch ?? '');
       assert.match(select.innerHTML,/value="NO_LUNCH"/);
       assert.equal(section.children.flatMap(n=>n.children).filter(n=>n.className==='managed-lunch').length,1);
       const label=lunchLabel(section).children[0].textContent;
       assert.equal(label,'Lunch');assert.ok(select.attributes['aria-label'].includes(school.long_block_meta[String(i+1)].long));
     });
     const after=a.submit().savedProfiles.find(p=>p.id===profile.id).configuration;
-    assert.deepEqual(after,profile.configuration);
+    const expected=copy(profile.configuration);if(lunch===undefined)expected.lunchGuidancePrompted=true;assert.deepEqual(after,expected);
     if(lunch===undefined)assert.equal(Object.hasOwn(after.assignments['1']['4'],'lunch'),false);
     core.validate(after);profiles.validateStore(JSON.parse(a.storage.getItem(profiles.PROFILE_KEY)));
     const rows=core.timelineFor(after,date).events.filter(e=>e.periodID==='4');

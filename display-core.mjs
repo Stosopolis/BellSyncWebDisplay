@@ -214,12 +214,40 @@ export function managedLunchPeriods(value) {
   if(!isManagedWMHS(value)) return [];
   return [...new Set(Object.values(value.templates).flat().filter(p=>p.lunches && Object.keys(p.lunches).length).map(p=>p.id))];
 }
+// Only WMHS sources with explicit selectable split rules require a choice.
+export function requiredLunchAssignments(value) {
+  if(value.school?.id!=='wmhs')return [];
+  if(isManagedWMHS(value))return Array.from({length:7},(_,i)=>String(i+1)).flatMap(day=>managedLunchPeriods(value).map(period=>({day,period,choices:LUNCH_CHOICES})));
+  if(value.sourceKind!=='bellsync-snapshot')return [];
+  const d=value.portable.shared.schoolDefinitionSnapshot;
+  return d.cycle.dayIDs.flatMap(day=>(d.lunchRules ?? []).filter(rule=>{
+    const options=rule.options.map(o=>o.id);
+    return d.scheduleTemplates.some(t=>t.periods.some(p=>p.periodID===rule.periodID)) && d.periodDefinitions.some(p=>p.id===rule.periodID && p.acceptsPersonalAssignment) && ['L1','L2','L3'].every(id=>options.includes(id));
+  }).map(rule=>({day,period:rule.periodID,choices:[...rule.options.map(o=>o.id),'NO_LUNCH']}))).filter((row,i,all)=>all.findIndex(r=>r.day===row.day && r.period===row.period)===i);
+}
+export function unresolvedLunchAssignments(value) {
+  const assignments=value.sourceKind==='bellsync-snapshot'?value.portable.shared.assignments:value.assignments;
+  return requiredLunchAssignments(value).filter(({day,period,choices})=>!choices.includes(assignments?.[day]?.[period]?.lunch));
+}
+export function setProfileLunchChoices(value,changes) {
+  const draft=JSON.parse(JSON.stringify(value)),required=requiredLunchAssignments(draft);
+  const rows=draft.sourceKind==='bellsync-snapshot'?draft.portable.shared.assignments:draft.assignments;
+  for(const {day,period,lunch} of changes) {
+    if(!required.some(r=>r.day===day && r.period===period && r.choices.includes(lunch)))fail('Invalid lunch selection.');
+    rows[day] ??= {};
+    const source=draft.portable?.shared.schoolDefinitionSnapshot.periodDefinitions.find(p=>p.id===period);
+    rows[day][period] ??= {title:source?.displayName || '',room:'',block:source?.displayName || ''};
+    rows[day][period].lunch=lunch;
+  }
+  return normalize(draft);
+}
 export function editManagedAssignments(value,profileName,changes) {
   if(!isManagedSchool(value)) fail('This editor requires a source-managed school.');
   const draft=JSON.parse(JSON.stringify(value)); draft.profileName=profileName;
   const lunchPeriods=new Set(managedLunchPeriods(draft));
   for(const change of changes) {
     const {day,period,title,room}=change;
+    if(!draft.assignments[day]?.[period] && requiredLunchAssignments(draft).some(r=>r.day===day && r.period===period)) {draft.assignments[day] ??= {};draft.assignments[day][period]={title:'',room:''};}
     if(!Object.hasOwn(draft.assignments,day) || !Object.hasOwn(draft.assignments[day],period)) fail('Unknown imported assignment.');
     const assignment=draft.assignments[day][period];
     if(Object.hasOwn(change,'title') && title!==assignment.title && draft.nativeMetadata?.activityNameOverrides) {

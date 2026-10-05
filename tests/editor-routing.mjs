@@ -210,7 +210,7 @@ await test('Cancel discards cross-day drafts; missing lunch remains absent when 
   const a=app(),input=schools.builtInConfiguration('wmhs',school,calendar);delete input.assignments['2']['1'].room;a.add(input);const before=a.snapshot();a.clickEdit();
   const tabs=a.node('#managed-days').children,row=a.node('#managed-classes').children[0].children.find(n=>n.className==='managed-assignment');row.children[1].children[1].value='Discard me';tabs[3].onclick();a.node('#managed-editor').elements.profileName.value='Discard name';a.node('#cancel').onclick();assert.deepEqual(a.snapshot(),before);
   a.clickEdit();assert.equal(a.node('#managed-classes').children[0].children.find(n=>n.className==='managed-assignment').children[1].children[1].value,school.assignments['1']['1'].title);
-  for(const tab of a.node('#managed-days').children)tab.onclick();a.node('#managed-editor').onsubmit({preventDefault(){}});assert.deepEqual(a.snapshot().savedProfiles,before.savedProfiles);
+  for(const tab of a.node('#managed-days').children)tab.onclick();a.node('#managed-editor').onsubmit({preventDefault(){}});const expected=structuredClone(before.savedProfiles);expected[0].configuration.lunchGuidancePrompted=true;assert.deepEqual(a.snapshot().savedProfiles,expected);
 });
 await test('compact editor preserves FLEX identity and accessible fields, shared with Galvin',()=>{
   const a=app();a.add(schools.builtInConfiguration('wmhs',school,calendar));a.clickEdit();const rows=a.node('#managed-classes').children[0].children.filter(n=>n.className==='managed-assignment');
@@ -246,5 +246,73 @@ await test('physical date-control handlers stay on frozen snapshot through Kidzf
   a.node('#previous-date').onclick();assert.equal(a.run('viewedDate'),'2026-10-02');
   for(const [key,state] of [['2026-10-12','no-school'],['2026-09-10','preview'],['2027-01-05','preview']]) {const input=a.node('#view-date');input.value=key;input.focus();input.onchange({target:input});assert.equal(a.run('viewedDate'),key);assert.equal(a.run('state(Date.now()).state'),state);}
   a.node('#today-date').onclick();assert.equal(a.run('viewedDate'),null);assert.equal(a.run('state(Date.now()).current.title'),'Kidzfun');assert.deepEqual(a.snapshot(),before);
+});
+const unresolvedWMHS=()=>schools.builtInConfiguration('wmhs',school,calendar);
+const resolvedWMHS=(lunch='L2')=>{const c=unresolvedWMHS();for(const rows of Object.values(c.assignments))rows['4'].lunch=lunch;return c;};
+await test('WMHS lunch guidance uses source split metadata, not duration or school name alone',()=>{
+  const c=unresolvedWMHS();assert.equal(core.unresolvedLunchAssignments(c).length,7);
+  for(const choice of ['L1','L2','L3','NO_LUNCH'])assert.equal(core.unresolvedLunchAssignments(resolvedWMHS(choice)).length,0);
+  const without=structuredClone(c);for(const rows of Object.values(without.templates))for(const p of rows)delete p.lunches;
+  assert.equal(core.unresolvedLunchAssignments(without).length,0);
+  assert.equal(core.unresolvedLunchAssignments(manual).length,0);
+  assert.equal(core.unresolvedLunchAssignments(schools.builtInConfiguration('gms',read('../public/builtins/gms/schedule.json'),read('../public/builtins/gms/calendar.json'),6)).length,0);
+});
+await test('WMHS setup editor save prompts once and Not Now leaves a persistent warning',()=>{
+  const a=app();a.add(unresolvedWMHS());a.clickEdit();a.node('#managed-editor').onsubmit({preventDefault(){}});
+  assert.match(a.markup(),/Choose your lunch/);for(const label of ['Choose Lunch','No Lunch Assignment','Not Now'])assert.ok(a.markup().includes(label));
+  const config=a.snapshot().savedProfiles[0].configuration;assert.equal(config.lunchGuidancePrompted,true);assert.equal(core.unresolvedLunchAssignments(config).length,7);
+  a.node('#lunch-not-now').onclick();a.run('update()');assert.match(a.node('#display').innerHTML,/Lunch not set/);
+  a.run('maybePromptLunch(store.snapshot.activeProfileID)');assert.ok(!a.markup());
+  a.node('#lunch-warning').listeners.click();assert.match(a.markup(),/managed-editor/);
+});
+await test('Choose Lunch opens the unresolved rotation day and focuses its existing selector',()=>{
+  const a=app(),c=unresolvedWMHS();c.assignments['1']['4'].lunch='L1';a.add(c);a.run('maybePromptLunch(store.snapshot.activeProfileID)');
+  a.node('#choose-lunch').onclick();assert.match(a.markup(),/managed-editor/);
+  assert.equal(a.node('#managed-days').children[1].attributes['aria-pressed'],'true');
+  assert.equal(a.sandbox.document.activeElement.tag,'select');assert.equal(a.sandbox.document.activeElement.value,'');
+});
+await test('No Lunch Assignment fills only missing selections and removes warning immediately',()=>{
+  const a=app(),c=unresolvedWMHS();c.assignments['1']['4'].lunch='L3';const id=a.add(c);a.run('maybePromptLunch(store.snapshot.activeProfileID)');a.node('#no-lunch-assignment').onclick();
+  const saved=a.snapshot().savedProfiles.find(p=>p.id===id).configuration;assert.equal(saved.assignments['1']['4'].lunch,'L3');
+  for(const day of ['2','3','4','5','6','7'])assert.equal(saved.assignments[day]['4'].lunch,'NO_LUNCH');
+  assert.equal(core.unresolvedLunchAssignments(saved).length,0);assert.ok(!a.node('#display').innerHTML.includes('Lunch not set'));
+  for(const day of Object.keys(c.assignments))for(const period of Object.keys(c.assignments[day])){const original=c.assignments[day][period],actual=saved.assignments[day][period];assert.equal(actual.title,original.title);assert.equal(actual.room,original.room);assert.equal(actual.block,original.block);}
+  assert.deepEqual(saved.templates,c.templates);assert.deepEqual(saved.calendar,c.calendar);
+  assert.deepEqual(core.timelineFor(saved,'2026-09-01').events,core.timelineFor(c,'2026-09-01').events);
+  const backup=profiles.exportProfiles(a.snapshot());assert.equal(profiles.importDisplayProfiles(backup)[0].assignments['2']['4'].lunch,'NO_LUNCH');
+});
+await test('Profile A configured and Profile B unresolved remain independent',()=>{
+  const a=app(),idA=a.add(resolvedWMHS()),first=structuredClone(a.snapshot().savedProfiles[0]),idB=a.add(unresolvedWMHS());
+  assert.match(a.node('#display').innerHTML,/Lunch not set/);a.run('selectProfile('+JSON.stringify(idA)+')');assert.ok(!a.node('#display').innerHTML.includes('Lunch not set'));
+  a.run('selectProfile('+JSON.stringify(idB)+')');assert.match(a.node('#display').innerHTML,/Lunch not set/);a.run('maybePromptLunch(store.snapshot.activeProfileID)');a.node('#no-lunch-assignment').onclick();
+  assert.deepEqual(a.snapshot().savedProfiles.find(p=>p.id===idA),first);
+});
+await test('single unresolved native WMHS import warns without converting missing lunch',async()=>{
+  const raw=structuredClone(v1);raw.assignments=structuredClone(school.assignments);for(const rows of Object.values(raw.assignments))delete rows['4'].lunch;
+  const a=app();await a.import(raw);assert.match(a.markup(),/Choose your lunch/);const c=a.snapshot().savedProfiles[0].configuration;
+  assert.equal(Object.hasOwn(c.assignments['1']['4'],'lunch'),false);assert.equal(core.unresolvedLunchAssignments(c).length,7);
+  const reloaded=app(a.storage);assert.match(reloaded.node('#display').innerHTML,/Lunch not set/);assert.ok(!reloaded.markup());
+});
+await test('configured native import preserves choices without lunch guidance',async()=>{
+  const raw=structuredClone(v1);raw.assignments=structuredClone(school.assignments);for(const rows of Object.values(raw.assignments))rows['4'].lunch='L2';
+  const a=app();await a.import(raw);assert.ok(!a.markup().includes('Choose your lunch'));assert.ok(!a.node('#display').innerHTML.includes('Lunch not set'));
+  assert.equal(a.snapshot().savedProfiles[0].configuration.assignments['1']['4'].lunch,'L2');
+});
+await test('partial WMHS import can intentionally resolve missing day assignments',()=>{
+  const c=unresolvedWMHS();delete c.assignments['2']['4'];const saved=core.setProfileLunchChoices(c,core.unresolvedLunchAssignments(c).map(r=>({...r,lunch:'NO_LUNCH'})));
+  assert.equal(core.unresolvedLunchAssignments(saved).length,0);assert.equal(saved.assignments['2']['4'].lunch,'NO_LUNCH');
+  const a=app();a.add(c);a.run('openLunchConfiguration()');const tabs=a.node('#managed-days').children;tabs[1].onclick();const select=a.node('#managed-classes').children[0].children.flatMap(r=>r.children).find(c=>c.className==='managed-lunch').children[1];select.value='L2';select.onchange();a.node('#managed-editor').onsubmit({preventDefault(){}});assert.equal(a.node('#form-error').textContent,'');assert.equal(a.snapshot().savedProfiles[0].configuration.assignments['2']['4'].lunch,'L2');
+});
+await test('WMHS portable snapshot uses explicit lunch rules; unrelated portable schools never warn',()=>{
+  const raw=read('./fixtures/canterbury-room2-v2.json');assert.equal(core.unresolvedLunchAssignments(profiles.nativeConfigurations(profiles.inspectNativeImport(raw))[0]).length,0);
+  raw.schoolProfileID='wmhs';raw.schoolDefinitionSnapshot.id='wmhs';const d=raw.schoolDefinitionSnapshot;
+  d.periodDefinitions.find(p=>p.id==='centers').acceptsPersonalAssignment=true;
+  d.lunchRules=[{periodID:'centers',options:['L1','L2','L3'].map((id,i)=>({id,displayName:`Lunch ${i+1}`,start:'09:05',end:'09:10'}))}];
+  const c=profiles.nativeConfigurations(profiles.inspectNativeImport(raw))[0],a=app();a.add(c);a.run('maybePromptLunch(store.snapshot.activeProfileID)');a.node('#choose-lunch').onclick();
+  const section=a.node('#portable-fields').children[0];assert.equal(section.children[0].textContent,'Lunch selections');
+  const select=section.children[1].children[0];select.value='L2';select.onchange();a.node('#portable-editor').onsubmit({preventDefault(){}});
+  assert.equal(a.snapshot().savedProfiles[0].configuration.portable.shared.assignments['room-2'].centers.lunch,'L2');
+  assert.equal(core.unresolvedLunchAssignments(a.snapshot().savedProfiles[0].configuration).length,0);
+  assert.deepEqual(a.snapshot().savedProfiles[0].configuration.portable.shared.schoolDefinitionSnapshot,d);
 });
 console.log(`\n${passed} editor routing tests passed.`);

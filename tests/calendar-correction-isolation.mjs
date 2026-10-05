@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {inspectNativeImport} from '../profile-store.mjs';
+const original=JSON.parse(fs.readFileSync(new URL('fixtures/canterbury-room2-v2.json',import.meta.url),'utf8'));
+assert.equal(inspectNativeImport(original).supported.length,1);
+const corrected={...original,calendarCorrections:[{id:'test',schoolProfileID:original.schoolProfileID,dateKey:'2026-10-04',kind:'schoolInSession'}]};
+assert.equal(inspectNativeImport(corrected).supported.length,0);
+assert.match(inspectNativeImport(corrected).unsupported[0].reason,/calendar corrections/);
+assert.equal(inspectNativeImport({...original,calendarCorrections:[]}).supported.length,1);
+assert.equal(inspectNativeImport(original).supported.length,1);
+console.log('Passed 5 Web import isolation checks; unsupported corrections never silently dropped');
