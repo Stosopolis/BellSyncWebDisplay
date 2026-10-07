@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { doyleConfiguration, DOYLE_PROFILES, schoolLinkSelection } from '../school-setup.mjs';
+import { doyleConfiguration, DOYLE_PROFILES, schoolLinkSelection, doyleSchedulePreview } from '../school-setup.mjs';
 import { timelineFor, formatClock, zonedTimestamp } from '../display-core.mjs';
 import { scheduleSnapshot } from '../schedule-presentation.mjs';
 import { inspectNativeImport, nativeConfigurations, ProfileStore, exportProfiles, importDisplayProfiles } from '../profile-store.mjs';
@@ -23,6 +23,15 @@ for(const code of DOYLE_PROFILES) test(`Doyle PreK ${code}: native parity for ev
  assert.equal(timelineFor(c,'2027-06-16').events.length,0);
  const active=scheduleSnapshot(c,zonedTimestamp('2026-10-07',code==='A'?'09:20':'09:10',c.school.timeZone));assert.equal(active.state,'active');assert.equal(active.current.title,code==='E'||code==='F'?'Recess':'Morning Meeting / Circle');
  const map=new Map(),store=new ProfileStore({getItem:k=>map.get(k)||null,setItem:(k,v)=>map.set(k,v)});store.add([c]);assert.deepEqual(importDisplayProfiles(exportProfiles(store.snapshot))[0],c);
+});
+for(const code of DOYLE_PROFILES)test(`Doyle PreK ${code} preview preserves all normal activities and point reminders without mutations`,()=>{
+ const c=doyleConfiguration(read(`../public/builtins/doyle/prek-${code.toLowerCase()}.json`),code),before=structuredClone(c);
+ const rows=doyleSchedulePreview(c),native=expected[code.toLowerCase()].find(day=>day.rows.length);
+ const tz=c.school.timeZone;
+ assert.deepEqual(rows.filter(e=>e.kind!=='point').map(e=>({title:e.title,start:formatClock(e.startAt,tz,true),end:formatClock(e.endAt,tz,true)})),native.rows.map(({title,start,end})=>({title,start,end})));
+ assert.deepEqual(rows.filter(e=>e.kind==='point').map(e=>({id:e.id,title:e.title,time:formatClock(e.startAt,tz,true)})),native.points);
+ assert.ok(rows.every((row,index)=>index===0 || row.startAt>=rows[index-1].startAt));
+ assert.ok(rows.filter(e=>e.kind==='point').every(e=>e.startAt===e.endAt));assert.deepEqual(c,before);
 });
 test('school links open only the explicit Doyle picker or valid neutral A–I profile',()=>{
  assert.deepEqual(schoolLinkSelection('?school=doyle'),{school:'doyle',profile:null});

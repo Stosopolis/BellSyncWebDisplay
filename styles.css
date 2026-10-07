@@ -138,3 +138,10 @@
   .left .next-card { padding:12px 18px;margin:0 auto }
   .left .next-card b { font-size:clamp(1.2rem,2vw,1.7rem) }
 }
+
+.doyle-preview { margin-top:20px;display:grid;gap:8px }
+.doyle-preview-row { display:flex;justify-content:space-between;align-items:center;gap:16px;padding:12px;border:1px solid var(--line);border-radius:12px;background:#10242a }
+.doyle-preview-row strong,.doyle-preview-row small { display:block }
+.doyle-preview-row small { margin-top:4px;color:var(--muted) }
+.doyle-preview-row time { flex-shrink:0;color:var(--muted);font-variant-numeric:tabular-nums }
+@media(max-width:600px) { .doyle-preview-row { flex-direction:column;align-items:flex-start;gap:6px }.doyle-preview + .notice + .modal-footer { flex-wrap:wrap } }

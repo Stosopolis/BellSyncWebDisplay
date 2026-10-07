@@ -1,5 +1,5 @@
 import { WEB_FORMAT, normalize, validate, defaultPreferences, formatClock, eventTitle, scheduleRowLabel, isRedundantScheduleBadge, escapeHTML as esc, isManagedWMHS, isManagedSchool, editManagedAssignments, managedLunchPeriods, requiredLunchAssignments, unresolvedLunchAssignments, setProfileLunchChoices, LUNCH_CHOICES, dateInZone, zonedTimestamp, schoolDay, headerScheduleLabel, schoolProgress } from './display-core.mjs';
-import { builtInConfiguration, DOYLE_PROFILES, doyleConfiguration, schoolLinkSelection } from './school-setup.mjs';
+import { builtInConfiguration, DOYLE_PROFILES, doyleConfiguration, doyleSchedulePreview, schoolLinkSelection } from './school-setup.mjs';
 import { scheduleSnapshot, formatCountdown, countdownFraction } from './schedule-presentation.mjs';
 import { ProfileStore, DEMO_ID, inspectNativeImport, nativeConfigurations, exportProfiles, importDisplayProfiles } from './profile-store.mjs';
 const app = document.querySelector('#app');
@@ -163,7 +163,22 @@ function chooseGalvinGrade() {
 function chooseDoyleProfile() {
   modal(`<header class="modal-head"><div><h2>Doyle School</h2><p>Choose your PreK schedule. A–I identify source schedule columns, not official room numbers. No import is needed.</p><p class="notice">Early-release activity times are not confirmed and remain unavailable.</p></div><button class="icon-button" id="close" aria-label="Close dialog">×</button></header><div class="setup-options">${DOYLE_PROFILES.map(code=>`<button class="option-card primary" data-doyle="${code}"><b>Doyle PreK ${code}</b></button>`).join('')}</div>`);
   document.querySelector('#close').onclick=()=>{viewRequest++;closeModal();};
-  document.querySelectorAll('[data-doyle]').forEach(button=>button.onclick=()=>startDoyleSetup(button.dataset.doyle));
+  document.querySelectorAll('[data-doyle]').forEach(button=>button.onclick=()=>previewDoyleSetup(button.dataset.doyle));
+}
+async function previewDoyleSetup(code) {
+  const request=++viewRequest;
+  try {
+    const profiles=requireStore();
+    if(!DOYLE_PROFILES.includes(code)) throw Error('Choose a Doyle PreK schedule from A through I.');
+    const existing=profiles.snapshot.savedProfiles.find(p=>p.configuration.school.id===`doyle.prek-${code.toLowerCase()}` && p.configuration.sourceKind==='bellsync-snapshot');
+    const candidate=existing?.configuration || doyleConfiguration(await fetchJSON(`./public/builtins/doyle/prek-${code.toLowerCase()}.json`),code);
+    if(request!==viewRequest)return;
+    const rows=doyleSchedulePreview(candidate),tz=candidate.school.timeZone;
+    modal(`<header class="modal-head"><div><h2>Doyle PreK ${code}</h2><p>Preview the normal daily sequence to recognize your schedule. A–I are source-column identifiers.${existing?' Your saved changes will be kept.':''}</p></div><button class="icon-button" id="close" aria-label="Close dialog">×</button></header><div class="doyle-preview">${rows.map(e=>`<div class="doyle-preview-row"><div><strong>${esc(eventTitle(e))}</strong>${e.kind==='point'?'<small>Point reminder · classroom activity continues</small>':''}</div><time>${formatClock(e.startAt,tz,candidate.preferences.hour24)}${e.kind==='point'?'':` – ${formatClock(e.endAt,tz,candidate.preferences.hour24)}`}</time></div>`).join('')}</div><p class="notice">Early-release activity times remain unavailable. Only confirmed activities and reminders are shown.</p><footer class="modal-footer"><button class="secondary" id="doyle-back">Back to Doyle Schedules</button><button class="primary" id="doyle-use">Use This Schedule</button></footer>`);
+    document.querySelector('#close').onclick=()=>{viewRequest++;closeModal();};
+    document.querySelector('#doyle-back').onclick=()=>{viewRequest++;chooseDoyleProfile();};
+    document.querySelector('#doyle-use').onclick=()=>{try{if(existing)selectProfile(existing.id);else save(candidate,null);}catch(error){alert(error.message);}};
+  } catch(error) {if(request===viewRequest)alert(error.message || 'The Doyle preview could not be loaded.');}
 }
 async function startDoyleSetup(code) {
   const request=++viewRequest;
@@ -276,17 +291,36 @@ function update(){ if(!config || document.activeElement?.id==='view-date')return
 // wheel momentum and scrollbar dragging survive ordinary live updates.
 function paintDashboard(markup,rows,viewKey) {
   const display=document.querySelector('#display');
-  const scroller=dashboardViewKey===viewKey ? display.querySelector('.rows') : null;
-  if(scroller) {
+  const left=dashboardViewKey===viewKey ? display.querySelector('.left') : null;
+  const scroller=left ? display.querySelector('.rows') : null;
+  if(left) {
     const next=document.createElement('div');next.innerHTML=markup;
-    display.querySelector('.left').replaceWith(next.querySelector('.left'));
-    if(dashboardRowsMarkup!==rows) {
+    refreshDashboardLeft(left,next.querySelector('.left'));
+    if(scroller && dashboardRowsMarkup!==rows) {
       const scrollTop=scroller.scrollTop;
       scroller.innerHTML=rows;
       scroller.scrollTop=scrollTop;
     }
   } else display.innerHTML=markup;
   dashboardViewKey=viewKey;dashboardRowsMarkup=rows;
+}
+// The header and branding image stay attached. Only changing text and dynamic
+// cards update on ticks; the image src is never reassigned by the live renderer.
+function refreshDashboardLeft(left,next) {
+  for(const selector of ['.clock','.meta','#full']) {
+    const current=left.querySelector(selector),incoming=next.querySelector(selector);
+    if(current.textContent!==incoming.textContent)current.textContent=incoming.textContent;
+    if(selector==='#full')current.setAttribute('aria-pressed',incoming.getAttribute('aria-pressed'));
+  }
+  for(const selector of ['.lunch-warning','.status','.next-card']) {
+    const current=left.querySelector(selector),incoming=next.querySelector(selector);
+    if(current && incoming)current.replaceWith(incoming);
+    else if(current)current.remove();
+    else if(incoming) {
+      if(selector==='.lunch-warning')left.querySelector('.header').insertAdjacentElement('afterend',incoming);
+      else left.append(incoming);
+    }
+  }
 }
 function scheduleDateControls(now) {
   const date=viewedDate || dateInZone(now,config.school.timeZone);
@@ -331,12 +365,13 @@ function closeModal(){ document.querySelector('#modal-root')?.remove(); }
 function openChange(message='') {
   const profiles=store?.snapshot.savedProfiles || [];
   const active=isDemo ? DEMO_ID : store?.snapshot.activeProfileID;
-  modal(`<header class="modal-head"><div class="identity"><img class="mark" src="./public/assets/bellsync-display-icon.png" alt="BellSync" width="48" height="48"><div><h2>Choose Schedule</h2><p>${esc(message || 'Schedules are saved only in this browser.')}</p></div></div><button class="icon-button" id="close" aria-label="Close dialog">×</button></header>${storageWarning?`<p class="notice">${esc(storageWarning)}</p>`:''}<div class="modal-actions"><section class="option-card"><b>Demo Classroom ${active===DEMO_ID?'· Active':''}</b><span>Always available. Changes are temporary unless saved as a new schedule.</span><div class="buttons"><button type="button" id="picker-demo" class="secondary">Open Demo</button>${isDemo?'<button type="button" id="copy-demo" class="secondary">Save Demo as New Schedule</button>':''}</div></section>${profiles.map(p=>`<section class="option-card"><b>${esc(p.configuration.profileName)} ${p.id===active?'· Active':''}</b><span>${esc(p.configuration.school.displayName)} · ${esc(p.configuration.rotation?.kind || 'Imported school snapshot')}</span>${lunchWarning(p.configuration,`profile-lunch-${p.id}`)}<div class="buttons"><button type="button" class="secondary" data-open-profile="${esc(p.id)}">Open</button><button type="button" class="secondary" data-rename-profile="${esc(p.id)}">Rename</button><button type="button" class="secondary destructive" data-remove-profile="${esc(p.id)}">Remove</button></div></section>`).join('')}</div><footer class="modal-footer">${profiles.length?'<button type="button" class="secondary" id="export-all">Export All Display Schedules</button>':''}<button type="button" class="primary" id="add-profile">Add / Import Schedule</button></footer>`);
+  modal(`<header class="modal-head"><div class="identity"><img class="mark" src="./public/assets/bellsync-display-icon.png" alt="BellSync" width="48" height="48"><div><h2>Choose Schedule</h2><p>${esc(message || 'Schedules are saved only in this browser.')}</p></div></div><button class="icon-button" id="close" aria-label="Close dialog">×</button></header>${storageWarning?`<p class="notice">${esc(storageWarning)}</p>`:''}<div class="modal-actions"><section class="option-card"><b>Demo Classroom ${active===DEMO_ID?'· Active':''}</b><span>Always available. Changes are temporary unless saved as a new schedule.</span><div class="buttons"><button type="button" id="picker-demo" class="secondary">Open Demo</button>${isDemo?'<button type="button" id="copy-demo" class="secondary">Save Demo as New Schedule</button>':''}</div></section>${profiles.map(p=>`<section class="option-card"><b>${esc(p.configuration.profileName)} ${p.id===active?'· Active':''}</b><span>${esc(p.configuration.school.displayName)} · ${esc(p.configuration.rotation?.kind || 'Imported school snapshot')}</span>${lunchWarning(p.configuration,`profile-lunch-${p.id}`)}<div class="buttons"><button type="button" class="secondary" data-open-profile="${esc(p.id)}">Open</button><button type="button" class="secondary" data-rename-profile="${esc(p.id)}">Rename</button><button type="button" class="secondary destructive" data-remove-profile="${esc(p.id)}">Remove</button></div></section>`).join('')}</div><footer class="modal-footer">${config?.school.id.startsWith('doyle.prek-')?'<button type="button" class="secondary" id="change-doyle">Change Doyle Schedule</button>':''}${profiles.length?'<button type="button" class="secondary" id="export-all">Export All Display Schedules</button>':''}<button type="button" class="primary" id="add-profile">Add / Import Schedule</button></footer>`);
   document.querySelector('#close').onclick=closeModal;
   document.querySelector('#picker-demo').onclick=loadDemo;
   for(const p of profiles)document.querySelector(`#profile-lunch-${p.id}`)?.addEventListener('click',()=>openLunchConfiguration(p.id));
   document.querySelector('#copy-demo')?.addEventListener('click',()=>openEditor(clone(config),null));
   document.querySelector('#add-profile').onclick=openAdd;
+  if(config?.school.id.startsWith('doyle.prek-'))document.querySelector('#change-doyle').onclick=chooseDoyleProfile;
   document.querySelector('#export-all')?.addEventListener('click',exportAll);
   document.querySelectorAll('[data-open-profile]').forEach(b=>b.onclick=()=>selectProfile(b.dataset.openProfile));
   document.querySelectorAll('[data-remove-profile]').forEach(b=>b.onclick=()=>removeProfile(b.dataset.removeProfile));

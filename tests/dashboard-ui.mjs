@@ -22,14 +22,26 @@ function renderer(input,renderDate=date) {
   }
   const nodes=new Map(),node=k=>{if(!nodes.has(k))nodes.set(k,{innerHTML:'',addEventListener(){},remove(){},append(){},querySelector:node,focus(){}});return nodes.get(k);};
   const display=node('#display');
-  Object.defineProperty(display,'innerHTML',{get:()=>lastMarkup,set:html=>{lastMarkup=html;scroller=html.includes('class="rows ')?scrollNode(rowMarkup(html)):null;}});
-  display.querySelector=selector=>selector==='.rows'?scroller:{replaceWith(next){lastMarkup=next.markup;}};
-  const temporary=()=>{let markup='';return {get innerHTML(){return markup;},set innerHTML(value){markup=value;},querySelector:()=>({markup})};};
+  Object.defineProperty(display,'innerHTML',{configurable:true,get:()=>lastMarkup,set:html=>{lastMarkup=html;scroller=html.includes('class="rows ')?scrollNode(rowMarkup(html)):null;}});
+  let header=null;
+  const oldSetter=Object.getOwnPropertyDescriptor(display,'innerHTML').set;
+  // Model mounted header identity separately from changing card markup.
+  Object.defineProperty(display,'innerHTML',{configurable:true,get:()=>lastMarkup,set:html=>{oldSetter(html);header={logo:{src:'./public/assets/bellsync-display-icon.png'},clock:{textContent:''},meta:{textContent:''},full:{textContent:'',setAttribute(){}}};}});
+  const liveLeft={querySelector(selector){
+    if(selector==='.clock')return header.clock;if(selector==='.meta')return header.meta;if(selector==='#full')return header.full;
+    if(selector==='.header')return {insertAdjacentElement(position,next){lastMarkup=next.markup;}};
+    return lastMarkup.includes(selector.slice(1))?{replaceWith(next){lastMarkup=next.markup;},remove(){}}:null;
+  },append(next){lastMarkup=next.markup;}};
+  display.querySelector=selector=>selector==='.rows'?scroller:liveLeft;
+  const temporary=()=>{let markup='';return {get innerHTML(){return markup;},set innerHTML(value){markup=value;},querySelector:()=>({querySelector(selector){
+    if(selector==='.clock' || selector==='.meta' || selector==='#full')return {textContent:markup.match(new RegExp(`(?:class="${selector.slice(1)}"|id="${selector.slice(1)}")[^>]*>([^<]*)`))?.[1] || '',getAttribute(){return 'false';}};
+    return markup.includes(selector.slice(1))?{markup}:null;
+  }})};};
   const data=new Map(),storage={getItem:k=>data.get(k)??null,setItem:(k,v)=>data.set(k,v)};
   class FixedDate extends Date {constructor(...args){super(...(args.length?args:[now]));}static now(){return now;}}
   const sandbox={...core,...states,...profiles,esc:core.escapeHTML,Intl,Date:FixedDate,JSON,Set,crypto:globalThis.crypto,document:{querySelector:node,querySelectorAll:()=>[],createElement:temporary,body:node('body'),addEventListener(){}},localStorage:storage,clearInterval(){},setInterval(){},alert:m=>{throw Error(m);}};
   vm.createContext(sandbox);vm.runInContext(source,sandbox);sandbox.input=input;vm.runInContext('save(input,null)',sandbox);
-  return {scroller:()=>scroller,node,render(time){now=fixedAt(time);vm.runInContext('update()',sandbox);return lastMarkup;},stored:()=>JSON.parse(storage.getItem(profiles.PROFILE_KEY)),badge(event,mode){sandbox.event=event;sandbox.mode=mode;return vm.runInContext('scheduleBadge(event,mode)',sandbox);},density(count){sandbox.count=count;return vm.runInContext('scheduleDensity(count)',sandbox);}};
+  return {header:()=>header,scroller:()=>scroller,node,render(time){now=fixedAt(time);vm.runInContext('update()',sandbox);return lastMarkup;},stored:()=>JSON.parse(storage.getItem(profiles.PROFILE_KEY)),badge(event,mode){sandbox.event=event;sandbox.mode=mode;return vm.runInContext('scheduleBadge(event,mode)',sandbox);},density(count){sandbox.count=count;return vm.runInContext('scheduleDensity(count)',sandbox);}};
 }
 function imported() {
   const assignments=copy(school.assignments);
@@ -155,6 +167,14 @@ test('live countdown ticks retain the same mounted scroller and row content',()=
   assert.strictEqual(r.scroller(),region);assert.equal(region.scrollTop,640);assert.equal(region.writes,writes);
   assert.notEqual(first.match(/class="countdown">([^<]*)/)[1],next.match(/class="countdown">([^<]*)/)[1]);
   r.render('12:01');assert.strictEqual(r.scroller(),region);assert.equal(region.scrollTop,640);assert.ok(region.writes>writes);
+});
+for(const showSchedule of [true,false])test(`live header/logo remain mounted with schedule visible=${showSchedule}`,()=>{
+ const input=copy(demo);input.preferences.showSchedule=showSchedule;
+ const r=renderer(input);const header=r.header(),logo=header.logo;
+ const first=r.render('11:30'),second=r.render('11:31');
+ assert.strictEqual(r.header(),header);assert.strictEqual(r.header().logo,logo);
+ assert.equal(logo.src,'./public/assets/bellsync-display-icon.png');
+ assert.notEqual(first.match(/class="clock">([^<]*)/)[1],second.match(/class="clock">([^<]*)/)[1]);
 });
 test('date changes reset the schedule region while subsequent ticks preserve it',()=>{
   const input=profiles.nativeConfigurations(profiles.inspectNativeImport(read('./fixtures/canterbury-room2-v2.json')))[0];

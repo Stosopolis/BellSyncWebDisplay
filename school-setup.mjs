@@ -1,5 +1,5 @@
 import { parseNativeV2 } from './native-v2.mjs';
-import { normalize, defaultPreferences } from './display-core.mjs';
+import { normalize, defaultPreferences, timelineFor } from './display-core.mjs';
 
 // Source resources stay separate from UI code. Galvin follows native loadGMS
 // and gmsEvents: grade bells/lunch, early release, and calendar WIN/FLEX notes.
@@ -30,4 +30,12 @@ export function schoolLinkSelection(search) {
   if(params.get('school')!=='doyle') return null;
   const code=(params.get('profile') || '').toUpperCase();
   return {school:'doyle',profile:DOYLE_PROFILES.includes(code)?code:null};
+}
+
+export function doyleSchedulePreview(configuration) {
+  const dates=configuration.portable.shared.schoolDefinitionSnapshot.calendarExceptions;
+  const key=Object.keys(dates).sort().find(key=>dates[key].kind==='scheduled');
+  if(!key) throw Error('No confirmed normal Doyle schedule is available.');
+  const timeline=timelineFor(configuration,key);
+  return [...timeline.events,...timeline.points.map(p=>({...p,kind:'point',startAt:p.at,endAt:p.at}))].sort((a,b)=>a.startAt-b.startAt);
 }

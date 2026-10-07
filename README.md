@@ -158,8 +158,12 @@ node tests/editor-routing.mjs
 ## Built-in Doyle PreK schedules
 
 Choose **Doyle School** in setup (or Add Schedule), then **Doyle PreK A–I**.
-The choice opens and saves a working display immediately; no import or manual
-schedule entry is required. A–I are neutral source-column identities, not
+Selecting a letter opens a normal-day schedule preview with activity times and
+confirmed bathroom point reminders. Choose **Use This Schedule** to open/save
+it, or **Back to Doyle Schedules** to compare another letter. No import or manual
+schedule entry is required. From a Doyle dashboard, **Schedule → Switch Schedule
+→ Change Doyle Schedule** returns to the picker while keeping all saved profiles
+available. A–I are neutral source-column identities, not
 teacher names or official room numbers. Returning to the same built-in choice
 reuses its saved snapshot and retains browser-local edits/settings.
 
@@ -190,3 +194,7 @@ FaceVariant (`-D DEBUG`). Run the resulting exporter with the output directory
 `tests/fixtures/doyle-native-days.json`. Native files are read only. Run
 `node tests/doyle.mjs` and all existing suites before publishing refreshed data.
 There is no production build step: this project serves its static modules/assets.
+
+Live dashboard updates keep the header and BellSync branding image mounted.
+Only clock/date/fullscreen text and dynamic cards update; the schedule scroller
+continues to retain its position during countdown ticks.

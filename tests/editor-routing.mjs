@@ -27,6 +27,7 @@ function app(storage=memory(),fixedNow=null,search='') {
     remove(){if(this.id)nodes.delete(`#${this.id}`);}
     setAttribute(k,v){this.attributes[k]=v;}
     removeAttribute(k){delete this.attributes[k];}
+    getAttribute(k){return this.attributes[k] ?? null;}
     replaceWith(){}
     replaceChildren(...children){this.children=[];this.append(...children);}
     addEventListener(k,fn){this.listeners[k]=fn;}
@@ -324,11 +325,14 @@ await test('Display Settings progress toggles default off and persist independen
   a.run('selectProfile('+JSON.stringify(id)+')');const reloaded=app(a.storage);assert.equal(reloaded.snapshot().savedProfiles.find(p=>p.id===id).configuration.preferences.schoolYearProgress,true);
 });
 
-await test('Doyle picker opens all neutral profiles and saves directly without editing/import',async()=>{
+await test('Doyle picker previews before confirmation and reuses saved profiles',async()=>{
  const a=app();a.sandbox.fetch=async path=>({ok:true,json:async()=>read(`../public/builtins/doyle/${path.split('/').at(-1)}`)});
  a.node('[data-school="doyle"]').onclick();
  for(const code of schools.DOYLE_PROFILES)assert.ok(a.markup().includes(`Doyle PreK ${code}`));
  await a.node('[data-doyle="A"]').onclick();
+ assert.equal(a.run('config'),null);assert.equal(a.snapshot(),null);
+ assert.match(a.markup(),/Use This Schedule/);assert.match(a.markup(),/Back to Doyle Schedules/);assert.match(a.markup(),/Bathroom/);assert.match(a.markup(),/9:20/);
+ a.node('#doyle-use').onclick();
  assert.equal(a.run('config.profileName'),'Doyle PreK A');assert.equal(a.snapshot().savedProfiles.length,1);
  await a.run('startDoyleSetup("A")');assert.equal(a.snapshot().savedProfiles.length,1);
  await a.run('startDoyleSetup("I")');assert.equal(a.snapshot().savedProfiles.length,2);
@@ -349,5 +353,16 @@ await test('closing Doyle picker cancels an in-flight choice without changing sa
  a.sandbox.fetch=()=>new Promise(resolve=>{release=()=>resolve({ok:true,json:async()=>read('../public/builtins/doyle/prek-a.json')});});
  a.run('chooseDoyleProfile()');const pending=a.node('[data-doyle="A"]').onclick();a.node('#close').onclick();release();await pending;
  assert.equal(a.run('config'),null);assert.equal(a.snapshot(),null);
+});
+await test('Doyle preview back/cancel keeps the active profile unchanged; confirmed reuse preserves edits',async()=>{
+ const a=app();const original=a.add(manual);
+ a.run('chooseDoyleProfile()');await a.node('[data-doyle="B"]').onclick();assert.equal(a.snapshot().activeProfileID,original);
+ a.node('#doyle-back').onclick();assert.match(a.markup(),/Doyle PreK I/);assert.equal(a.snapshot().savedProfiles.length,1);
+ await a.node('[data-doyle="C"]').onclick();a.node('#close').onclick();assert.equal(a.snapshot().activeProfileID,original);
+ await a.run('startDoyleSetup("A")');const id=a.snapshot().activeProfileID;
+ a.run('config.preferences.hour24=true;save(config)');
+ a.run('chooseDoyleProfile()');await a.node('[data-doyle="A"]').onclick();assert.match(a.markup(),/saved changes will be kept/);assert.match(a.markup(),/09:20/);
+ a.node('#doyle-use').onclick();assert.equal(a.snapshot().activeProfileID,id);assert.equal(a.snapshot().savedProfiles.length,2);assert.equal(a.run('config.preferences.hour24'),true);
+ a.node('#change').onclick();assert.match(a.markup(),/Choose Schedule/);assert.match(a.markup(),/Change Doyle Schedule/);a.node('#change-doyle').onclick();assert.match(a.markup(),/Doyle PreK I/);
 });
 console.log(`\n${passed} editor routing tests passed.`);
