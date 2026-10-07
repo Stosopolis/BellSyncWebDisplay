@@ -1,3 +1,4 @@
+import { timingCatalog, timingKey, setTimingOverrides } from './timing-overrides.mjs';
 import { WEB_FORMAT, normalize, validate, defaultPreferences, formatClock, eventTitle, scheduleRowLabel, isRedundantScheduleBadge, escapeHTML as esc, isManagedWMHS, isManagedSchool, editManagedAssignments, managedLunchPeriods, requiredLunchAssignments, unresolvedLunchAssignments, setProfileLunchChoices, LUNCH_CHOICES, dateInZone, zonedTimestamp, schoolDay, headerScheduleLabel, schoolProgress } from './display-core.mjs';
 import { builtInConfiguration, DOYLE_PROFILES, doyleConfiguration, doyleSchedulePreview, schoolLinkSelection } from './school-setup.mjs';
 import { scheduleSnapshot, formatCountdown, countdownFraction } from './schedule-presentation.mjs';
@@ -388,9 +389,33 @@ function openAdd(){ modal(`<header class="modal-head"><div><h2>Set Up BellSync D
 function rotationChoices() { return [['same','Same Every Day'],['day-1-5','Day 1–5'],['day-1-6','Day 1–6'],['day-1-7','Day 1–7'],['ab','A/B'],['ag','A–G'],['custom','Custom Rotation']]; }
 function labelsFor(kind, customText) { if(kind==='same') return [{id:'every',label:'Every Day'}]; if(kind==='ab') return ['A','B'].map(x=>({id:x.toLowerCase(),label:x})); if(kind==='ag') return 'ABCDEFG'.split('').map(x=>({id:x.toLowerCase(),label:x})); const count=Number(kind.match(/\d$/)?.[0]); if(count) return Array.from({length:count},(_,i)=>({id:`day-${i+1}`,label:`Day ${i+1}`})); return String(customText||'').split(',').map(x=>x.trim()).filter(Boolean).map((label,i)=>({id:`rotation-${i+1}-${slug(label)}`,label})); }
 function periodRow(p,index) { return `<div class="period-row" data-index="${index}"><input data-key="label" value="${esc(p.label)}" aria-label="Period name"><input data-key="start" type="time" value="${esc(p.start)}" aria-label="Start time"><input data-key="end" type="time" value="${esc(p.end)}" aria-label="End time"><select data-key="kind">${option('academic',p.kind||'academic','Class')}${option('support',p.kind,'Advisory / FLEX / WIN')}${option('lunch',p.kind,'Lunch')}${option('passing',p.kind,'Passing Time')}${option('other',p.kind,'Other')}</select><button type="button" class="small-button up">↑</button><button type="button" class="small-button down">↓</button><button type="button" class="small-button destructive remove-period">Delete</button></div>`; }
+function timingEditor(value,root) {
+  const section=document.createElement('details');section.className='editor-section timing-editor';
+  const heading=document.createElement('summary');heading.textContent='Timing overrides';section.append(heading);
+  const help=document.createElement('p');help.textContent='Optional changes apply only to this saved Web Display profile. Blank fields use BellSync source times.';section.append(help);
+  const fields=[];
+  for(const item of timingCatalog(value)) {
+    const edit=value.timingOverrides?.find(e=>timingKey(e)===timingKey(item));
+    const row=document.createElement('div');row.className='timing-row';
+    const label=document.createElement('strong');label.textContent=`${item.group} · ${item.label}`;row.append(label);
+    const clock=time=>formatClock(zonedTimestamp('2026-10-07',time,value.school.timeZone),value.school.timeZone,value.preferences.hour24);
+    const source=document.createElement('small');source.textContent=`Source time: ${[...new Set(item.sources.map(s=>s.end?`${clock(s.start)} – ${clock(s.end)}`:clock(s.start)))].join(' / ')}`;row.append(source);
+    const inputs={};
+    for(const key of item.type==='point'?['time']:['start','end']) {
+      const label=document.createElement('label');label.textContent=key==='time'?'Time override':`${key==='start'?'Start':'End'} override`;
+      const input=document.createElement('input');input.type='time';input.value=edit?.[key] || '';input.setAttribute('aria-label',`${item.group}, ${item.label}, ${key} override`);label.append(input);row.append(label);inputs[key]=input;
+    }
+    const reset=document.createElement('button');reset.type='button';reset.className='secondary';reset.textContent='Reset to Source';reset.onclick=()=>{for(const input of Object.values(inputs))input.value='';};row.append(reset);
+    section.append(row);fields.push({item,inputs});
+  }
+  root.append(section);if(root.id==='managed-editor')root.insertBefore(section,root.querySelector('.modal-footer'));return fields;
+}
+function timingInputValues(fields) {
+  return fields.map(({item,inputs})=>({type:item.type,templateID:item.templateID,id:item.id,...Object.fromEntries(Object.entries(inputs).map(([key,input])=>[key,input.value]))}));
+}
 function openPortableEditor(value,targetID,focusLunch=false) {
   const working=clone(value),raw=working.portable.shared,d=raw.schoolDefinitionSnapshot;
-  modal(`<header class="modal-head"><div><h2>Edit Imported Schedule</h2><p>BellSync manages timing, rotation, calendar, and lunch rules. Display names and rooms apply across this Web Display profile.</p></div><button id="close" class="icon-button" aria-label="Close dialog">×</button></header><form id="portable-editor" class="managed-editor"><div class="managed-editor-top"><label>Display name<input name="profileName" required></label></div><div id="portable-fields" class="managed-classes"></div><p class="form-error" id="form-error" role="alert"></p><footer class="modal-footer managed-footer"><button id="cancel" type="button" class="secondary">Cancel</button><button type="submit" class="primary">Save Changes</button></footer></form>`);
+  modal(`<header class="modal-head"><div><h2>Edit Imported Schedule</h2><p>Source timing, rotation, calendar, and lunch rules come from BellSync. Display names, rooms, and optional timing overrides apply only to this Web Display profile.</p></div><button id="close" class="icon-button" aria-label="Close dialog">×</button></header><form id="portable-editor" class="managed-editor"><div class="managed-editor-top"><label>Display name<input name="profileName" required></label></div><div id="portable-fields" class="managed-classes"></div><p class="form-error" id="form-error" role="alert"></p><footer class="modal-footer managed-footer"><button id="cancel" type="button" class="secondary">Cancel</button><button type="submit" class="primary">Save Changes</button></footer></form>`);
   document.querySelector('#modal-root .modal')?.classList.add('managed-modal');
   const form=document.querySelector('#portable-editor'),root=document.querySelector('#portable-fields');form.elements.profileName.value=working.profileName;root.replaceChildren();
   const fields=[],lunchFields=[];
@@ -412,6 +437,7 @@ function openPortableEditor(value,targetID,focusLunch=false) {
     }
     root.append(section);
   }
+  const timingFields=timingEditor(working,root);
   document.querySelector('#close').onclick=closeModal;document.querySelector('#cancel').onclick=closeModal;
   if(focusLunch)(lunchFields.find(f=>!f.select.value) || lunchFields[0])?.select.focus();
   form.onsubmit=event=>{event.preventDefault();try{
@@ -423,7 +449,7 @@ function openPortableEditor(value,targetID,focusLunch=false) {
       if(f.title.value!==f.initialTitle)edit.title=f.title.value.trim();
       if(f.room.value!==f.initialRoom)edit.room=f.room.value.trim();
     }
-    save(setProfileLunchChoices(working,lunchFields.filter(f=>f.changed).map(f=>({...f,lunch:f.select.value}))),targetID);maybePromptLunch(targetID || store.snapshot.activeProfileID);
+    save(setProfileLunchChoices(setTimingOverrides(working,timingInputValues(timingFields)),lunchFields.filter(f=>f.changed).map(f=>({...f,lunch:f.select.value}))),targetID);maybePromptLunch(targetID || store.snapshot.activeProfileID);
   }catch(error){showEditorError(error.message)}};
 }
 function openManagedEditor(value, targetID,focusLunch=false) {
@@ -496,9 +522,10 @@ function openManagedEditor(value, targetID,focusLunch=false) {
     button.onkeydown=event=>{if(['ArrowLeft','ArrowRight','Home','End'].includes(event.key)){event.preventDefault();const i=days.indexOf(activeDay),next=event.key==='Home'?0:event.key==='End'?days.length-1:(i+(event.key==='ArrowRight'?1:days.length-1))%days.length;buttons[next].onclick();buttons[next].focus();}};
     buttons.push(button);tabs.append(button);
   }
+  const timingFields=timingEditor(value,form);
   renderDay();if(focusLunch)lunchFields[0]?.select.focus();
   document.querySelector('#close').onclick=closeModal;document.querySelector('#cancel').onclick=closeModal;
-  form.onsubmit=e=>{e.preventDefault();syncDraft();try{save(editManagedAssignments(value,form.elements.profileName.value.trim(),[...changes.values()]),targetID);maybePromptLunch(targetID || store.snapshot.activeProfileID);}catch(error){showEditorError(error.message)}};
+  form.onsubmit=e=>{e.preventDefault();syncDraft();try{save(setTimingOverrides(editManagedAssignments(value,form.elements.profileName.value.trim(),[...changes.values()]),timingInputValues(timingFields)),targetID);maybePromptLunch(targetID || store.snapshot.activeProfileID);}catch(error){showEditorError(error.message)}};
 }
 
 function openEditor(draft, targetID = null, mode = targetID ? 'edit' : 'create') { if(draft.sourceKind==='bellsync-snapshot'){openPortableEditor(draft,targetID);return;} if(isManagedSchool(draft)){openManagedEditor(draft,targetID);return;} const working=normalize(clone(draft)); let activeDay=working.rotation.labels[0]?.id || 'every'; const renderEditor=()=>{ modal(`<header class="modal-head"><div><h2>${mode==='demo' ? 'Edit Demo Schedule' : targetID ? 'Edit Schedule' : 'Add Schedule'}</h2><p>Start with the bell times, then add your classes. You can return later to change one class, room, or bell time.</p></div><button class="icon-button" id="close" aria-label="Close dialog">×</button></header><form id="schedule-editor"><section class="editor-section"><h3>School Details</h3><div class="form-grid"><label>School name<input name="schoolName" value="${esc(working.school.displayName)}" required></label><label>Name for this classroom display<input name="profileName" value="${esc(working.profileName)}" required></label><label>Timezone<input name="timeZone" value="${esc(working.school.timeZone)}" required></label></div></section><section class="editor-section"><h3>Rotation Days</h3><div class="form-grid"><label>Schedule type<select name="rotationKind">${rotationChoices().map(([v,l])=>option(v,working.rotation.kind,l)).join('')}</select></label><label>First date in the rotation<input name="seedDate" type="date" value="${esc(working.rotation.seedDate || localDate())}"></label><label>Day on that date<select name="seedDay">${working.rotation.labels.map(x=>option(x.id,working.rotation.seedDayId,x.label)).join('')}</select></label></div>${working.rotation.kind==='custom'?`<label>Custom rotation day labels (comma separated)<input name="customLabels" value="${esc(working.rotation.labels.map(x=>x.label).join(', '))}" placeholder="Red, Blue, Gold"></label><button type="button" class="secondary" id="apply-custom">Apply Rotation Days</button>`:''}<p class="help">BellSync starts from this date and moves through school weekdays. Dates you mark as no school are skipped.</p></section><section class="editor-section"><h3>Bell Times</h3><p class="help">Start with the example rows, then add, rename, reorder, or remove periods to match your school day.</p><div class="period-head"><span>Name</span><span>Start</span><span>End</span><span>Type</span></div><div id="period-list">${working.periods.map(periodRow).join('')}</div><button type="button" class="secondary" id="add-period">Add Period</button></section><section class="editor-section"><h3>My Classes</h3><div class="day-tabs">${working.rotation.labels.map(x=>`<button type="button" class="day-tab ${x.id===activeDay?'active':''}" data-day="${esc(x.id)}">${esc(x.label)}</button>`).join('')}</div><p class="help">Choose a rotation day, then enter the class and room you have during each period. You can leave any field blank.</p><div class="assignment-table"><div class="assignment-head"><span>Period</span><span>Class / Assignment</span><span>Room</span></div>${working.periods.map(p=>{const a=assignmentFrom(working,activeDay,p.id);return `<div class="assignment-row"><span>${esc(p.label)}</span><input data-period="${esc(p.id)}" data-assignment="title" value="${esc(a.title)}" placeholder="English"><input data-period="${esc(p.id)}" data-assignment="room" value="${esc(a.room)}" placeholder="Room 204"></div>`}).join('')}</div></section><section class="editor-section"><h3>School Calendar</h3><label>No-school dates <input id="no-school-date" type="date"></label><button type="button" class="secondary" id="add-no-school">Add No-School Date</button><div class="date-chips">${(working.rotation.noSchoolDates || []).map(d=>`<button type="button" class="date-chip" data-remove-date="${esc(d)}">${esc(d)} ×</button>`).join('') || '<span class="help">No dates marked.</span>'}</div></section><p class="form-error" id="form-error"></p><footer class="modal-footer"><button type="button" class="secondary" id="cancel">Cancel</button><button type="submit" class="primary">${mode==='demo' ? 'Apply Demo Changes' : targetID ? 'Save Schedule' : 'Save as New Schedule'}</button></footer></form>`); bindEditor(); };

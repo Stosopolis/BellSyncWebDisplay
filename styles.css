@@ -145,3 +145,9 @@
 .doyle-preview-row small { margin-top:4px;color:var(--muted) }
 .doyle-preview-row time { flex-shrink:0;color:var(--muted);font-variant-numeric:tabular-nums }
 @media(max-width:600px) { .doyle-preview-row { flex-direction:column;align-items:flex-start;gap:6px }.doyle-preview + .notice + .modal-footer { flex-wrap:wrap } }
+
+.timing-row { display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px 0;border-bottom:1px solid var(--line) }
+.timing-row > strong,.timing-row > small { grid-column:1 / -1 }.timing-row > small { color:var(--muted) }.timing-row > button { justify-self:start }
+@media(max-width:600px) { .timing-row { grid-template-columns:1fr }.timing-row > strong,.timing-row > small { grid-column:1 } }
+
+.timing-editor > summary { font-weight:750;cursor:pointer }.managed-editor > .timing-editor { flex:0 1 auto;max-height:32vh;overflow:auto;margin:10px 0;padding-top:10px;min-height:0 }

@@ -1,3 +1,4 @@
+import { validateTimingOverrides, effectiveTimingConfiguration } from './timing-overrides.mjs';
 import { validatePortableConfig, portableDay, portableTimeline, projectOwners, profileOwnerEvents } from './portable-snapshot.mjs';
 // Data validation and small shared helpers; no browser globals or dependencies.
 export const WEB_FORMAT = 'bellsync-display-web';
@@ -82,7 +83,7 @@ export function normalize(raw) {
   if (!object(v.school)) fail('Invalid school details.');
   id(v.school.id, 'school ID'); text(v.school.displayName,'school name',true); text(v.school.timeZone,'timezone',true); text(v.profileName,'display name',true);
   try { new Intl.DateTimeFormat('en-US',{timeZone:v.school.timeZone}).format(0); } catch { fail('Enter a valid IANA timezone, such as America/New_York.'); }
-  if(v.sourceKind==='bellsync-snapshot') {validatePortableConfig(v);v.preferences=defaultPreferences(v.preferences);v.schemaVersion=2;return v;}
+  if(v.sourceKind==='bellsync-snapshot') {validatePortableConfig(v);validateTimingOverrides(v);v.preferences=defaultPreferences(v.preferences);v.schemaVersion=2;return v;}
   if (!['browser-local','development-sample','bellsync-v1','builtin-gms'].includes(v.sourceKind)) fail('Unsupported schedule source.');
   if (v.sourceKind === 'bellsync-v1' && v.school.id !== 'wmhs') fail('Native imports currently support WMHS only.');
   if(v.sourceKind==='builtin-gms' && (v.school.id!=='gms' || ![5,6,7,8].includes(v.schoolMetadata?.grade) || v.schoolMetadata.winPeriod!==({5:'P1',6:'P7',7:'P1',8:'P1'})[v.schoolMetadata.grade])) fail('Invalid built-in Galvin metadata.');
@@ -134,6 +135,7 @@ export function normalize(raw) {
   }
   if(v.nativeMetadata?.activityNameOverrides !== undefined) validateActivityNameOverrides(v.nativeMetadata.activityNameOverrides,v.school.id);
   v.preferences = defaultPreferences(v.preferences,isManagedWMHS(v)?'blocks':'periods');
+  validateTimingOverrides(v);
   v.schemaVersion = 2;
   return v;
 }
@@ -303,6 +305,7 @@ export const isMeaningfulEvent = e => e.kind !== 'passing';
 // academic assignments are open time; automatic lunch/support rows remain.
 export function timelineFor(config, key) {
   date(key);
+  config=effectiveTimingConfiguration(config);
   const timeZone = config.school.timeZone;
   if(config.sourceKind==='bellsync-snapshot')return portableTimeline(config,key,time=>zonedTimestamp(key,time,timeZone));
   const day = schoolDay(config,key);
@@ -361,9 +364,10 @@ export function timelineFor(config, key) {
       // An L1 bell may precede the lunch block. Include only the published
       // preceding bell boundary, never overlap an unrelated earlier class.
       const safeLead = lunchBell >= start || bells.some(previous=>previous.id !== p.id && at(previous.end) === lunchBell);
-      if(safeLead && lunchBell < lunchStart) add(p,{},lunchBell,lunchStart,'::passing',{kind:'passing',title:`Passing to ${lunchTitle}`,label:'PASSING',room:'',lunch:context});
-      add(p,{},lunchStart,lunchEnd,'::lunch',{kind:'lunch',title:lunchTitle,label:lunchTitle,room:'',lunch:context,countdownLabel:'Lunch ends'});
-      if(hasClass) add(p,a,lunchEnd,end,'::after',{kind,lunch:context,countdownLabel:'Block ends'});
+      const customTiming=config.timingOverrides?.some(e=>e.type==='template' && e.templateID===day.schedule && e.id===p.id);
+      if(safeLead && lunchBell < lunchStart) add(p,{},customTiming?Math.max(start,lunchBell):lunchBell,customTiming?Math.min(end,lunchStart):lunchStart,'::passing',{kind:'passing',title:`Passing to ${lunchTitle}`,label:'PASSING',room:'',lunch:context});
+      add(p,{},customTiming?Math.max(start,lunchStart):lunchStart,customTiming?Math.min(end,lunchEnd):lunchEnd,'::lunch',{kind:'lunch',title:lunchTitle,label:lunchTitle,room:'',lunch:context,countdownLabel:'Lunch ends'});
+      if(hasClass) add(p,a,Math.max(start,lunchEnd),end,'::after',{kind,lunch:context,countdownLabel:'Block ends'});
       continue;
     }
     const automatic = ['lunch','support','advisory','flex','other'].includes(kind);
@@ -389,6 +393,7 @@ export function timelineFor(config, key) {
 // Presentation-only progress uses the same resolved day and source timing as
 // the timeline. It never adds events or changes countdown targets.
 export function confirmedWorkdayBounds(config,key) {
+  config=effectiveTimingConfiguration(config);
   const timeline=timelineFor(config,key);
   if(timeline.status!=='scheduled')return null;
   let starts=[],ends=[];

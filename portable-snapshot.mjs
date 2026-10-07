@@ -192,10 +192,11 @@ export function portableTimeline(config,key,at) {
     const lunch=a.lunch==='NO_LUNCH'?null:rule?.options.find(o=>o.id===a.lunch);
     if(lunch && !['lunch','flex'].includes(p.kind)) {
       const base=event(item,'classroom',a),bell=at(lunch.bellStart || lunch.start),start=at(lunch.start),end=at(lunch.end),context={selection:lunch.id,periodID:p.id,startAt:start,endAt:end};
-      if(base.startAt<bell)classroom.push({...base,id:`${base.id}:before`,endAt:bell,lunch:context});
-      if(bell<start)classroom.push({...base,id:`${base.id}:passing`,kind:'passing',label:'PASSING',title:`Passing to ${lunch.displayName}`,room:'',startAt:bell,endAt:start,lunch:context});
-      classroom.push({...base,id:`${base.id}:lunch`,kind:'lunch',label:['L1','L2','L3'].includes(lunch.id)?`Lunch ${lunch.id.slice(1)}`:lunch.displayName,title:['L1','L2','L3'].includes(lunch.id)?`Lunch ${lunch.id.slice(1)}`:lunch.displayName,room:'',startAt:start,endAt:end,lunch:context});
-      if(end<base.endAt)classroom.push({...base,id:`${base.id}:after`,startAt:end,lunch:context});
+      const segment=e=>{const custom=config.timingOverrides?.some(x=>x.type==='template' && x.templateID===template.id && x.id===item.id);const next=custom?{...e,startAt:Math.max(e.startAt,base.startAt),endAt:Math.min(e.endAt,base.endAt)}:e;if(next.startAt<next.endAt)classroom.push(next);};
+      if(base.startAt<bell)segment({...base,id:`${base.id}:before`,endAt:bell,lunch:context});
+      if(bell<start)segment({...base,id:`${base.id}:passing`,kind:'passing',label:'PASSING',title:`Passing to ${lunch.displayName}`,room:'',startAt:bell,endAt:start,lunch:context});
+      segment({...base,id:`${base.id}:lunch`,kind:'lunch',label:['L1','L2','L3'].includes(lunch.id)?`Lunch ${lunch.id.slice(1)}`:lunch.displayName,title:['L1','L2','L3'].includes(lunch.id)?`Lunch ${lunch.id.slice(1)}`:lunch.displayName,room:'',startAt:start,endAt:end,lunch:context});
+      if(end<base.endAt)segment({...base,id:`${base.id}:after`,startAt:end,lunch:context});
     } else classroom.push(event(item,'classroom',['lunch','flex'].includes(p.kind)?{}:a));
   }
   let owners;

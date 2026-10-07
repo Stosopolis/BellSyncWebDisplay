@@ -4,6 +4,7 @@ import vm from 'node:vm';
 import * as core from '../display-core.mjs';
 import * as states from '../schedule-presentation.mjs';
 import * as profiles from '../profile-store.mjs';
+import * as timing from '../timing-overrides.mjs';
 import * as schools from '../school-setup.mjs';
 const read=p=>JSON.parse(fs.readFileSync(new URL(p,import.meta.url),'utf8'));
 const school=read('../public/builtins/wmhs/schedule.json'),calendar=read('../public/builtins/wmhs/calendar.json'),demo=read('../public/samples/classroom-demo.json');
@@ -28,6 +29,7 @@ function app(storage=memory(),fixedNow=null,search='') {
     setAttribute(k,v){this.attributes[k]=v;}
     removeAttribute(k){delete this.attributes[k];}
     getAttribute(k){return this.attributes[k] ?? null;}
+    insertBefore(child){this.children=this.children.filter(c=>c!==child);this.children.unshift(child);}
     replaceWith(){}
     replaceChildren(...children){this.children=[];this.append(...children);}
     addEventListener(k,fn){this.listeners[k]=fn;}
@@ -71,7 +73,7 @@ function app(storage=memory(),fixedNow=null,search='') {
     return [];
   };
   class FixedDate extends Date {constructor(...args){super(...(args.length?args:[fixedNow]));}static now(){return fixedNow;}}
-  const sandbox={location:{search},...core,...states,...profiles,...schools,esc:core.escapeHTML,Intl,Date:fixedNow===null?Date:FixedDate,JSON,Set,crypto:globalThis.crypto,document:{querySelector:node,querySelectorAll:queryAll,createElement:t=>new Node(t),body:new Node(),addEventListener(k,fn){documentListeners[k]=fn;}},localStorage:storage,clearInterval(){},setInterval(){},alert:m=>alerts.push(m),fetch:async path=>({ok:true,json:async()=>structuredClone(path.includes('/doyle/')?read(`../public/builtins/doyle/${path.split('/').at(-1)}`):path.includes('/gms/')?read(`../public/builtins/gms/${path.includes('calendar')?'calendar':'schedule'}.json`):path.includes('classroom-demo')?demo:path.includes('calendar')?calendar:school)})};
+  const sandbox={location:{search},...core,...states,...profiles,...schools,...timing,esc:core.escapeHTML,Intl,Date:fixedNow===null?Date:FixedDate,JSON,Set,crypto:globalThis.crypto,document:{querySelector:node,querySelectorAll:queryAll,createElement:t=>new Node(t),body:new Node(),addEventListener(k,fn){documentListeners[k]=fn;}},localStorage:storage,clearInterval(){},setInterval(){},alert:m=>alerts.push(m),fetch:async path=>({ok:true,json:async()=>structuredClone(path.includes('/doyle/')?read(`../public/builtins/doyle/${path.split('/').at(-1)}`):path.includes('/gms/')?read(`../public/builtins/gms/${path.includes('calendar')?'calendar':'schedule'}.json`):path.includes('classroom-demo')?demo:path.includes('calendar')?calendar:school)})};
   vm.createContext(sandbox);vm.runInContext(fs.readFileSync(new URL('../app.js',import.meta.url),'utf8').replace(/^import .*;\n/gm,''),sandbox);
   const run=s=>vm.runInContext(s,sandbox);
   return {run,node,sandbox,storage,alerts,markup,documentListeners,snapshot:()=>JSON.parse(storage.getItem(profiles.PROFILE_KEY)),
@@ -373,5 +375,14 @@ await test('Doyle preview and live effective names/rooms agree while editor reta
  a.node('#doyle-use').onclick();a.run("viewedDate='2026-10-07';update()");assert.match(a.node('#display').innerHTML,/Foundations \/ H/);assert.ok(!a.node('#display').innerHTML.includes('Fundations / Heggarty'));
  a.clickEdit();const rows=a.node('#portable-fields').children.flatMap(section=>section.children).filter(row=>row.className==='portable-edit-row');
  const row=rows.find(row=>row.children[0]?.textContent==='Fundations / Heggarty');assert.ok(row);assert.equal(row.children[1].children[1].value,'Foundations / H');assert.equal(row.children[2].children[1].value,'RoomOverride');
+});
+await test('duration/point timing editor saves, validates, and resets without losing name/room overrides',()=>{
+ const a=app(),c=schools.doyleConfiguration(read('../public/builtins/doyle/prek-a.json'),'A');c.portable.edits=[{type:'period',id:'activity-2',title:'Arrival custom',room:'Blue'}];a.add(c);a.clickEdit();
+ const entries=a.node('#portable-fields').children.find(s=>s.className==='editor-section timing-editor').children.filter(s=>s.className==='timing-row');
+ const row=entries.find(r=>r.children[0].textContent==='Wednesday · Arrival / Morning Work'),point=entries.find(r=>r.children[0].textContent==='Point reminders · Bathroom');assert.match(row.children[1].textContent,/8:40/);
+ row.children[2].children[0].value='08:45';point.children[2].children[0].value='09:25';a.node('#portable-editor').onsubmit({preventDefault(){}});
+ assert.equal(a.snapshot().savedProfiles.length,1);assert.equal(a.run('config.timingOverrides.length'),2);assert.equal(a.run("config.portable.edits[0].title"),'Arrival custom');
+ a.clickEdit();const refreshed=a.node('#portable-fields').children.find(s=>s.className==='editor-section timing-editor').children.filter(s=>s.className==='timing-row');const activity=refreshed.find(r=>r.children[0].textContent==='Wednesday · Arrival / Morning Work');activity.children[2].children[0].value='09:10';a.node('#portable-editor').onsubmit({preventDefault(){}});assert.match(a.node('#form-error').textContent,/effective end/);
+ activity.children.at(-1).onclick();a.node('#portable-editor').onsubmit({preventDefault(){}});assert.equal(a.run('config.timingOverrides.length'),1);assert.equal(a.run("config.portable.edits[0].room"),'Blue');
 });
 console.log(`\n${passed} editor routing tests passed.`);

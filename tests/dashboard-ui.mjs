@@ -41,7 +41,7 @@ function renderer(input,renderDate=date) {
   class FixedDate extends Date {constructor(...args){super(...(args.length?args:[now]));}static now(){return now;}}
   const sandbox={...core,...states,...profiles,esc:core.escapeHTML,Intl,Date:FixedDate,JSON,Set,crypto:globalThis.crypto,document:{querySelector:node,querySelectorAll:()=>[],createElement:temporary,body:node('body'),addEventListener(){}},localStorage:storage,clearInterval(){},setInterval(){},alert:m=>{throw Error(m);}};
   vm.createContext(sandbox);vm.runInContext(source,sandbox);sandbox.input=input;vm.runInContext('save(input,null)',sandbox);
-  return {header:()=>header,scroller:()=>scroller,node,render(time){now=fixedAt(time);vm.runInContext('update()',sandbox);return lastMarkup;},stored:()=>JSON.parse(storage.getItem(profiles.PROFILE_KEY)),badge(event,mode){sandbox.event=event;sandbox.mode=mode;return vm.runInContext('scheduleBadge(event,mode)',sandbox);},density(count){sandbox.count=count;return vm.runInContext('scheduleDensity(count)',sandbox);}};
+  return {fullscreen(value){sandbox.document.fullscreenElement=value?{}:null;},header:()=>header,scroller:()=>scroller,node,render(time){now=fixedAt(time);vm.runInContext('update()',sandbox);return lastMarkup;},stored:()=>JSON.parse(storage.getItem(profiles.PROFILE_KEY)),badge(event,mode){sandbox.event=event;sandbox.mode=mode;return vm.runInContext('scheduleBadge(event,mode)',sandbox);},density(count){sandbox.count=count;return vm.runInContext('scheduleDensity(count)',sandbox);}};
 }
 function imported() {
   const assignments=copy(school.assignments);
@@ -334,5 +334,10 @@ test('effective room overrides replace the original room in schedule and hero',(
  const raw=read('./fixtures/canterbury-room2-v2.json');raw.personalActivities[0].room='OriginalRoom';
  const c=profiles.nativeConfigurations(profiles.inspectNativeImport(raw))[0];c.portable.edits=[{type:'personal',id:raw.personalActivities[0].id,title:'Custom activity',room:'EffectiveRoom'}];
  const html=renderer(c,'2026-10-01').render(raw.personalActivities[0].start);assert.ok(!html.includes('OriginalRoom'));assert.match(html,/<small>Room EffectiveRoom<\/small>/);assert.match(html,/class="details">Room EffectiveRoom/);
+});
+test('fullscreen dashboard uses effective timing without replacing source timing',()=>{
+ const c=importedDoyle(doyleRaw());c.timingOverrides=[{type:'template',templateID:'wednesday',id:'wednesday-7',start:'11:35',end:'12:05'}];
+ const r=renderer(c,'2026-10-07');r.fullscreen(true);const html=r.render('11:40');assert.match(html,/Exit Full Screen/);assert.match(html,/Bell at 12:05/);assert.match(html,/Ends 12:05/);assert.match(html,/class="countdown">25:00/);
+ assert.equal(c.portable.shared.schoolDefinitionSnapshot.scheduleTemplates.find(t=>t.id==='wednesday').periods.find(p=>p.id==='wednesday-7').end,'12:00');
 });
 console.log(`\n${passed} dashboard UI tests passed.`);
