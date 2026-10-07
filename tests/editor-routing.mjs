@@ -392,7 +392,7 @@ for(const school of ['woodville','ferryway','walton'])await test(`${school} pick
  const day=read(`../public/builtins/${school}/${first.file}`).schoolDefinitionSnapshot.scheduleTemplates.at(-1).id;
  await a.node('#builtin-preview-day').onchange({target:{value:day}});assert.equal(a.snapshot(),null);
  a.node('#builtin-back').onclick();await a.node(`[data-classroom="${first.code}"]`).onclick();a.node('#builtin-use').onclick();assert.equal(a.snapshot().savedProfiles.length,1);assert.equal(a.run('config.school.id'),first.schoolProfileID);
- a.node('#change').onclick();assert.match(a.markup(),new RegExp(`Change ${school[0].toUpperCase()+school.slice(1)} Schedule`));await a.node('#change-builtin').onclick();assert.ok(a.markup().includes(first.label));
+ a.node('#change').onclick();assert.match(a.markup(),new RegExp(`Change ${school[0].toUpperCase()+school.slice(1)} Schedule`));await a.node('#change-builtin').onclick();assert.ok(a.markup().includes(school==='ferryway'?first.label:`Schedule ${first.code.replace(/^(pk|k|[1-4])/,'').toUpperCase()}`));
  const url=app(a.storage,null,`?school=${school}&profile=${first.code}`);await new Promise(resolve=>setImmediate(resolve));assert.equal(url.snapshot().savedProfiles.length,1);assert.equal(url.run('config.school.id'),first.schoolProfileID);
  await url.run('startDoyleSetup("A")');assert.equal(url.snapshot().savedProfiles.length,2);assert.equal(url.run('config.school.id'),'doyle.prek-a');
  const back=app(url.storage,null,`?school=${school}&profile=${first.code}`);await new Promise(resolve=>setImmediate(resolve));assert.equal(back.snapshot().savedProfiles.length,2);assert.equal(back.run('config.school.id'),first.schoolProfileID);assert.deepEqual(back.alerts,[]);
@@ -500,5 +500,29 @@ await test('setup hierarchy preserves shared responsive school grid and accessib
  assert.match(css,/@media\(max-width:850px\)[^\n]*\.setup-options,\.modal-actions,\.form-grid\{grid-template-columns:1fr/);
  assert.match(css,/\.school-card\{background:#10242a;color:var\(--text\)/);assert.match(css,/\.school-card:hover,\.school-card:focus-visible\{[^}]*border-color:var\(--mint\)/);
  assert.match(css,/\.request-school\{[^}]*flex-wrap:wrap/);assert.match(css,/\.request-school-link:focus-visible\{outline:/);assert.match(css,/@media\(max-width:520px\)\{[^\n]*\.request-school-link\{width:100%/);
+});
+const gradeGroups={woodville:[['PreK',['pkcj','pksw']],['Kindergarten',['kdg','kkb','klb','kmg']],['Grade 1',['1ac','1cc','1kd','1kh']],['Grade 2',['2bm','2cd','2pr','2tm']],['Grade 3',['3eg','3kb','3kw','3mu']],['Grade 4',['4ap','4dg','4ke','4mb']]],walton:[['Kindergarten',['kd','kg']],['Grade 1',['1g','1r']],['Grade 2',['2c','2i']],['Grade 3',['3b','3c']],['Grade 4',['4b','4l']]]};
+for(const school of ['woodville','walton'])await test(`${school} groups every profile by grade with neutral, friendly, accessible labels`,async()=>{
+ const a=app();await a.node(`[data-school="${school}"]`).onclick();const html=a.markup();
+ const groups=[...html.matchAll(/<section class="profile-grade"[^>]*><h3[^>]*>([^<]+)<\/h3><div class="setup-options">([\s\S]*?)<\/div><\/section>/g)];
+ assert.deepEqual(groups.map(g=>[g[1],[...g[2].matchAll(/data-classroom="([^"]+)"/g)].map(m=>m[1])]),gradeGroups[school]);
+ const buttons=[...html.matchAll(/<button class="option-card school-card" data-classroom="([^"]+)" aria-label="([^"]+)"><b>([^<]+)<\/b><\/button>/g)];assert.equal(buttons.length,school==='woodville'?22:10);
+ for(const [,code,accessible,label] of buttons){assert.equal(label,`Schedule ${code.replace(/^(pk|k|[1-4])/,'').toUpperCase()}`);assert.ok(accessible.endsWith(label));assert.ok(!label.includes(school));}
+ assert.ok(!html.includes('option-card primary'));assert.match(html,/Choose your grade, then preview each schedule/);assert.match(html,/Early-release times/);assert.match(html,/Contact Support/);assert.equal(a.snapshot(),null);
+});
+for(const school of ['woodville','walton'])await test(`${school} every neutral choice previews/saves the original profile, returns to grouped picker and reuses direct URLs`,async()=>{
+ const choices=schools.snapshotChoices(school,read(`../public/builtins/${school}/profiles.json`));
+ for(const choice of choices){
+ const a=app();await a.node(`[data-school="${school}"]`).onclick();await a.node(`[data-classroom="${choice.code}"]`).onclick();
+ const raw=read(`../public/builtins/${school}/${choice.file}`),expected=schools.snapshotConfiguration(choice,raw),preview=schools.schoolSchedulePreview(expected,null,core.dateInZone(Date.now(),expected.school.timeZone));
+ assert.equal(a.snapshot(),null);assert.match(a.markup(),/Use This Schedule/);assert.ok(a.markup().includes(core.escapeHTML(core.eventTitle(preview.events[0]))));assert.ok(a.markup().includes(`Schedule ${choice.code.replace(/^(pk|k|[1-4])/,'').toUpperCase()}`));
+ a.node('#builtin-back').onclick();assert.match(a.markup(),/class="profile-grade"/);await a.node(`[data-classroom="${choice.code}"]`).onclick();a.node('#builtin-use').onclick();assert.equal(a.snapshot().savedProfiles.length,1);assert.deepEqual(a.run('config'),expected);
+ const url=app(a.storage,null,`?school=${school}&profile=${choice.code}`);await new Promise(resolve=>setImmediate(resolve));assert.equal(url.snapshot().savedProfiles.length,1);assert.equal(url.run('config.school.id'),choice.schoolProfileID);assert.deepEqual(url.run('config.portable.shared'),raw);
+ await url.run(`chooseBuiltinProfile('${school}')`);await url.node(`[data-classroom="${choice.code}"]`).onclick();url.node('#builtin-use').onclick();assert.equal(url.snapshot().savedProfiles.length,1);
+ }
+});
+await test('grouped pickers reuse responsive neutral cards while Doyle and Ferryway retain their existing presentation',async()=>{
+ const css=fs.readFileSync(new URL('../styles.css',import.meta.url),'utf8');assert.match(css,/\.profile-grade \.setup-options\{margin-top:10px/);assert.match(css,/@media\(max-width:850px\)[^\n]*\.setup-options,\.modal-actions,\.form-grid\{grid-template-columns:1fr/);assert.match(css,/\.school-card:hover,\.school-card:focus-visible/);
+ for(const school of ['doyle','ferryway']){const a=app();await a.node(`[data-school="${school}"]`).onclick();assert.ok(!a.markup().includes('profile-grade'));assert.match(a.markup(),/option-card primary/);assert.match(a.markup(),/Contact Support/);}
 });
 console.log(`\n${passed} editor routing tests passed.`);

@@ -173,8 +173,23 @@ async function chooseBuiltinProfile(school) {
  if(school==='doyle')return chooseDoyleProfile();
  const request=++viewRequest;try{const choices=await builtinChoices(school);if(request===viewRequest)openBuiltinPicker(school,choices);}catch(error){if(request===viewRequest)alert(error.message);}
 }
+function builtinProfilePresentation(school,choice) {
+ if(!['woodville','walton'].includes(school))return null;
+ const prefix=choice.code.match(/^(pk|k|[1-4])/i)?.[0]?.toLowerCase();
+ const grade=prefix==='pk'?'PreK':prefix==='k'?'Kindergarten':prefix?`Grade ${prefix}`:'Other schedules';
+ return {grade,label:prefix?`Schedule ${choice.code.slice(prefix.length).toUpperCase()}`:choice.label};
+}
 function openBuiltinPicker(school,choices) {
- modal(`<header class="modal-head"><div><h2>${SNAPSHOT_SCHOOLS[school]}</h2><p>Not sure which schedule is yours? Preview each one to find the schedule that matches your day. No import is needed.</p><p class="notice">Early-release times are shown only where they are available from the school schedule.</p></div><button class="icon-button" id="close" aria-label="Close dialog">×</button></header><div class="setup-options">${choices.map(choice=>`<button class="option-card primary" ${school==='doyle'?'data-doyle':'data-classroom'}="${choice.code}"><b>${esc(choice.label)}</b></button>`).join('')}</div>`);
+ const grouped=['woodville','walton'].includes(school);
+ const buttons=rows=>rows.map(choice=>{
+   const presentation=builtinProfilePresentation(school,choice);
+   return `<button class="option-card ${grouped?'school-card':'primary'}" ${school==='doyle'?'data-doyle':'data-classroom'}="${choice.code}"${presentation?` aria-label="${esc(`${presentation.grade} · ${presentation.label}`)}"`:''}><b>${esc(presentation?.label || choice.label)}</b></button>`;
+ }).join('');
+ const content=grouped?['PreK','Kindergarten','Grade 1','Grade 2','Grade 3','Grade 4','Other schedules'].map((grade,index)=>{
+   const rows=choices.filter(choice=>builtinProfilePresentation(school,choice).grade===grade);
+   return rows.length?`<section class="profile-grade" aria-labelledby="profile-grade-${index}"><h3 id="profile-grade-${index}">${grade}</h3><div class="setup-options">${buttons(rows)}</div></section>`:'';
+ }).join(''):`<div class="setup-options">${buttons(choices)}</div>`;
+ modal(`<header class="modal-head"><div><h2>${SNAPSHOT_SCHOOLS[school]}</h2><p>${grouped?'Not sure which schedule is yours? Choose your grade, then preview each schedule to find the one that matches your day.':'Not sure which schedule is yours? Preview each one to find the schedule that matches your day. No import is needed.'}</p><p class="notice">Early-release times are shown only where they are available from the school schedule.</p></div><button class="icon-button" id="close" aria-label="Close dialog">×</button></header>${content}`);
  document.querySelector('#close').onclick=()=>{viewRequest++;closeModal();};
  document.querySelectorAll(school==='doyle'?'[data-doyle]':'[data-classroom]').forEach(button=>button.onclick=()=>previewBuiltinSetup(school,choices.find(c=>c.code===(button.dataset.doyle || button.dataset.classroom)),choices));
 }
@@ -189,7 +204,9 @@ async function previewBuiltinSetup(school,choice,choices,templateID=null,candida
   const tz=candidate.school.timeZone,preview=schoolSchedulePreview(candidate,templateID,dateInZone(Date.now(),tz)),d=candidate.portable.shared.schoolDefinitionSnapshot;
   const dayLabel=t=>Object.entries(d.calendarRule.cycleDayTemplateIDs || {}).find(([,id])=>id===t.id)?.[0];
   const options=d.scheduleTemplates.map(t=>({id:t.id,label:dayLabel(t)?d.cycle.dayDisplayNames?.[dayLabel(t)] || `Day ${dayLabel(t)}`:t.displayName || t.id}));
-  modal(`<header class="modal-head"><div><h2>${esc(choice.label)}</h2><p>Preview the daily sequence to recognize your schedule.${existing?' Your saved changes will be kept.':''}</p></div><button class="icon-button" id="close" aria-label="Close dialog">×</button></header><label>Preview day<select id="builtin-preview-day">${options.map(o=>option(o.id,preview.templateID,o.label)).join('')}</select></label><div class="doyle-preview">${preview.events.map(e=>`<div class="doyle-preview-row"><div><strong>${esc(eventTitle(e))}</strong>${candidate.preferences.showRooms && e.room?`<small>Room ${esc(e.room)}</small>`:''}${e.kind==='point'?'<small>Point reminder · classroom activity continues</small>':''}</div><time>${formatClock(e.displayStartAt ?? e.startAt,tz,candidate.preferences.hour24)}${e.kind==='point'?'':` – ${formatClock(e.displayEndAt ?? e.endAt,tz,candidate.preferences.hour24)}`}</time></div>`).join('')}</div><p class="notice">Only available activities and reminders are shown. Missing timing is not filled in.</p><footer class="modal-footer"><button class="secondary" id="${school==='doyle'?'doyle-back':'builtin-back'}">Back to ${SNAPSHOT_SCHOOLS[school].replace(' School','')} Schedules</button><button class="primary" id="${school==='doyle'?'doyle-use':'builtin-use'}">Use This Schedule</button></footer>`);
+  const presentation=builtinProfilePresentation(school,choice);
+  const previewTitle=presentation?`${SNAPSHOT_SCHOOLS[school]} · ${presentation.grade} · ${presentation.label}`:choice.label;
+  modal(`<header class="modal-head"><div><h2>${esc(previewTitle)}</h2><p>Preview the daily sequence to recognize your schedule.${existing?' Your saved changes will be kept.':''}</p></div><button class="icon-button" id="close" aria-label="Close dialog">×</button></header><label>Preview day<select id="builtin-preview-day">${options.map(o=>option(o.id,preview.templateID,o.label)).join('')}</select></label><div class="doyle-preview">${preview.events.map(e=>`<div class="doyle-preview-row"><div><strong>${esc(eventTitle(e))}</strong>${candidate.preferences.showRooms && e.room?`<small>Room ${esc(e.room)}</small>`:''}${e.kind==='point'?'<small>Point reminder · classroom activity continues</small>':''}</div><time>${formatClock(e.displayStartAt ?? e.startAt,tz,candidate.preferences.hour24)}${e.kind==='point'?'':` – ${formatClock(e.displayEndAt ?? e.endAt,tz,candidate.preferences.hour24)}`}</time></div>`).join('')}</div><p class="notice">Only available activities and reminders are shown. Missing timing is not filled in.</p><footer class="modal-footer"><button class="secondary" id="${school==='doyle'?'doyle-back':'builtin-back'}">Back to ${SNAPSHOT_SCHOOLS[school].replace(' School','')} Schedules</button><button class="primary" id="${school==='doyle'?'doyle-use':'builtin-use'}">Use This Schedule</button></footer>`);
   document.querySelector('#close').onclick=()=>{viewRequest++;closeModal();};
   document.querySelector('#builtin-preview-day').onchange=e=>previewBuiltinSetup(school,choice,choices,e.target.value,candidate);
   document.querySelector(school==='doyle'?'#doyle-back':'#builtin-back').onclick=()=>{viewRequest++;openBuiltinPicker(school,choices);};

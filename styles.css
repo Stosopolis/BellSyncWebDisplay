@@ -175,3 +175,8 @@
 .request-school-link{display:inline-flex;align-items:center;justify-content:center;min-height:44px;text-decoration:none}
 .request-school-link:focus-visible{outline:3px solid var(--mint);outline-offset:3px}
 @media(max-width:520px){.request-school{padding:16px}.request-school-link{width:100%}}
+
+/* Grade groups share the existing responsive grid and neutral school cards. */
+.profile-grade{margin-top:24px}
+.profile-grade h3{font-size:1.1rem;color:var(--text)}
+.profile-grade .setup-options{margin-top:10px}
