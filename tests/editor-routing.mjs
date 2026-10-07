@@ -409,19 +409,19 @@ await test('support menu action preserves profile/fullscreen state and participa
  a.node('#support').onclick();assert.deepEqual(a.snapshot(),before);assert.ok(a.sandbox.document.fullscreenElement);assert.equal(a.run('scheduleMenuOpen'),false);
 });
 await test('all saved profiles can edit/reset local timing from the Schedule menu without mutating source bells',()=>{
- const a=app(),id=a.add(manual),original=structuredClone(a.snapshot());a.node('#timing').onclick();assert.match(a.markup(),/Timing Overrides/);assert.match(a.markup(),/Contact Support/);
+ const a=app(),id=a.add(manual),original=structuredClone(a.snapshot());a.node('#timing').onclick();assert.match(a.markup(),/Activity Timing Overrides/);assert.match(a.markup(),/Contact Support/);
  const section=a.node('#timing-fields').children[0];assert.equal(section.open,true);const row=section.children.find(c=>c.className==='timing-row');row.children[2].children[0].value='07:35';a.node('#timing-form').onsubmit({preventDefault(){}});
  assert.equal(a.snapshot().savedProfiles.length,1);assert.equal(a.snapshot().activeProfileID,id);assert.deepEqual(a.snapshot().savedProfiles[0].configuration.templates,original.savedProfiles[0].configuration.templates);assert.equal(a.run('config.timingOverrides[0].start'),'07:35');
  a.node('#timing').onclick();a.node('#timing-fields').children[0].children.find(c=>c.className==='timing-row').children.at(-1).onclick();a.node('#timing-form').onsubmit({preventDefault(){}});assert.deepEqual(a.snapshot(),original);
 });
 await test('Bell Timing Adjustment stepper, reset and saved direct URL reuse remain profile-local',async()=>{
  const a=app(undefined,null,'?school=doyle&profile=B');await new Promise(resolve=>setImmediate(resolve));
- a.node('#settings').onclick();assert.match(a.markup(),/Bell Timing Adjustment/);assert.match(a.markup(),/min="-30" max="30" step="1"/);
+ a.node('#bell-timing').onclick();assert.match(a.markup(),/Bell Timing Adjustment/);assert.match(a.markup(),/min="-30" max="30" step="1"/);
  const input=a.node('#bell-adjustment');input.value='0';for(let i=0;i<8;i++)a.node('#bell-later').onclick();assert.equal(input.value,'8');
- const submit=()=>a.node('#settings-form').onsubmit({preventDefault(){},currentTarget:{accent:{value:'mint'},clock:{value:'12'},size:{value:'standard'},scheduleLabels:{value:'blocks'},rooms:{checked:true},schedule:{checked:true},school:{checked:true},bellAdjustment:input}});
+ const submit=()=>a.node('#bell-timing-form').onsubmit({preventDefault(){}});
  submit();assert.equal(a.snapshot().savedProfiles.length,1);assert.equal(a.run('config.bellTimingAdjustmentSeconds'),8);assert.equal(a.run("scheduleTimeText(zonedTimestamp('2026-10-07','09:20',config.school.timeZone)+8000,config.school.timeZone)"),core.formatClock(core.zonedTimestamp('2026-10-07','09:20','America/New_York'),'America/New_York',false));
  const reload=app(a.storage,null,'?school=doyle&profile=B');await new Promise(resolve=>setImmediate(resolve));assert.equal(reload.run('config.bellTimingAdjustmentSeconds'),8);assert.equal(reload.snapshot().savedProfiles.length,1);
- a.node('#settings').onclick();a.node('#bell-reset').onclick();input.value=a.node('#bell-adjustment').value;submit();assert.equal(app(a.storage).run('config.bellTimingAdjustmentSeconds'),0);
+ a.node('#bell-timing').onclick();a.node('#bell-reset').onclick();input.value=a.node('#bell-adjustment').value;submit();assert.equal(app(a.storage).run('config.bellTimingAdjustmentSeconds'),0);
 });
 const timingUX=()=>{
  const a=app(),c=schools.doyleConfiguration(read('../public/builtins/doyle/prek-a.json'),'A');c.bellTimingAdjustmentSeconds=8;c.portable.edits=[{type:'period',id:'activity-2',title:'Custom arrival',room:'Blue'}];a.add(c);a.node('#timing').onclick();
@@ -460,5 +460,28 @@ await test('untouched and reset timing controls preserve dated source variants a
  const item=timing.timingCatalog(c).find(e=>e.templateID==='wednesday' && e.label==='Arrival / Morning Work');const edited=timing.setTimingOverrides(c,[{type:item.type,id:item.id,templateID:item.templateID,end:'09:05'}]);
  a.run('save('+JSON.stringify(edited)+')');a.node('#timing').onclick();save();assert.deepEqual(a.run('config.timingOverrides'),edited.timingOverrides);
  a.node('#timing').onclick();const row=a.node('#timing-fields').children[0].children.find(r=>r.children[0]?.textContent==='Wednesday · Arrival / Morning Work');row.children.at(-1).onclick();save();assert.deepEqual(a.run('config'),c);
+});
+await test('Schedule groups timing controls in requested order with keyboard access',()=>{
+ const a=app();a.add(manual);const html=a.node('#display').innerHTML,menu=html.slice(html.indexOf('id="schedule-menu"'),html.indexOf('<button id="settings"'));
+ assert.deepEqual([...menu.matchAll(/(?:<button[^>]*role="menuitem"[^>]*>|<a[^>]*role="menuitem"[^>]*>)([^<]+)/g)].map(m=>m[1]),['Edit Schedule','Switch Schedule','Export / Backup Schedule','Bell Timing Adjustment','Activity Timing Overrides','Contact Support','Remove This Schedule']);
+ a.node('#schedule-toggle').onclick();a.node('#export').onkeydown({key:'ArrowDown',preventDefault(){}});assert.equal(a.sandbox.document.activeElement,a.node('#bell-timing'));a.run('update()');assert.equal(a.sandbox.document.activeElement,a.node('#bell-timing'));
+ a.node('#bell-timing').onkeydown({key:'ArrowDown',preventDefault(){}});assert.equal(a.sandbox.document.activeElement,a.node('#timing'));a.node('#bell-timing').onclick();assert.equal(a.run('scheduleMenuOpen'),false);assert.match(a.markup(),/<h2>Bell Timing Adjustment<\/h2>/);
+});
+await test('Display Settings contains visual preferences only and preserves existing timing values on save',()=>{
+ const a=app(),c=structuredClone(manual);c.bellTimingAdjustmentSeconds=8;c.timingOverrides=[{type:'template',templateID:'regular',id:c.periods[0].id,start:'07:35'}];a.add(c);a.node('#settings').onclick();
+ assert.ok(!a.markup().includes('Bell Timing Adjustment'));assert.ok(!a.markup().includes('bellAdjustment'));for(const text of ['Accent color','Clock','Display size','Schedule-row labels','School Day Progress','School Year Progress','Show rooms','Show Today’s Schedule','Show school name'])assert.ok(a.markup().includes(text));
+ a.node('#settings-form').onsubmit({preventDefault(){},currentTarget:{accent:{value:'blue'},clock:{value:'24'},size:{value:'compact'},scheduleLabels:{value:'periods'},rooms:{checked:false},schedule:{checked:true},school:{checked:true},schoolDayProgress:{checked:true},schoolYearProgress:{checked:false}}});
+ assert.equal(a.run('config.bellTimingAdjustmentSeconds'),8);assert.deepEqual(a.run('config.timingOverrides'),c.timingOverrides);assert.equal(a.run('config.preferences.accent'),'blue');assert.equal(a.snapshot().savedProfiles.length,1);
+});
+await test('dedicated timing dialogs load saved values, remain independent, and restore backups unchanged',()=>{
+ const {a,c,row,save}=timingUX();step(row,2,3);save();const prior=a.run('config');a.node('#bell-timing').onclick();assert.match(a.markup(),/required value="8"/);
+ const bell=a.node('#bell-adjustment');bell.value='8';a.node('#bell-later').onclick();a.node('#bell-timing-form').onsubmit({preventDefault(){}});const changed=a.run('config');assert.equal(changed.bellTimingAdjustmentSeconds,9);assert.deepEqual(changed.timingOverrides,prior.timingOverrides);assert.deepEqual(changed.preferences,prior.preferences);assert.deepEqual(changed.portable.shared,c.portable.shared);
+ const restored=profiles.importDisplayProfiles(profiles.exportProfiles(a.snapshot()))[0];assert.deepEqual(restored,changed);const reload=app(a.storage);assert.deepEqual(reload.run('config'),changed);reload.node('#bell-timing').onclick();assert.match(reload.markup(),/required value="9"/);reload.node('#cancel').onclick();reload.node('#timing').onclick();assert.match(reload.markup(),/<h2>Activity Timing Overrides<\/h2>/);
+ const event=core.timelineFor(changed,'2026-10-07').events.find(e=>e.periodID==='activity-2');assert.equal(event.startAt,core.zonedTimestamp('2026-10-07','08:45',changed.school.timeZone)+9000);
+ a.node('#bell-timing').onclick();a.node('#bell-reset').onclick();a.node('#bell-timing-form').onsubmit({preventDefault(){}});assert.equal(a.run('config.bellTimingAdjustmentSeconds'),0);assert.deepEqual(a.run('config.timingOverrides'),prior.timingOverrides);
+});
+await test('dedicated bell adjustment validates range, cancels safely, and applies Demo without saving profiles',()=>{
+ const a=app(),c={...manual,bellTimingAdjustmentSeconds:-8};a.add(c);const before=a.snapshot();a.node('#bell-timing').onclick();assert.match(a.markup(),/required value="-8"/);a.node('#bell-adjustment').value='31';a.node('#bell-timing-form').onsubmit({preventDefault(){}});assert.match(a.node('#form-error').textContent,/-30 to \+30/);assert.deepEqual(a.snapshot(),before);a.node('#cancel').onclick();assert.deepEqual(a.snapshot(),before);
+ a.run('isDemo=true;config=normalize('+JSON.stringify(demo)+')');a.run('render()');a.node('#bell-timing').onclick();a.node('#bell-adjustment').value='-8';a.node('#bell-timing-form').onsubmit({preventDefault(){}});assert.equal(a.run('config.bellTimingAdjustmentSeconds'),-8);assert.deepEqual(a.snapshot(),before);
 });
 console.log(`\n${passed} editor routing tests passed.`);
