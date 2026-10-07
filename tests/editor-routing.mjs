@@ -414,4 +414,13 @@ await test('all saved profiles can edit/reset local timing from the Schedule men
  assert.equal(a.snapshot().savedProfiles.length,1);assert.equal(a.snapshot().activeProfileID,id);assert.deepEqual(a.snapshot().savedProfiles[0].configuration.templates,original.savedProfiles[0].configuration.templates);assert.equal(a.run('config.timingOverrides[0].start'),'07:35');
  a.node('#timing').onclick();a.node('#timing-fields').children[0].children.find(c=>c.className==='timing-row').children.at(-1).onclick();a.node('#timing-form').onsubmit({preventDefault(){}});assert.deepEqual(a.snapshot(),original);
 });
+await test('Bell Timing Adjustment stepper, reset and saved direct URL reuse remain profile-local',async()=>{
+ const a=app(undefined,null,'?school=doyle&profile=B');await new Promise(resolve=>setImmediate(resolve));
+ a.node('#settings').onclick();assert.match(a.markup(),/Bell Timing Adjustment/);assert.match(a.markup(),/min="-30" max="30" step="1"/);
+ const input=a.node('#bell-adjustment');input.value='0';for(let i=0;i<8;i++)a.node('#bell-later').onclick();assert.equal(input.value,'8');
+ const submit=()=>a.node('#settings-form').onsubmit({preventDefault(){},currentTarget:{accent:{value:'mint'},clock:{value:'12'},size:{value:'standard'},scheduleLabels:{value:'blocks'},rooms:{checked:true},schedule:{checked:true},school:{checked:true},bellAdjustment:input}});
+ submit();assert.equal(a.snapshot().savedProfiles.length,1);assert.equal(a.run('config.bellTimingAdjustmentSeconds'),8);assert.equal(a.run("scheduleTimeText(zonedTimestamp('2026-10-07','09:20',config.school.timeZone)+8000,config.school.timeZone)"),core.formatClock(core.zonedTimestamp('2026-10-07','09:20','America/New_York'),'America/New_York',false));
+ const reload=app(a.storage,null,'?school=doyle&profile=B');await new Promise(resolve=>setImmediate(resolve));assert.equal(reload.run('config.bellTimingAdjustmentSeconds'),8);assert.equal(reload.snapshot().savedProfiles.length,1);
+ a.node('#settings').onclick();a.node('#bell-reset').onclick();input.value=a.node('#bell-adjustment').value;submit();assert.equal(app(a.storage).run('config.bellTimingAdjustmentSeconds'),0);
+});
 console.log(`\n${passed} editor routing tests passed.`);

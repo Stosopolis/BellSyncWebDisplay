@@ -54,7 +54,7 @@ export function schoolSchedulePreview(config,templateID=null,referenceDate=null)
  const key=ordered.find(k=>{const day=schoolDay(config,k);return day && (!templateID || day.schedule===templateID) && d.scheduleTemplates.some(t=>t.id===day.schedule);});
  if(!key)throw Error('No confirmed schedule preview is available.');
  const timeline=timelineFor(config,key);
- return {key,templateID:timeline.day.schedule,events:[...timeline.events,...timeline.points.map(p=>({...p,kind:'point',startAt:p.at,endAt:p.at}))].sort((a,b)=>a.startAt-b.startAt)};
+ return {key,templateID:timeline.day.schedule,events:[...timeline.events,...timeline.points.map(p=>({...p,kind:'point',startAt:p.at,endAt:p.at,...(p.displayAt===undefined?{}:{displayStartAt:p.displayAt,displayEndAt:p.displayAt})}))].sort((a,b)=>a.startAt-b.startAt)};
 }
 
 export function doyleSchedulePreview(configuration) {
@@ -62,5 +62,5 @@ export function doyleSchedulePreview(configuration) {
   const key=Object.keys(dates).sort().find(key=>dates[key].kind==='scheduled');
   if(!key) throw Error('No confirmed normal Doyle schedule is available.');
   const timeline=timelineFor(configuration,key);
-  return [...timeline.events,...timeline.points.map(p=>({...p,kind:'point',startAt:p.at,endAt:p.at}))].sort((a,b)=>a.startAt-b.startAt);
+  return [...timeline.events,...timeline.points.map(p=>({...p,kind:'point',startAt:p.at,endAt:p.at,...(p.displayAt===undefined?{}:{displayStartAt:p.displayAt,displayEndAt:p.displayAt})}))].sort((a,b)=>a.startAt-b.startAt);
 }

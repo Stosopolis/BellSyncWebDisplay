@@ -80,6 +80,7 @@ export function normalize(raw) {
   safeTree(raw);
   if (![1,2].includes(raw.schemaVersion)) fail('Unsupported Display configuration version.');
   const v = JSON.parse(JSON.stringify(raw));
+  if(v.bellTimingAdjustmentSeconds !== undefined && (!Number.isInteger(v.bellTimingAdjustmentSeconds) || Math.abs(v.bellTimingAdjustmentSeconds)>30)) fail('Bell Timing Adjustment must be a whole number from -30 to +30 seconds.');
   if (!object(v.school)) fail('Invalid school details.');
   id(v.school.id, 'school ID'); text(v.school.displayName,'school name',true); text(v.school.timeZone,'timezone',true); text(v.profileName,'display name',true);
   try { new Intl.DateTimeFormat('en-US',{timeZone:v.school.timeZone}).format(0); } catch { fail('Enter a valid IANA timezone, such as America/New_York.'); }
@@ -303,7 +304,21 @@ export const isMeaningfulEvent = e => e.kind !== 'passing';
 
 // Returns one effective timeline for the hero and full-day list. Missing/blank
 // academic assignments are open time; automatic lunch/support rows remain.
-export function timelineFor(config, key) {
+// Shift resolved runtime boundaries only, after local activity overrides.
+// Zero keeps the original timeline shape for existing profiles and consumers.
+export function timelineFor(config,key) {
+  return adjustRuntimeTimeline(sourceTimelineFor(config,key),config.bellTimingAdjustmentSeconds ?? 0);
+}
+function adjustRuntimeTimeline(value,seconds) {
+  if(!seconds)return value;
+  if(Array.isArray(value))return value.map(item=>adjustRuntimeTimeline(item,seconds));
+  if(!value || typeof value!=='object')return value;
+  return Object.fromEntries(Object.entries(value).flatMap(([key,item])=>
+    ['startAt','endAt','at','workdayEndAt'].includes(key) && Number.isFinite(item)
+      ? [[key,item+seconds*1000],[`display${key[0].toUpperCase()}${key.slice(1)}`,item]]
+      : [[key,adjustRuntimeTimeline(item,seconds)]]));
+}
+function sourceTimelineFor(config, key) {
   date(key);
   config=effectiveTimingConfiguration(config);
   const timeZone = config.school.timeZone;
@@ -406,8 +421,8 @@ export function confirmedWorkdayBounds(config,key) {
   } else {
     const rows=isManagedSchool(config)?config.templates[timeline.day.schedule]:config.periods;
     const meaningful=rows.filter(p=>p.kind!=='passing');
-    starts=meaningful.map(p=>zonedTimestamp(key,p.start,config.school.timeZone));
-    ends=meaningful.map(p=>zonedTimestamp(key,p.end,config.school.timeZone));
+    starts=meaningful.map(p=>zonedTimestamp(key,p.start,config.school.timeZone)+(config.bellTimingAdjustmentSeconds ?? 0)*1000);
+    ends=meaningful.map(p=>zonedTimestamp(key,p.end,config.school.timeZone)+(config.bellTimingAdjustmentSeconds ?? 0)*1000);
     for(const owner of timeline.events.filter(e=>e.owner)){starts.push(owner.startAt);ends.push(owner.endAt);}
   }
   const startAt=Math.min(...starts),endAt=Math.max(...ends);

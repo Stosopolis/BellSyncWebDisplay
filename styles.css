@@ -153,3 +153,8 @@
 .timing-editor > summary { font-weight:750;cursor:pointer }.managed-editor > .timing-editor { flex:0 1 auto;max-height:32vh;overflow:auto;margin:10px 0;padding-top:10px;min-height:0 }
 
 .support-link { text-decoration:none;display:inline-flex;align-items:center }.support-help { display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:18px;flex:0 0 auto }.support-help > span { color:var(--muted);font-size:.9rem }.schedule-menu .support-link { display:block;width:100%;padding:10px 12px;color:var(--text);border-radius:8px }.schedule-menu .support-link:hover,.schedule-menu .support-link:focus-visible { background:#ffffff12 }
+
+/* Profile-local physical bell calibration; wraps cleanly in narrow dialogs. */
+.bell-adjustment{display:flex;align-items:end;gap:.6rem;flex-wrap:wrap}
+.bell-adjustment label{margin:0}
+.bell-adjustment input{width:6rem}
