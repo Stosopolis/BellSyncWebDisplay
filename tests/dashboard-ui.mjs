@@ -4,7 +4,8 @@ import vm from 'node:vm';
 import * as core from '../display-core.mjs';
 import * as states from '../schedule-presentation.mjs';
 import * as profiles from '../profile-store.mjs';
-import { builtInConfiguration } from '../school-setup.mjs';
+import * as schools from '../school-setup.mjs';
+const {builtInConfiguration}=schools;
 const read=p=>JSON.parse(fs.readFileSync(new URL(p,import.meta.url),'utf8'));
 const demo=core.normalize(read('../public/samples/classroom-demo.json'));
 const school=read('../public/builtins/wmhs/schedule.json'),calendar=read('../public/builtins/wmhs/calendar.json');
@@ -39,7 +40,7 @@ function renderer(input,renderDate=date) {
   }})};};
   const data=new Map(),storage={getItem:k=>data.get(k)??null,setItem:(k,v)=>data.set(k,v)};
   class FixedDate extends Date {constructor(...args){super(...(args.length?args:[now]));}static now(){return now;}}
-  const sandbox={...core,...states,...profiles,esc:core.escapeHTML,Intl,Date:FixedDate,JSON,Set,crypto:globalThis.crypto,document:{querySelector:node,querySelectorAll:()=>[],createElement:temporary,body:node('body'),addEventListener(){}},localStorage:storage,clearInterval(){},setInterval(){},alert:m=>{throw Error(m);}};
+  const sandbox={...core,...states,...profiles,...schools,esc:core.escapeHTML,Intl,Date:FixedDate,JSON,Set,crypto:globalThis.crypto,document:{querySelector:node,querySelectorAll:()=>[],createElement:temporary,body:node('body'),addEventListener(){}},localStorage:storage,clearInterval(){},setInterval(){},alert:m=>{throw Error(m);}};
   vm.createContext(sandbox);vm.runInContext(source,sandbox);sandbox.input=input;vm.runInContext('save(input,null)',sandbox);
   return {fullscreen(value){sandbox.document.fullscreenElement=value?{}:null;},header:()=>header,scroller:()=>scroller,node,render(time){now=fixedAt(time);vm.runInContext('update()',sandbox);return lastMarkup;},stored:()=>JSON.parse(storage.getItem(profiles.PROFILE_KEY)),badge(event,mode){sandbox.event=event;sandbox.mode=mode;return vm.runInContext('scheduleBadge(event,mode)',sandbox);},density(count){sandbox.count=count;return vm.runInContext('scheduleDensity(count)',sandbox);}};
 }
@@ -243,7 +244,7 @@ for(const [name,input,today] of navigationProfiles)test(`${name} date controls b
   const region=r.scroller();region.scrollTop=320;
   const tick=r.render('11:34');assert.equal(selected(tick),shift(today,1));assert.strictEqual(r.scroller(),region);assert.equal(region.scrollTop,320);
   const chosen='2026-10-01';r.node('#view-date').onchange({target:{value:chosen,blur(){}}});
-  const preview=r.render('11:35');assert.equal(selected(preview),chosen);assert.equal(cards(preview).length,core.timelineFor(input,chosen).events.length);
+  const preview=r.render('11:35');assert.equal(selected(preview),chosen);const timeline=core.timelineFor(input,chosen);assert.equal(cards(preview).length,timeline.events.length+(timeline.points?.length || 0));
   if(chosen!==today){assert.match(preview,/<h2>SCHEDULE<\/h2>/);assert.ok(!preview.includes('class="now">NOW'));}
   r.node('#today-date').onclick();assert.equal(selected(r.render('11:36')),today);assert.equal(r.scroller().scrollTop,0);
   assert.deepEqual(r.stored(),before);

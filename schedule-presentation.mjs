@@ -65,6 +65,7 @@ export function resolvePresentation(timeline, now, {isLive=true,showRooms=true}=
     const point=timeline.workdayBoundary,boundary={...point,startAt:point.at,endAt:point.at,kind:'boundary'};
     return result('gap',null,boundary,point.at);
   }
+  if(timeline.unconfirmedEnd)return result('unavailable',null,null,null,'Later timing unavailable');
   return result('complete',null,null,null,'Done for Today');
 }
 

@@ -1,0 +1,1763 @@
+{
+  "assignments" : {
+
+  },
+  "createdAt" : "2026-10-07T13:58:42Z",
+  "formatVersion" : 2,
+  "personalActivities" : [
+
+  ],
+  "scheduleName" : "Walton 4L",
+  "schoolContentVersion" : "2026-2027.1",
+  "schoolDefinitionSnapshot" : {
+    "activityLayers" : {
+      "personal" : [
+
+      ],
+      "staff" : [
+
+      ],
+      "suppressedClassroomDates" : {
+
+      }
+    },
+    "activityPresentation" : {
+      "contextLabel" : "4L",
+      "notes" : [
+        "Source: Walton Master Schedules – 2026–27, classroom 4L.",
+        "Early-release lunch reference: 11:25–11:50 AM. This is partial information only; the full modified schedule is unavailable.",
+        "Planned last day: June 17, 2027, with no snow days. No extension is assumed."
+      ],
+      "periodSymbols" : {
+
+      },
+      "setupDetail" : "4L · Fixed Monday–Friday classroom activities and 2026–2027 calendar. No subject assignments needed.",
+      "unavailableScheduleTitle" : "Early Release"
+    },
+    "calendarExceptions" : {
+      "2026-09-02" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2026-09-03" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduled",
+        "templateID" : "thursday"
+      },
+      "2026-09-04" : {
+        "kind" : "noSchool",
+        "note" : "No School · Labor Day Weekend"
+      },
+      "2026-09-07" : {
+        "kind" : "noSchool",
+        "note" : "No School · Labor Day Weekend"
+      },
+      "2026-09-08" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2026-09-09" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2026-09-10" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduled",
+        "templateID" : "thursday"
+      },
+      "2026-09-11" : {
+        "cycleDayID" : "friday",
+        "kind" : "scheduled",
+        "templateID" : "friday"
+      },
+      "2026-09-14" : {
+        "cycleDayID" : "monday",
+        "kind" : "scheduled",
+        "templateID" : "monday"
+      },
+      "2026-09-15" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2026-09-16" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2026-09-17" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduled",
+        "templateID" : "thursday"
+      },
+      "2026-09-18" : {
+        "cycleDayID" : "friday",
+        "kind" : "scheduled",
+        "templateID" : "friday"
+      },
+      "2026-09-21" : {
+        "cycleDayID" : "monday",
+        "kind" : "scheduled",
+        "templateID" : "monday"
+      },
+      "2026-09-22" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2026-09-23" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2026-09-24" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduled",
+        "templateID" : "thursday"
+      },
+      "2026-09-25" : {
+        "cycleDayID" : "friday",
+        "kind" : "scheduleUnavailable",
+        "note" : "Early Release · Walton modified schedule not fully available"
+      },
+      "2026-09-28" : {
+        "cycleDayID" : "monday",
+        "kind" : "scheduled",
+        "templateID" : "monday"
+      },
+      "2026-09-29" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2026-09-30" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2026-10-01" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduled",
+        "templateID" : "thursday"
+      },
+      "2026-10-02" : {
+        "cycleDayID" : "friday",
+        "kind" : "scheduled",
+        "templateID" : "friday"
+      },
+      "2026-10-05" : {
+        "cycleDayID" : "monday",
+        "kind" : "scheduled",
+        "templateID" : "monday"
+      },
+      "2026-10-06" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2026-10-07" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2026-10-08" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduled",
+        "templateID" : "thursday"
+      },
+      "2026-10-09" : {
+        "cycleDayID" : "friday",
+        "kind" : "scheduled",
+        "templateID" : "friday"
+      },
+      "2026-10-12" : {
+        "kind" : "noSchool",
+        "note" : "No School · Columbus Day \/ Indigenous Peoples Day"
+      },
+      "2026-10-13" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2026-10-14" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2026-10-15" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduled",
+        "templateID" : "thursday"
+      },
+      "2026-10-16" : {
+        "cycleDayID" : "friday",
+        "kind" : "scheduled",
+        "templateID" : "friday"
+      },
+      "2026-10-19" : {
+        "cycleDayID" : "monday",
+        "kind" : "scheduled",
+        "templateID" : "monday"
+      },
+      "2026-10-20" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2026-10-21" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2026-10-22" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduled",
+        "templateID" : "thursday"
+      },
+      "2026-10-23" : {
+        "cycleDayID" : "friday",
+        "kind" : "scheduled",
+        "templateID" : "friday"
+      },
+      "2026-10-26" : {
+        "cycleDayID" : "monday",
+        "kind" : "scheduled",
+        "templateID" : "monday"
+      },
+      "2026-10-27" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2026-10-28" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2026-10-29" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduled",
+        "templateID" : "thursday"
+      },
+      "2026-10-30" : {
+        "cycleDayID" : "friday",
+        "kind" : "scheduleUnavailable",
+        "note" : "Early Release · Walton modified schedule not fully available"
+      },
+      "2026-11-02" : {
+        "cycleDayID" : "monday",
+        "kind" : "scheduled",
+        "templateID" : "monday"
+      },
+      "2026-11-03" : {
+        "kind" : "noSchool",
+        "note" : "No School · Professional Development \/ State Election"
+      },
+      "2026-11-04" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2026-11-05" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduled",
+        "templateID" : "thursday"
+      },
+      "2026-11-06" : {
+        "cycleDayID" : "friday",
+        "kind" : "scheduled",
+        "templateID" : "friday"
+      },
+      "2026-11-09" : {
+        "cycleDayID" : "monday",
+        "kind" : "scheduled",
+        "templateID" : "monday"
+      },
+      "2026-11-10" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2026-11-11" : {
+        "kind" : "noSchool",
+        "note" : "No School · Veterans Day"
+      },
+      "2026-11-12" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduled",
+        "templateID" : "thursday"
+      },
+      "2026-11-13" : {
+        "cycleDayID" : "friday",
+        "kind" : "scheduled",
+        "templateID" : "friday"
+      },
+      "2026-11-16" : {
+        "cycleDayID" : "monday",
+        "kind" : "scheduled",
+        "templateID" : "monday"
+      },
+      "2026-11-17" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2026-11-18" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2026-11-19" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduled",
+        "templateID" : "thursday"
+      },
+      "2026-11-20" : {
+        "cycleDayID" : "friday",
+        "kind" : "scheduled",
+        "templateID" : "friday"
+      },
+      "2026-11-23" : {
+        "cycleDayID" : "monday",
+        "kind" : "scheduled",
+        "templateID" : "monday"
+      },
+      "2026-11-24" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2026-11-25" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduleUnavailable",
+        "note" : "Early Release · Walton modified schedule not fully available"
+      },
+      "2026-11-26" : {
+        "kind" : "noSchool",
+        "note" : "No School · Thanksgiving Recess"
+      },
+      "2026-11-27" : {
+        "kind" : "noSchool",
+        "note" : "No School · Thanksgiving Recess"
+      },
+      "2026-11-30" : {
+        "cycleDayID" : "monday",
+        "kind" : "scheduled",
+        "templateID" : "monday"
+      },
+      "2026-12-01" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2026-12-02" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2026-12-03" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduleUnavailable",
+        "note" : "Early Release · Walton modified schedule not fully available"
+      },
+      "2026-12-04" : {
+        "cycleDayID" : "friday",
+        "kind" : "scheduleUnavailable",
+        "note" : "Early Release · Walton modified schedule not fully available"
+      },
+      "2026-12-07" : {
+        "cycleDayID" : "monday",
+        "kind" : "scheduled",
+        "templateID" : "monday"
+      },
+      "2026-12-08" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2026-12-09" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2026-12-10" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduled",
+        "templateID" : "thursday"
+      },
+      "2026-12-11" : {
+        "cycleDayID" : "friday",
+        "kind" : "scheduled",
+        "templateID" : "friday"
+      },
+      "2026-12-14" : {
+        "cycleDayID" : "monday",
+        "kind" : "scheduled",
+        "templateID" : "monday"
+      },
+      "2026-12-15" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2026-12-16" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2026-12-17" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduled",
+        "templateID" : "thursday"
+      },
+      "2026-12-18" : {
+        "cycleDayID" : "friday",
+        "kind" : "scheduled",
+        "templateID" : "friday"
+      },
+      "2026-12-21" : {
+        "cycleDayID" : "monday",
+        "kind" : "scheduled",
+        "templateID" : "monday"
+      },
+      "2026-12-22" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2026-12-23" : {
+        "kind" : "noSchool",
+        "note" : "No School · Winter Recess"
+      },
+      "2026-12-24" : {
+        "kind" : "noSchool",
+        "note" : "No School · Winter Recess"
+      },
+      "2026-12-25" : {
+        "kind" : "noSchool",
+        "note" : "No School · Winter Recess"
+      },
+      "2026-12-26" : {
+        "kind" : "noSchool",
+        "note" : "No School · Winter Recess"
+      },
+      "2026-12-27" : {
+        "kind" : "noSchool",
+        "note" : "No School · Winter Recess"
+      },
+      "2026-12-28" : {
+        "kind" : "noSchool",
+        "note" : "No School · Winter Recess"
+      },
+      "2026-12-29" : {
+        "kind" : "noSchool",
+        "note" : "No School · Winter Recess"
+      },
+      "2026-12-30" : {
+        "kind" : "noSchool",
+        "note" : "No School · Winter Recess"
+      },
+      "2026-12-31" : {
+        "kind" : "noSchool",
+        "note" : "No School · Winter Recess"
+      },
+      "2027-01-01" : {
+        "kind" : "noSchool",
+        "note" : "No School · Winter Recess"
+      },
+      "2027-01-04" : {
+        "cycleDayID" : "monday",
+        "kind" : "scheduled",
+        "templateID" : "monday"
+      },
+      "2027-01-05" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2027-01-06" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2027-01-07" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduled",
+        "templateID" : "thursday"
+      },
+      "2027-01-08" : {
+        "cycleDayID" : "friday",
+        "kind" : "scheduled",
+        "templateID" : "friday"
+      },
+      "2027-01-11" : {
+        "cycleDayID" : "monday",
+        "kind" : "scheduled",
+        "templateID" : "monday"
+      },
+      "2027-01-12" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2027-01-13" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2027-01-14" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduled",
+        "templateID" : "thursday"
+      },
+      "2027-01-15" : {
+        "cycleDayID" : "friday",
+        "kind" : "scheduled",
+        "templateID" : "friday"
+      },
+      "2027-01-18" : {
+        "kind" : "noSchool",
+        "note" : "No School · Martin Luther King Day"
+      },
+      "2027-01-19" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2027-01-20" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2027-01-21" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduled",
+        "templateID" : "thursday"
+      },
+      "2027-01-22" : {
+        "cycleDayID" : "friday",
+        "kind" : "scheduled",
+        "templateID" : "friday"
+      },
+      "2027-01-25" : {
+        "cycleDayID" : "monday",
+        "kind" : "scheduled",
+        "templateID" : "monday"
+      },
+      "2027-01-26" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2027-01-27" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2027-01-28" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduled",
+        "templateID" : "thursday"
+      },
+      "2027-01-29" : {
+        "cycleDayID" : "friday",
+        "kind" : "scheduleUnavailable",
+        "note" : "Early Release · Walton modified schedule not fully available"
+      },
+      "2027-02-01" : {
+        "cycleDayID" : "monday",
+        "kind" : "scheduled",
+        "templateID" : "monday"
+      },
+      "2027-02-02" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2027-02-03" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2027-02-04" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduled",
+        "templateID" : "thursday"
+      },
+      "2027-02-05" : {
+        "cycleDayID" : "friday",
+        "kind" : "scheduled",
+        "templateID" : "friday"
+      },
+      "2027-02-08" : {
+        "cycleDayID" : "monday",
+        "kind" : "scheduled",
+        "templateID" : "monday"
+      },
+      "2027-02-09" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2027-02-10" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2027-02-11" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduled",
+        "templateID" : "thursday"
+      },
+      "2027-02-12" : {
+        "cycleDayID" : "friday",
+        "kind" : "scheduled",
+        "templateID" : "friday"
+      },
+      "2027-02-15" : {
+        "kind" : "noSchool",
+        "note" : "No School · Presidents Day"
+      },
+      "2027-02-16" : {
+        "kind" : "noSchool",
+        "note" : "No School · Winter Recess"
+      },
+      "2027-02-17" : {
+        "kind" : "noSchool",
+        "note" : "No School · Winter Recess"
+      },
+      "2027-02-18" : {
+        "kind" : "noSchool",
+        "note" : "No School · Winter Recess"
+      },
+      "2027-02-19" : {
+        "kind" : "noSchool",
+        "note" : "No School · Winter Recess"
+      },
+      "2027-02-22" : {
+        "cycleDayID" : "monday",
+        "kind" : "scheduled",
+        "templateID" : "monday"
+      },
+      "2027-02-23" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2027-02-24" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2027-02-25" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduled",
+        "templateID" : "thursday"
+      },
+      "2027-02-26" : {
+        "cycleDayID" : "friday",
+        "kind" : "scheduleUnavailable",
+        "note" : "Early Release · Walton modified schedule not fully available"
+      },
+      "2027-03-01" : {
+        "cycleDayID" : "monday",
+        "kind" : "scheduled",
+        "templateID" : "monday"
+      },
+      "2027-03-02" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2027-03-03" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2027-03-04" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduled",
+        "templateID" : "thursday"
+      },
+      "2027-03-05" : {
+        "cycleDayID" : "friday",
+        "kind" : "scheduled",
+        "templateID" : "friday"
+      },
+      "2027-03-08" : {
+        "cycleDayID" : "monday",
+        "kind" : "scheduled",
+        "templateID" : "monday"
+      },
+      "2027-03-09" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2027-03-10" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2027-03-11" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduled",
+        "templateID" : "thursday"
+      },
+      "2027-03-12" : {
+        "cycleDayID" : "friday",
+        "kind" : "scheduled",
+        "templateID" : "friday"
+      },
+      "2027-03-15" : {
+        "cycleDayID" : "monday",
+        "kind" : "scheduled",
+        "templateID" : "monday"
+      },
+      "2027-03-16" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2027-03-17" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2027-03-18" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduleUnavailable",
+        "note" : "Early Release · Walton modified schedule not fully available"
+      },
+      "2027-03-19" : {
+        "cycleDayID" : "friday",
+        "kind" : "scheduleUnavailable",
+        "note" : "Early Release · Walton modified schedule not fully available"
+      },
+      "2027-03-22" : {
+        "cycleDayID" : "monday",
+        "kind" : "scheduled",
+        "templateID" : "monday"
+      },
+      "2027-03-23" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2027-03-24" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2027-03-25" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduled",
+        "templateID" : "thursday"
+      },
+      "2027-03-26" : {
+        "cycleDayID" : "friday",
+        "kind" : "scheduled",
+        "templateID" : "friday"
+      },
+      "2027-03-29" : {
+        "cycleDayID" : "monday",
+        "kind" : "scheduled",
+        "templateID" : "monday"
+      },
+      "2027-03-30" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2027-03-31" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2027-04-01" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduled",
+        "templateID" : "thursday"
+      },
+      "2027-04-02" : {
+        "cycleDayID" : "friday",
+        "kind" : "scheduled",
+        "templateID" : "friday"
+      },
+      "2027-04-05" : {
+        "cycleDayID" : "monday",
+        "kind" : "scheduled",
+        "templateID" : "monday"
+      },
+      "2027-04-06" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2027-04-07" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2027-04-08" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduled",
+        "templateID" : "thursday"
+      },
+      "2027-04-09" : {
+        "cycleDayID" : "friday",
+        "kind" : "scheduled",
+        "templateID" : "friday"
+      },
+      "2027-04-12" : {
+        "cycleDayID" : "monday",
+        "kind" : "scheduled",
+        "templateID" : "monday"
+      },
+      "2027-04-13" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2027-04-14" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2027-04-15" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduled",
+        "templateID" : "thursday"
+      },
+      "2027-04-16" : {
+        "cycleDayID" : "friday",
+        "kind" : "scheduled",
+        "templateID" : "friday"
+      },
+      "2027-04-19" : {
+        "kind" : "noSchool",
+        "note" : "No School · Patriots Day"
+      },
+      "2027-04-20" : {
+        "kind" : "noSchool",
+        "note" : "No School · Spring Recess"
+      },
+      "2027-04-21" : {
+        "kind" : "noSchool",
+        "note" : "No School · Spring Recess"
+      },
+      "2027-04-22" : {
+        "kind" : "noSchool",
+        "note" : "No School · Spring Recess"
+      },
+      "2027-04-23" : {
+        "kind" : "noSchool",
+        "note" : "No School · Spring Recess"
+      },
+      "2027-04-26" : {
+        "cycleDayID" : "monday",
+        "kind" : "scheduled",
+        "templateID" : "monday"
+      },
+      "2027-04-27" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2027-04-28" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2027-04-29" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduled",
+        "templateID" : "thursday"
+      },
+      "2027-04-30" : {
+        "cycleDayID" : "friday",
+        "kind" : "scheduled",
+        "templateID" : "friday"
+      },
+      "2027-05-03" : {
+        "cycleDayID" : "monday",
+        "kind" : "scheduled",
+        "templateID" : "monday"
+      },
+      "2027-05-04" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2027-05-05" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2027-05-06" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduled",
+        "templateID" : "thursday"
+      },
+      "2027-05-07" : {
+        "cycleDayID" : "friday",
+        "kind" : "scheduled",
+        "templateID" : "friday"
+      },
+      "2027-05-10" : {
+        "cycleDayID" : "monday",
+        "kind" : "scheduled",
+        "templateID" : "monday"
+      },
+      "2027-05-11" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2027-05-12" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2027-05-13" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduled",
+        "templateID" : "thursday"
+      },
+      "2027-05-14" : {
+        "cycleDayID" : "friday",
+        "kind" : "scheduleUnavailable",
+        "note" : "Early Release · Walton modified schedule not fully available"
+      },
+      "2027-05-17" : {
+        "cycleDayID" : "monday",
+        "kind" : "scheduled",
+        "templateID" : "monday"
+      },
+      "2027-05-18" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2027-05-19" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2027-05-20" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduled",
+        "templateID" : "thursday"
+      },
+      "2027-05-21" : {
+        "cycleDayID" : "friday",
+        "kind" : "scheduled",
+        "templateID" : "friday"
+      },
+      "2027-05-24" : {
+        "cycleDayID" : "monday",
+        "kind" : "scheduled",
+        "templateID" : "monday"
+      },
+      "2027-05-25" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2027-05-26" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2027-05-27" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduled",
+        "templateID" : "thursday"
+      },
+      "2027-05-28" : {
+        "cycleDayID" : "friday",
+        "kind" : "scheduled",
+        "templateID" : "friday"
+      },
+      "2027-05-31" : {
+        "kind" : "noSchool",
+        "note" : "No School · Memorial Day"
+      },
+      "2027-06-01" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2027-06-02" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2027-06-03" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduled",
+        "templateID" : "thursday"
+      },
+      "2027-06-04" : {
+        "cycleDayID" : "friday",
+        "kind" : "scheduled",
+        "templateID" : "friday"
+      },
+      "2027-06-07" : {
+        "cycleDayID" : "monday",
+        "kind" : "scheduled",
+        "templateID" : "monday"
+      },
+      "2027-06-08" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2027-06-09" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2027-06-10" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduled",
+        "templateID" : "thursday"
+      },
+      "2027-06-11" : {
+        "cycleDayID" : "friday",
+        "kind" : "scheduled",
+        "templateID" : "friday"
+      },
+      "2027-06-14" : {
+        "cycleDayID" : "monday",
+        "kind" : "scheduled",
+        "templateID" : "monday"
+      },
+      "2027-06-15" : {
+        "cycleDayID" : "tuesday",
+        "kind" : "scheduled",
+        "templateID" : "tuesday"
+      },
+      "2027-06-16" : {
+        "cycleDayID" : "wednesday",
+        "kind" : "scheduled",
+        "templateID" : "wednesday"
+      },
+      "2027-06-17" : {
+        "cycleDayID" : "thursday",
+        "kind" : "scheduleUnavailable",
+        "note" : "Early Release · Walton modified schedule not fully available · Planned last day (no snow days)"
+      },
+      "2027-06-18" : {
+        "kind" : "noSchool",
+        "note" : "No School · Juneteenth Federal Holiday Observed"
+      }
+    },
+    "calendarRule" : {
+      "cycleDayTemplateIDs" : {
+
+      },
+      "mode" : "explicitDates",
+      "personalAssignmentLayout" : "perCycleDay",
+      "schoolWeekdays" : [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "weekdayCycleDayIDs" : {
+        "2" : "monday",
+        "3" : "tuesday",
+        "4" : "wednesday",
+        "5" : "thursday",
+        "6" : "friday"
+      },
+      "weekdayTemplateIDs" : {
+        "2" : "monday",
+        "3" : "tuesday",
+        "4" : "wednesday",
+        "5" : "thursday",
+        "6" : "friday"
+      }
+    },
+    "contentVersion" : "2026-2027.1",
+    "cycle" : {
+      "dayDisplayNames" : {
+        "friday" : "Friday",
+        "monday" : "Monday",
+        "thursday" : "Thursday",
+        "tuesday" : "Tuesday",
+        "wednesday" : "Wednesday"
+      },
+      "dayIDs" : [
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday"
+      ],
+      "kind" : "sameEveryDay"
+    },
+    "displayName" : "Walton School",
+    "id" : "walton.4l",
+    "periodDefinitions" : [
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Morning Meeting",
+        "id" : "activity-1",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Math (4L)",
+        "id" : "activity-2",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Art",
+        "id" : "activity-3",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Snack",
+        "id" : "activity-4",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Math (4L) (cont.)",
+        "id" : "activity-5",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Science",
+        "id" : "activity-6",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Math WIN (4L)",
+        "id" : "activity-7",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Social Studies",
+        "id" : "activity-8",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Lunch",
+        "id" : "activity-9",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Math 4B",
+        "id" : "activity-10",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Math WIN 4B",
+        "id" : "activity-11",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Pack Up",
+        "id" : "activity-12",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Gym",
+        "id" : "activity-13",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Math (4B)",
+        "id" : "activity-14",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Math WIN 4L",
+        "id" : "activity-15",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Chorus (PLC)",
+        "id" : "activity-16",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Music",
+        "id" : "activity-17",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Library",
+        "id" : "activity-18",
+        "kind" : "other"
+      }
+    ],
+    "scheduleTemplates" : [
+      {
+        "displayName" : "Monday",
+        "id" : "monday",
+        "periods" : [
+          {
+            "end" : "09:00",
+            "id" : "monday-1",
+            "periodID" : "activity-1",
+            "start" : "08:40"
+          },
+          {
+            "end" : "09:25",
+            "id" : "monday-2",
+            "periodID" : "activity-2",
+            "start" : "09:00"
+          },
+          {
+            "end" : "10:05",
+            "id" : "monday-3",
+            "periodID" : "activity-3",
+            "start" : "09:25"
+          },
+          {
+            "end" : "10:20",
+            "id" : "monday-4",
+            "periodID" : "activity-4",
+            "start" : "10:05"
+          },
+          {
+            "end" : "10:55",
+            "id" : "monday-5",
+            "periodID" : "activity-5",
+            "start" : "10:20"
+          },
+          {
+            "end" : "11:35",
+            "id" : "monday-6",
+            "periodID" : "activity-6",
+            "start" : "10:55"
+          },
+          {
+            "end" : "12:05",
+            "id" : "monday-7",
+            "periodID" : "activity-7",
+            "start" : "11:35"
+          },
+          {
+            "end" : "12:35",
+            "id" : "monday-8",
+            "periodID" : "activity-8",
+            "start" : "12:05"
+          },
+          {
+            "end" : "13:10",
+            "id" : "monday-9",
+            "periodID" : "activity-9",
+            "start" : "12:35"
+          },
+          {
+            "end" : "14:05",
+            "id" : "monday-10",
+            "periodID" : "activity-10",
+            "start" : "13:10"
+          },
+          {
+            "end" : "14:45",
+            "id" : "monday-11",
+            "periodID" : "activity-11",
+            "start" : "14:05"
+          },
+          {
+            "end" : "14:50",
+            "id" : "monday-12",
+            "periodID" : "activity-12",
+            "start" : "14:45"
+          }
+        ]
+      },
+      {
+        "displayName" : "Tuesday",
+        "id" : "tuesday",
+        "periods" : [
+          {
+            "end" : "09:00",
+            "id" : "tuesday-1",
+            "periodID" : "activity-1",
+            "start" : "08:40"
+          },
+          {
+            "end" : "09:25",
+            "id" : "tuesday-2",
+            "periodID" : "activity-2",
+            "start" : "09:00"
+          },
+          {
+            "end" : "10:05",
+            "id" : "tuesday-3",
+            "periodID" : "activity-13",
+            "start" : "09:25"
+          },
+          {
+            "end" : "10:20",
+            "id" : "tuesday-4",
+            "periodID" : "activity-4",
+            "start" : "10:05"
+          },
+          {
+            "end" : "10:55",
+            "id" : "tuesday-5",
+            "periodID" : "activity-5",
+            "start" : "10:20"
+          },
+          {
+            "end" : "11:35",
+            "id" : "tuesday-6",
+            "periodID" : "activity-6",
+            "start" : "10:55"
+          },
+          {
+            "end" : "12:35",
+            "id" : "tuesday-7",
+            "periodID" : "activity-14",
+            "start" : "11:35"
+          },
+          {
+            "end" : "13:10",
+            "id" : "tuesday-8",
+            "periodID" : "activity-9",
+            "start" : "12:35"
+          },
+          {
+            "end" : "14:00",
+            "id" : "tuesday-9",
+            "periodID" : "activity-15",
+            "start" : "13:10"
+          },
+          {
+            "end" : "14:45",
+            "id" : "tuesday-10",
+            "periodID" : "activity-11",
+            "start" : "14:00"
+          },
+          {
+            "end" : "14:50",
+            "id" : "tuesday-11",
+            "periodID" : "activity-12",
+            "start" : "14:45"
+          }
+        ]
+      },
+      {
+        "displayName" : "Wednesday",
+        "id" : "wednesday",
+        "periods" : [
+          {
+            "end" : "09:00",
+            "id" : "wednesday-1",
+            "periodID" : "activity-1",
+            "start" : "08:40"
+          },
+          {
+            "end" : "10:05",
+            "id" : "wednesday-2",
+            "periodID" : "activity-2",
+            "start" : "09:00"
+          },
+          {
+            "end" : "10:45",
+            "id" : "wednesday-3",
+            "periodID" : "activity-13",
+            "start" : "10:05"
+          },
+          {
+            "end" : "11:00",
+            "id" : "wednesday-4",
+            "periodID" : "activity-4",
+            "start" : "10:45"
+          },
+          {
+            "end" : "11:55",
+            "id" : "wednesday-5",
+            "periodID" : "activity-14",
+            "start" : "11:00"
+          },
+          {
+            "end" : "12:35",
+            "id" : "wednesday-6",
+            "periodID" : "activity-16",
+            "start" : "11:55"
+          },
+          {
+            "end" : "13:10",
+            "id" : "wednesday-7",
+            "periodID" : "activity-9",
+            "start" : "12:35"
+          },
+          {
+            "end" : "14:00",
+            "id" : "wednesday-8",
+            "periodID" : "activity-15",
+            "start" : "13:10"
+          },
+          {
+            "end" : "14:45",
+            "id" : "wednesday-9",
+            "periodID" : "activity-11",
+            "start" : "14:00"
+          },
+          {
+            "end" : "14:50",
+            "id" : "wednesday-10",
+            "periodID" : "activity-12",
+            "start" : "14:45"
+          }
+        ]
+      },
+      {
+        "displayName" : "Thursday",
+        "id" : "thursday",
+        "periods" : [
+          {
+            "end" : "09:00",
+            "id" : "thursday-1",
+            "periodID" : "activity-1",
+            "start" : "08:40"
+          },
+          {
+            "end" : "09:25",
+            "id" : "thursday-2",
+            "periodID" : "activity-8",
+            "start" : "09:00"
+          },
+          {
+            "end" : "10:05",
+            "id" : "thursday-3",
+            "periodID" : "activity-17",
+            "start" : "09:25"
+          },
+          {
+            "end" : "10:25",
+            "id" : "thursday-4",
+            "periodID" : "activity-4",
+            "start" : "10:05"
+          },
+          {
+            "end" : "10:35",
+            "id" : "thursday-5",
+            "periodID" : "activity-8",
+            "start" : "10:25"
+          },
+          {
+            "end" : "11:35",
+            "id" : "thursday-6",
+            "periodID" : "activity-2",
+            "start" : "10:35"
+          },
+          {
+            "end" : "12:35",
+            "id" : "thursday-7",
+            "periodID" : "activity-14",
+            "start" : "11:35"
+          },
+          {
+            "end" : "13:10",
+            "id" : "thursday-8",
+            "periodID" : "activity-9",
+            "start" : "12:35"
+          },
+          {
+            "end" : "14:00",
+            "id" : "thursday-9",
+            "periodID" : "activity-15",
+            "start" : "13:10"
+          },
+          {
+            "end" : "14:45",
+            "id" : "thursday-10",
+            "periodID" : "activity-11",
+            "start" : "14:00"
+          },
+          {
+            "end" : "14:50",
+            "id" : "thursday-11",
+            "periodID" : "activity-12",
+            "start" : "14:45"
+          }
+        ]
+      },
+      {
+        "displayName" : "Friday",
+        "id" : "friday",
+        "periods" : [
+          {
+            "end" : "09:00",
+            "id" : "friday-1",
+            "periodID" : "activity-1",
+            "start" : "08:40"
+          },
+          {
+            "end" : "09:25",
+            "id" : "friday-2",
+            "periodID" : "activity-8",
+            "start" : "09:00"
+          },
+          {
+            "end" : "10:05",
+            "id" : "friday-3",
+            "periodID" : "activity-18",
+            "start" : "09:25"
+          },
+          {
+            "end" : "10:25",
+            "id" : "friday-4",
+            "periodID" : "activity-4",
+            "start" : "10:05"
+          },
+          {
+            "end" : "10:35",
+            "id" : "friday-5",
+            "periodID" : "activity-8",
+            "start" : "10:25"
+          },
+          {
+            "end" : "11:35",
+            "id" : "friday-6",
+            "periodID" : "activity-2",
+            "start" : "10:35"
+          },
+          {
+            "end" : "12:35",
+            "id" : "friday-7",
+            "periodID" : "activity-14",
+            "start" : "11:35"
+          },
+          {
+            "end" : "13:10",
+            "id" : "friday-8",
+            "periodID" : "activity-9",
+            "start" : "12:35"
+          },
+          {
+            "end" : "14:00",
+            "id" : "friday-9",
+            "periodID" : "activity-15",
+            "start" : "13:10"
+          },
+          {
+            "end" : "14:45",
+            "id" : "friday-10",
+            "periodID" : "activity-11",
+            "start" : "14:00"
+          },
+          {
+            "end" : "14:50",
+            "id" : "friday-11",
+            "periodID" : "activity-12",
+            "start" : "14:45"
+          }
+        ]
+      }
+    ],
+    "scheduledPointEvents" : [
+      {
+        "category" : "routine",
+        "dates" : [
+          "2026-09-02",
+          "2026-09-03",
+          "2026-09-08",
+          "2026-09-09",
+          "2026-09-10",
+          "2026-09-11",
+          "2026-09-14",
+          "2026-09-15",
+          "2026-09-16",
+          "2026-09-17",
+          "2026-09-18",
+          "2026-09-21",
+          "2026-09-22",
+          "2026-09-23",
+          "2026-09-24",
+          "2026-09-28",
+          "2026-09-29",
+          "2026-09-30",
+          "2026-10-01",
+          "2026-10-02",
+          "2026-10-05",
+          "2026-10-06",
+          "2026-10-07",
+          "2026-10-08",
+          "2026-10-09",
+          "2026-10-13",
+          "2026-10-14",
+          "2026-10-15",
+          "2026-10-16",
+          "2026-10-19",
+          "2026-10-20",
+          "2026-10-21",
+          "2026-10-22",
+          "2026-10-23",
+          "2026-10-26",
+          "2026-10-27",
+          "2026-10-28",
+          "2026-10-29",
+          "2026-11-02",
+          "2026-11-04",
+          "2026-11-05",
+          "2026-11-06",
+          "2026-11-09",
+          "2026-11-10",
+          "2026-11-12",
+          "2026-11-13",
+          "2026-11-16",
+          "2026-11-17",
+          "2026-11-18",
+          "2026-11-19",
+          "2026-11-20",
+          "2026-11-23",
+          "2026-11-24",
+          "2026-11-30",
+          "2026-12-01",
+          "2026-12-02",
+          "2026-12-07",
+          "2026-12-08",
+          "2026-12-09",
+          "2026-12-10",
+          "2026-12-11",
+          "2026-12-14",
+          "2026-12-15",
+          "2026-12-16",
+          "2026-12-17",
+          "2026-12-18",
+          "2026-12-21",
+          "2026-12-22",
+          "2027-01-04",
+          "2027-01-05",
+          "2027-01-06",
+          "2027-01-07",
+          "2027-01-08",
+          "2027-01-11",
+          "2027-01-12",
+          "2027-01-13",
+          "2027-01-14",
+          "2027-01-15",
+          "2027-01-19",
+          "2027-01-20",
+          "2027-01-21",
+          "2027-01-22",
+          "2027-01-25",
+          "2027-01-26",
+          "2027-01-27",
+          "2027-01-28",
+          "2027-02-01",
+          "2027-02-02",
+          "2027-02-03",
+          "2027-02-04",
+          "2027-02-05",
+          "2027-02-08",
+          "2027-02-09",
+          "2027-02-10",
+          "2027-02-11",
+          "2027-02-12",
+          "2027-02-22",
+          "2027-02-23",
+          "2027-02-24",
+          "2027-02-25",
+          "2027-03-01",
+          "2027-03-02",
+          "2027-03-03",
+          "2027-03-04",
+          "2027-03-05",
+          "2027-03-08",
+          "2027-03-09",
+          "2027-03-10",
+          "2027-03-11",
+          "2027-03-12",
+          "2027-03-15",
+          "2027-03-16",
+          "2027-03-17",
+          "2027-03-22",
+          "2027-03-23",
+          "2027-03-24",
+          "2027-03-25",
+          "2027-03-26",
+          "2027-03-29",
+          "2027-03-30",
+          "2027-03-31",
+          "2027-04-01",
+          "2027-04-02",
+          "2027-04-05",
+          "2027-04-06",
+          "2027-04-07",
+          "2027-04-08",
+          "2027-04-09",
+          "2027-04-12",
+          "2027-04-13",
+          "2027-04-14",
+          "2027-04-15",
+          "2027-04-16",
+          "2027-04-26",
+          "2027-04-27",
+          "2027-04-28",
+          "2027-04-29",
+          "2027-04-30",
+          "2027-05-03",
+          "2027-05-04",
+          "2027-05-05",
+          "2027-05-06",
+          "2027-05-07",
+          "2027-05-10",
+          "2027-05-11",
+          "2027-05-12",
+          "2027-05-13",
+          "2027-05-17",
+          "2027-05-18",
+          "2027-05-19",
+          "2027-05-20",
+          "2027-05-21",
+          "2027-05-24",
+          "2027-05-25",
+          "2027-05-26",
+          "2027-05-27",
+          "2027-05-28",
+          "2027-06-01",
+          "2027-06-02",
+          "2027-06-03",
+          "2027-06-04",
+          "2027-06-07",
+          "2027-06-08",
+          "2027-06-09",
+          "2027-06-10",
+          "2027-06-11",
+          "2027-06-14",
+          "2027-06-15",
+          "2027-06-16"
+        ],
+        "id" : "dismissal",
+        "symbol" : "bell",
+        "time" : "14:50",
+        "title" : "Dismissal"
+      }
+    ],
+    "schemaVersion" : 1,
+    "timeZoneIdentifier" : "America\/New_York"
+  },
+  "schoolProfileID" : "walton.4l"
+}

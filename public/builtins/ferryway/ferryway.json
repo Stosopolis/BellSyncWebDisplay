@@ -1,0 +1,535 @@
+{
+  "assignments" : {
+
+  },
+  "createdAt" : "2026-10-07T13:58:40Z",
+  "formatVersion" : 2,
+  "personalActivities" : [
+
+  ],
+  "scheduleName" : "Ferryway School",
+  "schoolContentVersion" : "2026-2027.1",
+  "schoolDefinitionSnapshot" : {
+    "calendarExceptions" : {
+      "2026-08-24" : {
+        "kind" : "noSchool",
+        "note" : "Professional Development — No Students"
+      },
+      "2026-08-25" : {
+        "kind" : "noSchool",
+        "note" : "Professional Development — No Students"
+      },
+      "2026-09-01" : {
+        "kind" : "noSchool",
+        "note" : "Primary Election Day"
+      },
+      "2026-09-07" : {
+        "kind" : "noSchool",
+        "note" : "Labor Day"
+      },
+      "2026-10-12" : {
+        "kind" : "noSchool",
+        "note" : "Indigenous Peoples’ Day"
+      },
+      "2026-11-03" : {
+        "kind" : "noSchool",
+        "note" : "Professional Development — No Students"
+      },
+      "2026-11-11" : {
+        "kind" : "noSchool",
+        "note" : "Veterans Day"
+      },
+      "2026-11-25" : {
+        "kind" : "noSchool",
+        "note" : "Thanksgiving Recess"
+      },
+      "2026-11-26" : {
+        "kind" : "noSchool",
+        "note" : "Thanksgiving Recess"
+      },
+      "2026-11-27" : {
+        "kind" : "noSchool",
+        "note" : "Thanksgiving Recess"
+      },
+      "2026-12-23" : {
+        "kind" : "scheduleUnavailable",
+        "note" : "Early Dismissal · 11:00 AM dismissal"
+      },
+      "2026-12-24" : {
+        "kind" : "noSchool",
+        "note" : "Winter Recess"
+      },
+      "2026-12-25" : {
+        "kind" : "noSchool",
+        "note" : "Winter Recess"
+      },
+      "2026-12-28" : {
+        "kind" : "noSchool",
+        "note" : "Winter Recess"
+      },
+      "2026-12-29" : {
+        "kind" : "noSchool",
+        "note" : "Winter Recess"
+      },
+      "2026-12-30" : {
+        "kind" : "noSchool",
+        "note" : "Winter Recess"
+      },
+      "2026-12-31" : {
+        "kind" : "noSchool",
+        "note" : "Winter Recess"
+      },
+      "2027-01-01" : {
+        "kind" : "noSchool",
+        "note" : "Winter Recess"
+      },
+      "2027-01-18" : {
+        "kind" : "noSchool",
+        "note" : "Martin Luther King Jr. Day"
+      },
+      "2027-01-25" : {
+        "kind" : "noSchool",
+        "note" : "Professional Development — No Students"
+      },
+      "2027-02-15" : {
+        "kind" : "noSchool",
+        "note" : "February Recess"
+      },
+      "2027-02-16" : {
+        "kind" : "noSchool",
+        "note" : "February Recess"
+      },
+      "2027-02-17" : {
+        "kind" : "noSchool",
+        "note" : "February Recess"
+      },
+      "2027-02-18" : {
+        "kind" : "noSchool",
+        "note" : "February Recess"
+      },
+      "2027-02-19" : {
+        "kind" : "noSchool",
+        "note" : "February Recess"
+      },
+      "2027-03-26" : {
+        "kind" : "scheduleUnavailable",
+        "note" : "Early Dismissal · 11:00 AM dismissal"
+      },
+      "2027-04-19" : {
+        "kind" : "noSchool",
+        "note" : "April Recess"
+      },
+      "2027-04-20" : {
+        "kind" : "noSchool",
+        "note" : "April Recess"
+      },
+      "2027-04-21" : {
+        "kind" : "noSchool",
+        "note" : "April Recess"
+      },
+      "2027-04-22" : {
+        "kind" : "noSchool",
+        "note" : "April Recess"
+      },
+      "2027-04-23" : {
+        "kind" : "noSchool",
+        "note" : "April Recess"
+      },
+      "2027-05-31" : {
+        "kind" : "noSchool",
+        "note" : "Memorial Day"
+      },
+      "2027-06-06" : {
+        "kind" : "noSchool",
+        "note" : "Malden High School Graduation"
+      },
+      "2027-06-14" : {
+        "kind" : "scheduleUnavailable",
+        "note" : "Early Dismissal · 11:00 AM dismissal"
+      },
+      "2027-06-18" : {
+        "kind" : "noSchool",
+        "note" : "Juneteenth Observed"
+      },
+      "2027-06-22" : {
+        "kind" : "scheduleUnavailable",
+        "note" : "Tentative Last Day with Five Snow Days"
+      }
+    },
+    "calendarRule" : {
+      "cycleDayTemplateIDs" : {
+        "1" : "regular-day-1",
+        "2" : "regular-day-2",
+        "3" : "regular-day-3",
+        "4" : "regular-day-4"
+      },
+      "defaultTemplateID" : "regular-day-1",
+      "mode" : "weekdayCycle",
+      "personalAssignmentLayout" : "perCycleDay",
+      "schoolWeekdays" : [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "weekdayCycleDayIDs" : {
+
+      },
+      "weekdayTemplateIDs" : {
+
+      }
+    },
+    "contentVersion" : "2026-2027.1",
+    "cycle" : {
+      "anchorDate" : "2026-09-21",
+      "anchorDayID" : "4",
+      "dayDisplayNames" : {
+        "1" : "Day 1",
+        "2" : "Day 2",
+        "3" : "Day 3",
+        "4" : "Day 4"
+      },
+      "dayIDs" : [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "kind" : "dayRotation"
+    },
+    "displayName" : "Ferryway School",
+    "id" : "ferryway",
+    "periodDefinitions" : [
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Breakfast and Homeroom",
+        "id" : "breakfast-homeroom",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : true,
+        "displayName" : "Block 1",
+        "id" : "block-1",
+        "kind" : "academic"
+      },
+      {
+        "acceptsPersonalAssignment" : true,
+        "displayName" : "Block 2",
+        "id" : "block-2",
+        "kind" : "academic"
+      },
+      {
+        "acceptsPersonalAssignment" : true,
+        "displayName" : "Block 3",
+        "id" : "block-3",
+        "kind" : "academic"
+      },
+      {
+        "acceptsPersonalAssignment" : true,
+        "displayName" : "Block 4",
+        "id" : "block-4",
+        "kind" : "academic"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Expo",
+        "id" : "expo",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Lit Intervention",
+        "id" : "lit-intervention",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Recess",
+        "id" : "recess",
+        "kind" : "other"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "Lunch",
+        "id" : "lunch",
+        "kind" : "lunch"
+      },
+      {
+        "acceptsPersonalAssignment" : false,
+        "displayName" : "WIN",
+        "id" : "win",
+        "kind" : "advisory"
+      }
+    ],
+    "scheduleTemplates" : [
+      {
+        "displayName" : "Regular Schedule",
+        "id" : "regular-day-1",
+        "periods" : [
+          {
+            "end" : "08:10",
+            "id" : "breakfast-1",
+            "periodID" : "breakfast-homeroom",
+            "start" : "08:00"
+          },
+          {
+            "end" : "09:05",
+            "id" : "morning-block-1",
+            "periodID" : "block-1",
+            "start" : "08:10"
+          },
+          {
+            "end" : "09:50",
+            "id" : "expo-1",
+            "periodID" : "expo",
+            "start" : "09:05"
+          },
+          {
+            "end" : "10:20",
+            "id" : "lit-1",
+            "periodID" : "lit-intervention",
+            "start" : "09:50"
+          },
+          {
+            "end" : "11:15",
+            "id" : "midmorning-block-1",
+            "periodID" : "block-2",
+            "start" : "10:20"
+          },
+          {
+            "end" : "12:10",
+            "id" : "midday-block-1",
+            "periodID" : "block-3",
+            "start" : "11:15"
+          },
+          {
+            "end" : "12:40",
+            "id" : "recess-1",
+            "periodID" : "recess",
+            "start" : "12:10"
+          },
+          {
+            "end" : "13:10",
+            "id" : "lunch-1",
+            "periodID" : "lunch",
+            "start" : "12:40"
+          },
+          {
+            "end" : "13:30",
+            "id" : "win-1",
+            "periodID" : "win",
+            "start" : "13:10"
+          },
+          {
+            "end" : "14:30",
+            "id" : "afternoon-block-1",
+            "periodID" : "block-4",
+            "start" : "13:30"
+          }
+        ]
+      },
+      {
+        "displayName" : "Regular Schedule",
+        "id" : "regular-day-2",
+        "periods" : [
+          {
+            "end" : "08:10",
+            "id" : "breakfast-2",
+            "periodID" : "breakfast-homeroom",
+            "start" : "08:00"
+          },
+          {
+            "end" : "09:05",
+            "id" : "morning-block-2",
+            "periodID" : "block-2",
+            "start" : "08:10"
+          },
+          {
+            "end" : "09:50",
+            "id" : "expo-2",
+            "periodID" : "expo",
+            "start" : "09:05"
+          },
+          {
+            "end" : "10:20",
+            "id" : "lit-2",
+            "periodID" : "lit-intervention",
+            "start" : "09:50"
+          },
+          {
+            "end" : "11:15",
+            "id" : "midmorning-block-2",
+            "periodID" : "block-3",
+            "start" : "10:20"
+          },
+          {
+            "end" : "12:10",
+            "id" : "midday-block-2",
+            "periodID" : "block-4",
+            "start" : "11:15"
+          },
+          {
+            "end" : "12:40",
+            "id" : "recess-2",
+            "periodID" : "recess",
+            "start" : "12:10"
+          },
+          {
+            "end" : "13:10",
+            "id" : "lunch-2",
+            "periodID" : "lunch",
+            "start" : "12:40"
+          },
+          {
+            "end" : "13:30",
+            "id" : "win-2",
+            "periodID" : "win",
+            "start" : "13:10"
+          },
+          {
+            "end" : "14:30",
+            "id" : "afternoon-block-2",
+            "periodID" : "block-1",
+            "start" : "13:30"
+          }
+        ]
+      },
+      {
+        "displayName" : "Regular Schedule",
+        "id" : "regular-day-3",
+        "periods" : [
+          {
+            "end" : "08:10",
+            "id" : "breakfast-3",
+            "periodID" : "breakfast-homeroom",
+            "start" : "08:00"
+          },
+          {
+            "end" : "09:05",
+            "id" : "morning-block-3",
+            "periodID" : "block-3",
+            "start" : "08:10"
+          },
+          {
+            "end" : "09:50",
+            "id" : "expo-3",
+            "periodID" : "expo",
+            "start" : "09:05"
+          },
+          {
+            "end" : "10:20",
+            "id" : "lit-3",
+            "periodID" : "lit-intervention",
+            "start" : "09:50"
+          },
+          {
+            "end" : "11:15",
+            "id" : "midmorning-block-3",
+            "periodID" : "block-4",
+            "start" : "10:20"
+          },
+          {
+            "end" : "12:10",
+            "id" : "midday-block-3",
+            "periodID" : "block-1",
+            "start" : "11:15"
+          },
+          {
+            "end" : "12:40",
+            "id" : "recess-3",
+            "periodID" : "recess",
+            "start" : "12:10"
+          },
+          {
+            "end" : "13:10",
+            "id" : "lunch-3",
+            "periodID" : "lunch",
+            "start" : "12:40"
+          },
+          {
+            "end" : "13:30",
+            "id" : "win-3",
+            "periodID" : "win",
+            "start" : "13:10"
+          },
+          {
+            "end" : "14:30",
+            "id" : "afternoon-block-3",
+            "periodID" : "block-2",
+            "start" : "13:30"
+          }
+        ]
+      },
+      {
+        "displayName" : "Regular Schedule",
+        "id" : "regular-day-4",
+        "periods" : [
+          {
+            "end" : "08:10",
+            "id" : "breakfast-4",
+            "periodID" : "breakfast-homeroom",
+            "start" : "08:00"
+          },
+          {
+            "end" : "09:05",
+            "id" : "morning-block-4",
+            "periodID" : "block-4",
+            "start" : "08:10"
+          },
+          {
+            "end" : "09:50",
+            "id" : "expo-4",
+            "periodID" : "expo",
+            "start" : "09:05"
+          },
+          {
+            "end" : "10:20",
+            "id" : "lit-4",
+            "periodID" : "lit-intervention",
+            "start" : "09:50"
+          },
+          {
+            "end" : "11:15",
+            "id" : "midmorning-block-4",
+            "periodID" : "block-1",
+            "start" : "10:20"
+          },
+          {
+            "end" : "12:10",
+            "id" : "midday-block-4",
+            "periodID" : "block-2",
+            "start" : "11:15"
+          },
+          {
+            "end" : "12:40",
+            "id" : "recess-4",
+            "periodID" : "recess",
+            "start" : "12:10"
+          },
+          {
+            "end" : "13:10",
+            "id" : "lunch-4",
+            "periodID" : "lunch",
+            "start" : "12:40"
+          },
+          {
+            "end" : "13:30",
+            "id" : "win-4",
+            "periodID" : "win",
+            "start" : "13:10"
+          },
+          {
+            "end" : "14:30",
+            "id" : "afternoon-block-4",
+            "periodID" : "block-3",
+            "start" : "13:30"
+          }
+        ]
+      }
+    ],
+    "schemaVersion" : 1,
+    "timeZoneIdentifier" : "America\/New_York"
+  },
+  "schoolProfileID" : "ferryway"
+}

@@ -198,3 +198,39 @@ There is no production build step: this project serves its static modules/assets
 Live dashboard updates keep the header and BellSync branding image mounted.
 Only clock/date/fullscreen text and dynamic cards update; the schedule scroller
 continues to retain its position during countdown ticks.
+
+## Local timing and additional built-in schools
+
+Imported snapshot and WMHS/Galvin editors include **Timing overrides**. Optional
+start/end fields override a duration activity; point reminders have one time
+field. Blank fields use the source. **Reset to Source** clears only timing.
+Invalid effective intervals are rejected before saving. Overrides are stored on
+the individual profile, included in Display backups, and applied before timeline
+resolution; native source snapshots are retained unchanged. Manual browser
+schedules retain their existing directly editable bell-time controls.
+
+Woodville (22 profiles), Ferryway (one four-day school schedule), and Walton
+(10 current classroom profiles) use the same picker → preview → Use This Schedule
+flow as Doyle. Preview day controls show weekday/rotation variations. General
+links use `?school=woodville`, `?school=ferryway`, or `?school=walton`. Direct links
+add `&profile=<code>` using a code from the school's `profiles.json`; codes are
+case insensitive. Examples: `&profile=pksw`, `&profile=ferryway`, `&profile=kg`.
+Switch Schedule retains all browser profiles and offers Change [School] Schedule.
+
+The source is the registered native `BuiltInSchoolDefinitions` entries and
+`BellSyncSharedSchedule` exporter, captured by
+`tests/fixtures/builtin-schools-export.swift`. Woodville is 2026–2027.1. Walton's
+current Master Schedules 2026–27 source includes versioned kindergarten/Grade 1
+reviews and explicit Wakefield PreK–8 dates; it is not old custom-test data.
+Ferryway retains its native rotation anchor, calendar exceptions, and timings.
+Run the exporter with the public builtins directory and parity fixture output
+path after compiling it as a temporary main.swift with the same read-only native
+inputs used for the Doyle exporter. Native parity fixtures cover September 2,
+2026 through June 22, 2027; this test window does not invent calendar year bounds.
+
+Missing early-release times remain unavailable. Walton's kindergarten revisions
+with an unconfirmed end retain known activities and display timing unavailable
+after them; no completion or school-day progress is invented. Public activity
+names omit the technical suffix “(confirmed portion)” when it comes from the
+source; source fields and exact confirmed intervals remain intact in the editor
+and backups. Explicit custom display names are preserved.

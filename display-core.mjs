@@ -214,7 +214,7 @@ export function isRedundantScheduleBadge(badge,title) {
   const label=key(badge),activity=key(title);
   return Boolean(label && (label===activity || (label==='lunch' && /^lunch\d+$/.test(activity))));
 }
-export function eventTitle(e) { return e.title?.trim() || (e.kind==='lunch'?'Lunch':e.label?.trim() || e.id); }
+export function eventTitle(e) { const title=e.title?.trim() || (e.kind==='lunch'?'Lunch':e.label?.trim() || e.id);return e.activitySource && title===e.sourcePeriodLabel?title.replace(/\s*\(confirmed portion\)$/i,''):title; }
 export function presentation(s,showRooms=true) {
   const e=s.current || s.next;
   return {title:e?eventTitle(e):({after:'Done for Today',weekend:'Weekend','no-school':'No School',unavailable:'Bell Times Unavailable'}[s.mode] || 'Schedule'),room:showRooms && e ? e.room || '' : ''};

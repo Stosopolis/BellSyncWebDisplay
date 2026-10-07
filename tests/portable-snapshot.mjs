@@ -94,8 +94,8 @@ test('independent UUIDs, switching, reload and both backup formats preserve ever
 });
 test('mixed bundles accept snapshot schools and old WMHS while skipping only required unsupported constructs',()=>{
   const wmhs=read('./fixtures/native-v2.json'),unknown=copy(raw),gms=copy(raw),bad=copy(raw);unknown.schoolProfileID='local.future';unknown.schoolDefinitionSnapshot.id=unknown.schoolProfileID;gms.schoolProfileID='gms';gms.schoolDefinitionSnapshot.id='gms';bad.schoolDefinitionSnapshot.scheduleTemplates[0].unconfirmedEndFrom='2027-01-04';bad.scheduleName='Unconfirmed School';
-  const plan=profiles.inspectNativeImport({bundleFormatVersion:1,schedules:[wmhs,gms,raw,unknown,bad]});assert.equal(plan.supported.length,4);assert.equal(plan.unsupported.length,1);assert.match(plan.unsupported[0].reason,/unconfirmed workday end/);
-  const configs=profiles.nativeConfigurations(plan,read('../public/builtins/wmhs/schedule.json'),read('../public/builtins/wmhs/calendar.json'));assert.equal(configs.length,4);assert.equal(configs[0].sourceKind,'bellsync-v1');assert.equal(configs[1].sourceKind,'bellsync-snapshot');
+  const plan=profiles.inspectNativeImport({bundleFormatVersion:1,schedules:[wmhs,gms,raw,unknown,bad]});assert.equal(plan.supported.length,5);assert.equal(plan.unsupported.length,0);
+  const configs=profiles.nativeConfigurations(plan,read('../public/builtins/wmhs/schedule.json'),read('../public/builtins/wmhs/calendar.json'));assert.equal(configs.length,5);assert.equal(configs[0].sourceKind,'bellsync-v1');assert.equal(configs[1].sourceKind,'bellsync-snapshot');
 });
 test('malformed snapshots and local edits reject atomically without corrupting existing profiles',()=>{
   const storage=memory(),store=new profiles.ProfileStore(storage);store.add([config]);const original=storage.getItem(profiles.PROFILE_KEY);

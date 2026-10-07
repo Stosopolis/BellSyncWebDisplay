@@ -58,7 +58,7 @@ export function validatePortableShared(raw) {
   for(const t of d.scheduleTemplates) {
     text(t.id,'template ID',200);text(t.displayName,'template name');validateRows(t.periods);
     if(t.periodsByEffectiveDate!=null) {requireValue(object(t.periodsByEffectiveDate),'Invalid template revisions.');for(const [key,rows] of Object.entries(t.periodsByEffectiveDate)){requireValue(date(key),'Invalid template revision date.');validateRows(rows);}}
-    if(t.unconfirmedEndFrom!=null) {requireValue(date(t.unconfirmedEndFrom),'Invalid unconfirmed-end date.');throw new UnsupportedSnapshot(`Template “${t.displayName}” has an unconfirmed workday end from ${t.unconfirmedEndFrom}; Web Display cannot yet represent that completion policy.`);}
+    if(t.unconfirmedEndFrom!=null)requireValue(date(t.unconfirmedEndFrom),'Invalid unconfirmed-end date.');
   }
   const r=d.calendarRule;if(object(r) && r.mode!=null && !['weekdayCycle','explicitDates'].includes(r.mode))throw new UnsupportedSnapshot(`Snapshot calendar mode “${r.mode}” is not supported.`);requireValue(object(r) && ['weekdayCycle','explicitDates'].includes(r.mode ?? 'weekdayCycle'),'Invalid snapshot calendar rule.');
   requireValue(weekdays(r.schoolWeekdays ?? [2,3,4,5,6]) && ((r.schoolWeekdays ?? [2,3,4,5,6]).length>0 || r.mode==='explicitDates'),'Invalid school weekdays.');
@@ -168,6 +168,7 @@ export function portableTimeline(config,key,at) {
   const result={key,timeZone:d.timeZoneIdentifier,day,status:'scheduled',events:[],passing:[],classroom:[],contextualStaff:[],points:[]};
   if(!day)return {...result,status:d.calendarExceptions[key]?.kind==='noSchool'?'no-school':[1,7].includes(weekday(key))?'weekend':'no-school'};
   const template=d.scheduleTemplates.find(t=>t.id===day.schedule);if(!template)return {...result,status:'unavailable'};
+  if(template.unconfirmedEndFrom && key>=template.unconfirmedEndFrom)result.unconfirmedEnd=true;
   const edits=(type,id)=>config.portable.edits?.find(e=>e.type===type && e.id===id);
   const points=(d.scheduledPointEvents ?? []).filter(p=>(p.dates==null || p.dates.includes(key)) && !(p.excludedDates ?? []).includes(key) && (p.weekdays==null || p.weekdays.includes(weekday(key))));
   const endAt=Math.min(...points.filter(p=>p.endsWorkday).map(p=>at(p.time)));

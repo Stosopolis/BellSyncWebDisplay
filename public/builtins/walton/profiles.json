@@ -1,0 +1,52 @@
+[
+  {
+    "code" : "1g",
+    "label" : "Walton 1G",
+    "schoolProfileID" : "walton.1g"
+  },
+  {
+    "code" : "1r",
+    "label" : "Walton 1R",
+    "schoolProfileID" : "walton.1r"
+  },
+  {
+    "code" : "2c",
+    "label" : "Walton 2C",
+    "schoolProfileID" : "walton.2c"
+  },
+  {
+    "code" : "2i",
+    "label" : "Walton 2I",
+    "schoolProfileID" : "walton.2i"
+  },
+  {
+    "code" : "3b",
+    "label" : "Walton 3B",
+    "schoolProfileID" : "walton.3b"
+  },
+  {
+    "code" : "3c",
+    "label" : "Walton 3C",
+    "schoolProfileID" : "walton.3c"
+  },
+  {
+    "code" : "4b",
+    "label" : "Walton 4B",
+    "schoolProfileID" : "walton.4b"
+  },
+  {
+    "code" : "4l",
+    "label" : "Walton 4L",
+    "schoolProfileID" : "walton.4l"
+  },
+  {
+    "code" : "kd",
+    "label" : "Walton KD",
+    "schoolProfileID" : "walton.kd"
+  },
+  {
+    "code" : "kg",
+    "label" : "Walton KG",
+    "schoolProfileID" : "walton.kg"
+  }
+]

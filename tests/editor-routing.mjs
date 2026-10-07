@@ -55,7 +55,7 @@ function app(storage=memory(),fixedNow=null,search='') {
   };
   const inputFrom=attrs=>{const n=new Node('input');n.value=decode(attrs.match(/\bvalue="([^"]*)"/)?.[1] || '');return n;};
   const queryAll=selector=>{
-    if(selector==='[data-school]' || selector==='[data-grade]' || selector==='[data-doyle]') {
+    if(selector==='[data-school]' || selector==='[data-grade]' || selector==='[data-doyle]' || selector==='[data-classroom]') {
       const key=selector.slice(6,-1),html=markup() || node('#app').innerHTML;
       return [...html.matchAll(new RegExp(`data-${key}="([^"\\s]+)"`,'g'))].map(m=>{const n=node(`[data-${key}="${m[1]}"]`);n.dataset[key]=m[1];return n;});
     }
@@ -73,7 +73,7 @@ function app(storage=memory(),fixedNow=null,search='') {
     return [];
   };
   class FixedDate extends Date {constructor(...args){super(...(args.length?args:[fixedNow]));}static now(){return fixedNow;}}
-  const sandbox={location:{search},...core,...states,...profiles,...schools,...timing,esc:core.escapeHTML,Intl,Date:fixedNow===null?Date:FixedDate,JSON,Set,crypto:globalThis.crypto,document:{querySelector:node,querySelectorAll:queryAll,createElement:t=>new Node(t),body:new Node(),addEventListener(k,fn){documentListeners[k]=fn;}},localStorage:storage,clearInterval(){},setInterval(){},alert:m=>alerts.push(m),fetch:async path=>({ok:true,json:async()=>structuredClone(path.includes('/doyle/')?read(`../public/builtins/doyle/${path.split('/').at(-1)}`):path.includes('/gms/')?read(`../public/builtins/gms/${path.includes('calendar')?'calendar':'schedule'}.json`):path.includes('classroom-demo')?demo:path.includes('calendar')?calendar:school)})};
+  const sandbox={location:{search},...core,...states,...profiles,...schools,...timing,esc:core.escapeHTML,Intl,Date:fixedNow===null?Date:FixedDate,JSON,Set,crypto:globalThis.crypto,document:{querySelector:node,querySelectorAll:queryAll,createElement:t=>new Node(t),body:new Node(),addEventListener(k,fn){documentListeners[k]=fn;}},localStorage:storage,clearInterval(){},setInterval(){},alert:m=>alerts.push(m),fetch:async path=>({ok:true,json:async()=>structuredClone(Object.keys(schools.SNAPSHOT_SCHOOLS).some(s=>path.includes(`/builtins/${s}/`))?read('../'+path.replace(/^\.\//,'')):path.includes('/gms/')?read(`../public/builtins/gms/${path.includes('calendar')?'calendar':'schedule'}.json`):path.includes('classroom-demo')?demo:path.includes('calendar')?calendar:school)})};
   vm.createContext(sandbox);vm.runInContext(fs.readFileSync(new URL('../app.js',import.meta.url),'utf8').replace(/^import .*;\n/gm,''),sandbox);
   const run=s=>vm.runInContext(s,sandbox);
   return {run,node,sandbox,storage,alerts,markup,documentListeners,snapshot:()=>JSON.parse(storage.getItem(profiles.PROFILE_KEY)),
@@ -384,5 +384,17 @@ await test('duration/point timing editor saves, validates, and resets without lo
  assert.equal(a.snapshot().savedProfiles.length,1);assert.equal(a.run('config.timingOverrides.length'),2);assert.equal(a.run("config.portable.edits[0].title"),'Arrival custom');
  a.clickEdit();const refreshed=a.node('#portable-fields').children.find(s=>s.className==='editor-section timing-editor').children.filter(s=>s.className==='timing-row');const activity=refreshed.find(r=>r.children[0].textContent==='Wednesday · Arrival / Morning Work');activity.children[2].children[0].value='09:10';a.node('#portable-editor').onsubmit({preventDefault(){}});assert.match(a.node('#form-error').textContent,/effective end/);
  activity.children.at(-1).onclick();a.node('#portable-editor').onsubmit({preventDefault(){}});assert.equal(a.run('config.timingOverrides.length'),1);assert.equal(a.run("config.portable.edits[0].room"),'Blue');
+});
+for(const school of ['woodville','ferryway','walton'])await test(`${school} picker previews before saving; direct links/reload/switching keep profiles independent`,async()=>{
+ const a=app(),choices=schools.snapshotChoices(school,read(`../public/builtins/${school}/profiles.json`)),first=choices[0];
+ await a.node(`[data-school="${school}"]`).onclick();assert.match(a.markup(),/Not sure which schedule is yours/);assert.ok(!a.markup().includes('source columns'));
+ await a.node(`[data-classroom="${first.code}"]`).onclick();assert.equal(a.snapshot(),null);assert.match(a.markup(),/Use This Schedule/);assert.match(a.markup(),/Preview day/);assert.ok(!a.markup().includes('(confirmed portion)'));
+ const day=read(`../public/builtins/${school}/${first.file}`).schoolDefinitionSnapshot.scheduleTemplates.at(-1).id;
+ await a.node('#builtin-preview-day').onchange({target:{value:day}});assert.equal(a.snapshot(),null);
+ a.node('#builtin-back').onclick();await a.node(`[data-classroom="${first.code}"]`).onclick();a.node('#builtin-use').onclick();assert.equal(a.snapshot().savedProfiles.length,1);assert.equal(a.run('config.school.id'),first.schoolProfileID);
+ a.node('#change').onclick();assert.match(a.markup(),new RegExp(`Change ${school[0].toUpperCase()+school.slice(1)} Schedule`));await a.node('#change-builtin').onclick();assert.ok(a.markup().includes(first.label));
+ const url=app(a.storage,null,`?school=${school}&profile=${first.code}`);await new Promise(resolve=>setImmediate(resolve));assert.equal(url.snapshot().savedProfiles.length,1);assert.equal(url.run('config.school.id'),first.schoolProfileID);
+ await url.run('startDoyleSetup("A")');assert.equal(url.snapshot().savedProfiles.length,2);assert.equal(url.run('config.school.id'),'doyle.prek-a');
+ const back=app(url.storage,null,`?school=${school}&profile=${first.code}`);await new Promise(resolve=>setImmediate(resolve));assert.equal(back.snapshot().savedProfiles.length,2);assert.equal(back.run('config.school.id'),first.schoolProfileID);assert.deepEqual(back.alerts,[]);
 });
 console.log(`\n${passed} editor routing tests passed.`);

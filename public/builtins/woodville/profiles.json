@@ -1,0 +1,112 @@
+[
+  {
+    "code" : "1ac",
+    "label" : "Woodville 1AC",
+    "schoolProfileID" : "woodville.1ac"
+  },
+  {
+    "code" : "1cc",
+    "label" : "Woodville 1CC",
+    "schoolProfileID" : "woodville.1cc"
+  },
+  {
+    "code" : "1kd",
+    "label" : "Woodville 1KD",
+    "schoolProfileID" : "woodville.1kd"
+  },
+  {
+    "code" : "1kh",
+    "label" : "Woodville 1KH",
+    "schoolProfileID" : "woodville.1kh"
+  },
+  {
+    "code" : "2bm",
+    "label" : "Woodville 2BM",
+    "schoolProfileID" : "woodville.2bm"
+  },
+  {
+    "code" : "2cd",
+    "label" : "Woodville 2CD",
+    "schoolProfileID" : "woodville.2cd"
+  },
+  {
+    "code" : "2pr",
+    "label" : "Woodville 2PR",
+    "schoolProfileID" : "woodville.2pr"
+  },
+  {
+    "code" : "2tm",
+    "label" : "Woodville 2TM",
+    "schoolProfileID" : "woodville.2tm"
+  },
+  {
+    "code" : "3eg",
+    "label" : "Woodville 3EG",
+    "schoolProfileID" : "woodville.3eg"
+  },
+  {
+    "code" : "3kb",
+    "label" : "Woodville 3KB",
+    "schoolProfileID" : "woodville.3kb"
+  },
+  {
+    "code" : "3kw",
+    "label" : "Woodville 3KW",
+    "schoolProfileID" : "woodville.3kw"
+  },
+  {
+    "code" : "3mu",
+    "label" : "Woodville 3MU",
+    "schoolProfileID" : "woodville.3mu"
+  },
+  {
+    "code" : "4ap",
+    "label" : "Woodville 4AP",
+    "schoolProfileID" : "woodville.4ap"
+  },
+  {
+    "code" : "4dg",
+    "label" : "Woodville 4DG",
+    "schoolProfileID" : "woodville.4dg"
+  },
+  {
+    "code" : "4ke",
+    "label" : "Woodville 4KE",
+    "schoolProfileID" : "woodville.4ke"
+  },
+  {
+    "code" : "4mb",
+    "label" : "Woodville 4MB",
+    "schoolProfileID" : "woodville.4mb"
+  },
+  {
+    "code" : "kdg",
+    "label" : "Woodville KDG",
+    "schoolProfileID" : "woodville.kdg"
+  },
+  {
+    "code" : "kkb",
+    "label" : "Woodville KKB",
+    "schoolProfileID" : "woodville.kkb"
+  },
+  {
+    "code" : "klb",
+    "label" : "Woodville KLB",
+    "schoolProfileID" : "woodville.klb"
+  },
+  {
+    "code" : "kmg",
+    "label" : "Woodville KMG",
+    "schoolProfileID" : "woodville.kmg"
+  },
+  {
+    "code" : "pkcj",
+    "label" : "Woodville PKCJ",
+    "schoolProfileID" : "woodville.pkcj"
+  },
+  {
+    "code" : "pksw",
+    "label" : "Woodville PKSW",
+    "schoolProfileID" : "woodville.pksw"
+  }
+]

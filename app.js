@@ -1,6 +1,6 @@
 import { timingCatalog, timingKey, setTimingOverrides } from './timing-overrides.mjs';
 import { WEB_FORMAT, normalize, validate, defaultPreferences, formatClock, eventTitle, scheduleRowLabel, isRedundantScheduleBadge, escapeHTML as esc, isManagedWMHS, isManagedSchool, editManagedAssignments, managedLunchPeriods, requiredLunchAssignments, unresolvedLunchAssignments, setProfileLunchChoices, LUNCH_CHOICES, dateInZone, zonedTimestamp, schoolDay, headerScheduleLabel, schoolProgress } from './display-core.mjs';
-import { builtInConfiguration, DOYLE_PROFILES, doyleConfiguration, doyleSchedulePreview, schoolLinkSelection } from './school-setup.mjs';
+import { builtInConfiguration, DOYLE_PROFILES, doyleConfiguration, doyleSchedulePreview, schoolLinkSelection, SNAPSHOT_SCHOOLS, DOYLE_CHOICES, snapshotChoices, snapshotConfiguration, schoolSchedulePreview } from './school-setup.mjs';
 import { scheduleSnapshot, formatCountdown, countdownFraction } from './schedule-presentation.mjs';
 import { ProfileStore, DEMO_ID, inspectNativeImport, nativeConfigurations, exportProfiles, importDisplayProfiles } from './profile-store.mjs';
 const app = document.querySelector('#app');
@@ -154,44 +154,52 @@ function duration(ms) { return formatCountdown(ms); }
 function localDate() { return new Date().toISOString().slice(0,10); }
 function state(now) { return viewedDate ? scheduleSnapshot(config,now,{date:viewedDate,isLive:viewedDate===dateInZone(now,config.school.timeZone)}) : scheduleSnapshot(config,now); }
 
-function schoolChoices() { return `<h2 class="setup-heading">Start with your school</h2><div class="setup-options school-options"><button class="option-card primary" data-school="wmhs"><b>Wakefield Memorial High School</b><span>School bells, rotation, calendar, and lunch rules built in.</span></button><button class="option-card primary" data-school="gms"><b>Galvin Middle School</b><span>Choose your grade, then enter your classes and rooms.</span></button><button class="option-card primary" data-school="doyle"><b>Doyle School</b><span>Choose PreK A–I. Classroom activities and bathroom reminders built in.</span></button></div><h2 class="setup-heading">Other ways to set up</h2>`; }
-function bindSchoolChoices() { document.querySelectorAll('[data-school]').forEach(button=>button.onclick=()=>button.dataset.school==='doyle'?chooseDoyleProfile():button.dataset.school==='gms'?chooseGalvinGrade():startSchoolSetup('wmhs')); }
+function schoolChoices() { return `<h2 class="setup-heading">Start with your school</h2><div class="setup-options school-options"><button class="option-card primary" data-school="wmhs"><b>Wakefield Memorial High School</b><span>School bells, rotation, calendar, and lunch rules built in.</span></button><button class="option-card primary" data-school="gms"><b>Galvin Middle School</b><span>Choose your grade, then enter your classes and rooms.</span></button><button class="option-card primary" data-school="doyle"><b>Doyle School</b><span>Choose PreK A–I. Classroom activities and bathroom reminders built in.</span></button>${['woodville','ferryway','walton'].map(school=>`<button class="option-card primary" data-school="${school}"><b>${SNAPSHOT_SCHOOLS[school]}</b><span>Preview your school schedule, then use it. No import needed.</span></button>`).join('')}</div><h2 class="setup-heading">Other ways to set up</h2>`; }
+function bindSchoolChoices() { document.querySelectorAll('[data-school]').forEach(button=>button.onclick=()=>Object.hasOwn(SNAPSHOT_SCHOOLS,button.dataset.school)?chooseBuiltinProfile(button.dataset.school):button.dataset.school==='gms'?chooseGalvinGrade():startSchoolSetup('wmhs')); }
 function chooseGalvinGrade() {
   modal(`<header class="modal-head"><div><h2>Galvin Middle School</h2><p>Choose your grade to load the correct bells and lunch time.</p></div><button class="icon-button" id="close" aria-label="Close dialog">×</button></header><div class="modal-actions">${[5,6,7,8].map(grade=>`<button class="option-card primary" data-grade="${grade}"><b>Grade ${grade}</b></button>`).join('')}</div>`);
   document.querySelector('#close').onclick=closeModal;
   document.querySelectorAll('[data-grade]').forEach(button=>button.onclick=()=>startSchoolSetup('gms',Number(button.dataset.grade)));
 }
-function chooseDoyleProfile() {
-  modal(`<header class="modal-head"><div><h2>Doyle School</h2><p>Choose your PreK schedule. A–I identify source schedule columns, not official room numbers. No import is needed.</p><p class="notice">Early-release activity times are not confirmed and remain unavailable.</p></div><button class="icon-button" id="close" aria-label="Close dialog">×</button></header><div class="setup-options">${DOYLE_PROFILES.map(code=>`<button class="option-card primary" data-doyle="${code}"><b>Doyle PreK ${code}</b></button>`).join('')}</div>`);
+function chooseDoyleProfile(){return openBuiltinPicker('doyle',DOYLE_CHOICES);}
+async function builtinChoices(school) {return school==='doyle'?DOYLE_CHOICES:snapshotChoices(school,await fetchJSON(`./public/builtins/${school}/profiles.json`));}
+async function chooseBuiltinProfile(school) {
+ if(school==='doyle')return chooseDoyleProfile();
+ const request=++viewRequest;try{const choices=await builtinChoices(school);if(request===viewRequest)openBuiltinPicker(school,choices);}catch(error){if(request===viewRequest)alert(error.message);}
+}
+function openBuiltinPicker(school,choices) {
+ modal(`<header class="modal-head"><div><h2>${SNAPSHOT_SCHOOLS[school]}</h2><p>Not sure which schedule is yours? Preview each one to find the schedule that matches your day. No import is needed.</p><p class="notice">Early-release times are shown only where they are available from the school schedule.</p></div><button class="icon-button" id="close" aria-label="Close dialog">×</button></header><div class="setup-options">${choices.map(choice=>`<button class="option-card primary" ${school==='doyle'?'data-doyle':'data-classroom'}="${choice.code}"><b>${esc(choice.label)}</b></button>`).join('')}</div>`);
+ document.querySelector('#close').onclick=()=>{viewRequest++;closeModal();};
+ document.querySelectorAll(school==='doyle'?'[data-doyle]':'[data-classroom]').forEach(button=>button.onclick=()=>previewBuiltinSetup(school,choices.find(c=>c.code===(button.dataset.doyle || button.dataset.classroom)),choices));
+}
+function previewDoyleSetup(code){return previewBuiltinSetup('doyle',DOYLE_CHOICES.find(c=>c.code===code),DOYLE_CHOICES);}
+async function previewBuiltinSetup(school,choice,choices,templateID=null,candidate=null) {
+ const request=++viewRequest;
+ try {
+  const profiles=requireStore();if(!choice)throw Error('Choose a school schedule.');
+  const existing=profiles.snapshot.savedProfiles.find(p=>p.configuration.school.id===choice.schoolProfileID && p.configuration.sourceKind==='bellsync-snapshot');
+  candidate ||= existing?.configuration || snapshotConfiguration(choice,await fetchJSON(`./public/builtins/${school}/${choice.file}`));
+  if(request!==viewRequest)return;
+  const tz=candidate.school.timeZone,preview=schoolSchedulePreview(candidate,templateID,dateInZone(Date.now(),tz)),d=candidate.portable.shared.schoolDefinitionSnapshot;
+  const dayLabel=t=>Object.entries(d.calendarRule.cycleDayTemplateIDs || {}).find(([,id])=>id===t.id)?.[0];
+  const options=d.scheduleTemplates.map(t=>({id:t.id,label:dayLabel(t)?d.cycle.dayDisplayNames?.[dayLabel(t)] || `Day ${dayLabel(t)}`:t.displayName || t.id}));
+  modal(`<header class="modal-head"><div><h2>${esc(choice.label)}</h2><p>Preview the daily sequence to recognize your schedule.${existing?' Your saved changes will be kept.':''}</p></div><button class="icon-button" id="close" aria-label="Close dialog">×</button></header><label>Preview day<select id="builtin-preview-day">${options.map(o=>option(o.id,preview.templateID,o.label)).join('')}</select></label><div class="doyle-preview">${preview.events.map(e=>`<div class="doyle-preview-row"><div><strong>${esc(eventTitle(e))}</strong>${candidate.preferences.showRooms && e.room?`<small>Room ${esc(e.room)}</small>`:''}${e.kind==='point'?'<small>Point reminder · classroom activity continues</small>':''}</div><time>${formatClock(e.startAt,tz,candidate.preferences.hour24)}${e.kind==='point'?'':` – ${formatClock(e.endAt,tz,candidate.preferences.hour24)}`}</time></div>`).join('')}</div><p class="notice">Only available activities and reminders are shown. Missing timing is not filled in.</p><footer class="modal-footer"><button class="secondary" id="${school==='doyle'?'doyle-back':'builtin-back'}">Back to ${SNAPSHOT_SCHOOLS[school].replace(' School','')} Schedules</button><button class="primary" id="${school==='doyle'?'doyle-use':'builtin-use'}">Use This Schedule</button></footer>`);
   document.querySelector('#close').onclick=()=>{viewRequest++;closeModal();};
-  document.querySelectorAll('[data-doyle]').forEach(button=>button.onclick=()=>previewDoyleSetup(button.dataset.doyle));
+  document.querySelector('#builtin-preview-day').onchange=e=>previewBuiltinSetup(school,choice,choices,e.target.value,candidate);
+  document.querySelector(school==='doyle'?'#doyle-back':'#builtin-back').onclick=()=>{viewRequest++;openBuiltinPicker(school,choices);};
+  document.querySelector(school==='doyle'?'#doyle-use':'#builtin-use').onclick=()=>{try{if(existing)selectProfile(existing.id);else save(candidate,null);}catch(error){alert(error.message);}};
+ }catch(error){if(request===viewRequest)alert(error.message || 'The schedule preview could not be loaded.');}
 }
-async function previewDoyleSetup(code) {
-  const request=++viewRequest;
-  try {
-    const profiles=requireStore();
-    if(!DOYLE_PROFILES.includes(code)) throw Error('Choose a Doyle PreK schedule from A through I.');
-    const existing=profiles.snapshot.savedProfiles.find(p=>p.configuration.school.id===`doyle.prek-${code.toLowerCase()}` && p.configuration.sourceKind==='bellsync-snapshot');
-    const candidate=existing?.configuration || doyleConfiguration(await fetchJSON(`./public/builtins/doyle/prek-${code.toLowerCase()}.json`),code);
-    if(request!==viewRequest)return;
-    const rows=doyleSchedulePreview(candidate),tz=candidate.school.timeZone;
-    modal(`<header class="modal-head"><div><h2>Doyle PreK ${code}</h2><p>Preview the normal daily sequence to recognize your schedule. A–I are source-column identifiers.${existing?' Your saved changes will be kept.':''}</p></div><button class="icon-button" id="close" aria-label="Close dialog">×</button></header><div class="doyle-preview">${rows.map(e=>`<div class="doyle-preview-row"><div><strong>${esc(eventTitle(e))}</strong>${candidate.preferences.showRooms && e.room?`<small>Room ${esc(e.room)}</small>`:''}${e.kind==='point'?'<small>Point reminder · classroom activity continues</small>':''}</div><time>${formatClock(e.startAt,tz,candidate.preferences.hour24)}${e.kind==='point'?'':` – ${formatClock(e.endAt,tz,candidate.preferences.hour24)}`}</time></div>`).join('')}</div><p class="notice">Early-release activity times remain unavailable. Only confirmed activities and reminders are shown.</p><footer class="modal-footer"><button class="secondary" id="doyle-back">Back to Doyle Schedules</button><button class="primary" id="doyle-use">Use This Schedule</button></footer>`);
-    document.querySelector('#close').onclick=()=>{viewRequest++;closeModal();};
-    document.querySelector('#doyle-back').onclick=()=>{viewRequest++;chooseDoyleProfile();};
-    document.querySelector('#doyle-use').onclick=()=>{try{if(existing)selectProfile(existing.id);else save(candidate,null);}catch(error){alert(error.message);}};
-  } catch(error) {if(request===viewRequest)alert(error.message || 'The Doyle preview could not be loaded.');}
-}
-async function startDoyleSetup(code) {
-  const request=++viewRequest;
-  try {
-    const profiles=requireStore();
-    if(!DOYLE_PROFILES.includes(code)) throw Error('Choose a Doyle PreK schedule from A through I.');
-    const existing=profiles.snapshot.savedProfiles.find(p=>p.configuration.school.id===`doyle.prek-${code.toLowerCase()}` && p.configuration.sourceKind==='bellsync-snapshot');
-    if(existing) {selectProfile(existing.id);return;}
-    const raw=await fetchJSON(`./public/builtins/doyle/prek-${code.toLowerCase()}.json`);
-    if(request!==viewRequest)return;
-    save(doyleConfiguration(raw,code),null);
-  } catch(error) {alert(error.message || 'The Doyle schedule could not be loaded.');}
+function startDoyleSetup(code){return startBuiltinSetup('doyle',code);}
+async function startBuiltinSetup(school,code) {
+ const request=++viewRequest;
+ try {
+  const profiles=requireStore(),choices=school==='doyle'?DOYLE_CHOICES:await builtinChoices(school);if(request!==viewRequest)return;
+  const choice=choices.find(c=>c.code===code);if(!choice){openBuiltinPicker(school,choices);return;}
+  const existing=profiles.snapshot.savedProfiles.find(p=>p.configuration.school.id===choice.schoolProfileID && p.configuration.sourceKind==='bellsync-snapshot');
+  if(existing){selectProfile(existing.id);return;}
+  const raw=await fetchJSON(`./public/builtins/${school}/${choice.file}`);if(request!==viewRequest)return;save(snapshotConfiguration(choice,raw),null);
+ }catch(error){if(request===viewRequest)alert(error.message || 'The school schedule could not be loaded.');}
 }
 async function startSchoolSetup(schoolID,grade) {
   const request=++viewRequest;
@@ -283,7 +291,7 @@ function update(){ if(!config || document.activeElement?.id==='view-date')return
   const isComplete=s.state==='complete';
   const detailTime = target ?? next?.startAt;
   const detailLabel = s.state === 'active' ? current.countdownLabel || (current.kind==='lunch'?'Lunch ends':'Bell at') : 'Starts';
-  const displayEvents=config.school.id.startsWith('doyle.prek-') ? [...s.events,...(s.points || []).map(p=>({...p,kind:'point',startAt:p.at,endAt:p.at}))].sort((a,b)=>a.startAt-b.startAt) : s.events;
+  const displayEvents=config.sourceKind==='bellsync-snapshot' ? [...s.events,...(s.points || []).map(p=>({...p,kind:'point',startAt:p.at,endAt:p.at}))].sort((a,b)=>a.startAt-b.startAt) : s.events;
   const rows=displayEvents.map(e=>{const status=s.state==='preview' && viewedDate?'future':current?.id===e.id?'current':e.endAt<=now?'complete':'future'; const displayRoom=config.preferences.showRooms && e.room ? `<small>Room ${esc(e.room)}</small>` : ''; const fullLabel=scheduleRowLabel(e,config.preferences.scheduleLabels),rowLabel=e.kind==='point'?'':scheduleBadge(e,config.preferences.scheduleLabels); return `<div class="row ${status} ${rowLabel?'':'no-label'} schedule-card">${rowLabel?`<span class="badge" title="${esc(fullLabel)}" aria-label="${esc(fullLabel)}">${esc(rowLabel)}</span>`:''}<div class="row-activity"><strong title="${esc(eventTitle(e))}">${esc(eventTitle(e))}</strong>${displayRoom}${e.kind==='point'?'<small>Point reminder · classroom activity continues</small>':''}<span class="row-state">${status==='current'?'<span class="now">NOW</span>':''}</span></div><div class="row-trailing"><time>${timeText(e.startAt,tz)}${e.kind==='point'?'':`<small>Ends ${timeText(e.endAt,tz)}</small>`}</time><span class="row-completion">${status==='complete'?completionCheck('row-check'):''}</span></div></div>`}).join('')||'<p class="sub">No schedule is listed for this date.</p>';
   const markup=`<main class="dashboard size-${esc(config.preferences.displaySize)}" style="--accent:${accent()}"><section class="left"><header class="header"><div class="identity"><img class="mark" src="./public/assets/bellsync-display-icon.png" alt="BellSync" width="48" height="48"><div><strong>${esc(config.profileName||config.school.displayName)}</strong>${config.preferences.showSchoolName?`<small>${esc(config.school.displayName)}</small>`:''}</div></div><div><div class="clock">${timeText(now,tz)}</div><span class="meta">${esc(dayName(viewedDate?zonedTimestamp(viewedDate,'12:00',tz):now,tz))} · ${esc(dayLabel)}</span><div class="toolbar"><div class="schedule-actions" id="schedule-actions"><button id="schedule-toggle" aria-haspopup="menu" aria-expanded="${scheduleMenuOpen}" aria-controls="schedule-menu">Schedule ▾</button><div class="schedule-menu" id="schedule-menu" role="menu" aria-label="Schedule" ${scheduleMenuOpen?'':'hidden'}><button id="edit" role="menuitem" tabindex="-1">Edit Schedule</button><button id="change" role="menuitem" tabindex="-1">Switch Schedule</button><button id="export" role="menuitem" tabindex="-1">Export / Backup Schedule</button><hr role="separator"><button id="remove" class="destructive" role="menuitem" tabindex="-1">Remove This Schedule</button></div></div><button id="settings">Display Settings</button><button id="full" aria-pressed="${document.fullscreenElement ? 'true' : 'false'}">${document.fullscreenElement ? 'Exit Full Screen' : 'Full Screen'}</button></div></div></header>${lunchWarning(config,'lunch-warning',s.day)}<div class="status"><article class="status-card"><div class="ring ${isComplete?'is-complete':''}" style="--progress:${isComplete?100:progress}"><div>${isComplete?completionCheck('completion-check'):`<div class="countdown${remaining.split(':').length===3?' has-hours':''}">${target?remaining:'—'}</div>`}<div class="state-label">${isComplete?'COMPLETE':modeTitle}</div></div></div><div class="event-title">${esc(isComplete?'Done for today':title)}</div>${isComplete?'':`<div class="details">${room?`Room ${esc(room)} · `:''}${detailTime != null?`${esc(detailLabel)} ${timeText(detailTime,tz)}`:s.state==='preview'?'No scheduled activities':'No active bell'}</div>`}${progressIndicators(now,s.key)}</article></div>${next?`<article class="next-card"><div class="next-label">NEXT</div><b>${!scheduleRowLabel(next,'blocks') || isRedundantScheduleBadge(scheduleRowLabel(next,'blocks'),eventTitle(next))?'':`${esc(scheduleRowLabel(next,'blocks'))} · `}${esc(eventTitle(next))}</b><div class="sub">Starts ${timeText(next.startAt,tz)}${config.preferences.showRooms && next.room?` · Room ${esc(next.room)}`:''}</div></article>`:''}</section>${config.preferences.showSchedule?`<aside class="schedule"><h2>${viewedDate && viewedDate!==dateInZone(now,tz)?'SCHEDULE':"TODAY'S SCHEDULE"}</h2>${scheduleDateControls(now)}<div class="rows ${scheduleDensity(displayEvents.length)}" data-row-count="${displayEvents.length}">${rows}</div></aside>`:''}</main>`;
   paintDashboard(markup,rows,JSON.stringify([isDemo?DEMO_ID:store?.snapshot.activeProfileID,s.key,config.preferences.showSchedule]));
@@ -366,13 +374,14 @@ function closeModal(){ document.querySelector('#modal-root')?.remove(); }
 function openChange(message='') {
   const profiles=store?.snapshot.savedProfiles || [];
   const active=isDemo ? DEMO_ID : store?.snapshot.activeProfileID;
-  modal(`<header class="modal-head"><div class="identity"><img class="mark" src="./public/assets/bellsync-display-icon.png" alt="BellSync" width="48" height="48"><div><h2>Choose Schedule</h2><p>${esc(message || 'Schedules are saved only in this browser.')}</p></div></div><button class="icon-button" id="close" aria-label="Close dialog">×</button></header>${storageWarning?`<p class="notice">${esc(storageWarning)}</p>`:''}<div class="modal-actions"><section class="option-card"><b>Demo Classroom ${active===DEMO_ID?'· Active':''}</b><span>Always available. Changes are temporary unless saved as a new schedule.</span><div class="buttons"><button type="button" id="picker-demo" class="secondary">Open Demo</button>${isDemo?'<button type="button" id="copy-demo" class="secondary">Save Demo as New Schedule</button>':''}</div></section>${profiles.map(p=>`<section class="option-card"><b>${esc(p.configuration.profileName)} ${p.id===active?'· Active':''}</b><span>${esc(p.configuration.school.displayName)} · ${esc(p.configuration.rotation?.kind || 'Imported school snapshot')}</span>${lunchWarning(p.configuration,`profile-lunch-${p.id}`)}<div class="buttons"><button type="button" class="secondary" data-open-profile="${esc(p.id)}">Open</button><button type="button" class="secondary" data-rename-profile="${esc(p.id)}">Rename</button><button type="button" class="secondary destructive" data-remove-profile="${esc(p.id)}">Remove</button></div></section>`).join('')}</div><footer class="modal-footer">${config?.school.id.startsWith('doyle.prek-')?'<button type="button" class="secondary" id="change-doyle">Change Doyle Schedule</button>':''}${profiles.length?'<button type="button" class="secondary" id="export-all">Export All Display Schedules</button>':''}<button type="button" class="primary" id="add-profile">Add / Import Schedule</button></footer>`);
+  const builtinSchool=Object.keys(SNAPSHOT_SCHOOLS).find(school=>config?.school.id===school || config?.school.id.startsWith(`${school}.`));
+  modal(`<header class="modal-head"><div class="identity"><img class="mark" src="./public/assets/bellsync-display-icon.png" alt="BellSync" width="48" height="48"><div><h2>Choose Schedule</h2><p>${esc(message || 'Schedules are saved only in this browser.')}</p></div></div><button class="icon-button" id="close" aria-label="Close dialog">×</button></header>${storageWarning?`<p class="notice">${esc(storageWarning)}</p>`:''}<div class="modal-actions"><section class="option-card"><b>Demo Classroom ${active===DEMO_ID?'· Active':''}</b><span>Always available. Changes are temporary unless saved as a new schedule.</span><div class="buttons"><button type="button" id="picker-demo" class="secondary">Open Demo</button>${isDemo?'<button type="button" id="copy-demo" class="secondary">Save Demo as New Schedule</button>':''}</div></section>${profiles.map(p=>`<section class="option-card"><b>${esc(p.configuration.profileName)} ${p.id===active?'· Active':''}</b><span>${esc(p.configuration.school.displayName)} · ${esc(p.configuration.rotation?.kind || 'Imported school snapshot')}</span>${lunchWarning(p.configuration,`profile-lunch-${p.id}`)}<div class="buttons"><button type="button" class="secondary" data-open-profile="${esc(p.id)}">Open</button><button type="button" class="secondary" data-rename-profile="${esc(p.id)}">Rename</button><button type="button" class="secondary destructive" data-remove-profile="${esc(p.id)}">Remove</button></div></section>`).join('')}</div><footer class="modal-footer">${builtinSchool?`<button type="button" class="secondary" id="${builtinSchool==='doyle'?'change-doyle':'change-builtin'}">Change ${SNAPSHOT_SCHOOLS[builtinSchool].replace(' School','')} Schedule</button>`:''}${profiles.length?'<button type="button" class="secondary" id="export-all">Export All Display Schedules</button>':''}<button type="button" class="primary" id="add-profile">Add / Import Schedule</button></footer>`);
   document.querySelector('#close').onclick=closeModal;
   document.querySelector('#picker-demo').onclick=loadDemo;
   for(const p of profiles)document.querySelector(`#profile-lunch-${p.id}`)?.addEventListener('click',()=>openLunchConfiguration(p.id));
   document.querySelector('#copy-demo')?.addEventListener('click',()=>openEditor(clone(config),null));
   document.querySelector('#add-profile').onclick=openAdd;
-  if(config?.school.id.startsWith('doyle.prek-'))document.querySelector('#change-doyle').onclick=chooseDoyleProfile;
+  if(builtinSchool)document.querySelector(builtinSchool==='doyle'?'#change-doyle':'#change-builtin').onclick=()=>chooseBuiltinProfile(builtinSchool);
   document.querySelector('#export-all')?.addEventListener('click',exportAll);
   document.querySelectorAll('[data-open-profile]').forEach(b=>b.onclick=()=>selectProfile(b.dataset.openProfile));
   document.querySelectorAll('[data-remove-profile]').forEach(b=>b.onclick=()=>removeProfile(b.dataset.removeProfile));
@@ -541,6 +550,6 @@ function downloadBackup(payload,filename){const blob=new Blob([JSON.stringify(pa
 function exportDisplay(){try{const payload={format:WEB_FORMAT,formatVersion:1,exportedAt:new Date().toISOString(),configuration:config};downloadBackup(payload,`${slug(config.profileName,'bellsync-display')}.bellsyncdisplay`)}catch(e){alert(`Could not export this Display schedule: ${e.message}`)}}
 render();
 const schoolLink=globalThis.location?.search ? schoolLinkSelection(globalThis.location.search) : null;
-if(schoolLink) {if(schoolLink.profile) startDoyleSetup(schoolLink.profile);else chooseDoyleProfile();}
+if(schoolLink) {if(schoolLink.profile) startBuiltinSetup(schoolLink.school,schoolLink.profile);else chooseBuiltinProfile(schoolLink.school);}
 else if(store?.snapshot.activeProfileID === DEMO_ID) loadDemo();
 else if(store?.snapshot.savedProfiles.length && !config) openChange();

@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 import * as core from '../display-core.mjs';
 import * as states from '../schedule-presentation.mjs';
+import * as schools from '../school-setup.mjs';
 import * as profiles from '../profile-store.mjs';
 const {ProfileStore,PROFILE_KEY,LEGACY_KEY,DEMO_ID,inspectNativeImport,nativeConfigurations,exportProfiles,importDisplayProfiles}=profiles;
 const read=p=>JSON.parse(fs.readFileSync(new URL(p,import.meta.url),'utf8'));
@@ -162,7 +163,7 @@ await test('duplicate IDs and unsupported stored collection versions are rejecte
 await test('app switches Real-Demo-Real and explicit Demo copy adds a distinct profile',async()=>{
   const storage=memory(),nodes=new Map();
   const node=key=>{if(!nodes.has(key))nodes.set(key,{innerHTML:'',addEventListener(){},remove(){}});return nodes.get(key);};
-  const sandbox={...core,...states,...profiles,esc:core.escapeHTML,Intl,Date,JSON,Set,crypto:globalThis.crypto,document:{querySelector:node,querySelectorAll:()=>[],addEventListener(){}},localStorage:storage,clearInterval(){},setInterval(){},alert:message=>{throw Error(message);},fetch:async()=>({ok:true,json:async()=>copy(demo)})};
+  const sandbox={...core,...states,...profiles,...schools,esc:core.escapeHTML,Intl,Date,JSON,Set,crypto:globalThis.crypto,document:{querySelector:node,querySelectorAll:()=>[],addEventListener(){}},localStorage:storage,clearInterval(){},setInterval(){},alert:message=>{throw Error(message);},fetch:async()=>({ok:true,json:async()=>copy(demo)})};
   vm.createContext(sandbox);
   const source=fs.readFileSync(new URL('../app.js',import.meta.url),'utf8').replace(/^import .*;\n/gm,'');
   vm.runInContext(source,sandbox);sandbox.input=cfg('Real');vm.runInContext('save(input,null)',sandbox);
