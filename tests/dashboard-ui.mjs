@@ -341,4 +341,12 @@ test('fullscreen dashboard uses effective timing without replacing source timing
  const r=renderer(c,'2026-10-07');r.fullscreen(true);const html=r.render('11:40');assert.match(html,/Exit Full Screen/);assert.match(html,/Bell at 12:05/);assert.match(html,/Ends 12:05/);assert.match(html,/class="countdown">25:00/);
  assert.equal(c.portable.shared.schoolDefinitionSnapshot.scheduleTemplates.find(t=>t.id==='wednesday').periods.find(p=>p.id==='wednesday-7').end,'12:00');
 });
+test('shared schedule badges are neutral while current-row and NOW emphasis remains mint',()=>{
+ const badge=css.match(/\.badge\s*\{([^}]+)\}/)[1];
+ assert.match(badge,/background:rgba\(255,255,255,\.06\)/);assert.match(badge,/border:1px solid rgba\(255,255,255,\.14\)/);assert.match(badge,/color:var\(--text\)/);assert.ok(!badge.includes('--mint'));
+ assert.match(css,/\.row\.current\s*\{[^}]*var\(--mint\)/);assert.match(css,/\.now\s*\{[^}]*color:var\(--mint\)/);
+ const r=renderer(imported()),current=cards(r.render('07:35'))[0];assert.match(current,/row current/);assert.match(current,/class="badge"/);
+ r.fullscreen(true);assert.match(r.render('07:35'),/class="badge"/);
+ assert.match(css,/@media\(max-width:520px\)\{[^\n]*\.badge\{font-size:/);
+});
 console.log(`\n${passed} dashboard UI tests passed.`);
