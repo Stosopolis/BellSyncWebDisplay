@@ -200,6 +200,9 @@ export function formatClock(timestamp,tz,hour24=false) {
 export function lunchName(selection) { return ['L1','L2','L3'].includes(selection) ? `Lunch ${selection.slice(1)}` : null; }
 export function scheduleRowLabel(e, mode='blocks') {
   if(mode==='hidden') return '';
+  // Source activity names belong only in the effective title, never in a
+  // secondary badge/prefix. Structural block and explicit lunch labels remain.
+  if(e.labelRole==='activity' && !(mode==='blocks' && e.blockName) && !(e.kind==='lunch' && e.lunch?.selection) && e.kind!=='passing') return '';
   if(e.kind==='lunch' || e.kind==='passing') return e.label || e.sourcePeriodLabel || e.id;
   return (mode==='blocks' && e.blockName) || e.sourcePeriodLabel || e.label || e.id;
 }

@@ -291,4 +291,48 @@ test('optional progress stays compact, off by default, and hides day bar at comp
   const end=r.render('14:10');assert.ok(!end.includes('SCHOOL DAY'));assert.match(end,/SCHOOL YEAR/);assert.match(end,/Done for today/);
   assert.match(css,/\.school-progress progress\s*\{[^}]*height:5px/);
 });
+const doyleRaw=()=>read('../public/builtins/doyle/prek-a.json');
+const importedDoyle=raw=>profiles.nativeConfigurations(profiles.inspectNativeImport(raw))[0];
+const visibleText=html=>html.replace(/<[^>]*>/g,'');
+test('source activity with no override appears once within its schedule row',()=>{
+ const c=importedDoyle(doyleRaw()),html=renderer(c,'2026-10-07').render('11:35');
+ const row=cards(html).find(r=>r.includes('Fundations / Heggarty'));
+ assert.equal(visibleText(row).split('Fundations / Heggarty').length-1,1);assert.ok(!row.includes('class="badge"'));
+});
+test('local activity display overrides replace source activity badges in every label mode',()=>{
+ const c=importedDoyle(doyleRaw());c.portable.edits=[{type:'period',id:'activity-7',title:'Foundations / H'},{type:'period',id:'activity-4',title:'Recess3454'},{type:'period',id:'activity-10',title:'Rest (confirm...)'}];
+ for(const mode of ['blocks','periods','hidden']) {
+  const input=copy(c);input.preferences.scheduleLabels=mode;const html=renderer(input,'2026-10-07').render('11:35');
+  for(const title of ['Foundations / H','Recess3454','Rest (confirm...)']) {
+   const row=cards(html).find(r=>r.includes(`>${title}</strong>`));assert.ok(row,title);assert.equal(visibleText(row).split(title).length-1,1);assert.ok(!row.includes('class="badge"'));
+  }
+  assert.ok(!html.includes('Fundations / Heggarty'));assert.ok(!html.includes('Rest (confirmed portion)'));
+ }
+});
+test('active and next cards use only the effective activity title while current highlighting remains',()=>{
+ const c=importedDoyle(doyleRaw());c.portable.edits=[{type:'period',id:'activity-7',title:'Foundations / H'}];
+ const active=renderer(c,'2026-10-07').render('11:35'),row=cards(active).find(r=>r.includes('Foundations / H'));
+ assert.match(row,/row current/);assert.match(row,/class="now">NOW/);assert.match(active,/class="event-title">Foundations \/ H</);assert.ok(!active.includes('Fundations / Heggarty'));
+ const before=renderer(c,'2026-10-07').render('11:25'),next=before.match(/<article class="next-card">([\s\S]*?)<\/article>/)[1];
+ assert.match(next,/<b>Foundations \/ H<\/b>/);assert.ok(!next.includes('Fundations / Heggarty'));assert.equal(visibleText(next).split('Foundations / H').length-1,1);
+});
+test('native name overrides and owner-activity overrides also suppress source-name badges',()=>{
+ const raw=doyleRaw(),base=importedDoyle(raw),event=core.timelineFor(base,'2026-10-07').events.find(e=>e.periodID==='activity-7');
+ raw.activityNameOverrides=[{source:event.activitySource,title:'Native custom name'}];
+ const html=renderer(importedDoyle(raw),'2026-10-07').render('11:35');assert.ok(!html.includes('Fundations / Heggarty'));assert.match(html,/Native custom name/);
+ const owner=profiles.nativeConfigurations(profiles.inspectNativeImport(read('./fixtures/canterbury-room2-v2.json')))[0];
+ const ownerEvent=core.timelineFor(owner,'2026-10-01').events.find(e=>e.owner);
+ owner.portable.edits=[{type:'personal',id:ownerEvent.sourceID,title:'Owner custom name'}];
+ const row=cards(renderer(owner,'2026-10-01').render('11:35')).find(r=>r.includes('Owner custom name'));assert.ok(row);assert.ok(!row.includes('class="badge"'));
+});
+test('bathroom point reminders show one title with their semantic subtitle',()=>{
+ const html=renderer(importedDoyle(doyleRaw()),'2026-10-07').render('09:20');
+ const points=cards(html).filter(r=>r.includes('Point reminder'));
+ assert.equal(points.length,3);for(const row of points){assert.equal(visibleText(row).split('Bathroom').length-1,1);assert.match(row,/Point reminder · classroom activity continues/);assert.ok(!row.includes('class="badge"'));}
+});
+test('effective room overrides replace the original room in schedule and hero',()=>{
+ const raw=read('./fixtures/canterbury-room2-v2.json');raw.personalActivities[0].room='OriginalRoom';
+ const c=profiles.nativeConfigurations(profiles.inspectNativeImport(raw))[0];c.portable.edits=[{type:'personal',id:raw.personalActivities[0].id,title:'Custom activity',room:'EffectiveRoom'}];
+ const html=renderer(c,'2026-10-01').render(raw.personalActivities[0].start);assert.ok(!html.includes('OriginalRoom'));assert.match(html,/<small>Room EffectiveRoom<\/small>/);assert.match(html,/class="details">Room EffectiveRoom/);
+});
 console.log(`\n${passed} dashboard UI tests passed.`);

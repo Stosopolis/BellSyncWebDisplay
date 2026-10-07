@@ -160,7 +160,7 @@ export function profileOwnerEvents(raw,key,day,at,templateID='profile-personal',
     const source={schoolID:raw.schoolProfileID,layer:'personal',dayID:day,templateID,itemID:a.id,periodID:a.sourcePeriodID ?? a.id};
     const o=raw.activityNameOverrides?.find(o=>Object.entries(source).every(([k,v])=>o.source[k]===v));
     const local=edit('personal',a.id);
-    return {id:`personal:${a.id}`,sourceID:a.id,periodID:a.sourcePeriodID ?? a.id,kind:'other',title:local?.title || o?.title || a.title,room:local?.room ?? a.room ?? '',label:a.title,sourcePeriodLabel:a.title,startAt:at(a.start),endAt:a.sourcePeriodID?Math.min(at(a.end),endAt):at(a.end),activitySource:source,owner:true};
+    return {id:`personal:${a.id}`,sourceID:a.id,periodID:a.sourcePeriodID ?? a.id,kind:'other',title:local?.title || o?.title || a.title,room:local?.room ?? a.room ?? '',label:a.title,sourcePeriodLabel:a.title,labelRole:'activity',startAt:at(a.start),endAt:a.sourcePeriodID?Math.min(at(a.end),endAt):at(a.end),activitySource:source,owner:true};
   }).filter(e=>e.startAt<e.endAt).sort((a,b)=>a.startAt-b.startAt);
 }
 export function portableTimeline(config,key,at) {
@@ -179,7 +179,7 @@ export function portableTimeline(config,key,at) {
     const p=period(item.periodID),local=edits('period',p.id),source={schoolID:d.id,layer,dayID:day.day,templateID:template.id,itemID:item.id,periodID:item.periodID};
     const o=raw.activityNameOverrides?.find(o=>Object.entries(source).every(([k,v])=>o.source[k]===v));
     const title=local?.title || o?.title || a.title?.trim() || p.displayName;
-    return {id:`${layer}:${item.id}${suffix}`,sourceID:item.id,periodID:p.id,kind:p.kind,label:p.displayName,sourcePeriodLabel:p.displayName,blockID:a.block || null,blockName:a.block || null,title,room:local?.room ?? a.room ?? '',startAt:at(item.start),endAt:at(item.end),activitySource:source,...extra};
+    return {id:`${layer}:${item.id}${suffix}`,sourceID:item.id,periodID:p.id,kind:p.kind,label:p.displayName,sourcePeriodLabel:p.displayName,labelRole:p.acceptsPersonalAssignment?'structure':'activity',blockID:a.block || null,blockName:a.block || null,title,room:local?.room ?? a.room ?? '',startAt:at(item.start),endAt:at(item.end),activitySource:source,...extra};
   };
   const revision=Object.keys(template.periodsByEffectiveDate ?? {}).filter(date=>date<=key).sort().at(-1);
   const items=revision?template.periodsByEffectiveDate[revision]:template.periods;

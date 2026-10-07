@@ -365,4 +365,13 @@ await test('Doyle preview back/cancel keeps the active profile unchanged; confir
  a.node('#doyle-use').onclick();assert.equal(a.snapshot().activeProfileID,id);assert.equal(a.snapshot().savedProfiles.length,2);assert.equal(a.run('config.preferences.hour24'),true);
  a.node('#change').onclick();assert.match(a.markup(),/Choose Schedule/);assert.match(a.markup(),/Change Doyle Schedule/);a.node('#change-doyle').onclick();assert.match(a.markup(),/Doyle PreK I/);
 });
+await test('Doyle preview and live effective names/rooms agree while editor retains source activity',async()=>{
+ const a=app(),c=schools.doyleConfiguration(read('../public/builtins/doyle/prek-a.json'),'A');
+ c.portable.edits=[{type:'period',id:'activity-7',title:'Foundations / H',room:'RoomOverride'}];a.add(c);
+ a.run('chooseDoyleProfile()');await a.node('[data-doyle="A"]').onclick();
+ assert.match(a.markup(),/Foundations \/ H/);assert.ok(!a.markup().includes('Fundations / Heggarty'));assert.match(a.markup(),/Room RoomOverride/);
+ a.node('#doyle-use').onclick();a.run("viewedDate='2026-10-07';update()");assert.match(a.node('#display').innerHTML,/Foundations \/ H/);assert.ok(!a.node('#display').innerHTML.includes('Fundations / Heggarty'));
+ a.clickEdit();const rows=a.node('#portable-fields').children.flatMap(section=>section.children).filter(row=>row.className==='portable-edit-row');
+ const row=rows.find(row=>row.children[0]?.textContent==='Fundations / Heggarty');assert.ok(row);assert.equal(row.children[1].children[1].value,'Foundations / H');assert.equal(row.children[2].children[1].value,'RoomOverride');
+});
 console.log(`\n${passed} editor routing tests passed.`);
