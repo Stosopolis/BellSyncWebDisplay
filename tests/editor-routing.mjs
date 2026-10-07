@@ -330,7 +330,7 @@ await test('Display Settings progress toggles default off and persist independen
 await test('Doyle picker previews before confirmation and reuses saved profiles',async()=>{
  const a=app();a.sandbox.fetch=async path=>({ok:true,json:async()=>read(`../public/builtins/doyle/${path.split('/').at(-1)}`)});
  a.node('[data-school="doyle"]').onclick();
- for(const code of schools.DOYLE_PROFILES)assert.ok(a.markup().includes(`Doyle PreK ${code}`));
+ for(const code of schools.DOYLE_PROFILES)assert.ok(a.markup().includes(`Schedule ${code}`));
  await a.node('[data-doyle="A"]').onclick();
  assert.equal(a.run('config'),null);assert.equal(a.snapshot(),null);
  assert.match(a.markup(),/Use This Schedule/);assert.match(a.markup(),/Back to Doyle Schedules/);assert.match(a.markup(),/Bathroom/);assert.match(a.markup(),/9:20/);
@@ -344,11 +344,11 @@ await test('Doyle picker previews before confirmation and reuses saved profiles'
 });
 
 await test('Doyle URL entry points respect saved schedules and select direct profiles once',async()=>{
- const picker=app(undefined,null,'?school=doyle');assert.match(picker.markup(),/Doyle PreK I/);assert.equal((picker.snapshot()?.savedProfiles.length ?? 0),0);
+ const picker=app(undefined,null,'?school=doyle');assert.match(picker.markup(),/Schedule I/);assert.equal((picker.snapshot()?.savedProfiles.length ?? 0),0);
  const direct=app(undefined,null,'?school=doyle&profile=B');await new Promise(resolve=>setImmediate(resolve));
  assert.equal(direct.run('config.profileName'),'Doyle PreK B');const storage=direct.storage;
  const reload=app(storage,null,'?school=doyle&profile=B');await new Promise(resolve=>setImmediate(resolve));assert.equal(reload.snapshot().savedProfiles.length,1);
- const other=reload.add(manual);const preserved=app(storage,null,'?school=doyle');assert.match(preserved.markup(),/Doyle PreK A/);assert.equal(preserved.snapshot().activeProfileID,other);
+ const other=reload.add(manual);const preserved=app(storage,null,'?school=doyle');assert.match(preserved.markup(),/Schedule A/);assert.equal(preserved.snapshot().activeProfileID,other);
 });
 await test('closing Doyle picker cancels an in-flight choice without changing saved profiles',async()=>{
  const a=app();let release;
@@ -359,13 +359,13 @@ await test('closing Doyle picker cancels an in-flight choice without changing sa
 await test('Doyle preview back/cancel keeps the active profile unchanged; confirmed reuse preserves edits',async()=>{
  const a=app();const original=a.add(manual);
  a.run('chooseDoyleProfile()');await a.node('[data-doyle="B"]').onclick();assert.equal(a.snapshot().activeProfileID,original);
- a.node('#doyle-back').onclick();assert.match(a.markup(),/Doyle PreK I/);assert.equal(a.snapshot().savedProfiles.length,1);
+ a.node('#doyle-back').onclick();assert.match(a.markup(),/Schedule I/);assert.equal(a.snapshot().savedProfiles.length,1);
  await a.node('[data-doyle="C"]').onclick();a.node('#close').onclick();assert.equal(a.snapshot().activeProfileID,original);
  await a.run('startDoyleSetup("A")');const id=a.snapshot().activeProfileID;
  a.run('config.preferences.hour24=true;save(config)');
  a.run('chooseDoyleProfile()');await a.node('[data-doyle="A"]').onclick();assert.match(a.markup(),/saved changes will be kept/);assert.match(a.markup(),/09:20/);
  a.node('#doyle-use').onclick();assert.equal(a.snapshot().activeProfileID,id);assert.equal(a.snapshot().savedProfiles.length,2);assert.equal(a.run('config.preferences.hour24'),true);
- a.node('#change').onclick();assert.match(a.markup(),/Choose Schedule/);assert.match(a.markup(),/Change Doyle Schedule/);a.node('#change-doyle').onclick();assert.match(a.markup(),/Doyle PreK I/);
+ a.node('#change').onclick();assert.match(a.markup(),/Choose Schedule/);assert.match(a.markup(),/Change Doyle Schedule/);a.node('#change-doyle').onclick();assert.match(a.markup(),/Schedule I/);
 });
 await test('Doyle preview and live effective names/rooms agree while editor retains source activity',async()=>{
  const a=app(),c=schools.doyleConfiguration(read('../public/builtins/doyle/prek-a.json'),'A');
@@ -521,8 +521,22 @@ for(const school of ['woodville','walton'])await test(`${school} every neutral c
  await url.run(`chooseBuiltinProfile('${school}')`);await url.node(`[data-classroom="${choice.code}"]`).onclick();url.node('#builtin-use').onclick();assert.equal(url.snapshot().savedProfiles.length,1);
  }
 });
-await test('grouped pickers reuse responsive neutral cards while Doyle and Ferryway retain their existing presentation',async()=>{
+await test('grouped pickers reuse responsive neutral cards while ungrouped layouts remain intact',async()=>{
  const css=fs.readFileSync(new URL('../styles.css',import.meta.url),'utf8');assert.match(css,/\.profile-grade \.setup-options\{margin-top:10px/);assert.match(css,/@media\(max-width:850px\)[^\n]*\.setup-options,\.modal-actions,\.form-grid\{grid-template-columns:1fr/);assert.match(css,/\.school-card:hover,\.school-card:focus-visible/);
- for(const school of ['doyle','ferryway']){const a=app();await a.node(`[data-school="${school}"]`).onclick();assert.ok(!a.markup().includes('profile-grade'));assert.match(a.markup(),/option-card primary/);assert.match(a.markup(),/Contact Support/);}
+ for(const school of ['doyle','ferryway']){const a=app();await a.node(`[data-school="${school}"]`).onclick();assert.ok(!a.markup().includes('profile-grade'));assert.match(a.markup(),school==='doyle'?/option-card school-card/:/option-card primary/);assert.match(a.markup(),/Contact Support/);}
+});
+await test('Doyle neutral Schedule A–I buttons preserve preview, Back, save and every direct profile URL',async()=>{
+ const a=app();a.node('[data-school="doyle"]').onclick();const html=a.markup();
+ assert.deepEqual([...html.matchAll(/<button class="option-card school-card" data-doyle="([A-I])"><b>([^<]+)<\/b><\/button>/g)].map(m=>[m[1],m[2]]),schools.DOYLE_PROFILES.map(code=>[code,`Schedule ${code}`]));
+ assert.ok(!html.includes('option-card primary'));assert.ok(!html.includes('Doyle PreK'));assert.match(html,/Preview each one/);assert.match(html,/Early-release times/);assert.match(html,/Contact Support/);
+ for(const code of schools.DOYLE_PROFILES){a.run('chooseDoyleProfile()');await a.node(`[data-doyle="${code}"]`).onclick();assert.match(a.markup(),/Use This Schedule/);if(code==='A')assert.match(a.markup(),/Bathroom/);a.node('#doyle-back').onclick();assert.match(a.markup(),/Schedule I/);await a.node(`[data-doyle="${code}"]`).onclick();a.node('#doyle-use').onclick();assert.equal(a.run('config.profileName'),`Doyle PreK ${code}`);
+ const count=a.snapshot().savedProfiles.length,reload=app(a.storage,null,`?school=doyle&profile=${code}`);await new Promise(resolve=>setImmediate(resolve));assert.equal(reload.run('config.profileName'),`Doyle PreK ${code}`);assert.equal(reload.snapshot().savedProfiles.length,count);}
+ assert.equal(a.snapshot().savedProfiles.length,9);
+});
+await test('Galvin neutral Grade 5–8 choices preserve all grade-specific bells, lunch, save and support',async()=>{
+ for(const grade of [5,6,7,8]){const a=app();a.node('[data-school="gms"]').onclick();const html=a.markup();
+ assert.deepEqual([...html.matchAll(/<button class="option-card school-card" data-grade="([5-8])"><b>([^<]+)<\/b><\/button>/g)].map(m=>[m[1],m[2]]),[5,6,7,8].map(g=>[String(g),`Grade ${g}`]));assert.ok(!html.includes('option-card primary'));assert.match(html,/Contact Support/);assert.match(html,/class="modal-actions"/);
+ await a.node(`[data-grade="${grade}"]`).onclick();assert.match(a.markup(),/managed-editor/);assert.equal(a.snapshot(),null);a.node('#managed-editor').onsubmit({preventDefault(){}});const actual=a.run('config');
+ assert.equal(actual.schoolMetadata.grade,grade);const native=schools.builtInConfiguration('gms',read('../public/builtins/gms/schedule.json'),read('../public/builtins/gms/calendar.json'),grade);assert.deepEqual(actual.templates,native.templates);assert.deepEqual(actual.schoolMetadata,native.schoolMetadata);assert.equal(a.snapshot().savedProfiles.length,1);assert.deepEqual(a.alerts,[]);}
 });
 console.log(`\n${passed} editor routing tests passed.`);
