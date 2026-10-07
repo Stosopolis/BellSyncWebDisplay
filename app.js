@@ -407,7 +407,7 @@ function periodRow(p,index) { return `<div class="period-row" data-index="${inde
 function timingEditor(value,root,expanded=false) {
   const section=document.createElement('details');section.className='editor-section timing-editor';section.open=expanded;
   const heading=document.createElement('summary');heading.textContent='Timing overrides';section.append(heading);
-  const help=document.createElement('p');help.textContent='Optional changes apply only to this saved Web Display profile. Blank fields use BellSync source times.';section.append(help);
+  const help=document.createElement('p');help.textContent='Source times come from BellSync. Adjusted times apply only to this Web Display profile; Bell Timing Adjustment is applied separately at runtime.';section.append(help);
   const fields=[];
   for(const item of timingCatalog(value)) {
     const edit=value.timingOverrides?.find(e=>timingKey(e)===timingKey(item));
@@ -415,27 +415,58 @@ function timingEditor(value,root,expanded=false) {
     const label=document.createElement('strong');label.textContent=`${item.group} · ${item.label}`;row.append(label);
     const clock=time=>formatClock(zonedTimestamp('2026-10-07',time,value.school.timeZone),value.school.timeZone,value.preferences.hour24);
     const source=document.createElement('small');source.textContent=`Source time: ${[...new Set(item.sources.map(s=>s.end?`${clock(s.start)} – ${clock(s.end)}`:clock(s.start)))].join(' / ')}`;row.append(source);
-    const inputs={};
+    const inputs={},initial={},record={item,inputs,initial,edit,reset:false};
+    const shift=(keys,minutes)=>{
+      const values=keys.map(key=>{
+        const time=inputs[key].value;
+        if(!/^(?:[01]\d|2[0-3]):[0-5]\d$/.test(time))return null;
+        const [h,m]=time.split(':').map(Number),total=h*60+m+minutes;
+        return total<0 || total>=1440 ? null : `${String(Math.floor(total/60)).padStart(2,'0')}:${String(total%60).padStart(2,'0')}`;
+      });
+      if(values.some(v=>v===null)){showEditorError('Keep adjusted times within the same day (00:00–23:59).');return;}
+      keys.forEach((key,i)=>{inputs[key].value=values[i];});showEditorError('');
+    };
+    const quickButtons=(keys)=>{
+      const group=document.createElement('div');group.className='timing-steps';
+      for(const minutes of [-5,-1,1,5]){
+        const button=document.createElement('button');button.type='button';button.className='small-button';button.textContent=`${minutes>0?'+':''}${minutes}m`;
+        button.setAttribute('aria-label',`${item.group}, ${item.label}: ${keys.length===2?'shift entire activity':keys[0]} ${Math.abs(minutes)} minute${Math.abs(minutes)===1?'':'s'} ${minutes<0?'earlier':'later'}`);
+        button.onclick=()=>shift(keys,minutes);group.append(button);
+      }
+      return group;
+    };
     for(const key of item.type==='point'?['time']:['start','end']) {
-      const label=document.createElement('label');label.textContent=key==='time'?'Time override':`${key==='start'?'Start':'End'} override`;
-      const input=document.createElement('input');input.type='time';input.value=edit?.[key] || '';input.setAttribute('aria-label',`${item.group}, ${item.label}, ${key} override`);label.append(input);row.append(label);inputs[key]=input;
+      const label=document.createElement('div');label.className='timing-control';label.textContent=key==='time'?'Adjusted time':`Adjusted ${key}`;
+      const input=document.createElement('input');input.type='time';input.step='60';input.value=edit?.[key] || item.sources[0][key==='time'?'start':key];initial[key]=input.value;
+      input.setAttribute('aria-label',`${item.group}, ${item.label}, adjusted ${key}`);label.append(input);inputs[key]=input;label.append(quickButtons([key]));row.append(label);
     }
-    const reset=document.createElement('button');reset.type='button';reset.className='secondary';reset.textContent='Reset to Source';reset.onclick=()=>{for(const input of Object.values(inputs))input.value='';};row.append(reset);
-    section.append(row);fields.push({item,inputs});
+    if(item.type!=='point'){
+      const whole=document.createElement('div');whole.className='timing-shift';
+      const title=document.createElement('strong');title.textContent='Shift Entire Activity';whole.append(title,quickButtons(['start','end']));row.append(whole);
+    }
+    const reset=document.createElement('button');reset.type='button';reset.className='secondary';reset.textContent='Reset to Source';reset.onclick=()=>{record.reset=true;for(const [key,input] of Object.entries(inputs))input.value=item.sources[0][key==='time'?'start':key];showEditorError('');};row.append(reset);
+    section.append(row);fields.push(record);
   }
   root.append(section);if(root.id==='managed-editor')root.insertBefore(section,root.querySelector('.modal-footer'));return fields;
 }
 function openTimingOverrides() {
   if(!config)return;
   const working=clone(config),targetID=isDemo?null:requireStore().snapshot.activeProfileID,mode=isDemo?'demo':'edit';
-  modal(`<header class="modal-head"><div><h2>Timing Overrides</h2><p>Change timing only for this Web Display profile. Blank fields use its source timing.</p></div><button id="close" class="icon-button" aria-label="Close dialog">×</button></header><form id="timing-form"><div id="timing-fields"></div><p class="form-error" id="form-error" role="alert"></p><footer class="modal-footer"><button type="button" id="cancel" class="secondary">Cancel</button><button class="primary">Save Changes</button></footer></form>`);
+  modal(`<header class="modal-head"><div><h2>Timing Overrides</h2><p>Adjust individual activity times for this Web Display profile. Source times stay unchanged.</p></div><button id="close" class="icon-button" aria-label="Close dialog">×</button></header><form id="timing-form"><div id="timing-fields"></div><p class="form-error" id="form-error" role="alert"></p><footer class="modal-footer"><button type="button" id="cancel" class="secondary">Cancel</button><button class="primary">Save Changes</button></footer></form>`);
   const root=document.querySelector('#timing-fields');root.replaceChildren();
   const fields=timingEditor(working,root,true);
   document.querySelector('#close').onclick=closeModal;document.querySelector('#cancel').onclick=closeModal;
   document.querySelector('#timing-form').onsubmit=e=>{e.preventDefault();try{saveEditor(setTimingOverrides(working,timingInputValues(fields)),targetID,mode);}catch(error){showEditorError(error.message);}};
 }
 function timingInputValues(fields) {
-  return fields.map(({item,inputs})=>({type:item.type,templateID:item.templateID,id:item.id,...Object.fromEntries(Object.entries(inputs).map(([key,input])=>[key,input.value]))}));
+  return fields.map(({item,inputs,initial,edit,reset})=>({type:item.type,templateID:item.templateID,id:item.id,...Object.fromEntries(Object.entries(inputs).map(([key,input])=>{
+    const sourceKey=key==='time'?'start':key;
+    // Preserve untouched partial overrides and dated source variants. Merely
+    // displaying the first source time must not freeze future source revisions.
+    const value=!reset && input.value===initial[key] ? edit?.[key] ?? '' :
+      input.value===item.sources[0][sourceKey] && (reset || item.sources.every(s=>s[sourceKey]===input.value)) ? '' : input.value;
+    return [key,value];
+  }))}));
 }
 function openPortableEditor(value,targetID,focusLunch=false) {
   const working=clone(value),raw=working.portable.shared,d=raw.schoolDefinitionSnapshot;

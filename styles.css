@@ -158,3 +158,10 @@
 .bell-adjustment{display:flex;align-items:end;gap:.6rem;flex-wrap:wrap}
 .bell-adjustment label{margin:0}
 .bell-adjustment input{width:6rem}
+
+/* Native time pickers plus touch/keyboard-friendly local timing corrections. */
+.timing-steps{display:flex;flex-wrap:wrap;gap:6px}
+.timing-steps button{min-height:40px;min-width:44px}
+.timing-shift{grid-column:1 / -1;display:flex;align-items:center;flex-wrap:wrap;gap:10px}
+.timing-control{display:grid;gap:6px;min-width:0;color:var(--muted);font-weight:650}
+.timing-row input[type=time]{min-width:0;max-width:100%}

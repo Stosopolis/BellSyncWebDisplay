@@ -423,4 +423,42 @@ await test('Bell Timing Adjustment stepper, reset and saved direct URL reuse rem
  const reload=app(a.storage,null,'?school=doyle&profile=B');await new Promise(resolve=>setImmediate(resolve));assert.equal(reload.run('config.bellTimingAdjustmentSeconds'),8);assert.equal(reload.snapshot().savedProfiles.length,1);
  a.node('#settings').onclick();a.node('#bell-reset').onclick();input.value=a.node('#bell-adjustment').value;submit();assert.equal(app(a.storage).run('config.bellTimingAdjustmentSeconds'),0);
 });
+const timingUX=()=>{
+ const a=app(),c=schools.doyleConfiguration(read('../public/builtins/doyle/prek-a.json'),'A');c.bellTimingAdjustmentSeconds=8;c.portable.edits=[{type:'period',id:'activity-2',title:'Custom arrival',room:'Blue'}];a.add(c);a.node('#timing').onclick();
+ const rows=a.node('#timing-fields').children[0].children.filter(r=>r.className==='timing-row');
+ return {a,c,row:rows.find(r=>r.children[0].textContent==='Wednesday · Arrival / Morning Work'),point:rows.find(r=>r.children[0].textContent==='Point reminders · Bathroom'),save:()=>a.node('#timing-form').onsubmit({preventDefault(){}})};
+};
+const step=(row,column,index)=>row.children[column].children[1].children[index].onclick();
+await test('timing editor prefills source values and saves untouched controls without overrides',()=>{
+ const {a,c,row,save}=timingUX();assert.equal(row.children[2].children[0].value,'08:40');assert.equal(row.children[3].children[0].value,'09:00');assert.equal(row.children[2].children[0].type,'time');save();assert.deepEqual(a.run('config'),c);
+});
+for(const [name,column,index,field,expected] of [['start +1 minute',2,2,'start','08:41'],['start -1 minute',2,1,'start','08:39'],['end +5 minutes',3,3,'end','09:05'],['end -5 minutes',3,0,'end','08:55']])await test(`timing quick adjustment ${name}`,()=>{
+ const {a,row,save}=timingUX();step(row,column,index);assert.equal(row.children[column].children[0].value,expected);save();assert.equal(a.run(`config.timingOverrides[0].${field}`),expected);
+ const button=row.children[column].children[1].children[index];assert.match(button.attributes['aria-label'],/minute/);assert.equal(button.type,'button');
+});
+await test('whole activity shift preserves duration, then independent native time edits compose normally',()=>{
+ const {a,c,row,save}=timingUX();row.children[4].children[1].children[3].onclick();assert.equal(row.children[2].children[0].value,'08:45');assert.equal(row.children[3].children[0].value,'09:05');
+ row.children[3].children[0].value='09:06';save();const config=a.run('config');const event=core.timelineFor(config,'2026-10-07').events.find(e=>e.periodID==='activity-2');
+ assert.equal(event.startAt,core.zonedTimestamp('2026-10-07','08:45',config.school.timeZone)+8000);assert.equal(event.endAt-event.startAt,21*60000);assert.deepEqual(config.portable.shared,c.portable.shared);
+ const restored=profiles.importDisplayProfiles(profiles.exportProfiles(a.snapshot()))[0];assert.deepEqual(restored,config);
+ a.node('#timing').onclick();const updated=a.node('#timing-fields').children[0].children.find(r=>r.children[0]?.textContent==='Wednesday · Arrival / Morning Work');assert.equal(updated.children[2].children[0].value,'08:45');updated.children.at(-1).onclick();assert.equal(updated.children[2].children[0].value,'08:40');assert.equal(updated.children[3].children[0].value,'09:00');save();assert.deepEqual(a.run('config'),c);
+});
+await test('point quick adjustment has one native time control and preserves reminder semantics',()=>{
+ const {a,point,save}=timingUX();assert.equal(point.children.length,4);assert.equal(point.children[2].children[0].value,'09:20');step(point,2,3);save();const config=a.run('config'),timeline=core.timelineFor(config,'2026-10-07');assert.equal(config.timingOverrides[0].time,'09:25');assert.equal(timeline.points.find(p=>p.id==='bathroom-0920').at,core.zonedTimestamp('2026-10-07','09:25',config.school.timeZone)+8000);assert.equal(states.scheduleSnapshot(config,core.zonedTimestamp('2026-10-07','09:25',config.school.timeZone)+8000).current.title,'Morning Meeting / Circle');
+});
+await test('quick adjustment still rejects end before start without storing invalid data',()=>{
+ const {a,row,save}=timingUX(),before=a.snapshot();for(let i=0;i<5;i++)step(row,2,3);save();assert.match(a.node('#form-error').textContent,/effective end/);assert.deepEqual(a.snapshot(),before);
+});
+await test('quick buttons never wrap times into a different school day',()=>{
+ const {a,row}=timingUX();row.children[2].children[0].value='00:00';step(row,2,1);assert.equal(row.children[2].children[0].value,'00:00');assert.match(a.node('#form-error').textContent,/same day/);
+ row.children[3].children[0].value='23:59';row.children[4].children[1].children[2].onclick();assert.equal(row.children[2].children[0].value,'00:00');assert.equal(row.children[3].children[0].value,'23:59');
+});
+await test('untouched and reset timing controls preserve dated source variants and partial overrides',()=>{
+ const a=app(),c=schools.doyleConfiguration(read('../public/builtins/doyle/prek-a.json'),'A'),template=c.portable.shared.schoolDefinitionSnapshot.scheduleTemplates.find(t=>t.id==='wednesday');
+ template.periodsByEffectiveDate={'2026-10-08':structuredClone(template.periods)};template.periodsByEffectiveDate['2026-10-08'].find(p=>p.id==='wednesday-2').start='08:41';
+ a.add(c);a.node('#timing').onclick();const save=()=>a.node('#timing-form').onsubmit({preventDefault(){}});save();assert.deepEqual(a.run('config'),c);
+ const item=timing.timingCatalog(c).find(e=>e.templateID==='wednesday' && e.label==='Arrival / Morning Work');const edited=timing.setTimingOverrides(c,[{type:item.type,id:item.id,templateID:item.templateID,end:'09:05'}]);
+ a.run('save('+JSON.stringify(edited)+')');a.node('#timing').onclick();save();assert.deepEqual(a.run('config.timingOverrides'),edited.timingOverrides);
+ a.node('#timing').onclick();const row=a.node('#timing-fields').children[0].children.find(r=>r.children[0]?.textContent==='Wednesday · Arrival / Morning Work');row.children.at(-1).onclick();save();assert.deepEqual(a.run('config'),c);
+});
 console.log(`\n${passed} editor routing tests passed.`);
