@@ -206,8 +206,9 @@ start/end fields override a duration activity; point reminders have one time
 field. Blank fields use the source. **Reset to Source** clears only timing.
 Invalid effective intervals are rejected before saving. Overrides are stored on
 the individual profile, included in Display backups, and applied before timeline
-resolution; native source snapshots are retained unchanged. Manual browser
-schedules retain their existing directly editable bell-time controls.
+resolution; native source snapshots are retained unchanged. All saved profiles can also use **Schedule → Timing Overrides**, including
+manual schedules. Manual schedules retain their directly editable bell-time
+controls; optional overlays keep the saved source bells intact until reset.
 
 Woodville (22 profiles), Ferryway (one four-day school schedule), and Walton
 (10 current classroom profiles) use the same picker → preview → Use This Schedule

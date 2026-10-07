@@ -5,7 +5,11 @@ export function timingCatalog(config) {
  const entries=new Map(),raw=config.portable?.shared,d=raw?.schoolDefinitionSnapshot;
  const add=(entry,start,end)=>{const key=timingKey(entry),existing=entries.get(key);if(existing)existing.sources.push({start,end});else entries.set(key,{...entry,sources:[{start,end}]});};
  if(d) {
-  for(const t of d.scheduleTemplates) for(const rows of [t.periods,...Object.values(t.periodsByEffectiveDate || {})]) for(const p of rows)add({type:'template',templateID:t.id,id:p.id,label:d.periodDefinitions.find(x=>x.id===p.periodID).displayName,group:t.displayName || t.id},p.start,p.end);
+  for(const t of d.scheduleTemplates) {
+   const dayID=Object.entries(d.calendarRule.cycleDayTemplateIDs || {}).find(([,id])=>id===t.id)?.[0];
+   const group=(dayID && d.cycle.dayDisplayNames?.[dayID]) || t.displayName || t.id;
+   for(const rows of [t.periods,...Object.values(t.periodsByEffectiveDate || {})])for(const p of rows)add({type:'template',templateID:t.id,id:p.id,label:d.periodDefinitions.find(x=>x.id===p.periodID).displayName,group},p.start,p.end);
+  }
   for(const type of ['personal','staff'])for(const p of d.activityLayers?.[type] || [])add({type:`${type}-layer`,id:p.id,label:d.periodDefinitions.find(x=>x.id===p.periodID).displayName,group:type==='personal'?'Profile activities':'Staff activities'},p.start,p.end);
   for(const p of d.scheduledPointEvents || [])add({type:'point',id:p.id,label:p.title,group:'Point reminders'},p.time,null);
  } else for(const [templateID,rows] of Object.entries(config.templates || {})) for(const p of rows)add({type:'template',templateID,id:p.id,label:p.label || p.id,group:templateID},p.start,p.end);

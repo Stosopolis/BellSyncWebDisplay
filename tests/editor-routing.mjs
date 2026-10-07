@@ -405,7 +405,13 @@ await test('Contact Support is available in setup, school picker/preview, settin
 });
 await test('support menu action preserves profile/fullscreen state and participates in keyboard navigation',()=>{
  const a=app();a.add(manual);const before=a.snapshot();a.sandbox.document.fullscreenElement={};a.run('update()');
- a.node('#schedule-toggle').onclick();a.node('#export').onkeydown({key:'ArrowDown',preventDefault(){}});assert.equal(a.sandbox.document.activeElement,a.node('#support'));
+ a.node('#schedule-toggle').onclick();a.node('#export').onkeydown({key:'ArrowDown',preventDefault(){}});a.node('#timing').onkeydown({key:'ArrowDown',preventDefault(){}});assert.equal(a.sandbox.document.activeElement,a.node('#support'));
  a.node('#support').onclick();assert.deepEqual(a.snapshot(),before);assert.ok(a.sandbox.document.fullscreenElement);assert.equal(a.run('scheduleMenuOpen'),false);
+});
+await test('all saved profiles can edit/reset local timing from the Schedule menu without mutating source bells',()=>{
+ const a=app(),id=a.add(manual),original=structuredClone(a.snapshot());a.node('#timing').onclick();assert.match(a.markup(),/Timing Overrides/);assert.match(a.markup(),/Contact Support/);
+ const section=a.node('#timing-fields').children[0];assert.equal(section.open,true);const row=section.children.find(c=>c.className==='timing-row');row.children[2].children[0].value='07:35';a.node('#timing-form').onsubmit({preventDefault(){}});
+ assert.equal(a.snapshot().savedProfiles.length,1);assert.equal(a.snapshot().activeProfileID,id);assert.deepEqual(a.snapshot().savedProfiles[0].configuration.templates,original.savedProfiles[0].configuration.templates);assert.equal(a.run('config.timingOverrides[0].start'),'07:35');
+ a.node('#timing').onclick();a.node('#timing-fields').children[0].children.find(c=>c.className==='timing-row').children.at(-1).onclick();a.node('#timing-form').onsubmit({preventDefault(){}});assert.deepEqual(a.snapshot(),original);
 });
 console.log(`\n${passed} editor routing tests passed.`);
