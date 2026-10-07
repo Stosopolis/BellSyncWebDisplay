@@ -165,3 +165,13 @@
 .timing-shift{grid-column:1 / -1;display:flex;align-items:center;flex-wrap:wrap;gap:10px}
 .timing-control{display:grid;gap:6px;min-width:0;color:var(--muted);font-weight:650}
 .timing-row input[type=time]{min-width:0;max-width:100%}
+
+/* School choices are neutral; school requests are the setup's primary CTA. */
+.school-card{background:#10242a;color:var(--text)}
+.school-card:hover,.school-card:focus-visible{background:#163138;border-color:var(--mint)}
+.request-school{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-top:24px;padding:20px;border:1px solid var(--line);border-radius:14px;background:#0c1b20}
+.request-school h2{font-size:1.25rem;margin:0}
+.request-school p{margin:6px 0 0;color:var(--muted);line-height:1.4}
+.request-school-link{display:inline-flex;align-items:center;justify-content:center;min-height:44px;text-decoration:none}
+.request-school-link:focus-visible{outline:3px solid var(--mint);outline-offset:3px}
+@media(max-width:520px){.request-school{padding:16px}.request-school-link{width:100%}}

@@ -484,4 +484,21 @@ await test('dedicated bell adjustment validates range, cancels safely, and appli
  const a=app(),c={...manual,bellTimingAdjustmentSeconds:-8};a.add(c);const before=a.snapshot();a.node('#bell-timing').onclick();assert.match(a.markup(),/required value="-8"/);a.node('#bell-adjustment').value='31';a.node('#bell-timing-form').onsubmit({preventDefault(){}});assert.match(a.node('#form-error').textContent,/-30 to \+30/);assert.deepEqual(a.snapshot(),before);a.node('#cancel').onclick();assert.deepEqual(a.snapshot(),before);
  a.run('isDemo=true;config=normalize('+JSON.stringify(demo)+')');a.run('render()');a.node('#bell-timing').onclick();a.node('#bell-adjustment').value='-8';a.node('#bell-timing-form').onsubmit({preventDefault(){}});assert.equal(a.run('config.bellTimingAdjustmentSeconds'),-8);assert.deepEqual(a.snapshot(),before);
 });
+await test('setup school cards are neutral and Request Your School is the single primary CTA',()=>{
+ const a=app(),html=a.node('#app').innerHTML;
+ assert.deepEqual([...html.matchAll(/class="option-card school-card" data-school="([^"]+)"/g)].map(m=>m[1]),['wmhs','gms','doyle','woodville','ferryway','walton']);
+ assert.ok(!html.includes('option-card primary'));assert.equal((html.match(/class="primary/g)||[]).length,1);
+ assert.match(html,/Don’t see your school\?/);assert.match(html,/Send us your schedule and we’ll add it\./);assert.match(html,/<a class="primary request-school-link" href="https:\/\/bellsync.app\/request-school" target="_blank" rel="noopener noreferrer">Request Your School →<\/a>/);
+ assert.ok(html.indexOf('data-school="walton"')<html.indexOf('class="request-school"'));assert.ok(html.indexOf('class="request-school"')<html.indexOf('Other ways to set up'));assert.ok(html.indexOf('Other ways to set up')<html.indexOf('Contact Support'));
+ for(const id of ['setup-here','load-native','load-web','demo'])assert.match(html,new RegExp(`class="(?:option-card )?secondary" id="${id}"`));
+ const before=a.snapshot();a.run('schoolChoices()');assert.deepEqual(a.snapshot(),before);
+ a.run('openAdd()');assert.match(a.markup(),/Request Your School →/);assert.ok(!a.markup().includes('option-card primary'));for(const id of ['new-setup','native-import','web-import','add-demo'])assert.ok(a.markup().includes(`id="${id}"`));assert.deepEqual(a.snapshot(),before);
+});
+await test('setup hierarchy preserves shared responsive school grid and accessible neutral hover/focus',()=>{
+ const css=fs.readFileSync(new URL('../styles.css',import.meta.url),'utf8');
+ assert.match(css,/\.setup-options,\.modal-actions\s*\{[^}]*grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
+ assert.match(css,/@media\(max-width:850px\)[^\n]*\.setup-options,\.modal-actions,\.form-grid\{grid-template-columns:1fr/);
+ assert.match(css,/\.school-card\{background:#10242a;color:var\(--text\)/);assert.match(css,/\.school-card:hover,\.school-card:focus-visible\{[^}]*border-color:var\(--mint\)/);
+ assert.match(css,/\.request-school\{[^}]*flex-wrap:wrap/);assert.match(css,/\.request-school-link:focus-visible\{outline:/);assert.match(css,/@media\(max-width:520px\)\{[^\n]*\.request-school-link\{width:100%/);
+});
 console.log(`\n${passed} editor routing tests passed.`);
