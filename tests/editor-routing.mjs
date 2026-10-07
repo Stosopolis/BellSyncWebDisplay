@@ -16,7 +16,7 @@ const controls=html=>[...html.matchAll(/<input\b([^>]*)>|<select\b([^>]*)>([\s\S
 const decode=s=>s.replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
 // A small inert HTML/DOM adapter supplies named form controls and queries to the
 // actual app handlers. It does not launch a browser or implement layout.
-function app(storage=memory(),fixedNow=null) {
+function app(storage=memory(),fixedNow=null,search='') {
   const nodes=new Map(),alerts=[],documentListeners={};
   class Node {
     constructor(tag='div'){this.tag=tag;this.innerHTML='';this.textContent='';this.children=[];this.attributes={};this.listeners={};this.elements={profileName:{value:''}};this.value='';this.dataset={};this.classList={add(){}};}
@@ -52,7 +52,7 @@ function app(storage=memory(),fixedNow=null) {
   };
   const inputFrom=attrs=>{const n=new Node('input');n.value=decode(attrs.match(/\bvalue="([^"]*)"/)?.[1] || '');return n;};
   const queryAll=selector=>{
-    if(selector==='[data-school]' || selector==='[data-grade]') {
+    if(selector==='[data-school]' || selector==='[data-grade]' || selector==='[data-doyle]') {
       const key=selector.slice(6,-1),html=markup() || node('#app').innerHTML;
       return [...html.matchAll(new RegExp(`data-${key}="([^"\\s]+)"`,'g'))].map(m=>{const n=node(`[data-${key}="${m[1]}"]`);n.dataset[key]=m[1];return n;});
     }
@@ -70,7 +70,7 @@ function app(storage=memory(),fixedNow=null) {
     return [];
   };
   class FixedDate extends Date {constructor(...args){super(...(args.length?args:[fixedNow]));}static now(){return fixedNow;}}
-  const sandbox={...core,...states,...profiles,...schools,esc:core.escapeHTML,Intl,Date:fixedNow===null?Date:FixedDate,JSON,Set,crypto:globalThis.crypto,document:{querySelector:node,querySelectorAll:queryAll,createElement:t=>new Node(t),body:new Node(),addEventListener(k,fn){documentListeners[k]=fn;}},localStorage:storage,clearInterval(){},setInterval(){},alert:m=>alerts.push(m),fetch:async path=>({ok:true,json:async()=>structuredClone(path.includes('/gms/')?read(`../public/builtins/gms/${path.includes('calendar')?'calendar':'schedule'}.json`):path.includes('classroom-demo')?demo:path.includes('calendar')?calendar:school)})};
+  const sandbox={location:{search},...core,...states,...profiles,...schools,esc:core.escapeHTML,Intl,Date:fixedNow===null?Date:FixedDate,JSON,Set,crypto:globalThis.crypto,document:{querySelector:node,querySelectorAll:queryAll,createElement:t=>new Node(t),body:new Node(),addEventListener(k,fn){documentListeners[k]=fn;}},localStorage:storage,clearInterval(){},setInterval(){},alert:m=>alerts.push(m),fetch:async path=>({ok:true,json:async()=>structuredClone(path.includes('/doyle/')?read(`../public/builtins/doyle/${path.split('/').at(-1)}`):path.includes('/gms/')?read(`../public/builtins/gms/${path.includes('calendar')?'calendar':'schedule'}.json`):path.includes('classroom-demo')?demo:path.includes('calendar')?calendar:school)})};
   vm.createContext(sandbox);vm.runInContext(fs.readFileSync(new URL('../app.js',import.meta.url),'utf8').replace(/^import .*;\n/gm,''),sandbox);
   const run=s=>vm.runInContext(s,sandbox);
   return {run,node,sandbox,storage,alerts,markup,documentListeners,snapshot:()=>JSON.parse(storage.getItem(profiles.PROFILE_KEY)),
@@ -322,5 +322,32 @@ await test('Display Settings progress toggles default off and persist independen
   assert.equal(a.snapshot().savedProfiles[0].configuration.preferences.schoolDayProgress,true);assert.equal(a.snapshot().savedProfiles[0].configuration.preferences.schoolYearProgress,true);
   const other=a.add(resolvedWMHS());assert.equal(a.snapshot().savedProfiles.find(p=>p.id===other).configuration.preferences.schoolDayProgress,false);
   a.run('selectProfile('+JSON.stringify(id)+')');const reloaded=app(a.storage);assert.equal(reloaded.snapshot().savedProfiles.find(p=>p.id===id).configuration.preferences.schoolYearProgress,true);
+});
+
+await test('Doyle picker opens all neutral profiles and saves directly without editing/import',async()=>{
+ const a=app();a.sandbox.fetch=async path=>({ok:true,json:async()=>read(`../public/builtins/doyle/${path.split('/').at(-1)}`)});
+ a.node('[data-school="doyle"]').onclick();
+ for(const code of schools.DOYLE_PROFILES)assert.ok(a.markup().includes(`Doyle PreK ${code}`));
+ await a.node('[data-doyle="A"]').onclick();
+ assert.equal(a.run('config.profileName'),'Doyle PreK A');assert.equal(a.snapshot().savedProfiles.length,1);
+ await a.run('startDoyleSetup("A")');assert.equal(a.snapshot().savedProfiles.length,1);
+ await a.run('startDoyleSetup("I")');assert.equal(a.snapshot().savedProfiles.length,2);
+ assert.equal(a.run('config.profileName'),'Doyle PreK I');assert.deepEqual(a.alerts,[]);
+ a.run("viewedDate='2026-10-07';update()");
+ assert.match(a.node('#display').innerHTML,/Point reminder · classroom activity continues/);
+});
+
+await test('Doyle URL entry points respect saved schedules and select direct profiles once',async()=>{
+ const picker=app(undefined,null,'?school=doyle');assert.match(picker.markup(),/Doyle PreK I/);assert.equal((picker.snapshot()?.savedProfiles.length ?? 0),0);
+ const direct=app(undefined,null,'?school=doyle&profile=B');await new Promise(resolve=>setImmediate(resolve));
+ assert.equal(direct.run('config.profileName'),'Doyle PreK B');const storage=direct.storage;
+ const reload=app(storage,null,'?school=doyle&profile=B');await new Promise(resolve=>setImmediate(resolve));assert.equal(reload.snapshot().savedProfiles.length,1);
+ const other=reload.add(manual);const preserved=app(storage,null,'?school=doyle');assert.match(preserved.markup(),/Doyle PreK A/);assert.equal(preserved.snapshot().activeProfileID,other);
+});
+await test('closing Doyle picker cancels an in-flight choice without changing saved profiles',async()=>{
+ const a=app();let release;
+ a.sandbox.fetch=()=>new Promise(resolve=>{release=()=>resolve({ok:true,json:async()=>read('../public/builtins/doyle/prek-a.json')});});
+ a.run('chooseDoyleProfile()');const pending=a.node('[data-doyle="A"]').onclick();a.node('#close').onclick();release();await pending;
+ assert.equal(a.run('config'),null);assert.equal(a.snapshot(),null);
 });
 console.log(`\n${passed} editor routing tests passed.`);
