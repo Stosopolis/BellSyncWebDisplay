@@ -397,4 +397,15 @@ for(const school of ['woodville','ferryway','walton'])await test(`${school} pick
  await url.run('startDoyleSetup("A")');assert.equal(url.snapshot().savedProfiles.length,2);assert.equal(url.run('config.school.id'),'doyle.prek-a');
  const back=app(url.storage,null,`?school=${school}&profile=${first.code}`);await new Promise(resolve=>setImmediate(resolve));assert.equal(back.snapshot().savedProfiles.length,2);assert.equal(back.run('config.school.id'),first.schoolProfileID);assert.deepEqual(back.alerts,[]);
 });
+await test('Contact Support is available in setup, school picker/preview, settings and editors',async()=>{
+ const a=app();const link=html=>assert.match(html,/<a [^>]*href="https:\/\/bellsync.app\/support"[^>]*target="_blank"[^>]*rel="noopener noreferrer"[^>]*>Contact Support<\/a>/);
+ link(a.node('#app').innerHTML);a.run('chooseDoyleProfile()');link(a.markup());await a.node('[data-doyle="A"]').onclick();link(a.markup());a.node('#doyle-use').onclick();link(a.node('#display').innerHTML);
+ const before=a.snapshot();a.node('#settings').onclick();link(a.markup());a.clickEdit();link(a.markup());assert.deepEqual(a.snapshot(),before);
+ a.run('openEditor(newWebConfig(),null)');link(a.markup());a.run('openSettings()');link(a.markup());assert.deepEqual(a.snapshot(),before);
+});
+await test('support menu action preserves profile/fullscreen state and participates in keyboard navigation',()=>{
+ const a=app();a.add(manual);const before=a.snapshot();a.sandbox.document.fullscreenElement={};a.run('update()');
+ a.node('#schedule-toggle').onclick();a.node('#export').onkeydown({key:'ArrowDown',preventDefault(){}});assert.equal(a.sandbox.document.activeElement,a.node('#support'));
+ a.node('#support').onclick();assert.deepEqual(a.snapshot(),before);assert.ok(a.sandbox.document.fullscreenElement);assert.equal(a.run('scheduleMenuOpen'),false);
+});
 console.log(`\n${passed} editor routing tests passed.`);

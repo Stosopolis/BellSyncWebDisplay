@@ -234,3 +234,11 @@ after them; no completion or school-day progress is invented. Public activity
 names omit the technical suffix “(confirmed portion)” when it comes from the
 source; source fields and exact confirmed intervals remain intact in the editor
 and backups. Explicit custom display names are preserved.
+
+## Contact Support
+
+Contact Support opens `https://bellsync.app/support` in a new browser tab. It is
+available in the main Schedule menu, initial setup, and shared dialog footer
+(including school pickers/previews, saved schedules, settings, and all editors).
+The link has no save, profile-switch, or fullscreen handler. Browser-native
+navigation does not rewrite the current display configuration.
