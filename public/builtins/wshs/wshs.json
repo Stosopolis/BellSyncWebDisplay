@@ -1,0 +1,1482 @@
+{
+  "schoolID": "wshs",
+  "name": "Winter Springs High School",
+  "city": "Winter Springs",
+  "state": "Florida",
+  "district": "Seminole County Public Schools",
+  "timezone": "America/New_York",
+  "schoolYear": "2026-2027",
+  "contentVersion": "2026-2027.2",
+  "sources": {
+    "bells": "https://files.smartsites.parentsquare.com/6721/26-27_bell_schedule.pdf",
+    "calendar": "https://files.smartsites.parentsquare.com/6662/2026-2027_student__calendar_text.pdf",
+    "exams": "WSHS Exam Schedule 2026\u20132027; staff-provided times in BellSync development request (Nicole). No public exam URL supplied."
+  },
+  "firstStudentDate": "2026-08-10",
+  "lastStudentDate": "2027-05-25",
+  "secondSemesterDate": "2027-01-06",
+  "firstBell": "07:15",
+  "firstBellIsPointOnly": true,
+  "weekdayTemplates": {
+    "Monday": "regular",
+    "Tuesday": "regular",
+    "Wednesday": "wednesday",
+    "Thursday": "thursday",
+    "Friday": "regular"
+  },
+  "templates": {
+    "regular": {
+      "commonBeforeLunch": [
+        [
+          "P1",
+          "07:20",
+          "08:10"
+        ],
+        [
+          "P2",
+          "08:15",
+          "09:05"
+        ],
+        [
+          "P3",
+          "09:10",
+          "10:05"
+        ],
+        [
+          "P4",
+          "10:10",
+          "11:00"
+        ]
+      ],
+      "lunchPeriod": "P5",
+      "lunchChoices": {
+        "L1": [
+          [
+            "Lunch",
+            "11:05",
+            "11:35"
+          ],
+          [
+            "P5",
+            "11:40",
+            "12:30"
+          ]
+        ],
+        "L2": [
+          [
+            "P5",
+            "11:05",
+            "11:55"
+          ],
+          [
+            "Lunch",
+            "12:00",
+            "12:30"
+          ]
+        ]
+      },
+      "commonAfterLunch": [
+        [
+          "P6",
+          "12:35",
+          "13:25"
+        ],
+        [
+          "P7",
+          "13:30",
+          "14:20"
+        ]
+      ]
+    },
+    "wednesday": {
+      "commonBeforeLunch": [
+        [
+          "P2",
+          "07:20",
+          "08:55"
+        ],
+        [
+          "P4",
+          "09:05",
+          "10:50"
+        ]
+      ],
+      "lunchPeriod": "P6",
+      "lunchChoices": {
+        "L1": [
+          [
+            "Lunch",
+            "10:50",
+            "11:35"
+          ],
+          [
+            "P6",
+            "11:40",
+            "13:18"
+          ]
+        ],
+        "L2": [
+          [
+            "P6",
+            "10:55",
+            "12:30"
+          ],
+          [
+            "Lunch",
+            "12:30",
+            "13:18"
+          ]
+        ]
+      },
+      "commonAfterLunch": [],
+      "notes": [
+        "P4 includes announcements."
+      ]
+    },
+    "thursday": {
+      "commonBeforeLunch": [
+        [
+          "P1",
+          "07:20",
+          "08:50"
+        ],
+        [
+          "P3",
+          "09:00",
+          "10:35"
+        ]
+      ],
+      "lunchPeriod": "P5",
+      "lunchChoices": {
+        "L1": [
+          [
+            "Lunch",
+            "10:40",
+            "11:10"
+          ],
+          [
+            "P5",
+            "11:15",
+            "12:45"
+          ]
+        ],
+        "L2": [
+          [
+            "P5",
+            "10:40",
+            "12:10"
+          ],
+          [
+            "Lunch",
+            "12:15",
+            "12:45"
+          ]
+        ]
+      },
+      "commonAfterLunch": [
+        [
+          "P7",
+          "12:50",
+          "14:20"
+        ]
+      ]
+    },
+    "wshs-exam-wednesday": {
+      "commonBeforeLunch": [
+        [
+          "P2",
+          "07:20",
+          "08:55"
+        ],
+        [
+          "P4",
+          "09:05",
+          "10:50"
+        ]
+      ],
+      "lunchPeriod": "P6",
+      "lunchChoices": {
+        "L1": [
+          [
+            "Lunch",
+            "10:50",
+            "11:35"
+          ],
+          [
+            "P6",
+            "11:40",
+            "13:18"
+          ]
+        ],
+        "L2": [
+          [
+            "P6",
+            "10:55",
+            "12:30"
+          ],
+          [
+            "Lunch",
+            "12:30",
+            "13:18"
+          ]
+        ]
+      },
+      "commonAfterLunch": [],
+      "status": "confirmed",
+      "activityLabels": {
+        "P2-1": "Period 2 Exam",
+        "P4-2": "Period 4 Exam",
+        "P6-3": "Period 6 Exam"
+      },
+      "firstBell": null,
+      "activitiesByLunch": {
+        "L1": [
+          {
+            "id": "P2-1",
+            "periodID": "P2",
+            "title": "Period 2 Exam",
+            "start": "07:20",
+            "end": "08:55",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P4-2",
+            "periodID": "P4",
+            "title": "Period 4 Exam",
+            "start": "09:05",
+            "end": "10:50",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P6-3-lunch",
+            "periodID": "lunch",
+            "title": "Lunch",
+            "start": "10:50",
+            "end": "11:35",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P6-3",
+            "periodID": "P6",
+            "title": "Period 6 Exam",
+            "start": "11:40",
+            "end": "13:18",
+            "bellAlertEligible": true
+          }
+        ],
+        "L2": [
+          {
+            "id": "P2-1",
+            "periodID": "P2",
+            "title": "Period 2 Exam",
+            "start": "07:20",
+            "end": "08:55",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P4-2",
+            "periodID": "P4",
+            "title": "Period 4 Exam",
+            "start": "09:05",
+            "end": "10:50",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P6-3",
+            "periodID": "P6",
+            "title": "Period 6 Exam",
+            "start": "10:55",
+            "end": "12:30",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P6-3-lunch",
+            "periodID": "lunch",
+            "title": "Lunch",
+            "start": "12:30",
+            "end": "13:18",
+            "bellAlertEligible": true
+          }
+        ]
+      }
+    },
+    "wshs-exam-thursday": {
+      "commonBeforeLunch": [
+        [
+          "P1",
+          "07:20",
+          "08:50"
+        ],
+        [
+          "P3",
+          "09:00",
+          "10:35"
+        ]
+      ],
+      "lunchPeriod": "P5",
+      "lunchChoices": {
+        "L1": [
+          [
+            "Lunch",
+            "10:40",
+            "11:10"
+          ],
+          [
+            "P5",
+            "11:15",
+            "12:45"
+          ]
+        ],
+        "L2": [
+          [
+            "P5",
+            "10:40",
+            "12:10"
+          ],
+          [
+            "Lunch",
+            "12:15",
+            "12:45"
+          ]
+        ]
+      },
+      "commonAfterLunch": [
+        [
+          "P7",
+          "12:50",
+          "14:20"
+        ]
+      ],
+      "status": "confirmed",
+      "activityLabels": {
+        "P1-1": "Period 1 Exam",
+        "P3-2": "Period 3 Exam",
+        "P5-3": "Period 5 Exam",
+        "P7-4": "Period 7 Exam"
+      },
+      "firstBell": null,
+      "activitiesByLunch": {
+        "L1": [
+          {
+            "id": "P1-1",
+            "periodID": "P1",
+            "title": "Period 1 Exam",
+            "start": "07:20",
+            "end": "08:50",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P3-2",
+            "periodID": "P3",
+            "title": "Period 3 Exam",
+            "start": "09:00",
+            "end": "10:35",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P5-3-lunch",
+            "periodID": "lunch",
+            "title": "Lunch",
+            "start": "10:40",
+            "end": "11:10",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P5-3",
+            "periodID": "P5",
+            "title": "Period 5 Exam",
+            "start": "11:15",
+            "end": "12:45",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P7-4",
+            "periodID": "P7",
+            "title": "Period 7 Exam",
+            "start": "12:50",
+            "end": "14:20",
+            "bellAlertEligible": true
+          }
+        ],
+        "L2": [
+          {
+            "id": "P1-1",
+            "periodID": "P1",
+            "title": "Period 1 Exam",
+            "start": "07:20",
+            "end": "08:50",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P3-2",
+            "periodID": "P3",
+            "title": "Period 3 Exam",
+            "start": "09:00",
+            "end": "10:35",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P5-3",
+            "periodID": "P5",
+            "title": "Period 5 Exam",
+            "start": "10:40",
+            "end": "12:10",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P5-3-lunch",
+            "periodID": "lunch",
+            "title": "Lunch",
+            "start": "12:15",
+            "end": "12:45",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P7-4",
+            "periodID": "P7",
+            "title": "Period 7 Exam",
+            "start": "12:50",
+            "end": "14:20",
+            "bellAlertEligible": true
+          }
+        ]
+      }
+    },
+    "wshs-p7-exam-day": {
+      "commonBeforeLunch": [
+        [
+          "P1",
+          "07:20",
+          "07:50"
+        ],
+        [
+          "P2",
+          "07:55",
+          "08:25"
+        ],
+        [
+          "P3",
+          "08:30",
+          "09:05"
+        ],
+        [
+          "P4",
+          "09:10",
+          "09:40"
+        ],
+        [
+          "P5",
+          "09:45",
+          "10:15"
+        ]
+      ],
+      "lunchPeriod": "P6",
+      "lunchChoices": {
+        "L1": [
+          [
+            "Lunch",
+            "10:20",
+            "10:50"
+          ],
+          [
+            "P6",
+            "10:55",
+            "11:35"
+          ]
+        ],
+        "L2": [
+          [
+            "P6",
+            "10:20",
+            "11:00"
+          ],
+          [
+            "Lunch",
+            "11:05",
+            "11:35"
+          ]
+        ]
+      },
+      "commonAfterLunch": [
+        [
+          "P7",
+          "11:40",
+          "12:10"
+        ],
+        [
+          "break",
+          "12:10",
+          "12:15"
+        ],
+        [
+          "P7",
+          "12:20",
+          "14:20"
+        ]
+      ],
+      "status": "confirmed",
+      "activityLabels": {
+        "break-8": "Break",
+        "P7-9": "Period 7 Exam"
+      },
+      "firstBell": null,
+      "activitiesByLunch": {
+        "L1": [
+          {
+            "id": "P1-1",
+            "periodID": "P1",
+            "title": "Period 1",
+            "start": "07:20",
+            "end": "07:50",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P2-2",
+            "periodID": "P2",
+            "title": "Period 2",
+            "start": "07:55",
+            "end": "08:25",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P3-3",
+            "periodID": "P3",
+            "title": "Period 3",
+            "start": "08:30",
+            "end": "09:05",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P4-4",
+            "periodID": "P4",
+            "title": "Period 4",
+            "start": "09:10",
+            "end": "09:40",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P5-5",
+            "periodID": "P5",
+            "title": "Period 5",
+            "start": "09:45",
+            "end": "10:15",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P6-6-lunch",
+            "periodID": "lunch",
+            "title": "Lunch",
+            "start": "10:20",
+            "end": "10:50",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P6-6",
+            "periodID": "P6",
+            "title": "Period 6",
+            "start": "10:55",
+            "end": "11:35",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P7-7",
+            "periodID": "P7",
+            "title": "Period 7",
+            "start": "11:40",
+            "end": "12:10",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "break-8",
+            "periodID": "break",
+            "title": "Break",
+            "start": "12:10",
+            "end": "12:15",
+            "bellAlertEligible": false
+          },
+          {
+            "id": "P7-9",
+            "periodID": "P7",
+            "title": "Period 7 Exam",
+            "start": "12:20",
+            "end": "14:20",
+            "bellAlertEligible": true
+          }
+        ],
+        "L2": [
+          {
+            "id": "P1-1",
+            "periodID": "P1",
+            "title": "Period 1",
+            "start": "07:20",
+            "end": "07:50",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P2-2",
+            "periodID": "P2",
+            "title": "Period 2",
+            "start": "07:55",
+            "end": "08:25",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P3-3",
+            "periodID": "P3",
+            "title": "Period 3",
+            "start": "08:30",
+            "end": "09:05",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P4-4",
+            "periodID": "P4",
+            "title": "Period 4",
+            "start": "09:10",
+            "end": "09:40",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P5-5",
+            "periodID": "P5",
+            "title": "Period 5",
+            "start": "09:45",
+            "end": "10:15",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P6-6",
+            "periodID": "P6",
+            "title": "Period 6",
+            "start": "10:20",
+            "end": "11:00",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P6-6-lunch",
+            "periodID": "lunch",
+            "title": "Lunch",
+            "start": "11:05",
+            "end": "11:35",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P7-7",
+            "periodID": "P7",
+            "title": "Period 7",
+            "start": "11:40",
+            "end": "12:10",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "break-8",
+            "periodID": "break",
+            "title": "Break",
+            "start": "12:10",
+            "end": "12:15",
+            "bellAlertEligible": false
+          },
+          {
+            "id": "P7-9",
+            "periodID": "P7",
+            "title": "Period 7 Exam",
+            "start": "12:20",
+            "end": "14:20",
+            "bellAlertEligible": true
+          }
+        ]
+      }
+    },
+    "wshs-may19-seven-period": {
+      "commonBeforeLunch": [
+        [
+          "P1",
+          "07:20",
+          "08:02"
+        ],
+        [
+          "P2",
+          "08:07",
+          "08:49"
+        ],
+        [
+          "P3",
+          "08:54",
+          "09:42"
+        ],
+        [
+          "P4",
+          "09:47",
+          "10:29"
+        ]
+      ],
+      "lunchPeriod": "P5",
+      "lunchChoices": {
+        "L1": [
+          [
+            "Lunch",
+            "10:29",
+            "10:59"
+          ],
+          [
+            "P5",
+            "11:04",
+            "11:46"
+          ]
+        ],
+        "L2": [
+          [
+            "P5",
+            "10:34",
+            "11:16"
+          ],
+          [
+            "Lunch",
+            "11:16",
+            "11:46"
+          ]
+        ]
+      },
+      "commonAfterLunch": [
+        [
+          "P6",
+          "11:51",
+          "12:33"
+        ],
+        [
+          "P7",
+          "12:38",
+          "13:20"
+        ]
+      ],
+      "status": "confirmed",
+      "activityLabels": {},
+      "firstBell": null,
+      "activitiesByLunch": {
+        "L1": [
+          {
+            "id": "P1-1",
+            "periodID": "P1",
+            "title": "Period 1",
+            "start": "07:20",
+            "end": "08:02",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P2-2",
+            "periodID": "P2",
+            "title": "Period 2",
+            "start": "08:07",
+            "end": "08:49",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P3-3",
+            "periodID": "P3",
+            "title": "Period 3",
+            "start": "08:54",
+            "end": "09:42",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P4-4",
+            "periodID": "P4",
+            "title": "Period 4",
+            "start": "09:47",
+            "end": "10:29",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P5-5-lunch",
+            "periodID": "lunch",
+            "title": "Lunch",
+            "start": "10:29",
+            "end": "10:59",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P5-5",
+            "periodID": "P5",
+            "title": "Period 5",
+            "start": "11:04",
+            "end": "11:46",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P6-6",
+            "periodID": "P6",
+            "title": "Period 6",
+            "start": "11:51",
+            "end": "12:33",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P7-7",
+            "periodID": "P7",
+            "title": "Period 7",
+            "start": "12:38",
+            "end": "13:20",
+            "bellAlertEligible": true
+          }
+        ],
+        "L2": [
+          {
+            "id": "P1-1",
+            "periodID": "P1",
+            "title": "Period 1",
+            "start": "07:20",
+            "end": "08:02",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P2-2",
+            "periodID": "P2",
+            "title": "Period 2",
+            "start": "08:07",
+            "end": "08:49",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P3-3",
+            "periodID": "P3",
+            "title": "Period 3",
+            "start": "08:54",
+            "end": "09:42",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P4-4",
+            "periodID": "P4",
+            "title": "Period 4",
+            "start": "09:47",
+            "end": "10:29",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P5-5",
+            "periodID": "P5",
+            "title": "Period 5",
+            "start": "10:34",
+            "end": "11:16",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P5-5-lunch",
+            "periodID": "lunch",
+            "title": "Lunch",
+            "start": "11:16",
+            "end": "11:46",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P6-6",
+            "periodID": "P6",
+            "title": "Period 6",
+            "start": "11:51",
+            "end": "12:33",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "P7-7",
+            "periodID": "P7",
+            "title": "Period 7",
+            "start": "12:38",
+            "end": "13:20",
+            "bellAlertEligible": true
+          }
+        ]
+      }
+    },
+    "wshs-q2-exam-P1-P4": {
+      "commonBeforeLunch": [
+        [
+          "P1",
+          "07:20",
+          "09:20"
+        ],
+        [
+          "break",
+          "09:25",
+          "09:35"
+        ],
+        [
+          "P4",
+          "09:40",
+          "11:40"
+        ]
+      ],
+      "lunchPeriod": null,
+      "lunchChoices": {},
+      "commonAfterLunch": [],
+      "status": "confirmed",
+      "activityLabels": {
+        "P1-1": "Period 1 Exam",
+        "break-2": "Break",
+        "P4-3": "Period 4 Exam"
+      },
+      "firstBell": null,
+      "activitiesByLunch": {
+        "none": [
+          {
+            "id": "P1-1",
+            "periodID": "P1",
+            "title": "Period 1 Exam",
+            "start": "07:20",
+            "end": "09:20",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "break-2",
+            "periodID": "break",
+            "title": "Break",
+            "start": "09:25",
+            "end": "09:35",
+            "bellAlertEligible": false
+          },
+          {
+            "id": "P4-3",
+            "periodID": "P4",
+            "title": "Period 4 Exam",
+            "start": "09:40",
+            "end": "11:40",
+            "bellAlertEligible": true
+          }
+        ]
+      }
+    },
+    "wshs-q2-exam-P2-P5": {
+      "commonBeforeLunch": [
+        [
+          "P2",
+          "07:20",
+          "09:20"
+        ],
+        [
+          "break",
+          "09:25",
+          "09:35"
+        ],
+        [
+          "P5",
+          "09:40",
+          "11:40"
+        ]
+      ],
+      "lunchPeriod": null,
+      "lunchChoices": {},
+      "commonAfterLunch": [],
+      "status": "confirmed",
+      "activityLabels": {
+        "P2-1": "Period 2 Exam",
+        "break-2": "Break",
+        "P5-3": "Period 5 Exam"
+      },
+      "firstBell": null,
+      "activitiesByLunch": {
+        "none": [
+          {
+            "id": "P2-1",
+            "periodID": "P2",
+            "title": "Period 2 Exam",
+            "start": "07:20",
+            "end": "09:20",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "break-2",
+            "periodID": "break",
+            "title": "Break",
+            "start": "09:25",
+            "end": "09:35",
+            "bellAlertEligible": false
+          },
+          {
+            "id": "P5-3",
+            "periodID": "P5",
+            "title": "Period 5 Exam",
+            "start": "09:40",
+            "end": "11:40",
+            "bellAlertEligible": true
+          }
+        ]
+      }
+    },
+    "wshs-q2-exam-P3-P6": {
+      "commonBeforeLunch": [
+        [
+          "P3",
+          "07:20",
+          "09:20"
+        ],
+        [
+          "break",
+          "09:25",
+          "09:35"
+        ],
+        [
+          "P6",
+          "09:40",
+          "11:40"
+        ]
+      ],
+      "lunchPeriod": null,
+      "lunchChoices": {},
+      "commonAfterLunch": [],
+      "status": "confirmed",
+      "activityLabels": {
+        "P3-1": "Period 3 Exam",
+        "break-2": "Break",
+        "P6-3": "Period 6 Exam"
+      },
+      "firstBell": null,
+      "activitiesByLunch": {
+        "none": [
+          {
+            "id": "P3-1",
+            "periodID": "P3",
+            "title": "Period 3 Exam",
+            "start": "07:20",
+            "end": "09:20",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "break-2",
+            "periodID": "break",
+            "title": "Break",
+            "start": "09:25",
+            "end": "09:35",
+            "bellAlertEligible": false
+          },
+          {
+            "id": "P6-3",
+            "periodID": "P6",
+            "title": "Period 6 Exam",
+            "start": "09:40",
+            "end": "11:40",
+            "bellAlertEligible": true
+          }
+        ]
+      }
+    },
+    "wshs-q4-exam-P1-P4": {
+      "commonBeforeLunch": [
+        [
+          "P1",
+          "07:20",
+          "09:20"
+        ],
+        [
+          "break",
+          "09:20",
+          "09:35"
+        ],
+        [
+          "P4",
+          "09:40",
+          "11:40"
+        ]
+      ],
+      "lunchPeriod": null,
+      "lunchChoices": {},
+      "commonAfterLunch": [],
+      "status": "confirmed",
+      "activityLabels": {
+        "P1-1": "Period 1 Exam",
+        "break-2": "Break",
+        "P4-3": "Period 4 Exam"
+      },
+      "firstBell": null,
+      "activitiesByLunch": {
+        "none": [
+          {
+            "id": "P1-1",
+            "periodID": "P1",
+            "title": "Period 1 Exam",
+            "start": "07:20",
+            "end": "09:20",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "break-2",
+            "periodID": "break",
+            "title": "Break",
+            "start": "09:20",
+            "end": "09:35",
+            "bellAlertEligible": false
+          },
+          {
+            "id": "P4-3",
+            "periodID": "P4",
+            "title": "Period 4 Exam",
+            "start": "09:40",
+            "end": "11:40",
+            "bellAlertEligible": true
+          }
+        ]
+      }
+    },
+    "wshs-q4-exam-P2-P5": {
+      "commonBeforeLunch": [
+        [
+          "P2",
+          "07:20",
+          "09:20"
+        ],
+        [
+          "break",
+          "09:20",
+          "09:35"
+        ],
+        [
+          "P5",
+          "09:40",
+          "11:40"
+        ]
+      ],
+      "lunchPeriod": null,
+      "lunchChoices": {},
+      "commonAfterLunch": [],
+      "status": "confirmed",
+      "activityLabels": {
+        "P2-1": "Period 2 Exam",
+        "break-2": "Break",
+        "P5-3": "Period 5 Exam"
+      },
+      "firstBell": null,
+      "activitiesByLunch": {
+        "none": [
+          {
+            "id": "P2-1",
+            "periodID": "P2",
+            "title": "Period 2 Exam",
+            "start": "07:20",
+            "end": "09:20",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "break-2",
+            "periodID": "break",
+            "title": "Break",
+            "start": "09:20",
+            "end": "09:35",
+            "bellAlertEligible": false
+          },
+          {
+            "id": "P5-3",
+            "periodID": "P5",
+            "title": "Period 5 Exam",
+            "start": "09:40",
+            "end": "11:40",
+            "bellAlertEligible": true
+          }
+        ]
+      }
+    },
+    "wshs-q4-exam-P3-P6": {
+      "commonBeforeLunch": [
+        [
+          "P3",
+          "07:20",
+          "09:20"
+        ],
+        [
+          "break",
+          "09:20",
+          "09:35"
+        ],
+        [
+          "P6",
+          "09:40",
+          "11:40"
+        ]
+      ],
+      "lunchPeriod": null,
+      "lunchChoices": {},
+      "commonAfterLunch": [],
+      "status": "confirmed",
+      "activityLabels": {
+        "P3-1": "Period 3 Exam",
+        "break-2": "Break",
+        "P6-3": "Period 6 Exam"
+      },
+      "firstBell": null,
+      "activitiesByLunch": {
+        "none": [
+          {
+            "id": "P3-1",
+            "periodID": "P3",
+            "title": "Period 3 Exam",
+            "start": "07:20",
+            "end": "09:20",
+            "bellAlertEligible": true
+          },
+          {
+            "id": "break-2",
+            "periodID": "break",
+            "title": "Break",
+            "start": "09:20",
+            "end": "09:35",
+            "bellAlertEligible": false
+          },
+          {
+            "id": "P6-3",
+            "periodID": "P6",
+            "title": "Period 6 Exam",
+            "start": "09:40",
+            "end": "11:40",
+            "bellAlertEligible": true
+          }
+        ]
+      }
+    }
+  },
+  "lunch": {
+    "labels": {
+      "L1": "First Lunch",
+      "L2": "Second Lunch"
+    },
+    "manualSelectionKeys": {
+      "P5": [
+        "Monday",
+        "Tuesday",
+        "Thursday",
+        "Friday"
+      ],
+      "P6": [
+        "Wednesday"
+      ]
+    },
+    "initialVisibleChoice": "L1",
+    "automaticSemesterSwitch": true,
+    "firstSemesterBuildings": {
+      "Group A": [
+        6,
+        7,
+        8
+      ],
+      "Group B": [
+        2,
+        4,
+        5,
+        9
+      ]
+    },
+    "semesters": [
+      {
+        "id": 1,
+        "startDate": "2026-08-10",
+        "endDate": "2027-01-05"
+      },
+      {
+        "id": 2,
+        "startDate": "2027-01-06",
+        "endDate": "2027-05-25"
+      }
+    ],
+    "semester2Default": "Opposite of the saved semester-1 choice for the same P5/P6 selector; L1 <-> L2. A nullable explicit semester-2 override takes precedence. Derive during resolution; never rewrite choices when dates change.",
+    "selectorSemantics": "Use the resolved template lunchPeriod. Weekday lists describe regular days only. Dec 15 / May 20 use P6; May 19 uses P5. No lunch on half-day exam templates.",
+    "specialDateSelectors": {
+      "2026-12-15": "P6",
+      "2027-05-19": "P5",
+      "2027-05-20": "P6"
+    },
+    "profilePreferenceShape": {
+      "P5": {
+        "selectedOptionID": "L1",
+        "secondSemesterOptionID": null
+      },
+      "P6": {
+        "selectedOptionID": "L1",
+        "secondSemesterOptionID": null
+      }
+    },
+    "profilePreferenceShapeNote": "Example defaults only; preserve actual saved P5/P6 selectedOptionID values. secondSemesterOptionID null means derive opposite; L1/L2 means explicit independent override.",
+    "semesterRangeNote": "Attendance bounds apply separately. An explicitly confirmed extra make-up day such as May 26, 2027 still uses the semester-two lunch rule."
+  },
+  "noSchoolRangesInclusive": [
+    [
+      "2026-09-07",
+      "2026-09-07"
+    ],
+    [
+      "2026-10-12",
+      "2026-10-12"
+    ],
+    [
+      "2026-11-23",
+      "2026-11-27"
+    ],
+    [
+      "2026-12-21",
+      "2027-01-01"
+    ],
+    [
+      "2027-01-04",
+      "2027-01-05"
+    ],
+    [
+      "2027-01-18",
+      "2027-01-18"
+    ],
+    [
+      "2027-02-15",
+      "2027-02-15"
+    ],
+    [
+      "2027-03-15",
+      "2027-03-19"
+    ],
+    [
+      "2027-03-22",
+      "2027-03-22"
+    ],
+    [
+      "2027-05-26",
+      "2027-05-26"
+    ]
+  ],
+  "conditionalMakeupDates": {
+    "2026-10-12": 3,
+    "2027-01-04": 2,
+    "2027-01-05": 1,
+    "2027-03-22": 4,
+    "2027-05-26": 5
+  },
+  "earlyDismissalDates": [
+    "2026-12-16",
+    "2026-12-17",
+    "2026-12-18",
+    "2027-05-21",
+    "2027-05-24",
+    "2027-05-25"
+  ],
+  "earlyDismissalBellTimes": {
+    "start": "07:20",
+    "dismissal": "11:40",
+    "lunch": null,
+    "templateIDs": {
+      "2026-12-16": "wshs-q2-exam-P1-P4",
+      "2026-12-17": "wshs-q2-exam-P2-P5",
+      "2026-12-18": "wshs-q2-exam-P3-P6",
+      "2027-05-21": "wshs-q4-exam-P1-P4",
+      "2027-05-24": "wshs-q4-exam-P2-P5",
+      "2027-05-25": "wshs-q4-exam-P3-P6"
+    }
+  },
+  "earlyDismissalPolicy": "Confirmed date-specific exam templates replace all six pending placeholders. Show the supplied break only; no lunch and no assumed first bell.",
+  "unresolved": [
+    "Thursday second-lunch Group A label conflicts with buildings matching Group B elsewhere; confirmed numeric times are used.",
+    "Wednesday explanatory example mentions P5 under the P6 heading; regular Wednesday uses P6.",
+    "Unknown short-notice state-testing dates/times require future confirmed dedicated exceptions.",
+    "Conditional make-up activation and bell patterns, including May 26, remain provisional."
+  ],
+  "handoffScope": "Normalized staff-confirmed Apple handoff. Swift built-in definition remains Apple runtime authority. Separate Web Display integration must adopt v2 semantics before using special dates.",
+  "handoffSchemaVersion": 2,
+  "calendarExceptions": {
+    "2026-10-07": {
+      "kind": "scheduled",
+      "templateID": "wshs-exam-wednesday",
+      "status": "confirmed",
+      "source": "staff-exam-schedule"
+    },
+    "2026-10-08": {
+      "kind": "scheduled",
+      "templateID": "wshs-exam-thursday",
+      "status": "confirmed",
+      "source": "staff-exam-schedule"
+    },
+    "2026-10-09": {
+      "kind": "scheduled",
+      "templateID": "regular",
+      "status": "confirmed",
+      "source": "staff-exam-schedule"
+    },
+    "2026-12-15": {
+      "kind": "scheduled",
+      "templateID": "wshs-p7-exam-day",
+      "status": "confirmed",
+      "source": "staff-exam-schedule"
+    },
+    "2026-12-16": {
+      "kind": "scheduled",
+      "templateID": "wshs-q2-exam-P1-P4",
+      "status": "confirmed",
+      "source": "staff-exam-schedule"
+    },
+    "2026-12-17": {
+      "kind": "scheduled",
+      "templateID": "wshs-q2-exam-P2-P5",
+      "status": "confirmed",
+      "source": "staff-exam-schedule"
+    },
+    "2026-12-18": {
+      "kind": "scheduled",
+      "templateID": "wshs-q2-exam-P3-P6",
+      "status": "confirmed",
+      "source": "staff-exam-schedule"
+    },
+    "2027-03-10": {
+      "kind": "scheduled",
+      "templateID": "wshs-exam-wednesday",
+      "status": "confirmed",
+      "source": "staff-exam-schedule"
+    },
+    "2027-03-11": {
+      "kind": "scheduled",
+      "templateID": "wshs-exam-thursday",
+      "status": "confirmed",
+      "source": "staff-exam-schedule"
+    },
+    "2027-03-12": {
+      "kind": "scheduled",
+      "templateID": "regular",
+      "status": "confirmed",
+      "source": "staff-exam-schedule"
+    },
+    "2027-05-19": {
+      "kind": "scheduled",
+      "templateID": "wshs-may19-seven-period",
+      "status": "confirmed",
+      "source": "staff-exam-schedule"
+    },
+    "2027-05-20": {
+      "kind": "scheduled",
+      "templateID": "wshs-p7-exam-day",
+      "status": "confirmed",
+      "source": "staff-exam-schedule"
+    },
+    "2027-05-21": {
+      "kind": "scheduled",
+      "templateID": "wshs-q4-exam-P1-P4",
+      "status": "confirmed",
+      "source": "staff-exam-schedule"
+    },
+    "2027-05-24": {
+      "kind": "scheduled",
+      "templateID": "wshs-q4-exam-P2-P5",
+      "status": "confirmed",
+      "source": "staff-exam-schedule"
+    },
+    "2027-05-25": {
+      "kind": "scheduled",
+      "templateID": "wshs-q4-exam-P3-P6",
+      "status": "confirmed",
+      "source": "staff-exam-schedule"
+    }
+  },
+  "firstBellScope": "Regular templates only. All dated special exam/seven-period schedules suppress the 07:15 first-bell point; Oct 9 and Mar 12 remain regular.",
+  "exceptionPrecedence": [
+    "Explicit profile no-school correction",
+    "Explicit profile school-in-session correction restores the ordinary weekday template (only when regular bells are confirmed)",
+    "Preserved user date-specific school-definition exception",
+    "Confirmed school date-specific exception (overrides regular weekday and obsolete pending status)",
+    "Ordinary weekday template within attendance window; no school outside it"
+  ],
+  "futureStateTesting": {
+    "status": "unknown",
+    "templates": [],
+    "policy": "Never infer dates or times. Existing scheduled calendar exceptions can reference a future dedicated template, preserving ordinary templates. No general-purpose date-template editor is added."
+  },
+  "schemaCompatibility": "v2 retains all v1 top-level regular templates, weekday mapping, IDs, dates and range fields. Consumers must implement calendarExceptions, semester2Default/overrides and firstBellScope; a v1-only consumer cannot safely represent exam dates. earlyDismissalBellTimes changes from null to a confirmed object. No Web Display repository code changed.",
+  "calendarPrecedenceNote": "Ordinary first bell is suppressed for every non-regular WSHS template, including future testing templates. No-school dates and profile corrections remain independent of lunch semester calculation."
+}

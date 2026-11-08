@@ -1,5 +1,6 @@
 import { parseNativeV2 } from './native-v2.mjs';
 import { normalize, defaultPreferences, timelineFor, schoolDay } from './display-core.mjs';
+import { wshsShared } from './wshs.mjs';
 
 // Source resources stay separate from UI code. Galvin follows native loadGMS
 // and gmsEvents: grade bells/lunch, early release, and calendar WIN/FLEX notes.
@@ -25,7 +26,7 @@ export function doyleConfiguration(raw, code) {
   if(!DOYLE_PROFILES.includes(code) || raw.schoolProfileID!==`doyle.prek-${code.toLowerCase()}` || raw.scheduleName!==`Doyle PreK ${code}`) throw Error('Invalid Doyle classroom schedule.');
   return normalize(parseNativeV2(raw).configuration);
 }
-export const SNAPSHOT_SCHOOLS=Object.freeze({doyle:'Doyle School',woodville:'Woodville School',ferryway:'Ferryway School',walton:'Walton School'});
+export const SNAPSHOT_SCHOOLS=Object.freeze({doyle:'Doyle School',woodville:'Woodville School',ferryway:'Ferryway School',walton:'Walton School',wshs:'Winter Springs High School'});
 export const DOYLE_CHOICES=DOYLE_PROFILES.map(code=>({code,label:`Doyle PreK ${code}`,schoolProfileID:`doyle.prek-${code.toLowerCase()}`,file:`prek-${code.toLowerCase()}.json`}));
 export function schoolLinkSelection(search) {
  const params=new URLSearchParams(search),school=params.get('school');if(!Object.hasOwn(SNAPSHOT_SCHOOLS,school))return null;
@@ -35,11 +36,12 @@ export function schoolLinkSelection(search) {
 export function snapshotChoices(school,manifest) {
  if(!Object.hasOwn(SNAPSHOT_SCHOOLS,school) || !Array.isArray(manifest) || !manifest.length)throw Error('School profiles are unavailable.');
  const seen=new Set();return manifest.map(choice=>{
-  if(!/^[a-z0-9-]{1,30}$/.test(choice.code) || typeof choice.label!=='string' || !choice.label.trim() || choice.schoolProfileID!==(school==='ferryway'?'ferryway':`${school}.${choice.code}`) || seen.has(choice.code))throw Error('Invalid built-in profile catalog.');
+  if(!/^[a-z0-9-]{1,30}$/.test(choice.code) || typeof choice.label!=='string' || !choice.label.trim() || choice.schoolProfileID!==(['ferryway','wshs'].includes(school)?school:`${school}.${choice.code}`) || seen.has(choice.code))throw Error('Invalid built-in profile catalog.');
   seen.add(choice.code);return {...choice,file:`${choice.code}.json`};
  });
 }
 export function snapshotConfiguration(choice,raw) {
+ if(choice.schoolProfileID==='wshs' && raw.schoolID==='wshs')raw=wshsShared(raw);
  if(raw.schoolProfileID!==choice.schoolProfileID || raw.scheduleName!==choice.label)throw Error('Built-in school profile does not match its source.');
  return normalize(parseNativeV2(raw).configuration);
 }
@@ -47,7 +49,7 @@ export function schoolSchedulePreview(config,templateID=null,referenceDate=null)
  const d=config.portable.shared.schoolDefinitionSnapshot;
  const keys=Object.keys(d.calendarExceptions);
  if(d.calendarRule.mode!=='explicitDates') {
-  const anchor=d.cycle.anchorDate;if(!anchor)throw Error('No authoritative preview date is available.');
+  const anchor=d.cycle.anchorDate || (d.id==='wshs'?d.calendarRule.startDate:null);if(!anchor)throw Error('No authoritative preview date is available.');
   for(let i=0;i<40;i++){const date=new Date(`${referenceDate || anchor}T12:00Z`);date.setUTCDate(date.getUTCDate()+i);keys.push(date.toISOString().slice(0,10));}
  }
  const dates=[...new Set(keys)].sort(),ordered=referenceDate?[...dates.filter(k=>k>=referenceDate),...dates.filter(k=>k<referenceDate).reverse()]:dates;

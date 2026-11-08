@@ -1,4 +1,5 @@
 import { validateTimingOverrides, effectiveTimingConfiguration } from './timing-overrides.mjs';
+import { adoptWSHSUpdate, wshsLunchPreference } from './wshs.mjs';
 import { validatePortableConfig, portableDay, portableTimeline, projectOwners, profileOwnerEvents } from './portable-snapshot.mjs';
 // Data validation and small shared helpers; no browser globals or dependencies.
 export const WEB_FORMAT = 'bellsync-display-web';
@@ -84,7 +85,7 @@ export function normalize(raw) {
   if (!object(v.school)) fail('Invalid school details.');
   id(v.school.id, 'school ID'); text(v.school.displayName,'school name',true); text(v.school.timeZone,'timezone',true); text(v.profileName,'display name',true);
   try { new Intl.DateTimeFormat('en-US',{timeZone:v.school.timeZone}).format(0); } catch { fail('Enter a valid IANA timezone, such as America/New_York.'); }
-  if(v.sourceKind==='bellsync-snapshot') {validatePortableConfig(v);validateTimingOverrides(v);v.preferences=defaultPreferences(v.preferences);v.schemaVersion=2;return v;}
+  if(v.sourceKind==='bellsync-snapshot') {if(v.school.id==='wshs' && v.portable)v.portable.shared=adoptWSHSUpdate(v.portable.shared);validatePortableConfig(v);validateTimingOverrides(v);v.preferences=defaultPreferences(v.preferences);v.schemaVersion=2;return v;}
   if (!['browser-local','development-sample','bellsync-v1','builtin-gms'].includes(v.sourceKind)) fail('Unsupported schedule source.');
   if (v.sourceKind === 'bellsync-v1' && v.school.id !== 'wmhs') fail('Native imports currently support WMHS only.');
   if(v.sourceKind==='builtin-gms' && (v.school.id!=='gms' || ![5,6,7,8].includes(v.schoolMetadata?.grade) || v.schoolMetadata.winPeriod!==({5:'P1',6:'P7',7:'P1',8:'P1'})[v.schoolMetadata.grade])) fail('Invalid built-in Galvin metadata.');
@@ -183,7 +184,7 @@ export function rotationFor(v,key) {
   return r.labels[((r.labels.findIndex(d=>d.id===r.seedDayId)+count)%r.labels.length+r.labels.length)%r.labels.length];
 }
 export function schoolDay(v,key) {
-  if(v.sourceKind==='bellsync-snapshot')return portableDay(v.portable.shared.schoolDefinitionSnapshot,key);
+  if(v.sourceKind==='bellsync-snapshot')return portableDay(v.portable.shared.schoolDefinitionSnapshot,key,v.portable.shared.calendarCorrections);
   if(v.rotation.noSchoolDates.includes(key) || v.calendar?.nonStudentDays?.[key]) return null;
   if (v.calendar?.days && Object.keys(v.calendar.days).length) return v.calendar.days[key] || null;
   if ([0,6].includes(new Date(`${key}T12:00:00Z`).getUTCDay())) return null;
@@ -228,8 +229,12 @@ export function managedLunchPeriods(value) {
   if(!isManagedWMHS(value)) return [];
   return [...new Set(Object.values(value.templates).flat().filter(p=>p.lunches && Object.keys(p.lunches).length).map(p=>p.id))];
 }
-// Only WMHS sources with explicit selectable split rules require a choice.
+// WMHS split rules and the independent WSHS P5/P6 choices use profile storage.
 export function requiredLunchAssignments(value) {
+  if(value.school?.id==='wshs' && value.sourceKind==='bellsync-snapshot') {
+    const d=value.portable.shared.schoolDefinitionSnapshot;
+    return ['P5','P6'].map(period=>({day:d.cycle.dayIDs[0],period,choices:['L1','L2']}));
+  }
   if(value.school?.id!=='wmhs')return [];
   if(isManagedWMHS(value))return Array.from({length:7},(_,i)=>String(i+1)).flatMap(day=>managedLunchPeriods(value).map(period=>({day,period,choices:LUNCH_CHOICES})));
   if(value.sourceKind!=='bellsync-snapshot')return [];
@@ -241,7 +246,10 @@ export function requiredLunchAssignments(value) {
 }
 export function unresolvedLunchAssignments(value) {
   const assignments=value.sourceKind==='bellsync-snapshot'?value.portable.shared.assignments:value.assignments;
-  return requiredLunchAssignments(value).filter(({day,period,choices})=>!choices.includes(assignments?.[day]?.[period]?.lunch));
+  return requiredLunchAssignments(value).filter(({day,period,choices})=>{
+    const selected=value.school.id==='wshs'?wshsLunchPreference(value.portable.shared,period).selectedOptionID:assignments?.[day]?.[period]?.lunch;
+    return !choices.includes(selected);
+  });
 }
 export function setProfileLunchChoices(value,changes) {
   const draft=JSON.parse(JSON.stringify(value)),required=requiredLunchAssignments(draft);
@@ -252,6 +260,10 @@ export function setProfileLunchChoices(value,changes) {
     const source=draft.portable?.shared.schoolDefinitionSnapshot.periodDefinitions.find(p=>p.id===period);
     rows[day][period] ??= {title:source?.displayName || '',room:'',block:source?.displayName || ''};
     rows[day][period].lunch=lunch;
+    if(draft.school.id==='wshs') {
+      const shared=draft.portable.shared;shared.wshsLunchPreferences ??= {};
+      shared.wshsLunchPreferences[period]={...wshsLunchPreference(shared,period),selectedOptionID:lunch};
+    }
   }
   return normalize(draft);
 }

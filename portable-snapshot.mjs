@@ -1,5 +1,7 @@
 // Native BellSyncSchoolDefinition schema 1 / BellSyncSharedSchedule version 2.
-// Pure source adapter: no registry lookups, browser globals, or school-name rules.
+// Pure source adapter: no registry lookups or browser globals. New WSHS fields
+// are scoped to WSHS so previously supported schools keep their existing paths.
+import { supportsWSHSCorrections, effectiveWSHSLunch } from './wshs.mjs';
 const object=v=>v!==null && typeof v==='object' && !Array.isArray(v);
 const fail=message=>{throw Error(message);};
 const requireValue=(ok,message)=>{if(!ok)fail(message);};
@@ -51,7 +53,7 @@ export function validatePortableShared(raw) {
   for(const p of d.periodDefinitions) {if(typeof p.kind==='string' && !['academic','lunch','advisory','flex','passing','other'].includes(p.kind))throw new UnsupportedSnapshot(`Snapshot period kind “${p.kind}” is not supported.`);text(p.id,'period ID',200);text(p.displayName,'period name');requireValue(['academic','lunch','advisory','flex','passing','other'].includes(p.kind) && typeof p.acceptsPersonalAssignment==='boolean','Invalid snapshot period definition.');periods.set(p.id,p);}
   const validateRows=rows=>{
     list(rows,'template periods');unique(rows,'template item');requireValue(rows.length>0,'A snapshot template is empty.');
-    for(const p of rows) {text(p.id,'template item ID',200);requireValue(periods.has(p.periodID) && time(p.start) && time(p.end) && p.start<p.end,'Invalid snapshot template period or timing.');}
+    for(const p of rows) {text(p.id,'template item ID',200);requireValue(periods.has(p.periodID) && time(p.start) && time(p.end) && p.start<p.end,'Invalid snapshot template period or timing.');if(d.id==='wshs' && p.displayName!=null)text(p.displayName,'template activity name',100);}
   };
   list(d.scheduleTemplates,'templates');unique(d.scheduleTemplates,'template');requireValue(d.scheduleTemplates.length>0,'Snapshot needs templates.');
   const templates=new Set(d.scheduleTemplates.map(t=>t.id));
@@ -61,6 +63,22 @@ export function validatePortableShared(raw) {
     if(t.unconfirmedEndFrom!=null)requireValue(date(t.unconfirmedEndFrom),'Invalid unconfirmed-end date.');
   }
   const r=d.calendarRule;if(object(r) && r.mode!=null && !['weekdayCycle','explicitDates'].includes(r.mode))throw new UnsupportedSnapshot(`Snapshot calendar mode “${r.mode}” is not supported.`);requireValue(object(r) && ['weekdayCycle','explicitDates'].includes(r.mode ?? 'weekdayCycle'),'Invalid snapshot calendar rule.');
+  if(d.id==='wshs') {
+    requireValue(date(r.startDate) && date(r.endDate) && r.startDate<=r.endDate,'Invalid WSHS attendance bounds.');
+    const corrections=raw.calendarCorrections ?? [];
+    requireValue(supportsWSHSCorrections(raw),'Unsupported WSHS calendar corrections.');
+    if(raw.wshsLunchPreferences!=null) {
+      requireValue(object(raw.wshsLunchPreferences) && Object.keys(raw.wshsLunchPreferences).every(k=>['P5','P6'].includes(k)),'Invalid WSHS lunch preferences.');
+      for(const p of Object.values(raw.wshsLunchPreferences))requireValue(object(p) && ['L1','L2'].includes(p.selectedOptionID) && (p.secondSemesterOptionID==null || ['L1','L2'].includes(p.secondSemesterOptionID)),'Invalid WSHS semester lunch preference.');
+    }
+    list(corrections,'calendar corrections',2000);unique(corrections,'calendar correction');
+    const correctedDates=new Set();
+    for(const correction of corrections) {
+      requireValue(object(correction) && correction.schoolProfileID===d.id && date(correction.dateKey) && !correctedDates.has(correction.dateKey) && correction.cycleDayID==null,'Invalid WSHS calendar correction.');
+      text(correction.id,'calendar correction ID',200);correctedDates.add(correction.dateKey);
+      requireValue((typeof correction.createdAt==='number' && Number.isFinite(correction.createdAt)) || (typeof correction.createdAt==='string' && Number.isFinite(Date.parse(correction.createdAt))),'Invalid correction creation date.');
+    }
+  }
   requireValue(weekdays(r.schoolWeekdays ?? [2,3,4,5,6]) && ((r.schoolWeekdays ?? [2,3,4,5,6]).length>0 || r.mode==='explicitDates'),'Invalid school weekdays.');
   if(r.personalAssignmentLayout!=null) requireValue(['sharedPeriods','perCycleDay'].includes(r.personalAssignmentLayout),'Invalid personal assignment layout.');
   for(const field of ['weekdayTemplateIDs','weekdayCycleDayIDs','cycleDayTemplateIDs']) {
@@ -86,6 +104,15 @@ export function validatePortableShared(raw) {
     requireValue(periods.has(rule.periodID) && (rule.templateID==null || templates.has(rule.templateID)),'Unknown lunch rule reference.');
     list(rule.options,'lunch options');unique(rule.options,'lunch option');requireValue(rule.options.length>0,'Empty lunch options.');
     for(const option of rule.options) {text(option.id,'lunch option ID',200);text(option.displayName,'lunch name');requireValue(time(option.start) && time(option.end) && option.start<option.end && (option.bellStart==null || time(option.bellStart)),'Invalid lunch option timing.');lunches.add(option.id);}
+    if(d.id==='wshs') {
+      requireValue(templates.has(rule.templateID) && rule.options.some(o=>o.id===rule.selectedOptionID),'Invalid WSHS lunch rule.');
+      requireValue(rule.secondSemesterOptionID==null || ['L1','L2'].includes(rule.secondSemesterOptionID),'Invalid WSHS semester-two lunch override.');
+      const period=d.scheduleTemplates.find(t=>t.id===rule.templateID).periods.find(p=>p.periodID===rule.periodID);
+      for(const option of rule.options) {
+        const c=option.classTimes;
+        requireValue(period && object(c) && time(c.start) && time(c.end) && c.start<c.end && (c.end<=option.start || option.end<=c.start) && [c.start,option.start].every(t=>t>=period.start) && [c.end,option.end].every(t=>t<=period.end),'Invalid WSHS lunch/class boundaries.');
+      }
+    }
   }
   requireValue(object(raw.assignments),'Invalid snapshot assignments.');
   for(const [day,rows] of Object.entries(raw.assignments)) {
@@ -94,6 +121,7 @@ export function validatePortableShared(raw) {
       requireValue(periods.get(period)?.acceptsPersonalAssignment && object(a),'Unknown or nonassignable snapshot period.');
       text(a.title,'assignment title',100);text(a.room,'assignment room',100,false);text(a.block,'assignment block',200);
       if(a.lunch!=null)requireValue(lunches.has(a.lunch),'Invalid lunch selection.');
+      if(d.id==='wshs' && a.lunch!=null)requireValue(['P5','P6'].includes(period) && ['L1','L2'].includes(a.lunch),'Invalid WSHS lunch selection.');
     }
   }
   if(d.activityLayers!=null) {
@@ -130,8 +158,16 @@ export function validatePortableConfig(config) {
   }
 }
 const weekday=key=>new Date(`${key}T12:00Z`).getUTCDay()+1;
-export function portableDay(d,key) {
-  const r=d.calendarRule,c=d.cycle,e=d.calendarExceptions[key],wd=weekday(key);
+export function portableDay(d,key,corrections=[]) {
+  const r=d.calendarRule,c=d.cycle,wd=weekday(key);
+  let e=d.calendarExceptions[key];
+  if(d.id==='wshs') {
+    const correction=(corrections ?? []).find(row=>row.dateKey===key);
+    if(correction?.kind==='noSchool')return null;
+    if(correction?.kind==='schoolInSession')e=undefined;
+    // Only the explicitly corrected date can extend the attendance window.
+    if(!e && correction?.kind!=='schoolInSession' && (key<r.startDate || key>r.endDate))return null;
+  }
   if(e?.kind==='noSchool')return null;
   if(!e && ((r.mode ?? 'weekdayCycle')==='explicitDates' || !(r.schoolWeekdays ?? [2,3,4,5,6]).includes(wd)))return null;
   let day=(r.weekdayCycleDayIDs ?? {})[wd] || c.dayIDs[0];
@@ -164,13 +200,13 @@ export function profileOwnerEvents(raw,key,day,at,templateID='profile-personal',
   }).filter(e=>e.startAt<e.endAt).sort((a,b)=>a.startAt-b.startAt);
 }
 export function portableTimeline(config,key,at) {
-  const raw=config.portable.shared,d=raw.schoolDefinitionSnapshot,day=portableDay(d,key);
+  const raw=config.portable.shared,d=raw.schoolDefinitionSnapshot,day=portableDay(d,key,raw.calendarCorrections);
   const result={key,timeZone:d.timeZoneIdentifier,day,status:'scheduled',events:[],passing:[],classroom:[],contextualStaff:[],points:[]};
   if(!day)return {...result,status:d.calendarExceptions[key]?.kind==='noSchool'?'no-school':[1,7].includes(weekday(key))?'weekend':'no-school'};
   const template=d.scheduleTemplates.find(t=>t.id===day.schedule);if(!template)return {...result,status:'unavailable'};
   if(template.unconfirmedEndFrom && key>=template.unconfirmedEndFrom)result.unconfirmedEnd=true;
   const edits=(type,id)=>config.portable.edits?.find(e=>e.type===type && e.id===id);
-  const points=(d.scheduledPointEvents ?? []).filter(p=>(p.dates==null || p.dates.includes(key)) && !(p.excludedDates ?? []).includes(key) && (p.weekdays==null || p.weekdays.includes(weekday(key))));
+  const points=(d.scheduledPointEvents ?? []).filter(p=>!(d.id==='wshs' && p.id==='first-bell' && !['regular','wednesday','thursday'].includes(template.id)) && (p.dates==null || p.dates.includes(key)) && !(p.excludedDates ?? []).includes(key) && (p.weekdays==null || p.weekdays.includes(weekday(key))));
   const endAt=Math.min(...points.filter(p=>p.endsWorkday).map(p=>at(p.time)));
   result.workdayEndAt=Number.isFinite(endAt)?endAt:null;
   result.points=points.filter(p=>at(p.time)<=endAt).map(p=>({...p,at:at(p.time)})).sort((a,b)=>a.at-b.at || a.id.localeCompare(b.id));
@@ -179,8 +215,8 @@ export function portableTimeline(config,key,at) {
   const event=(item,layer,a={},suffix='',extra={})=>{
     const p=period(item.periodID),local=edits('period',p.id),source={schoolID:d.id,layer,dayID:day.day,templateID:template.id,itemID:item.id,periodID:item.periodID};
     const o=raw.activityNameOverrides?.find(o=>Object.entries(source).every(([k,v])=>o.source[k]===v));
-    const title=local?.title || o?.title || a.title?.trim() || p.displayName;
-    return {id:`${layer}:${item.id}${suffix}`,sourceID:item.id,periodID:p.id,kind:p.kind,label:p.displayName,sourcePeriodLabel:p.displayName,labelRole:p.acceptsPersonalAssignment?'structure':'activity',blockID:a.block || null,blockName:a.block || null,title,room:local?.room ?? a.room ?? '',startAt:at(item.start),endAt:at(item.end),activitySource:source,...extra};
+    const title=local?.title || o?.title || (d.id==='wshs'?item.displayName:undefined) || a.title?.trim() || p.displayName;
+    return {id:`${layer}:${item.id}${suffix}`,sourceID:item.id,periodID:p.id,kind:p.kind,label:p.displayName,sourcePeriodLabel:p.displayName,labelRole:p.acceptsPersonalAssignment?'structure':'activity',blockID:a.block || null,blockName:a.block || null,title,room:local?.room ?? a.room ?? '',startAt:at(item.start),endAt:at(item.end),activitySource:source,...(d.id==='wshs'?{bellAlertEligible:p.id!=='break'}:{}),...extra};
   };
   const revision=Object.keys(template.periodsByEffectiveDate ?? {}).filter(date=>date<=key).sort().at(-1);
   const items=revision?template.periodsByEffectiveDate[revision]:template.periods;
@@ -189,8 +225,19 @@ export function portableTimeline(config,key,at) {
     if(d.activityLayers?.suppressedClassroomDates[item.periodID]?.includes(key))continue;
     const p=period(item.periodID),a=raw.assignments[day.day]?.[p.id] || {};
     if(p.kind==='passing') {result.passing.push({startAt:at(item.start),endAt:at(item.end),source:'snapshot-passing'});continue;}
-    const rule=(d.lunchRules ?? []).find(r=>r.periodID===p.id);
-    const lunch=a.lunch==='NO_LUNCH'?null:rule?.options.find(o=>o.id===a.lunch);
+    const rule=(d.lunchRules ?? []).find(r=>r.periodID===p.id && (d.id!=='wshs' || r.templateID==null || r.templateID===template.id));
+    const lunchID=d.id==='wshs' && rule?effectiveWSHSLunch(raw,rule.periodID,key):a.lunch;
+    const lunch=lunchID==='NO_LUNCH'?null:rule?.options.find(o=>o.id===lunchID);
+    if(d.id==='wshs' && lunch?.classTimes) {
+      const base=event(item,'classroom',a),context={selection:lunch.id,periodID:p.id,startAt:at(lunch.start),endAt:at(lunch.end)};
+      const custom=config.timingOverrides?.some(x=>x.type==='template' && x.templateID===template.id && x.id===item.id);
+      const segment=e=>{const next=custom?{...e,startAt:Math.max(e.startAt,base.startAt),endAt:Math.min(e.endAt,base.endAt)}:e;if(next.startAt<next.endAt)classroom.push(next);};
+      // Exact source intervals leave real gaps before/after lunch. No synthetic
+      // class minutes or passing rows fill those gaps.
+      segment({...base,startAt:at(lunch.classTimes.start),endAt:at(lunch.classTimes.end),lunch:context});
+      segment({...base,id:`${base.id}:lunch`,kind:'lunch',label:'Lunch',title:'Lunch',room:'',startAt:at(lunch.start),endAt:at(lunch.end),lunch:context});
+      continue;
+    }
     if(lunch && !['lunch','flex'].includes(p.kind)) {
       const base=event(item,'classroom',a),bell=at(lunch.bellStart || lunch.start),start=at(lunch.start),end=at(lunch.end),context={selection:lunch.id,periodID:p.id,startAt:start,endAt:end};
       const segment=e=>{const custom=config.timingOverrides?.some(x=>x.type==='template' && x.templateID===template.id && x.id===item.id);const next=custom?{...e,startAt:Math.max(e.startAt,base.startAt),endAt:Math.min(e.endAt,base.endAt)}:e;if(next.startAt<next.endAt)classroom.push(next);};

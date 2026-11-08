@@ -1,4 +1,5 @@
 import { UnsupportedSnapshot } from './portable-snapshot.mjs';
+import { supportsWSHSCorrections } from './wshs.mjs';
 import { parseNativeV2 } from './native-v2.mjs';
 import { normalize, importBackup, validateNative, defaultPreferences } from './display-core.mjs';
 
@@ -117,7 +118,7 @@ export function inspectNativeImport(raw) {
     const reject=reason=>unsupported.push({name,schoolID:entry.schoolProfileID,reason});
     if(entry.calendarCorrections != null) {
       if(!Array.isArray(entry.calendarCorrections)) fail(`Schedule ${index+1} has malformed calendar corrections.`);
-      if(entry.calendarCorrections.length) { reject('Profile-local calendar corrections are not supported by Web Display yet. Use BellSync on iPhone, Watch, or Mac Display for this schedule.');return; }
+      if(entry.calendarCorrections.length && !supportsWSHSCorrections(entry)) { reject('These profile-local calendar corrections are not supported by Web Display yet. Use BellSync on iPhone, Watch, or Mac Display for this schedule.');return; }
     }
     if(![1,2].includes(entry.formatVersion)) { reject(`Schedule version ${entry.formatVersion} is not supported.`);return; }
     if(entry.formatVersion===2 && entry.schoolDefinitionSnapshot!=null) {

@@ -1,3 +1,4 @@
+import { wshsLunchPreference, WSHS_SECOND_SEMESTER } from './wshs.mjs';
 import { timingCatalog, timingKey, setTimingOverrides } from './timing-overrides.mjs';
 import { WEB_FORMAT, normalize, validate, defaultPreferences, formatClock, eventTitle, scheduleRowLabel, isRedundantScheduleBadge, escapeHTML as esc, isManagedWMHS, isManagedSchool, editManagedAssignments, managedLunchPeriods, requiredLunchAssignments, unresolvedLunchAssignments, setProfileLunchChoices, LUNCH_CHOICES, dateInZone, zonedTimestamp, schoolDay, headerScheduleLabel, schoolProgress } from './display-core.mjs';
 import { builtInConfiguration, DOYLE_PROFILES, doyleConfiguration, doyleSchedulePreview, schoolLinkSelection, SNAPSHOT_SCHOOLS, DOYLE_CHOICES, snapshotChoices, snapshotConfiguration, schoolSchedulePreview } from './school-setup.mjs';
@@ -160,7 +161,7 @@ function duration(ms) { return formatCountdown(ms); }
 function localDate() { return new Date().toISOString().slice(0,10); }
 function state(now) { return viewedDate ? scheduleSnapshot(config,now,{date:viewedDate,isLive:viewedDate===dateInZone(now,config.school.timeZone)}) : scheduleSnapshot(config,now); }
 
-function schoolChoices() { return `<h2 class="setup-heading">Start with your school</h2><div class="setup-options school-options"><button class="option-card school-card" data-school="wmhs"><b>Wakefield Memorial High School</b><span>Built-in schedule</span></button><button class="option-card school-card" data-school="gms"><b>Galvin Middle School</b><span>Choose your grade and schedule</span></button><button class="option-card school-card" data-school="doyle"><b>Doyle School</b><span>PreK A–I</span></button>${['woodville','ferryway','walton'].map(school=>`<button class="option-card school-card" data-school="${school}"><b>${SNAPSHOT_SCHOOLS[school]}</b><span>${school==='ferryway'?'Built-in schedule':'Built-in schedules'}</span></button>`).join('')}</div><section class="request-school"><div><h2>Don’t see your school?</h2><p>Send us your schedule and we’ll add it.</p></div><a class="primary request-school-link" href="https://bellsync.app/request-school" target="_blank" rel="noopener noreferrer">Request Your School →</a></section><h2 class="setup-heading">Other ways to set up</h2>`; }
+function schoolChoices() { return `<h2 class="setup-heading">Start with your school</h2><div class="setup-options school-options"><button class="option-card school-card" data-school="wmhs"><b>Wakefield Memorial High School</b><span>Built-in schedule</span></button><button class="option-card school-card" data-school="gms"><b>Galvin Middle School</b><span>Choose your grade and schedule</span></button><button class="option-card school-card" data-school="doyle"><b>Doyle School</b><span>PreK A–I</span></button>${['woodville','ferryway','walton','wshs'].map(school=>`<button class="option-card school-card" data-school="${school}"><b>${SNAPSHOT_SCHOOLS[school]}</b><span>${school==='wshs'?'Winter Springs, Florida · 2026–27':school==='ferryway'?'Built-in schedule':'Built-in schedules'}</span></button>`).join('')}</div><section class="request-school"><div><h2>Don’t see your school?</h2><p>Send us your schedule and we’ll add it.</p></div><a class="primary request-school-link" href="https://bellsync.app/request-school" target="_blank" rel="noopener noreferrer">Request Your School →</a></section><h2 class="setup-heading">Other ways to set up</h2>`; }
 function bindSchoolChoices() { document.querySelectorAll('[data-school]').forEach(button=>button.onclick=()=>Object.hasOwn(SNAPSHOT_SCHOOLS,button.dataset.school)?chooseBuiltinProfile(button.dataset.school):button.dataset.school==='gms'?chooseGalvinGrade():startSchoolSetup('wmhs')); }
 function chooseGalvinGrade() {
   modal(`<header class="modal-head"><div><h2>Galvin Middle School</h2><p>Choose your grade to load the correct bells and lunch time.</p></div><button class="icon-button" id="close" aria-label="Close dialog">×</button></header><div class="modal-actions">${[5,6,7,8].map(grade=>`<button class="option-card school-card" data-grade="${grade}"><b>Grade ${grade}</b></button>`).join('')}</div>`);
@@ -486,6 +487,66 @@ function timingInputValues(fields) {
     return [key,value];
   }))}));
 }
+// WSHS controls edit only a detached profile draft. Cancel never writes storage.
+function wshsSettings(working,root) {
+  const raw=working.portable.shared,d=raw.schoolDefinitionSnapshot;
+  const section=document.createElement('section');section.className='editor-section';
+  const heading=document.createElement('h3');heading.textContent='Winter Springs lunch selections';section.append(heading);
+  const originalAssignments=clone(raw.assignments),originalPreferences=raw.wshsLunchPreferences?clone(raw.wshsLunchPreferences):null;
+  const lunchFields=['P5','P6'].map(period=>{
+    const preference=wshsLunchPreference(raw,period);
+    const label=document.createElement('label');label.textContent=`Semester 1 · Period ${period.slice(1)}`;
+    const select=document.createElement('select');select.setAttribute('aria-label',label.textContent);
+    select.innerHTML=option('L1',preference.selectedOptionID,'First Lunch')+option('L2',preference.selectedOptionID,'Second Lunch');label.append(select);section.append(label);
+    const secondLabel=document.createElement('label');secondLabel.textContent=`Semester 2 · Period ${period.slice(1)} · from January 6`;
+    const second=document.createElement('select');second.setAttribute('aria-label',secondLabel.textContent);
+    second.innerHTML=option('',preference.secondSemesterOptionID ?? '','Automatic · opposite of semester 1')+option('L1',preference.secondSemesterOptionID,'First Lunch')+option('L2',preference.secondSemesterOptionID,'Second Lunch');secondLabel.append(second);section.append(secondLabel);
+    return {period,select,second,initial:preference};
+  });
+  const effective=document.createElement('p');effective.className='notice';section.append(effective);
+  const reference=viewedDate || dateInZone(Date.now(),working.school.timeZone),day=schoolDay(working,reference),template=d.scheduleTemplates.find(t=>t.id===day?.schedule);
+  const updateEffective=()=>{
+    const labels={L1:'First Lunch',L2:'Second Lunch'},semester=reference<WSHS_SECOND_SEMESTER?1:2;
+    const choices=lunchFields.map(f=>{
+      const opposite=f.select.value==='L1'?'L2':'L1',second=f.second.value || opposite;
+      f.second.options[0].textContent=`Automatic · ${labels[opposite]} (opposite of semester 1)`;
+      return `${f.period}: ${labels[semester===1?f.select.value:second]}`;
+    });
+    const rule=d.lunchRules.find(r=>r.templateID===template?.id);
+    effective.textContent=`Effective for ${reference} (semester ${semester}): ${choices.join('; ')}. ${!day?'No school.':!template?'Bell times unavailable.':rule?`This schedule uses ${rule.periodID} lunch.`:'This schedule has no lunch.'}`;
+  };
+  for(const field of lunchFields){field.select.onchange=updateEffective;field.second.onchange=updateEffective;}updateEffective();
+  const notice=document.createElement('p');notice.className='notice';notice.textContent='Semester two defaults to the opposite saved semester-one lunch for each period, with independent overrides. Actual templates select P5 or P6: December 15 and May 20 use P6; May 19 uses P5. Half-day exams have no lunch. Changing the viewed date never saves lunch choices.';section.append(notice);
+  if(raw.wshsUpdateConflicts?.length){const conflicts=document.createElement('p');conflicts.className='notice';conflicts.textContent=`Source update conflicts: ${raw.wshsUpdateConflicts.join('; ')}. Existing custom records take precedence; review before relying on published exam bells.`;section.append(conflicts);}
+  const calendarHeading=document.createElement('h3');calendarHeading.textContent='Conditional make-up days';section.append(calendarHeading);
+  const calendarNote=document.createElement('p');calendarNote.className='notice';calendarNote.textContent='Leave these dates closed unless the school confirms both attendance and ordinary weekday bells. May 26 is outside the normal school year. The six confirmed early-dismissal exam days finish at 11:40 AM. Future state-testing schedules await confirmation.';section.append(calendarNote);
+  const corrections=(raw.calendarCorrections ?? []).map(row=>({...row}));
+  const calendarFields=Object.entries(d.calendarExceptions).filter(([,e])=>/Conditional .*make-up/i.test(e.note || '')).sort(([a],[b])=>a.localeCompare(b)).map(([key])=>{
+    const label=document.createElement('label');label.textContent=key;
+    const select=document.createElement('select'),existing=corrections.find(r=>r.dateKey===key),initial=existing?.kind==='schoolInSession'?'schoolInSession':'noSchool';
+    select.setAttribute('aria-label',`${key} make-up day`);select.innerHTML=option('noSchool',initial,'No school · conditional')+option('schoolInSession',initial,'School confirmed ordinary weekday bells');label.append(select);section.append(label);
+    return {key,select,initial};
+  });
+  root.append(section);
+  return ()=>{
+    raw.assignments=clone(originalAssignments);
+    if(originalPreferences)raw.wshsLunchPreferences=clone(originalPreferences);else delete raw.wshsLunchPreferences;
+    for(const {period,select,second,initial} of lunchFields) {
+      const secondChoice=second.value || null;
+      if(select.value!==initial.selectedOptionID || secondChoice!==initial.secondSemesterOptionID) {
+        raw.wshsLunchPreferences ??= {};
+        raw.wshsLunchPreferences[period]={selectedOptionID:select.value,secondSemesterOptionID:secondChoice};
+        if(select.value!==initial.selectedOptionID){raw.assignments.all ??= {};raw.assignments.all[period] ??= {title:`Period ${period.slice(1)}`,room:'',block:period};raw.assignments.all[period].lunch=select.value;}
+      }
+    }
+    const nextCorrections=corrections.map(row=>({...row}));
+    for(const {key,select,initial} of calendarFields)if(select.value!==initial) {
+      const index=nextCorrections.findIndex(r=>r.dateKey===key);if(index>=0)nextCorrections.splice(index,1);
+      if(select.value==='schoolInSession')nextCorrections.push({id:crypto.randomUUID(),schoolProfileID:'wshs',dateKey:key,kind:'schoolInSession',createdAt:new Date().toISOString()});
+    }
+    raw.calendarCorrections=nextCorrections;
+  };
+}
 function openPortableEditor(value,targetID,focusLunch=false) {
   const working=clone(value),raw=working.portable.shared,d=raw.schoolDefinitionSnapshot;
   modal(`<header class="modal-head"><div><h2>Edit Imported Schedule</h2><p>Source timing, rotation, calendar, and lunch rules come from BellSync. Display names, rooms, and optional timing overrides apply only to this Web Display profile.</p></div><button id="close" class="icon-button" aria-label="Close dialog">×</button></header><form id="portable-editor" class="managed-editor"><div class="managed-editor-top"><label>Display name<input name="profileName" required></label></div><div id="portable-fields" class="managed-classes"></div><p class="form-error" id="form-error" role="alert"></p><footer class="modal-footer managed-footer"><button id="cancel" type="button" class="secondary">Cancel</button><button type="submit" class="primary">Save Changes</button></footer></form>`);
@@ -493,7 +554,8 @@ function openPortableEditor(value,targetID,focusLunch=false) {
   const form=document.querySelector('#portable-editor'),root=document.querySelector('#portable-fields');form.elements.profileName.value=working.profileName;root.replaceChildren();
   const fields=[],lunchFields=[];
   const lunchRows=requiredLunchAssignments(working);
-  if(lunchRows.length){const section=document.createElement('section');section.className='editor-section';const heading=document.createElement('h3');heading.textContent='Lunch selections';section.append(heading);for(const r of lunchRows){const label=document.createElement('label');label.textContent=`Day ${r.day} · ${r.period} · Lunch`;const select=document.createElement('select');select.setAttribute('aria-label',`Day ${r.day}, ${r.period}, lunch selection`);select.innerHTML=option('',raw.assignments[r.day]?.[r.period]?.lunch || '', 'Choose lunch')+r.choices.map(choice=>option(choice,raw.assignments[r.day]?.[r.period]?.lunch,choice==='NO_LUNCH'?'No Lunch':choice.replace('L','Lunch '))).join('');select.value=raw.assignments[r.day]?.[r.period]?.lunch || '';const field={...r,select,changed:false};select.onchange=()=>{field.changed=true;};label.append(select);section.append(label);lunchFields.push(field);}root.append(section);}
+  const applyWSHS=working.school.id==='wshs' && working.sourceKind==='bellsync-snapshot'?wshsSettings(working,root):null;
+  if(lunchRows.length && !applyWSHS){const section=document.createElement('section');section.className='editor-section';const heading=document.createElement('h3');heading.textContent='Lunch selections';section.append(heading);for(const r of lunchRows){const label=document.createElement('label');label.textContent=`Day ${r.day} · ${r.period} · Lunch`;const select=document.createElement('select');select.setAttribute('aria-label',`Day ${r.day}, ${r.period}, lunch selection`);select.innerHTML=option('',raw.assignments[r.day]?.[r.period]?.lunch || '', 'Choose lunch')+r.choices.map(choice=>option(choice,raw.assignments[r.day]?.[r.period]?.lunch,choice==='NO_LUNCH'?'No Lunch':choice.replace('L','Lunch '))).join('');select.value=raw.assignments[r.day]?.[r.period]?.lunch || '';const field={...r,select,changed:false};select.onchange=()=>{field.changed=true;};label.append(select);section.append(label);lunchFields.push(field);}root.append(section);}
   const personalPeriods=new Set((raw.personalActivities ?? []).map(p=>p.sourcePeriodID));
   for(const [type,items] of [['period',d.periodDefinitions.filter(p=>!personalPeriods.has(p.id))],['personal',raw.personalActivities ?? []]]) {
     if(!items.length)continue;
@@ -522,6 +584,7 @@ function openPortableEditor(value,targetID,focusLunch=false) {
       if(f.title.value!==f.initialTitle)edit.title=f.title.value.trim();
       if(f.room.value!==f.initialRoom)edit.room=f.room.value.trim();
     }
+    applyWSHS?.();
     save(setProfileLunchChoices(setTimingOverrides(working,timingInputValues(timingFields)),lunchFields.filter(f=>f.changed).map(f=>({...f,lunch:f.select.value}))),targetID);maybePromptLunch(targetID || store.snapshot.activeProfileID);
   }catch(error){showEditorError(error.message)}};
 }
@@ -623,7 +686,7 @@ function openBellTimingAdjustment() {
     }catch(error){showEditorError(error.message || 'BellSync Display could not save this adjustment.');}
   };
 }
-function openSettings(){const prefs=clone(config.preferences);modal(`<header class="modal-head"><div><h2>Display Settings</h2><p>These preferences affect only this browser Display.</p></div><button class="icon-button" id="close" aria-label="Close dialog">×</button></header><form id="settings-form"><section class="editor-section"><div class="form-grid"><label>Accent color<select name="accent">${['mint','blue','purple','pink','orange','red'].map(x=>option(x,prefs.accent,x[0].toUpperCase()+x.slice(1))).join('')}</select></label><label>Clock<select name="clock">${option('12',prefs.hour24?'24':'12','12-hour')}${option('24',prefs.hour24?'24':'12','24-hour')}</select></label><label>Display size<select name="size">${['compact','standard','large'].map(x=>option(x,prefs.displaySize,x[0].toUpperCase()+x.slice(1))).join('')}</select></label></div><label>Schedule-row labels<select name="scheduleLabels">${option('blocks',prefs.scheduleLabels,'Block names')}${option('periods',prefs.scheduleLabels,'Period numbers')}${option('hidden',prefs.scheduleLabels,'Hide labels')}</select></label><label class="check"><input name="schoolDayProgress" type="checkbox" ${prefs.schoolDayProgress?'checked':''}> School Day Progress</label><label class="check"><input name="schoolYearProgress" type="checkbox" ${prefs.schoolYearProgress?'checked':''}> School Year Progress</label><label class="check"><input name="rooms" type="checkbox" ${prefs.showRooms?'checked':''}> Show rooms</label><label class="check"><input name="schedule" type="checkbox" ${prefs.showSchedule?'checked':''}> Show Today’s Schedule</label><label class="check"><input name="school" type="checkbox" ${prefs.showSchoolName?'checked':''}> Show school name</label></section><footer class="modal-footer"><button type="button" class="secondary" id="cancel">Cancel</button><button class="primary">Save Settings</button></footer></form>`);document.querySelector('#close').onclick=closeModal;document.querySelector('#cancel').onclick=closeModal;document.querySelector('#settings-form').onsubmit=e=>{e.preventDefault();const f=e.currentTarget;try{const next=clone(config);next.preferences=defaultPreferences({accent:f.accent.value,hour24:f.clock.value==='24',displaySize:f.size.value,scheduleLabels:f.scheduleLabels.value,showRooms:f.rooms.checked,showSchedule:f.schedule.checked,showSchoolName:f.school.checked,schoolDayProgress:f.schoolDayProgress?.checked ?? false,schoolYearProgress:f.schoolYearProgress?.checked ?? false});if(isDemo){config=normalize(next);closeModal();render();}else{save(next)}}catch(error){alert(error.message||'BellSync Display could not save these settings.')}}}
+function openSettings(){const working=clone(config),prefs=clone(config.preferences);modal(`<header class="modal-head"><div><h2>Display Settings</h2><p>These preferences affect only this browser Display.</p></div><button class="icon-button" id="close" aria-label="Close dialog">×</button></header><form id="settings-form"><section class="editor-section"><div class="form-grid"><label>Accent color<select name="accent">${['mint','blue','purple','pink','orange','red'].map(x=>option(x,prefs.accent,x[0].toUpperCase()+x.slice(1))).join('')}</select></label><label>Clock<select name="clock">${option('12',prefs.hour24?'24':'12','12-hour')}${option('24',prefs.hour24?'24':'12','24-hour')}</select></label><label>Display size<select name="size">${['compact','standard','large'].map(x=>option(x,prefs.displaySize,x[0].toUpperCase()+x.slice(1))).join('')}</select></label></div><label>Schedule-row labels<select name="scheduleLabels">${option('blocks',prefs.scheduleLabels,'Block names')}${option('periods',prefs.scheduleLabels,'Period numbers')}${option('hidden',prefs.scheduleLabels,'Hide labels')}</select></label><label class="check"><input name="schoolDayProgress" type="checkbox" ${prefs.schoolDayProgress?'checked':''}> School Day Progress</label><label class="check"><input name="schoolYearProgress" type="checkbox" ${prefs.schoolYearProgress?'checked':''}> School Year Progress</label><label class="check"><input name="rooms" type="checkbox" ${prefs.showRooms?'checked':''}> Show rooms</label><label class="check"><input name="schedule" type="checkbox" ${prefs.showSchedule?'checked':''}> Show Today’s Schedule</label><label class="check"><input name="school" type="checkbox" ${prefs.showSchoolName?'checked':''}> Show school name</label></section><footer class="modal-footer"><button type="button" class="secondary" id="cancel">Cancel</button><button class="primary">Save Settings</button></footer></form>`);document.querySelector('#close').onclick=closeModal;document.querySelector('#cancel').onclick=closeModal;const applyWSHS=working.school.id==='wshs' && working.sourceKind==='bellsync-snapshot'?wshsSettings(working,document.querySelector('#settings-form .editor-section')):null;document.querySelector('#settings-form').onsubmit=e=>{e.preventDefault();const f=e.currentTarget;try{applyWSHS?.();const next=working;next.preferences=defaultPreferences({accent:f.accent.value,hour24:f.clock.value==='24',displaySize:f.size.value,scheduleLabels:f.scheduleLabels.value,showRooms:f.rooms.checked,showSchedule:f.schedule.checked,showSchoolName:f.school.checked,schoolDayProgress:f.schoolDayProgress?.checked ?? false,schoolYearProgress:f.schoolYearProgress?.checked ?? false});if(isDemo){config=normalize(next);closeModal();render();}else{save(next)}}catch(error){alert(error.message||'BellSync Display could not save these settings.')}}}
 function exportAll(){try{downloadBackup(exportProfiles(requireStore().snapshot),'bellsync-all-schedules.bellsyncdisplay')}catch(error){alert(error.message)}}
 function downloadBackup(payload,filename){const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;a.click();URL.revokeObjectURL(a.href)}
 function exportDisplay(){try{const payload={format:WEB_FORMAT,formatVersion:1,exportedAt:new Date().toISOString(),configuration:config};downloadBackup(payload,`${slug(config.profileName,'bellsync-display')}.bellsyncdisplay`)}catch(e){alert(`Could not export this Display schedule: ${e.message}`)}}
