@@ -252,7 +252,7 @@
 }
 .school-list button[hidden] { display:none }
 .school-list button:hover,.school-list button:focus-visible { background:#163138;border-color:var(--mint) }
-.school-list button span:last-child { color:var(--mint);font-size:1.2em }
+.school-list button > span:last-child { color:var(--mint);font-size:1.2em }
 .school-request { display:flex;flex-wrap:wrap;gap:5px 12px;margin-top:14px;color:var(--muted);font-size:.88rem }
 .school-request a { color:var(--mint) }
 #school-search-status:empty { display:none }
@@ -261,7 +261,8 @@
 .setup-profile-list .setup-options { gap:8px }
 .setup-profile-list .profile-grade { margin-top:16px }
 .modal.setup-preview-modal {
-  width:min(710px,100%);max-height:calc(100dvh - 40px);display:flex;
+  width:100%;max-width:710px;max-height:calc(100vh - 40px);
+  max-height:calc(100dvh - 40px);display:flex;
   flex-direction:column;overflow:hidden;padding:clamp(16px,4vw,24px);
 }
 .setup-preview-modal .modal-head,.setup-preview-modal .support-help { flex:none }
@@ -289,3 +290,46 @@
   .setup-preview-list li { grid-template-columns:minmax(0,1fr) }
   .setup-lunch .customize-semester > label { grid-template-columns:minmax(0,1fr) }
 }
+
+/* Shared setup rows and secondary navigation */
+.setup-rows { grid-template-columns:minmax(0,1fr);gap:0 }
+.setup-rows button { padding:9px 10px }
+.setup-rows button > .setup-row-content {
+  display:flex;align-items:center;gap:12px;min-width:0;
+}
+.setup-row-content svg { flex:none;color:var(--mint) }
+.setup-row-copy { display:grid;gap:2px;overflow-wrap:anywhere }
+.setup-row-copy strong { font-weight:650 }
+.setup-row-copy small { color:var(--muted);font-size:.84rem }
+.setup-links {
+  display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;
+  margin-top:18px;padding-top:12px;border-top:1px solid var(--line);
+}
+.setup-back,.setup-links .support-link,
+.setup-picker-modal .support-link,.setup-preview-modal .support-link {
+  padding:4px 0;border:0;background:transparent;color:var(--muted);
+  font:inherit;font-size:.85rem;
+}
+.setup-back:hover,.setup-links .support-link:hover,
+.setup-picker-modal .support-link:hover,.setup-preview-modal .support-link:hover {
+  color:var(--mint);
+}
+.setup-back span { margin-right:3px;color:var(--mint) }
+.modal.setup-picker-modal {
+  width:100%;max-width:690px;padding:clamp(16px,4vw,24px);
+}
+.setup-picker-modal .modal-head h2,.setup-preview-modal .modal-head h2 {
+  font-size:clamp(1.25rem,3vw,1.5rem);
+}
+.setup-picker-modal .modal-head .setup-back { margin-bottom:8px }
+.setup-picker-modal > .setup-heading,.setup-grade .setup-heading {
+  margin:14px 0 5px;
+}
+.setup-picker-modal > .setup-heading + .setup-rows,.setup-grade .setup-rows { margin-top:0 }
+.setup-picker-modal .support-help,.setup-preview-modal .support-help {
+  margin-top:12px;
+}
+.setup-picker-modal .support-help > span,.setup-preview-modal .support-help > span { display:none }
+.setup-preview-modal .preview-school { font-size:.85rem }
+.setup-preview-modal .setup-preview-footer { padding-top:12px }
+.setup-preview-body > label { font-size:.9rem }

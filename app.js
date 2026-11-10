@@ -203,8 +203,33 @@ function backToSchoolDirectory() {
     app.querySelector('#school-search')?.focus();
   }
 }
+function setupRows(content) {
+  return `<div class="school-list setup-rows">${content}</div>`;
+}
+function setupRow(attributes,label,description='',icon='') {
+  return `<button type="button" ${attributes}>
+    <span class="setup-row-content">${icon}<span class="setup-row-copy"><strong>${esc(label)}</strong>${description?`<small>${esc(description)}</small>`:''}</span></span>
+    <span aria-hidden="true">›</span>
+  </button>`;
+}
+function setupActions(ids) {
+  const actions=[
+    ['Create My Schedule','Build a schedule from scratch','M12 5v14M5 12h14'],
+    ['Import from BellSync','Use a schedule exported from the app','M12 4v11m-4-4 4 4 4-4M5 16v4h14v-4'],
+    ['Restore Display Backup','Restore a previously saved display setup','M4 11a8 8 0 1 1 2 7M4 5v6h6'],
+    ['Try Demo','Preview BellSync without saving a schedule','M8 5l11 7-11 7z']
+  ];
+  return setupRows(actions.map(([label,description,path],i)=>setupRow(
+    `id="${ids[i]}"`,label,description,
+    `<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="${path}"/></svg>`
+  )).join(''));
+}
+function setupPickerModal(title,content,backLabel='All Schools') {
+  modal(`<header class="modal-head"><div><button type="button" id="school-directory-back" class="setup-back"><span aria-hidden="true">‹</span> ${esc(backLabel)}</button><h2>${esc(title)}</h2></div><button class="icon-button" id="close" aria-label="Close dialog">×</button></header>${content}`);
+  document.querySelector('#modal-root .modal').classList.add('setup-picker-modal');
+}
 function chooseGalvinGrade() {
-  modal(`<header class="modal-head"><div><h2>Galvin Middle School</h2><p>Choose your grade.</p></div><button class="icon-button" id="close" aria-label="Close dialog">×</button></header><div class="modal-actions">${[5,6,7,8].map(grade=>`<button class="option-card school-card" data-grade="${grade}"><b>Grade ${grade}</b></button>`).join('')}</div><footer class="modal-footer"><button id="school-directory-back" class="secondary">All Schools</button></footer>`);
+  setupPickerModal('Galvin Middle School',`<h3 class="setup-heading">Choose a grade</h3>${setupRows([5,6,7,8].map(grade=>setupRow(`data-grade="${grade}"`,`Grade ${grade}`)).join(''))}`);
   document.querySelector('#school-directory-back').onclick=backToSchoolDirectory;
   document.querySelector('#close').onclick=closeModal;
   document.querySelectorAll('[data-grade]').forEach(button=>button.onclick=()=>startSchoolSetup('gms',Number(button.dataset.grade)));
@@ -230,13 +255,16 @@ function openBuiltinPicker(school,choices) {
  const grouped=['woodville','walton'].includes(school);
  const buttons=rows=>rows.map(choice=>{
    const presentation=builtinProfilePresentation(school,choice);
-   return `<button class="option-card school-card" ${school==='doyle'?'data-doyle':'data-classroom'}="${choice.code}"${presentation?` aria-label="${esc(`${presentation.grade} · ${presentation.label}`)}"`:''}><b>${esc(presentation?.label || (school==='doyle'?`Schedule ${choice.code}`:choice.label))}</b></button>`;
+   const attribute=school==='doyle'?'data-doyle':'data-classroom';
+   const label=presentation?.label || (school==='doyle'?`Schedule ${choice.code}`:choice.label);
+   const accessibleName=presentation?` aria-label="${esc(`${presentation.grade} · ${label}`)}"`:'';
+   return setupRow(`${attribute}="${esc(choice.code)}"${accessibleName}`,label);
  }).join('');
  const content=grouped?['PreK','Kindergarten','Grade 1','Grade 2','Grade 3','Grade 4','Other schedules'].map((grade,index)=>{
    const rows=choices.filter(choice=>builtinProfilePresentation(school,choice).grade===grade);
-   return rows.length?`<section class="profile-grade" aria-labelledby="profile-grade-${index}"><h3 id="profile-grade-${index}">${grade}</h3><div class="setup-options">${buttons(rows)}</div></section>`:'';
- }).join(''):`<div class="setup-options">${buttons(choices)}</div>`;
- modal(`<header class="modal-head"><div><h2>${esc(SNAPSHOT_SCHOOLS[school])}</h2><p>Choose a schedule to preview.</p></div><button class="icon-button" id="close" aria-label="Close dialog">×</button></header><div class="setup-profile-list">${content}</div><footer class="modal-footer"><button id="school-directory-back" class="secondary">All Schools</button></footer>`);
+   return rows.length?`<section class="setup-grade" aria-labelledby="profile-grade-${index}"><h3 class="setup-heading" id="profile-grade-${index}">${grade}</h3>${setupRows(buttons(rows))}</section>`:'';
+ }).join(''):setupRows(buttons(choices));
+ setupPickerModal(SNAPSHOT_SCHOOLS[school],`<h3 class="setup-heading">Choose a schedule</h3>${content}`);
  document.querySelector('#school-directory-back').onclick=backToSchoolDirectory;
  document.querySelector('#close').onclick=()=>{viewRequest++;closeModal();};
  document.querySelectorAll(school==='doyle'?'[data-doyle]':'[data-classroom]').forEach(button=>button.onclick=()=>previewBuiltinSetup(school,choices.find(c=>c.code===(button.dataset.doyle || button.dataset.classroom)),choices));
@@ -254,15 +282,16 @@ async function previewBuiltinSetup(school,choice,choices) {
   const dayLabel=t=>Object.entries(d.calendarRule.cycleDayTemplateIDs || {}).find(([,id])=>id===t.id)?.[0];
   const options=d.scheduleTemplates.map(t=>({id:t.id,label:dayLabel(t)?d.cycle.dayDisplayNames?.[dayLabel(t)] || `Day ${dayLabel(t)}`:t.displayName || t.id}));
   const presentation=builtinProfilePresentation(school,choice);
-  const previewTitle=presentation?`${SNAPSHOT_SCHOOLS[school]} · ${presentation.grade} · ${presentation.label}`:choice.label;
+  const schoolName=SNAPSHOT_SCHOOLS[school];
+  const scheduleLabel=choice.label.startsWith(schoolName) ? choice.label.slice(schoolName.length).trim() : choice.label;
+  const previewTitle=presentation?`${presentation.grade} · ${presentation.label}`:scheduleLabel || 'Schedule preview';
   const showLunch = !existing && d.id === 'wshs';
-  modal(`<header class="modal-head"><div><p class="preview-school">${esc(candidate.school.displayName)}</p><h2>${esc(previewTitle===candidate.school.displayName?'Schedule preview':previewTitle)}</h2>${existing?'<p>Saved schedule</p>':''}</div><button class="icon-button" id="close" aria-label="Close dialog">×</button></header>
+  modal(`<header class="modal-head"><div><p class="preview-school">${esc(schoolName)}</p><h2>${esc(previewTitle)}</h2>${existing?'<p>Saved schedule</p>':''}</div><button class="icon-button" id="close" aria-label="Close dialog">×</button></header>
     <div class="setup-preview-body">
       <label>Schedule type<select id="builtin-preview-day">${options.map(o=>option(o.id,preview.templateID,o.label)).join('')}</select></label>
       <div class="setup-preview-caption"><h3>Daily schedule</h3><time id="setup-preview-date"></time></div>
       <ul class="setup-preview-list" id="setup-preview-list"></ul>
       ${showLunch?'<details class="setup-lunch"><summary>Lunch preferences</summary><div id="setup-lunch-fields"></div></details>':''}
-      <p class="help">The preview shows activities with available times.</p>
     </div>
     <footer class="modal-footer setup-preview-footer"><button class="secondary" id="${school==='doyle'?'doyle-back':'builtin-back'}">Back to Schedules</button><button class="primary" id="${school==='doyle'?'doyle-use':'builtin-use'}">Use This Schedule</button></footer>`);
   const dialog=document.querySelector('#modal-root .modal');
@@ -270,10 +299,11 @@ async function previewBuiltinSetup(school,choice,choices) {
   const daySelect=dialog.querySelector('#builtin-preview-day');
   const lunch=dialog.querySelector('#setup-lunch-fields');
   const applyLunch=lunch && wshsSettings(candidate,lunch,{lunchRoot:lunch,calendarRoot:null,setup:true});
+  const dateFormat=new Intl.DateTimeFormat(undefined,{weekday:'short',month:'short',day:'numeric',year:'numeric',timeZone:'UTC'});
   const renderPreview=day=>{
     const dateLabel=dialog.querySelector('#setup-preview-date');
     dateLabel.dateTime=day.key;
-    dateLabel.textContent=day.key;
+    dateLabel.textContent=dateFormat.format(new Date(`${day.key}T00:00:00Z`));
     dialog.querySelector('#setup-preview-list').innerHTML=day.events.map(e=>`<li>
       <div><strong>${esc(eventTitle(e))}</strong>${candidate.preferences.showRooms && e.room?`<small>Room ${esc(e.room)}</small>`:''}${e.kind==='point'?'<small>Point reminder</small>':''}</div>
       <span class="setup-preview-time">${formatClock(e.displayStartAt ?? e.startAt,tz,candidate.preferences.hour24)}${e.kind==='point'?'':` – ${formatClock(e.displayEndAt ?? e.endAt,tz,candidate.preferences.hour24)}`}</span>
@@ -322,7 +352,21 @@ async function startSchoolSetup(schoolID,grade) {
     openEditor(builtInConfiguration(schoolID,schedule,calendar,grade),null);
   } catch(error) { if(isCurrent())alert(error.message || 'The school schedule could not be loaded.'); }
 }
-function setup() { app.innerHTML=`<section class="setup"><div class="setup-card initial-setup"><header class="initial-setup-brand"><img class="mark" src="./public/assets/bellsync-display-icon.png" alt="BellSync" width="48" height="48"><div><h1>Set Up BellSync Display</h1><p>Choose a school to get started. Schedules are saved in this browser.</p></div></header>${schoolChoices()}<div class="setup-options"><button class="option-card secondary" id="setup-here"><b>Enter My Schedule</b><span>Build your classroom schedule directly in this browser.</span></button><button class="option-card secondary" id="load-native"><b>Import from BellSync</b><span>Use a schedule exported from the BellSync app.</span></button><button class="option-card secondary" id="load-web"><b>Import Display Schedule</b><span>Restore a browser Display backup.</span></button></div><div class="buttons"><button class="secondary" id="demo">Try Demo</button>${store?.snapshot.savedProfiles.length?'<button class="secondary" id="saved-picker">Saved Schedules</button>':''}</div>${storageWarning ? `<p class="notice" role="alert">${esc(storageWarning)}</p>` : ''}<p class="notice">Demo is for testing and is never saved unless you explicitly save it as a schedule.</p>${supportLink()}</div></section>`; bindSchoolChoices();document.querySelector('#setup-here').onclick=()=>openEditor(newWebConfig(),null); document.querySelector('#load-native').onclick=()=>{viewRequest++;nativeInput.click()}; document.querySelector('#load-web').onclick=()=>{viewRequest++;displayInput.click()}; document.querySelector('#demo').onclick=loadDemo; document.querySelector('#saved-picker')?.addEventListener('click',()=>openChange()); }
+function setup() {
+  app.innerHTML=`<section class="setup"><div class="setup-card initial-setup">
+    <header class="initial-setup-brand"><img class="mark" src="./public/assets/bellsync-display-icon.png" alt="BellSync" width="48" height="48"><div><h1>Set Up BellSync Display</h1><p>Schedules are saved in this browser.</p></div></header>
+    ${schoolChoices()}
+    ${setupActions(['setup-here','load-native','load-web','demo'])}
+    ${storageWarning ? `<p class="notice" role="alert">${esc(storageWarning)}</p>` : ''}
+    <footer class="setup-links">${store?.snapshot.savedProfiles.length?'<button type="button" class="setup-back" id="saved-picker">Saved Schedules</button>':''}${supportLink()}</footer>
+  </div></section>`;
+  bindSchoolChoices();
+  document.querySelector('#setup-here').onclick=()=>openEditor(newWebConfig(),null);
+  document.querySelector('#load-native').onclick=()=>{viewRequest++;nativeInput.click();};
+  document.querySelector('#load-web').onclick=()=>{viewRequest++;displayInput.click();};
+  document.querySelector('#demo').onclick=loadDemo;
+  document.querySelector('#saved-picker')?.addEventListener('click',()=>openChange());
+}
 function newWebConfig() { const labels=[{id:'every',label:'Every Day'}]; return normalize({schemaVersion:2,sourceKind:'browser-local',school:{id:`local.${crypto.randomUUID?.() || Date.now()}`,displayName:'My School',timeZone:Intl.DateTimeFormat().resolvedOptions().timeZone || 'America/New_York'},profileName:'My Classroom',rotation:{kind:'same',labels,seedDate:localDate(),seedDayId:'every',noSchoolDates:[]},periods:[{id:'period-1',label:'Period 1',start:'07:30',end:'08:20',kind:'academic'},{id:'period-2',label:'Period 2',start:'08:25',end:'09:15',kind:'academic'},{id:'lunch',label:'Lunch',start:'11:00',end:'11:30',kind:'lunch'},{id:'period-3',label:'Period 3',start:'11:35',end:'12:25',kind:'academic'}],assignments:{every:{'period-1':{title:'',room:''},'period-2':{title:'',room:''},lunch:{title:'',room:''},'period-3':{title:'',room:''}}},preferences:defaultPreferences()}); }
 async function fetchJSON(path) {
   const response = await fetch(path);
@@ -507,7 +551,16 @@ function openChange(message='') {
   });
 }
 
-function openAdd(){ modal(`<header class="modal-head"><div><h2>Set Up BellSync Display</h2><p>Choose how to set up this browser.</p></div><button class="icon-button" id="close" aria-label="Close dialog">×</button></header><div class="buttons"><button id="back-picker" class="secondary">Saved Schedules</button><button id="add-demo" class="secondary">Try Demo</button></div>${schoolChoices()}<div class="modal-actions"><button class="option-card secondary" id="new-setup"><b>Enter My Schedule</b><span>Build your classroom schedule directly in this browser.</span></button><button class="option-card secondary" id="native-import"><b>Import from BellSync</b><span>The quickest option if you already use BellSync on your phone.</span></button><button class="option-card secondary" id="web-import"><b>Import Display Schedule</b><span>Restore a browser schedule backup.</span></button></div>`); document.querySelector('#close').onclick=closeModal; document.querySelector('#back-picker').onclick=()=>openChange(); document.querySelector('#add-demo').onclick=loadDemo; bindSchoolChoices();document.querySelector('#new-setup').onclick=()=>openEditor(newWebConfig(),null); document.querySelector('#native-import').onclick=()=>{closeModal();nativeInput.click()}; document.querySelector('#web-import').onclick=()=>{closeModal();displayInput.click()}; }
+function openAdd() {
+  setupPickerModal('Set Up BellSync Display',schoolChoices()+setupActions(['new-setup','native-import','web-import','add-demo']),'Saved Schedules');
+  document.querySelector('#close').onclick=closeModal;
+  document.querySelector('#school-directory-back').onclick=()=>openChange();
+  document.querySelector('#add-demo').onclick=loadDemo;
+  bindSchoolChoices();
+  document.querySelector('#new-setup').onclick=()=>openEditor(newWebConfig(),null);
+  document.querySelector('#native-import').onclick=()=>{closeModal();nativeInput.click();};
+  document.querySelector('#web-import').onclick=()=>{closeModal();displayInput.click();};
+}
 function rotationChoices() { return [['same','Same Every Day'],['day-1-5','Day 1–5'],['day-1-6','Day 1–6'],['day-1-7','Day 1–7'],['ab','A/B'],['ag','A–G'],['custom','Custom Rotation']]; }
 function labelsFor(kind, customText) { if(kind==='same') return [{id:'every',label:'Every Day'}]; if(kind==='ab') return ['A','B'].map(x=>({id:x.toLowerCase(),label:x})); if(kind==='ag') return 'ABCDEFG'.split('').map(x=>({id:x.toLowerCase(),label:x})); const count=Number(kind.match(/\d$/)?.[0]); if(count) return Array.from({length:count},(_,i)=>({id:`day-${i+1}`,label:`Day ${i+1}`})); return String(customText||'').split(',').map(x=>x.trim()).filter(Boolean).map((label,i)=>({id:`rotation-${i+1}-${slug(label)}`,label})); }
 function periodRow(p,index) { return `<div class="period-row" data-index="${index}"><input data-key="label" value="${esc(p.label)}" aria-label="Period name"><input data-key="start" type="time" value="${esc(p.start)}" aria-label="Start time"><input data-key="end" type="time" value="${esc(p.end)}" aria-label="End time"><select data-key="kind">${option('academic',p.kind||'academic','Class')}${option('support',p.kind,'Advisory / FLEX / WIN')}${option('lunch',p.kind,'Lunch')}${option('passing',p.kind,'Passing Time')}${option('other',p.kind,'Other')}</select><button type="button" class="small-button up">↑</button><button type="button" class="small-button down">↓</button><button type="button" class="small-button destructive remove-period">Delete</button></div>`; }
