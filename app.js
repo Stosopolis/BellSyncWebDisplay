@@ -488,19 +488,22 @@ function timingInputValues(fields) {
   }))}));
 }
 // WSHS controls edit only a detached profile draft. Cancel never writes storage.
-function wshsSettings(working,root) {
+function wshsSettings(working,root,layout={}) {
+  const compact=Boolean(layout.lunchRoot),lunchRoot=Object.hasOwn(layout,'lunchRoot')?layout.lunchRoot:root,calendarRoot=Object.hasOwn(layout,'calendarRoot')?layout.calendarRoot:root;
   const raw=working.portable.shared,d=raw.schoolDefinitionSnapshot;
   const section=document.createElement('section');section.className='editor-section';
-  const heading=document.createElement('h3');heading.textContent='Winter Springs lunch selections';section.append(heading);
+  const heading=document.createElement('h3');heading.textContent=compact?'Lunch assignments':'Winter Springs lunch selections';section.append(heading);
+  const semesterOne=document.createElement('div'),semesterTwo=document.createElement('div');
+  if(compact){semesterOne.className=semesterTwo.className='customize-semester';semesterOne.innerHTML='<h3>Semester 1</h3>';semesterTwo.innerHTML='<h3>Semester 2</h3><p class="help">Begins January 6, 2027 · Automatic uses the opposite lunch.</p>';section.append(semesterOne,semesterTwo);}
   const originalAssignments=clone(raw.assignments),originalPreferences=raw.wshsLunchPreferences?clone(raw.wshsLunchPreferences):null;
   const lunchFields=['P5','P6'].map(period=>{
     const preference=wshsLunchPreference(raw,period);
-    const label=document.createElement('label');label.textContent=`Semester 1 · Period ${period.slice(1)}`;
-    const select=document.createElement('select');select.setAttribute('aria-label',label.textContent);
-    select.innerHTML=option('L1',preference.selectedOptionID,'First Lunch')+option('L2',preference.selectedOptionID,'Second Lunch');label.append(select);section.append(label);
-    const secondLabel=document.createElement('label');secondLabel.textContent=`Semester 2 · Period ${period.slice(1)} · from January 6`;
-    const second=document.createElement('select');second.setAttribute('aria-label',secondLabel.textContent);
-    second.innerHTML=option('',preference.secondSemesterOptionID ?? '','Automatic · opposite of semester 1')+option('L1',preference.secondSemesterOptionID,'First Lunch')+option('L2',preference.secondSemesterOptionID,'Second Lunch');secondLabel.append(second);section.append(secondLabel);
+    const label=document.createElement('label');label.textContent=compact?`Period ${period.slice(1)}`:`Semester 1 · Period ${period.slice(1)}`;
+    const select=document.createElement('select');select.setAttribute('aria-label',compact?`Semester 1, ${label.textContent}`:label.textContent);
+    select.innerHTML=option('L1',preference.selectedOptionID,'First Lunch')+option('L2',preference.selectedOptionID,'Second Lunch');label.append(select);(compact?semesterOne:section).append(label);
+    const secondLabel=document.createElement('label');secondLabel.textContent=compact?`Period ${period.slice(1)}`:`Semester 2 · Period ${period.slice(1)} · from January 6`;
+    const second=document.createElement('select');second.setAttribute('aria-label',compact?`Semester 2, ${secondLabel.textContent}`:secondLabel.textContent);
+    second.innerHTML=option('',preference.secondSemesterOptionID ?? '','Automatic · opposite of semester 1')+option('L1',preference.secondSemesterOptionID,'First Lunch')+option('L2',preference.secondSemesterOptionID,'Second Lunch');secondLabel.append(second);(compact?semesterTwo:section).append(secondLabel);
     return {period,select,second,initial:preference};
   });
   const effective=document.createElement('p');effective.className='notice';section.append(effective);
@@ -516,18 +519,20 @@ function wshsSettings(working,root) {
     effective.textContent=`Effective for ${reference} (semester ${semester}): ${choices.join('; ')}. ${!day?'No school.':!template?'Bell times unavailable.':rule?`This schedule uses ${rule.periodID} lunch.`:'This schedule has no lunch.'}`;
   };
   for(const field of lunchFields){field.select.onchange=updateEffective;field.second.onchange=updateEffective;}updateEffective();
-  const notice=document.createElement('p');notice.className='notice';notice.textContent='Semester two defaults to the opposite saved semester-one lunch for each period, with independent overrides. Actual templates select P5 or P6: December 15 and May 20 use P6; May 19 uses P5. Half-day exams have no lunch. Changing the viewed date never saves lunch choices.';section.append(notice);
-  if(raw.wshsUpdateConflicts?.length){const conflicts=document.createElement('p');conflicts.className='notice';conflicts.textContent=`Source update conflicts: ${raw.wshsUpdateConflicts.join('; ')}. Existing custom records take precedence; review before relying on published exam bells.`;section.append(conflicts);}
-  const calendarHeading=document.createElement('h3');calendarHeading.textContent='Conditional make-up days';section.append(calendarHeading);
-  const calendarNote=document.createElement('p');calendarNote.className='notice';calendarNote.textContent='Leave these dates closed unless the school confirms both attendance and ordinary weekday bells. May 26 is outside the normal school year. The six confirmed early-dismissal exam days finish at 11:40 AM. Future state-testing schedules await confirmation.';section.append(calendarNote);
+  const notice=document.createElement('p');notice.className='notice';notice.textContent='Semester two defaults to the opposite saved semester-one lunch for each period, with independent overrides. Actual templates select P5 or P6: December 15 and May 20 use P6; May 19 uses P5. Half-day exams have no lunch. Changing the viewed date never saves lunch choices.';if(compact){const help=document.createElement('details');help.className='customize-disclosure';help.innerHTML='<summary>About lunch assignments</summary>';help.append(notice);section.append(help);}else section.append(notice);
+  const calendarSection=document.createElement('section');calendarSection.className='editor-section';
+  if(raw.wshsUpdateConflicts?.length){const conflicts=document.createElement('p');conflicts.className='notice';conflicts.textContent=`Source update conflicts: ${raw.wshsUpdateConflicts.join('; ')}. Existing custom records take precedence; review before relying on published exam bells.`;if(compact){const disclosure=document.createElement('details');disclosure.className='customize-disclosure';const title=document.createElement('summary');title.textContent=`Preserved custom changes (${raw.wshsUpdateConflicts.length})`;disclosure.append(title,conflicts);calendarSection.append(disclosure);}else calendarSection.append(conflicts);}
+  const calendarHeading=document.createElement('h3');calendarHeading.textContent='Conditional make-up days';calendarSection.append(calendarHeading);
+  const calendarNote=document.createElement('p');calendarNote.className='notice';calendarNote.textContent='Leave these dates closed unless the school confirms both attendance and ordinary weekday bells. May 26 is outside the normal school year. The six confirmed early-dismissal exam days finish at 11:40 AM. Future state-testing schedules await confirmation.';if(compact)calendarNote.textContent='Keep dates closed unless your school confirms ordinary weekday bells.';calendarSection.append(calendarNote);
   const corrections=(raw.calendarCorrections ?? []).map(row=>({...row}));
   const calendarFields=Object.entries(d.calendarExceptions).filter(([,e])=>/Conditional .*make-up/i.test(e.note || '')).sort(([a],[b])=>a.localeCompare(b)).map(([key])=>{
-    const label=document.createElement('label');label.textContent=key;
+    const label=document.createElement('label');label.textContent=compact?new Intl.DateTimeFormat('en-US',{month:'short',day:'numeric',year:'numeric',timeZone:'UTC'}).format(new Date(`${key}T12:00Z`)):key;
     const select=document.createElement('select'),existing=corrections.find(r=>r.dateKey===key),initial=existing?.kind==='schoolInSession'?'schoolInSession':'noSchool';
-    select.setAttribute('aria-label',`${key} make-up day`);select.innerHTML=option('noSchool',initial,'No school · conditional')+option('schoolInSession',initial,'School confirmed ordinary weekday bells');label.append(select);section.append(label);
+    select.setAttribute('aria-label',`${key} make-up day`);select.innerHTML=option('noSchool',initial,'No school · conditional')+option('schoolInSession',initial,compact?'Use weekday bells':'School confirmed ordinary weekday bells');label.append(select);calendarSection.append(label);
     return {key,select,initial};
   });
-  root.append(section);
+  if(compact){lunchRoot?.append(section);calendarRoot?.append(calendarSection);}
+  else {section.append(...calendarSection.childNodes);root.append(section);}
   return ()=>{
     raw.assignments=clone(originalAssignments);
     if(originalPreferences)raw.wshsLunchPreferences=clone(originalPreferences);else delete raw.wshsLunchPreferences;
@@ -547,46 +552,125 @@ function wshsSettings(working,root) {
     raw.calendarCorrections=nextCorrections;
   };
 }
-function openPortableEditor(value,targetID,focusLunch=false) {
-  const working=clone(value),raw=working.portable.shared,d=raw.schoolDefinitionSnapshot;
-  modal(`<header class="modal-head"><div><h2>Edit Imported Schedule</h2><p>Source timing, rotation, calendar, and lunch rules come from BellSync. Display names, rooms, and optional timing overrides apply only to this Web Display profile.</p></div><button id="close" class="icon-button" aria-label="Close dialog">×</button></header><form id="portable-editor" class="managed-editor"><div class="managed-editor-top"><label>Display name<input name="profileName" required></label></div><div id="portable-fields" class="managed-classes"></div><p class="form-error" id="form-error" role="alert"></p><footer class="modal-footer managed-footer"><button id="cancel" type="button" class="secondary">Cancel</button><button type="submit" class="primary">Save Changes</button></footer></form>`);
-  document.querySelector('#modal-root .modal')?.classList.add('managed-modal');
-  const form=document.querySelector('#portable-editor'),root=document.querySelector('#portable-fields');form.elements.profileName.value=working.profileName;root.replaceChildren();
-  const fields=[],lunchFields=[];
+// Feature discovery stays with the existing school-specific settings renderer.
+// The shared editor only arranges supported controls; it adds no school rules.
+function importedEditorControls(working) {
   const lunchRows=requiredLunchAssignments(working);
-  const applyWSHS=working.school.id==='wshs' && working.sourceKind==='bellsync-snapshot'?wshsSettings(working,root):null;
-  if(lunchRows.length && !applyWSHS){const section=document.createElement('section');section.className='editor-section';const heading=document.createElement('h3');heading.textContent='Lunch selections';section.append(heading);for(const r of lunchRows){const label=document.createElement('label');label.textContent=`Day ${r.day} · ${r.period} · Lunch`;const select=document.createElement('select');select.setAttribute('aria-label',`Day ${r.day}, ${r.period}, lunch selection`);select.innerHTML=option('',raw.assignments[r.day]?.[r.period]?.lunch || '', 'Choose lunch')+r.choices.map(choice=>option(choice,raw.assignments[r.day]?.[r.period]?.lunch,choice==='NO_LUNCH'?'No Lunch':choice.replace('L','Lunch '))).join('');select.value=raw.assignments[r.day]?.[r.period]?.lunch || '';const field={...r,select,changed:false};select.onchange=()=>{field.changed=true;};label.append(select);section.append(label);lunchFields.push(field);}root.append(section);}
+  if(working.school.id==='wshs') {
+    const raw=working.portable.shared;
+    const calendar=Object.values(raw.schoolDefinitionSnapshot.calendarExceptions).some(e=>/Conditional .*make-up/i.test(e.note || '')) || Boolean(raw.wshsUpdateConflicts?.length);
+    return {lunch:lunchRows.length>0,calendar,render:(lunch,calendar)=>wshsSettings(working,lunch,{lunchRoot:lunch,calendarRoot:calendar})};
+  }
+  return {lunch:lunchRows.length>0,calendar:false,render:null};
+}
+function openPortableEditor(value,targetID,focusLunch=false) {
+  const working=clone(value),raw=working.portable.shared,d=raw.schoolDefinitionSnapshot,controls=importedEditorControls(working);
+  const opener=document.activeElement,openerID=opener?.id;
+  const tabs=[['classes','Classes'],...(controls.lunch?[['lunch','Lunch']]:[]),...(controls.calendar?[['calendar','Calendar']]:[])];
+  modal(`<header class="modal-head"><div><h2 id="customize-title">Customize Schedule</h2><p>${esc(working.school.displayName)}</p></div><button id="close" class="icon-button" aria-label="Close Customize Schedule">×</button></header><form id="portable-editor" class="customize-form" novalidate><div class="customize-tabs" role="tablist" aria-label="Schedule customization">${tabs.map(([id,label],i)=>`<button type="button" id="customize-tab-${id}" role="tab" aria-controls="customize-${id}" aria-selected="${i===0}" tabindex="${i===0?0:-1}">${label}</button>`).join('')}</div><div class="customize-scroll">${tabs.map(([id],i)=>`<section id="customize-${id}" class="customize-panel" role="tabpanel" aria-labelledby="customize-tab-${id}" tabindex="0" ${i?'hidden':''}>${id==='classes'?'<label class="customize-profile">Schedule display name<input name="profileName" required maxlength="2000" aria-label="Schedule display name"></label><div id="portable-fields"></div>':''}</section>`).join('')}</div><p class="form-error" id="form-error" role="alert" tabindex="-1"></p><footer class="modal-footer customize-footer"><button id="cancel" type="button" class="secondary">Cancel</button><button type="submit" class="primary">Save Changes</button></footer></form>`);
+  const modalRoot=document.querySelector('#modal-root'),dialog=modalRoot.querySelector('.modal'),form=document.querySelector('#portable-editor'),root=document.querySelector('#portable-fields');
+  dialog.classList.add('customize-modal');dialog.setAttribute('aria-labelledby','customize-title');dialog.removeAttribute('aria-label');
+  const support=dialog.querySelector('.support-help');if(support)form.querySelector('.customize-footer').prepend(support);
+  form.elements.profileName.value=working.profileName;
+  const scroll=form.querySelector('.customize-scroll'),scrollPositions=new Map();let activeTab='classes';
+  const activate=(id,focus=false)=>{
+    scrollPositions.set(activeTab,scroll.scrollTop);
+    for(const [key] of tabs){const active=key===id,tab=form.querySelector(`#customize-tab-${key}`);tab.setAttribute('aria-selected',String(active));tab.tabIndex=active?0:-1;form.querySelector(`#customize-${key}`).hidden=!active;}
+    activeTab=id;scroll.scrollTop=scrollPositions.get(id) || 0;
+    if(focus)form.querySelector(`#customize-tab-${id}`).focus();
+  };
+  tabs.forEach(([id],index)=>{
+    const tab=form.querySelector(`#customize-tab-${id}`);tab.onclick=()=>activate(id);
+    tab.onkeydown=event=>{if(['ArrowLeft','ArrowRight','Home','End'].includes(event.key)){event.preventDefault();const next=event.key==='Home'?0:event.key==='End'?tabs.length-1:(index+(event.key==='ArrowRight'?1:tabs.length-1))%tabs.length;activate(tabs[next][0],true);}};
+  });
+  const revealField=(input)=>{
+    const panel=input?.closest('[role="tabpanel"]');if(panel)activate(panel.id.replace('customize-',''));
+    for(let details=input?.closest('details');details;details=details.parentElement.closest('details'))details.open=true;
+    input?.focus();
+  };
+  const showFailure=(message,input=null)=>{
+    const panel=input?.closest('[role="tabpanel"]'),tab=tabs.find(([id])=>`customize-${id}`===panel?.id)?.[1];
+    const name=input?.getAttribute('aria-label') || (input===form.elements.profileName?'Schedule display name':'');
+    showEditorError(`${tab?`${tab} · `:''}${name?`${name}: `:''}${message}`);
+    if(input){input.setAttribute('aria-invalid','true');input.setAttribute('aria-describedby','form-error');revealField(input);}else form.querySelector('#form-error').focus();
+  };
+  form.addEventListener('input',event=>{if(event.target.hasAttribute('aria-invalid')){event.target.removeAttribute('aria-invalid');event.target.removeAttribute('aria-describedby');}showEditorError('');});
+  const restoreFocus=()=>{const target=(openerID && document.getElementById(openerID)) || (opener?.isConnected?opener:null);(target?.getClientRects().length && !target.closest('[hidden]')?target:document.querySelector('#schedule-toggle'))?.focus();};
+  const dismiss=()=>{closeModal();restoreFocus();};
+  document.querySelector('#close').onclick=dismiss;document.querySelector('#cancel').onclick=dismiss;modalRoot.querySelector('.modal-backdrop').onclick=dismiss;
+  modalRoot.addEventListener('keydown',event=>{
+    if(event.key==='Escape'){event.preventDefault();event.stopImmediatePropagation();dismiss();return;}
+    if(event.key==='Tab'){
+      const items=[...dialog.querySelectorAll('button,input,select,a[href],summary,[tabindex="0"]')].filter(el=>!el.disabled && el.tabIndex>=0 && el.getClientRects().length);
+      const first=items[0],last=items.at(-1);
+      if(event.shiftKey && document.activeElement===first){event.preventDefault();last?.focus();}else if(!event.shiftKey && document.activeElement===last){event.preventDefault();first?.focus();}
+    }
+  },true);
+  const fields=[],lunchFields=[],initialEdits=clone(working.portable.edits);
+  // Keep school renderers separate from generic lunch options.
+  const applySchool=controls.render?.(form.querySelector('#customize-lunch'),form.querySelector('#customize-calendar'));
+  if(controls.lunch && !applySchool){
+    const section=form.querySelector('#customize-lunch');
+    for(const r of requiredLunchAssignments(working)){
+      const label=document.createElement('label');label.className='customize-lunch-row';label.textContent=`${d.cycle.dayDisplayNames?.[r.day] || `Day ${r.day}`} · ${d.periodDefinitions.find(p=>p.id===r.period)?.displayName || r.period}`;
+      const select=document.createElement('select');select.setAttribute('aria-label',`${label.textContent}, lunch selection`);
+      const selected=raw.assignments[r.day]?.[r.period]?.lunch || '';
+      select.innerHTML=option('',selected,'Choose lunch')+r.choices.map(choice=>option(choice,selected,choice==='NO_LUNCH'?'No Lunch':choice.replace('L','Lunch '))).join('');select.value=selected;
+      const field={...r,select,changed:false};select.onchange=()=>{field.changed=true;};label.append(select);section.append(label);lunchFields.push(field);
+    }
+  }
   const personalPeriods=new Set((raw.personalActivities ?? []).map(p=>p.sourcePeriodID));
   for(const [type,items] of [['period',d.periodDefinitions.filter(p=>!personalPeriods.has(p.id))],['personal',raw.personalActivities ?? []]]) {
     if(!items.length)continue;
-    const section=document.createElement('section');section.className='editor-section';const heading=document.createElement('h3');heading.textContent=type==='period'?'Source activities':'Profile owner activities';section.append(heading);
+    const section=document.createElement('section');section.className='customize-activities';
+    const heading=document.createElement('h3');heading.textContent=type==='period'?'Classes & activities':'Personal activities';section.append(heading);
+    const columns=document.createElement('div');columns.className='customize-columns';columns.setAttribute('aria-hidden','true');columns.innerHTML='<span>Activity</span><span>Display name</span><span>Room <small>(optional)</small></span>';section.append(columns);
     for(const item of items) {
       const edit=working.portable.edits.find(e=>e.type===type && e.id===item.id),baseTitle=item.displayName || item.title;
-      const row=document.createElement('div');row.className='portable-edit-row';
-      const source=document.createElement('strong');source.textContent=baseTitle;
-      const titleLabel=document.createElement('label'),caption=document.createElement('span');caption.textContent='Display name';
-      const title=document.createElement('input');title.value=edit?.title || baseTitle;title.setAttribute('aria-label',`${baseTitle}, display name`);titleLabel.append(caption,title);
-      const roomLabel=document.createElement('label'),roomCaption=document.createElement('span');roomCaption.textContent='Room override (optional)';
-      const room=document.createElement('input');room.value=edit?.room ?? item.room ?? '';room.setAttribute('aria-label',`${baseTitle}, room override`);roomLabel.append(roomCaption,room);
+      const row=document.createElement('div');row.className='customize-class-row';
+      const source=document.createElement('span');source.className='customize-source';source.textContent=type==='period' && /^P\d+$/.test(item.id)?item.id:baseTitle;source.title=baseTitle;
+      const titleLabel=document.createElement('label'),caption=document.createElement('span');caption.className='sr-only';caption.textContent='Display name';
+      const title=document.createElement('input');title.value=edit?.title || baseTitle;title.required=true;title.maxLength=2000;title.setAttribute('aria-label',`${baseTitle}, display name`);titleLabel.append(caption,title);
+      const roomLabel=document.createElement('label'),roomCaption=document.createElement('span');roomCaption.className='sr-only';roomCaption.textContent='Room (optional)';
+      const room=document.createElement('input');room.value=edit?.room ?? item.room ?? '';room.maxLength=2000;room.placeholder='Room';room.setAttribute('aria-label',`${baseTitle}, room override (optional)`);roomLabel.append(roomCaption,room);
       row.append(source,titleLabel,roomLabel);section.append(row);fields.push({type,id:item.id,title,room,baseTitle,baseRoom:item.room ?? '',initialTitle:title.value,initialRoom:room.value});
     }
     root.append(section);
   }
-  const timingFields=timingEditor(working,root);
-  document.querySelector('#close').onclick=closeModal;document.querySelector('#cancel').onclick=closeModal;
-  if(focusLunch)(lunchFields.find(f=>!f.select.value) || lunchFields[0])?.select.focus();
-  form.onsubmit=event=>{event.preventDefault();try{
-    working.profileName=form.elements.profileName.value.trim();
-    for(const f of fields) {
-      if(f.title.value===f.initialTitle && f.room.value===f.initialRoom)continue;
-      let edit=working.portable.edits.find(e=>e.type===f.type && e.id===f.id);
-      if(!edit){edit={type:f.type,id:f.id};working.portable.edits.push(edit);}
-      if(f.title.value!==f.initialTitle)edit.title=f.title.value.trim();
-      if(f.room.value!==f.initialRoom)edit.room=f.room.value.trim();
+  const timingFields=timingCatalog(working).length?timingEditor(working,root):[];
+  const advanced=root.querySelector('.timing-editor');if(advanced){advanced.classList.add('customize-disclosure');advanced.querySelector('summary').textContent='Advanced Timing';}
+  if(focusLunch && controls.lunch){activate('lunch');(lunchFields.find(f=>!f.select.value)?.select || form.querySelector('#customize-lunch select'))?.focus();}else activate('classes',true);
+  let stage='classes';
+  form.onsubmit=event=>{event.preventDefault();
+    const invalid=[...form.elements].find(input=>input.willValidate && !input.validity.valid);
+    if(invalid){showFailure(invalid.validationMessage,invalid);return;}
+    const blank=!form.elements.profileName.value.trim()?form.elements.profileName:fields.find(f=>!f.title.value.trim())?.title;
+    if(blank){showFailure('Enter a display name.',blank);return;}
+    try{
+      working.profileName=form.elements.profileName.value.trim();
+      working.portable.edits=clone(initialEdits);
+      for(const f of fields) {
+        if(f.title.value===f.initialTitle && f.room.value===f.initialRoom)continue;
+        let edit=working.portable.edits.find(e=>e.type===f.type && e.id===f.id);
+        if(!edit){edit={type:f.type,id:f.id};working.portable.edits.push(edit);}
+        if(f.title.value!==f.initialTitle)edit.title=f.title.value.trim();
+        if(f.room.value!==f.initialRoom)edit.room=f.room.value.trim();
+      }
+      stage='school';applySchool?.();stage='timing';
+      const timed=setTimingOverrides(working,timingInputValues(timingFields));stage='lunch';
+      const next=setProfileLunchChoices(timed,lunchFields.filter(f=>f.changed).map(f=>({...f,lunch:f.select.value})));stage='save';
+      save(next,targetID);maybePromptLunch(targetID || store.snapshot.activeProfileID);
+      restoreFocus();
+    }catch(error){
+      let input=null;
+      if(stage==='timing'){
+        const edits=timingInputValues(timingFields);
+        const index=timingFields.findIndex((f,i)=>f.item.sources.some(s=>(edits[i].end || s.end) && (edits[i].end || s.end)<=(edits[i].start || s.start)));
+        const field=timingFields[index] || timingFields.find(f=>error.message.includes(f.item.label)) || timingFields[0];input=field?.inputs.end || field?.inputs.time || field?.inputs.start;
+      }else if(stage==='lunch' && /display name|title|room/i.test(error.message))input=form.elements.profileName.value.trim()?fields.find(f=>!f.title.value.trim())?.title:form.elements.profileName;
+      showFailure(error.message,input);
     }
-    applyWSHS?.();
-    save(setProfileLunchChoices(setTimingOverrides(working,timingInputValues(timingFields)),lunchFields.filter(f=>f.changed).map(f=>({...f,lunch:f.select.value}))),targetID);maybePromptLunch(targetID || store.snapshot.activeProfileID);
-  }catch(error){showEditorError(error.message)}};
+  };
 }
 function openManagedEditor(value, targetID,focusLunch=false) {
   const working=clone(value),wmhs=working.school.id==='wmhs';

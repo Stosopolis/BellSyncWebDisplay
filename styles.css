@@ -180,3 +180,54 @@
 .profile-grade{margin-top:24px}
 .profile-grade h3{font-size:1.1rem;color:var(--text)}
 .profile-grade .setup-options{margin-top:10px}
+
+/* Imported schedule customization: one draft, a fixed header/footer, and a
+   single scrolling content region. Scoped to leave other editors unchanged. */
+.modal.customize-modal { width:min(840px,100%);height:min(760px,calc(100dvh - 40px));max-height:calc(100dvh - 40px);display:flex;flex-direction:column;overflow:hidden;padding:24px 24px 0 }
+.customize-modal .modal-head { flex:0 0 auto;margin-bottom:8px }
+.customize-modal .modal-head h2 { font-size:1.4rem;letter-spacing:-.025em }
+.customize-modal .modal-head p { margin:6px 0 10px;font-size:.9rem }
+.customize-form { display:flex;flex-direction:column;flex:1;min-height:0;overflow:hidden }
+.customize-tabs { display:flex;gap:24px;flex:0 0 auto;border-bottom:1px solid var(--line) }
+.customize-tabs [role=tab] { min-height:44px;padding:12px 2px;border:0;border-radius:0;background:transparent;color:var(--muted);font-weight:700 }
+.customize-tabs [aria-selected=true] { color:var(--mint);box-shadow:inset 0 -2px var(--mint) }
+.customize-scroll { min-height:0;flex:1;overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:stable;padding:20px 2px 24px }
+.customize-panel[hidden] { display:none }
+.customize-panel { min-width:0 }
+.customize-profile { margin-bottom:26px;max-width:480px;font-size:.85rem }
+.customize-activities + .customize-activities { margin-top:26px }
+.customize-activities h3,.customize-panel h3 { font-size:.9rem;font-weight:700;margin:0 0 12px }
+.customize-columns,.customize-class-row { display:grid;grid-template-columns:minmax(70px,.65fr) minmax(0,2fr) minmax(85px,.8fr);gap:12px;align-items:center;padding:9px 0;border-bottom:1px solid #ffffff0d }
+.customize-columns { color:var(--muted);font-size:.72rem;border:0;padding:0 0 4px }
+.customize-class-row > * { min-width:0 }
+.customize-source { color:var(--muted);font-size:.85rem;overflow-wrap:anywhere }
+.customize-class-row input { font-size:.9rem }
+.customize-modal input[aria-invalid=true],.customize-modal select[aria-invalid=true] { border-color:#ffaaa4 }
+.customize-panel .editor-section { margin:0;padding:0;border:0 }
+.customize-semester { padding:14px 0 20px }
+.customize-semester + .customize-semester { border-top:1px solid var(--line) }
+.customize-semester > label,.customize-lunch-row,#customize-calendar .editor-section > label { display:grid;grid-template-columns:minmax(95px,1fr) minmax(0,1.5fr);align-items:center;gap:16px;margin:10px 0;font-size:.9rem }
+.customize-panel .notice,.customize-panel .help { font-size:.85rem;line-height:1.5;color:var(--muted);margin:8px 0 16px }
+.customize-panel .customize-disclosure { margin-top:22px;padding-top:16px;border-top:1px solid var(--line) }
+.customize-disclosure > summary { min-height:32px;cursor:pointer;font-size:.9rem;font-weight:700 }
+.customize-disclosure summary:focus-visible { outline:3px solid var(--mint);outline-offset:3px;border-radius:4px }
+.customize-modal .form-error { flex:0 0 auto;margin:0;padding:10px 0;font-size:.85rem;line-height:1.4;max-height:6rem;overflow:auto }
+.customize-modal .form-error:empty { display:none }
+.customize-footer { position:sticky;bottom:0;flex:0 0 auto;align-items:center;margin:0;padding:16px 0 20px;background:#0c1b20 }
+.customize-footer .support-help { margin:0 auto 0 0 }
+.customize-footer .support-help > span { display:none }
+.customize-footer .support-link { padding:8px 0;border:0;font-size:.8rem;font-weight:500;color:var(--muted) }
+@media(max-width:600px) {
+  .modal.customize-modal { padding:20px 16px 0;height:calc(100dvh - 24px);max-height:calc(100dvh - 24px) }
+  .customize-columns,.customize-class-row { grid-template-columns:minmax(52px,.5fr) minmax(0,2fr) minmax(74px,.8fr);gap:8px }
+  .customize-class-row input { padding:10px 8px }
+  .customize-footer { flex-direction:row;flex-wrap:wrap;gap:10px;padding:12px 0 16px }
+  .customize-footer button { width:auto;flex:1 }
+  .customize-footer .support-help { flex-basis:100%;order:1;justify-content:center }
+}
+@media(max-width:380px) {
+  .customize-columns,.customize-class-row { grid-template-columns:48px minmax(0,1fr) }
+  .customize-columns { display:none }
+  .customize-class-row > label:last-child { grid-column:2 }
+  .customize-semester > label,.customize-lunch-row,#customize-calendar .editor-section > label { grid-template-columns:minmax(0,1fr);gap:6px }
+}
