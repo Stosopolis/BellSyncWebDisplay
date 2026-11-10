@@ -231,3 +231,61 @@
   .customize-class-row > label:last-child { grid-column:2 }
   .customize-semester > label,.customize-lunch-row,#customize-calendar .editor-section > label { grid-template-columns:minmax(0,1fr);gap:6px }
 }
+
+/* School directory and setup preview */
+.initial-setup {
+  width:min(690px,100%);
+  padding:clamp(18px,4vw,30px);
+}
+.initial-setup-brand { display:flex;align-items:center;gap:14px }
+.initial-setup-brand h1 { margin:0;font-size:clamp(1.4rem,4vw,2rem) }
+.initial-setup-brand p { margin:4px 0 0 }
+.school-directory input[type=search] {
+  width:100%;min-height:44px;padding:9px 12px;border:1px solid var(--line);
+  border-radius:9px;background:#0c1b20;color:var(--text);font:inherit;
+}
+.school-list { margin-top:10px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px 12px }
+.school-list button {
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  min-height:44px;padding:8px 10px;text-align:left;font:inherit;color:var(--text);
+  background:transparent;border:1px solid transparent;border-bottom-color:var(--line);border-radius:7px;
+}
+.school-list button[hidden] { display:none }
+.school-list button:hover,.school-list button:focus-visible { background:#163138;border-color:var(--mint) }
+.school-list button span:last-child { color:var(--mint);font-size:1.2em }
+.school-request { display:flex;flex-wrap:wrap;gap:5px 12px;margin-top:14px;color:var(--muted);font-size:.88rem }
+.school-request a { color:var(--mint) }
+#school-search-status:empty { display:none }
+.initial-setup .setup-options { margin:0;gap:8px }
+.initial-setup .setup-options .option-card,.setup-profile-list .option-card { padding:10px 12px }
+.setup-profile-list .setup-options { gap:8px }
+.setup-profile-list .profile-grade { margin-top:16px }
+.modal.setup-preview-modal {
+  width:min(710px,100%);max-height:calc(100dvh - 40px);display:flex;
+  flex-direction:column;overflow:hidden;padding:clamp(16px,4vw,24px);
+}
+.setup-preview-modal .modal-head,.setup-preview-modal .support-help { flex:none }
+.setup-preview-modal .preview-school { color:var(--mint);margin:0 0 5px }
+.setup-preview-body { min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:12px 4px }
+.setup-preview-body select { width:100%;min-width:0 }
+.setup-preview-caption { display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px;margin-top:20px }
+.setup-preview-caption h3 { margin:0;font-size:.95rem }
+.setup-preview-caption time,.setup-preview-time { color:var(--muted);font-size:.9rem;font-variant-numeric:tabular-nums }
+.setup-preview-list { padding:0;margin:6px 0 14px;list-style:none }
+.setup-preview-list li { display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 16px;padding:9px 0;border-bottom:1px solid var(--line) }
+.setup-preview-list strong { overflow-wrap:anywhere }
+.setup-preview-list small { display:block;color:var(--muted);margin-top:2px }
+.setup-lunch { margin:14px 0 }
+.setup-lunch summary { cursor:pointer;padding:8px 0;font-weight:700 }
+.setup-lunch .editor-section { margin:8px 0 0;padding:0;border:0 }
+.setup-lunch .editor-section > h3 { display:none }
+.setup-preview-footer { flex:none;margin:0;flex-wrap:wrap }
+@media(max-width:600px) {
+  .school-list { grid-template-columns:minmax(0,1fr) }
+  .setup-preview-footer { flex-direction:row }
+  .setup-preview-footer button { flex:1 1 135px;width:auto }
+}
+@media(max-width:420px) {
+  .setup-preview-list li { grid-template-columns:minmax(0,1fr) }
+  .setup-lunch .customize-semester > label { grid-template-columns:minmax(0,1fr) }
+}
