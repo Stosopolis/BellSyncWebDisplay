@@ -28,20 +28,24 @@ function app() {
   const data=new Map(),storage={getItem:k=>data.get(k)??null,setItem:(k,v)=>data.set(k,v)};
   const nodes=new Map();
   class Node {
-    constructor(tag='div') {this.tag=tag;this.children=[];this.attributes={};this.listeners={};this.innerHTML='';this.textContent='';this.value='';this.dataset={};this.classList={add(){}};this.elements={profileName:{value:''}};}
+    constructor(tag='div') {this.tag=tag;this.children=[];this.attributes={};this.listeners={};this.innerHTML='';this.textContent='';this.value='';this.dataset={};this.classList={add(){}};this.elements={profileName:{value:''},*[Symbol.iterator](){yield this.profileName;}};}
     append(...children){this.children.push(...children);for(const child of children)if(child.id)nodes.set(`#${child.id}`,child);}
     setAttribute(k,v){this.attributes[k]=v;}
     removeAttribute(k){delete this.attributes[k];}
     replaceChildren(...children){this.children=[];this.append(...children);}
     addEventListener(k,fn){this.listeners[k]=fn;}
     querySelector(k){return node(k);}
+    querySelectorAll(){return [];}
+    closest(){return null;}
+    getClientRects(){return [];}
+    prepend(...children){this.children.unshift(...children);}
     remove(){}
     focus(){}
   }
   const node=k=>{if(!nodes.has(k))nodes.set(k,new Node());return nodes.get(k);};
-  const document={body:new Node(),querySelector:node,querySelectorAll:()=>[],createElement:t=>new Node(t),addEventListener(){}};
+  const document={getElementById:id=>node(`#${id}`),body:new Node(),querySelector:node,querySelectorAll:()=>[],createElement:t=>new Node(t),addEventListener(){}};
   class FixedDate extends Date {constructor(...args){super(...(args.length?args:[at('11:30')]));}static now(){return at('11:30');}}
-  const sandbox={...core,...states,...profiles,...timing,...schools,esc:core.escapeHTML,Intl,Date:FixedDate,JSON,Set,crypto:globalThis.crypto,document,localStorage:storage,clearInterval(){},setInterval(){},alert:message=>{throw Error(message);},fetch:async path=>({ok:true,json:async()=>copy(path.includes('calendar')?calendar:school)})};
+  const sandbox={location:{hostname:'test.invalid',search:''},...core,...states,...profiles,...timing,...schools,esc:core.escapeHTML,Intl,Date:FixedDate,JSON,Set,crypto:globalThis.crypto,document,localStorage:storage,clearInterval(){},setInterval(){},alert:message=>{throw Error(message);},fetch:async path=>({ok:true,json:async()=>copy(path.includes('calendar')?calendar:school)})};
   vm.createContext(sandbox);vm.runInContext(source,sandbox);
   const run=script=>vm.runInContext(script,sandbox);
   return {storage,node,run,sandbox,

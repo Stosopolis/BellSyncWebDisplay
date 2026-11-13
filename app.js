@@ -3,7 +3,8 @@ import { timingCatalog, timingKey, setTimingOverrides } from './timing-overrides
 import { WEB_FORMAT, normalize, validate, defaultPreferences, formatClock, eventTitle, scheduleRowLabel, isRedundantScheduleBadge, escapeHTML as esc, isManagedWMHS, isManagedSchool, editManagedAssignments, managedLunchPeriods, requiredLunchAssignments, unresolvedLunchAssignments, setProfileLunchChoices, LUNCH_CHOICES, dateInZone, zonedTimestamp, schoolDay, headerScheduleLabel, schoolProgress } from './display-core.mjs';
 import { builtInConfiguration, DOYLE_PROFILES, doyleConfiguration, doyleSchedulePreview, schoolLinkSelection, SNAPSHOT_SCHOOLS, DOYLE_CHOICES, snapshotChoices, snapshotConfiguration, schoolSchedulePreview } from './school-setup.mjs';
 import { scheduleSnapshot, formatCountdown, countdownFraction } from './schedule-presentation.mjs';
-import { ProfileStore, DEMO_ID, inspectNativeImport, nativeConfigurations, exportProfiles, importDisplayProfiles } from './profile-store.mjs';
+import { ProfileStore, PROFILE_KEY, DEMO_ID, inspectNativeImport, nativeConfigurations, exportProfiles, importDisplayProfiles } from './profile-store.mjs';
+import { AGENDA_MODE_ENABLED } from './agenda/feature-flag.mjs?v=agenda-release-1';
 function supportLink(menu=false) {
  return `<a ${menu?'id="support" role="menuitem" tabindex="-1"':''} class="support-link${menu?'':' secondary'}" href="https://bellsync.app/support" target="_blank" rel="noopener noreferrer">Contact Support</a>`;
 }
@@ -17,6 +18,8 @@ let tickHandle;
 let isDemo = false;
 let viewRequest = 0;
 let viewedDate = null;
+let agendaPreview = null;
+let sharedToolbarHost = null;
 let dashboardViewKey = null;
 let dashboardRowsMarkup = null;
 let scheduleMenuOpen = false;
@@ -425,7 +428,47 @@ displayInput.addEventListener('change',async()=>{
   catch(error) { alert(error.message || 'This Display schedule could not be read.'); }
 });
 
-function render(){ dashboardViewKey=null;scheduleMenuOpen=false;clearInterval(tickHandle); if(!config){setup();return;} app.innerHTML='<div id="display"></div>'; update(); tickHandle=setInterval(update,500); }
+function displayToolbarMarkup() {
+  return `<div class="toolbar"><div class="schedule-actions" id="schedule-actions"><button id="schedule-toggle" aria-haspopup="menu" aria-expanded="${scheduleMenuOpen}" aria-controls="schedule-menu">Schedule ▾</button><div class="schedule-menu" id="schedule-menu" role="menu" aria-label="Schedule" ${scheduleMenuOpen?'':'hidden'}><button id="edit" role="menuitem" tabindex="-1">Edit Schedule</button><button id="change" role="menuitem" tabindex="-1">Switch Schedule</button><button id="export" role="menuitem" tabindex="-1">Export / Backup Schedule</button><hr role="separator"><button id="bell-timing" role="menuitem" tabindex="-1">Bell Timing Adjustment</button><button id="timing" role="menuitem" tabindex="-1">Activity Timing Overrides</button><hr role="separator">${supportLink(true)}<hr role="separator"><button id="remove" class="destructive" role="menuitem" tabindex="-1">Remove This Schedule</button></div></div><button id="settings">Display Settings</button><button id="full" aria-pressed="${document.fullscreenElement ? 'true' : 'false'}">${document.fullscreenElement ? 'Exit Full Screen' : 'Full Screen'}</button></div>`;
+}
+
+// The optional preview relocates the existing toolbar, including its menu.
+// Its release callback restores the ordinary dashboard placement.
+function mountAgendaToolbar(host, switcher) {
+  let toolbar = app.querySelector('.toolbar');
+  if (!toolbar) {
+    const template = document.createElement('template');
+    template.innerHTML = displayToolbarMarkup();
+    toolbar = template.content.firstElementChild;
+  }
+  const customize = document.createElement('button');
+  customize.type = 'button';
+  customize.textContent = 'Customize Schedule';
+  customize.onclick = () => { closeScheduleMenu(); editActiveSchedule(); };
+  const release = () => {
+    sharedToolbarHost = null;
+    switcher.remove();
+    customize.remove();
+    const clock = app.querySelector('.clock');
+    if (config && clock) clock.parentElement.append(toolbar);
+    else toolbar.remove();
+  };
+  try {
+    toolbar.prepend(switcher);
+    toolbar.querySelector('#schedule-actions').after(customize);
+    host.append(toolbar);
+    sharedToolbarHost = host;
+    bindScheduleMenu();
+    toolbar.querySelector('#settings').onclick = openSettings;
+    toolbar.querySelector('#full').onclick = toggleFullscreen;
+    return release;
+  } catch (error) {
+    release();
+    throw error;
+  }
+}
+
+function render(){ dashboardViewKey=null;closeScheduleMenu();clearInterval(tickHandle); if(!config){refreshAgendaPreview();setup();return;} app.innerHTML='<div id="display"></div>'; update(); tickHandle=setInterval(update,500); }
 function scheduleTimeText(timestamp,tz) { return timeText(timestamp-(config.bellTimingAdjustmentSeconds ?? 0)*1000,tz); }
 function timeText(timestamp, tz) { return formatClock(timestamp,tz,config.preferences?.hour24); }
 function completionCheck(className) { return `<svg class="${className}" viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="M14 33L26 45L51 20" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>`; }
@@ -444,15 +487,19 @@ function progressIndicators(now,key) {
   return `${progress.day?bar('Day',progress.day,''):''}${progress.year?bar('Year',progress.year,`${progress.year.completed} of ${progress.year.total} school days complete`):''}`;
 }
 function scheduleDensity(count) { return count<=8 ? 'relaxed' : count<=11 ? 'balanced' : 'busy'; }
-function update(){ if(!config || document.activeElement?.id==='view-date')return; const focusedAction=scheduleActionIDs.includes(document.activeElement?.id)?document.activeElement.id:null; const now=Date.now(), tz=config.school.timeZone, s=state(now); const current=s.current, next=s.next; const target=s.countdownTarget; const modeTitle=s.label; const {title,room}=s; const remaining=target!==null?duration(target-now):'—'; const progress=100*countdownFraction(s,now); const dayLabel=headerScheduleLabel(s.day);
+function update(){ if(!config)return; if(document.activeElement?.id==='view-date'){refreshAgendaPreview();return;} const focusedAction=scheduleActionIDs.includes(document.activeElement?.id)?document.activeElement.id:null; const now=Date.now(), tz=config.school.timeZone, s=state(now); const current=s.current, next=s.next; const target=s.countdownTarget; const modeTitle=s.label; const {title,room}=s; const remaining=target!==null?duration(target-now):'—'; const progress=100*countdownFraction(s,now); const dayLabel=headerScheduleLabel(s.day);
   const isComplete=s.state==='complete';
   const detailTime = target ?? next?.startAt;
   const detailLabel = s.state === 'active' ? current.countdownLabel || (current.kind==='lunch'?'Lunch ends':'Bell at') : 'Starts';
   const displayEvents=config.sourceKind==='bellsync-snapshot' ? [...s.events,...(s.points || []).map(p=>({...p,kind:'point',startAt:p.at,endAt:p.at}))].sort((a,b)=>a.startAt-b.startAt) : s.events;
   const rows=displayEvents.map(e=>{const status=s.state==='preview' && viewedDate?'future':current?.id===e.id?'current':e.endAt<=now?'complete':'future'; const displayRoom=config.preferences.showRooms && e.room ? `<small>Room ${esc(e.room)}</small>` : ''; const fullLabel=scheduleRowLabel(e,config.preferences.scheduleLabels),rowLabel=e.kind==='point'?'':scheduleBadge(e,config.preferences.scheduleLabels); return `<div class="row ${status} ${rowLabel?'':'no-label'} schedule-card">${rowLabel?`<span class="badge" title="${esc(fullLabel)}" aria-label="${esc(fullLabel)}">${esc(rowLabel)}</span>`:''}<div class="row-activity"><strong title="${esc(eventTitle(e))}">${esc(eventTitle(e))}</strong>${displayRoom}${e.kind==='point'?'<small>Point reminder · classroom activity continues</small>':''}<span class="row-state">${status==='current'?'<span class="now">NOW</span>':''}</span></div><div class="row-trailing"><time>${scheduleTimeText(e.startAt,tz)}${e.kind==='point'?'':`<small>Ends ${scheduleTimeText(e.endAt,tz)}</small>`}</time><span class="row-completion">${status==='complete'?completionCheck('row-check'):''}</span></div></div>`}).join('')||'<p class="sub">No schedule is listed for this date.</p>';
-  const markup=`<main class="dashboard size-${esc(config.preferences.displaySize)}" style="--accent:${accent()}"><section class="left"><header class="header"><div class="identity"><img class="mark" src="./public/assets/bellsync-display-icon.png" alt="BellSync" width="48" height="48"><div><strong>${esc(config.profileName||config.school.displayName)}</strong>${config.preferences.showSchoolName?`<small>${esc(config.school.displayName)}</small>`:''}</div></div><div><div class="clock">${timeText(now,tz)}</div><span class="meta">${esc(dayName(viewedDate?zonedTimestamp(viewedDate,'12:00',tz):now,tz))} · ${esc(dayLabel)}</span><div class="toolbar"><div class="schedule-actions" id="schedule-actions"><button id="schedule-toggle" aria-haspopup="menu" aria-expanded="${scheduleMenuOpen}" aria-controls="schedule-menu">Schedule ▾</button><div class="schedule-menu" id="schedule-menu" role="menu" aria-label="Schedule" ${scheduleMenuOpen?'':'hidden'}><button id="edit" role="menuitem" tabindex="-1">Edit Schedule</button><button id="change" role="menuitem" tabindex="-1">Switch Schedule</button><button id="export" role="menuitem" tabindex="-1">Export / Backup Schedule</button><hr role="separator"><button id="bell-timing" role="menuitem" tabindex="-1">Bell Timing Adjustment</button><button id="timing" role="menuitem" tabindex="-1">Activity Timing Overrides</button><hr role="separator">${supportLink(true)}<hr role="separator"><button id="remove" class="destructive" role="menuitem" tabindex="-1">Remove This Schedule</button></div></div><button id="settings">Display Settings</button><button id="full" aria-pressed="${document.fullscreenElement ? 'true' : 'false'}">${document.fullscreenElement ? 'Exit Full Screen' : 'Full Screen'}</button></div></div></header>${lunchWarning(config,'lunch-warning',s.day)}<div class="status"><article class="status-card"><div class="ring ${isComplete?'is-complete':''}" style="--progress:${isComplete?100:progress}"><div>${isComplete?completionCheck('completion-check'):`<div class="countdown${remaining.split(':').length===3?' has-hours':''}">${target?remaining:'—'}</div>`}<div class="state-label">${isComplete?'COMPLETE':modeTitle}</div></div></div><div class="event-title">${esc(isComplete?'Done for today':title)}</div>${isComplete?'':`<div class="details">${room?`Room ${esc(room)} · `:''}${detailTime != null?`${esc(detailLabel)} ${scheduleTimeText(detailTime,tz)}`:s.state==='preview'?'No scheduled activities':'No active bell'}</div>`}${progressIndicators(now,s.key)}</article></div>${next?`<article class="next-card"><div class="next-label">NEXT</div><b>${!scheduleRowLabel(next,'blocks') || isRedundantScheduleBadge(scheduleRowLabel(next,'blocks'),eventTitle(next))?'':`${esc(scheduleRowLabel(next,'blocks'))} · `}${esc(eventTitle(next))}</b><div class="sub">Starts ${scheduleTimeText(next.startAt,tz)}${config.preferences.showRooms && next.room?` · Room ${esc(next.room)}`:''}</div></article>`:''}</section>${config.preferences.showSchedule?`<aside class="schedule"><h2>${viewedDate && viewedDate!==dateInZone(now,tz)?'SCHEDULE':"TODAY'S SCHEDULE"}</h2>${scheduleDateControls(now)}<div class="rows ${scheduleDensity(displayEvents.length)}" data-row-count="${displayEvents.length}">${rows}</div></aside>`:''}</main>`;
+  const markup=`<main class="dashboard size-${esc(config.preferences.displaySize)}" style="--accent:${accent()}"><section class="left"><header class="header"><div class="identity"><img class="mark" src="./public/assets/bellsync-display-icon.png" alt="BellSync" width="48" height="48"><div><strong>${esc(config.profileName||config.school.displayName)}</strong>${config.preferences.showSchoolName?`<small>${esc(config.school.displayName)}</small>`:''}</div></div><div><div class="clock">${timeText(now,tz)}</div><span class="meta">${esc(dayName(viewedDate?zonedTimestamp(viewedDate,'12:00',tz):now,tz))} · ${esc(dayLabel)}</span>${sharedToolbarHost ? '' : displayToolbarMarkup()}</div></header>${lunchWarning(config,'lunch-warning',s.day)}<div class="status"><article class="status-card"><div class="ring ${isComplete?'is-complete':''}" style="--progress:${isComplete?100:progress}"><div>${isComplete?completionCheck('completion-check'):`<div class="countdown${remaining.split(':').length===3?' has-hours':''}">${target?remaining:'—'}</div>`}<div class="state-label">${isComplete?'COMPLETE':modeTitle}</div></div></div><div class="event-title">${esc(isComplete?'Done for today':title)}</div>${isComplete?'':`<div class="details">${room?`Room ${esc(room)} · `:''}${detailTime != null?`${esc(detailLabel)} ${scheduleTimeText(detailTime,tz)}`:s.state==='preview'?'No scheduled activities':'No active bell'}</div>`}${progressIndicators(now,s.key)}</article></div>${next?`<article class="next-card"><div class="next-label">NEXT</div><b>${!scheduleRowLabel(next,'blocks') || isRedundantScheduleBadge(scheduleRowLabel(next,'blocks'),eventTitle(next))?'':`${esc(scheduleRowLabel(next,'blocks'))} · `}${esc(eventTitle(next))}</b><div class="sub">Starts ${scheduleTimeText(next.startAt,tz)}${config.preferences.showRooms && next.room?` · Room ${esc(next.room)}`:''}</div></article>`:''}</section>${config.preferences.showSchedule?`<aside class="schedule"><h2>${viewedDate && viewedDate!==dateInZone(now,tz)?'SCHEDULE':"TODAY'S SCHEDULE"}</h2>${scheduleDateControls(now)}<div class="rows ${scheduleDensity(displayEvents.length)}" data-row-count="${displayEvents.length}">${rows}</div></aside>`:''}</main>`;
   paintDashboard(markup,rows,JSON.stringify([isDemo?DEMO_ID:store?.snapshot.activeProfileID,s.key,config.preferences.showSchedule]));
-  bindScheduleMenu();if(config.preferences.showSchedule)bindScheduleDates(now);document.querySelector('#lunch-warning')?.addEventListener('click',()=>openLunchConfiguration());document.querySelector('#settings').onclick=openSettings;document.querySelector('#full').onclick=toggleFullscreen;if(focusedAction)document.querySelector(`#${focusedAction}`)?.focus(); }
+  const fullButton=document.querySelector('#full');
+  const fullLabel=document.fullscreenElement?'Exit Full Screen':'Full Screen';
+  if(fullButton.textContent!==fullLabel)fullButton.textContent=fullLabel;
+  fullButton.setAttribute('aria-pressed',String(Boolean(document.fullscreenElement)));
+  bindScheduleMenu();if(config.preferences.showSchedule)bindScheduleDates(now);document.querySelector('#lunch-warning')?.addEventListener('click',()=>openLunchConfiguration());document.querySelector('#settings').onclick=openSettings;document.querySelector('#full').onclick=toggleFullscreen;if(focusedAction)document.querySelector(`#${focusedAction}`)?.focus(); refreshAgendaPreview(); }
 // Keep the native scroll container mounted during clock/countdown ticks, so
 // wheel momentum and scrollbar dragging survive ordinary live updates.
 function paintDashboard(markup,rows,viewKey) {
@@ -473,10 +520,9 @@ function paintDashboard(markup,rows,viewKey) {
 // The header and branding image stay attached. Only changing text and dynamic
 // cards update on ticks; the image src is never reassigned by the live renderer.
 function refreshDashboardLeft(left,next) {
-  for(const selector of ['.clock','.meta','#full']) {
+  for(const selector of ['.clock','.meta']) {
     const current=left.querySelector(selector),incoming=next.querySelector(selector);
     if(current.textContent!==incoming.textContent)current.textContent=incoming.textContent;
-    if(selector==='#full')current.setAttribute('aria-pressed',incoming.getAttribute('aria-pressed'));
   }
   for(const selector of ['.lunch-warning','.status','.next-card']) {
     const current=left.querySelector(selector),incoming=next.querySelector(selector);
@@ -920,3 +966,56 @@ const schoolLink=globalThis.location?.search ? schoolLinkSelection(globalThis.lo
 if(schoolLink) {if(schoolLink.profile) startBuiltinSetup(schoolLink.school,schoolLink.profile);else chooseBuiltinProfile(schoolLink.school);}
 else if(store?.snapshot.activeProfileID === DEMO_ID) loadDemo();
 else if(store?.snapshot.savedProfiles.length && !config) openChange();
+
+
+// Optional localhost preview starts after the Normal Display entry point.
+function agendaContext() {
+  if (!config) return null;
+  const now = Date.now();
+  return {
+    profileID: isDemo ? null : store?.snapshot.activeProfileID,
+    configuration: config,
+    selectedDate: viewedDate || dateInZone(now, config.school.timeZone),
+    liveDate: dateInZone(now, config.school.timeZone),
+    selectedSnapshot: state(now),
+    liveSnapshot: scheduleSnapshot(config, now),
+    now,
+    accent: accent(),
+  };
+}
+function refreshAgendaPreview() {
+  if (!agendaPreview) return;
+  try { agendaPreview.update(); }
+  catch (error) {
+    agendaPreview.dispose();
+    agendaPreview = null;
+    console.warn('Classroom preview stopped:', error.message);
+  }
+}
+const agendaLocalHost = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+if ((agendaLocalHost || location.hostname === 'display.bellsync.app') &&
+    (AGENDA_MODE_ENABLED || (agendaLocalHost && new URLSearchParams(location.search).get('agenda') === '1'))) {
+  import('./agenda/bootstrap.mjs?v=agenda-release-1')
+    .then(async ({ mountAgendaPreview }) => {
+      agendaPreview = await mountAgendaPreview({
+        getContext: agendaContext,
+        actions: {
+          getProfiles() {
+            const profiles = requireStore();
+            if (localStorage.getItem(PROFILE_KEY) !== profiles.raw) throw Error('School profiles changed in another tab. Reload before importing or exporting agendas.');
+            return profiles.snapshot.savedProfiles;
+          },
+          setDate(date) {
+            if (!config) return;
+            scheduleSnapshot(config, Date.now(), { date, isLive: false });
+            viewedDate = date;
+            viewRequest++;
+            update();
+          },
+          mountToolbar: mountAgendaToolbar,
+        },
+      });
+      refreshAgendaPreview();
+    })
+    .catch(error => console.warn('Classroom preview unavailable:', error.message));
+}

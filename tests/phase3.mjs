@@ -162,8 +162,8 @@ await test('duplicate IDs and unsupported stored collection versions are rejecte
 // Exercise app-level Demo/save routing with inert DOM objects, no browser.
 await test('app switches Real-Demo-Real and explicit Demo copy adds a distinct profile',async()=>{
   const storage=memory(),nodes=new Map();
-  const node=key=>{if(!nodes.has(key))nodes.set(key,{innerHTML:'',addEventListener(){},remove(){}});return nodes.get(key);};
-  const sandbox={...core,...states,...profiles,...schools,esc:core.escapeHTML,Intl,Date,JSON,Set,crypto:globalThis.crypto,document:{querySelector:node,querySelectorAll:()=>[],addEventListener(){}},localStorage:storage,clearInterval(){},setInterval(){},alert:message=>{throw Error(message);},fetch:async()=>({ok:true,json:async()=>copy(demo)})};
+  const node=key=>{if(!nodes.has(key))nodes.set(key,{innerHTML:'',querySelector:node,addEventListener(){},setAttribute(){},querySelectorAll(){return [];},remove(){}});return nodes.get(key);};
+  const sandbox={location:{hostname:'test.invalid',search:''},...core,...states,...profiles,...schools,esc:core.escapeHTML,Intl,Date,JSON,Set,crypto:globalThis.crypto,document:{querySelector:node,querySelectorAll:()=>[],addEventListener(){}},localStorage:storage,clearInterval(){},setInterval(){},alert:message=>{throw Error(message);},fetch:async()=>({ok:true,json:async()=>copy(demo)})};
   vm.createContext(sandbox);
   const source=fs.readFileSync(new URL('../app.js',import.meta.url),'utf8').replace(/^import .*;\n/gm,'');
   vm.runInContext(source,sandbox);sandbox.input=cfg('Real');vm.runInContext('save(input,null)',sandbox);

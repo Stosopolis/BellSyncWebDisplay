@@ -21,7 +21,7 @@ function renderer(input,renderDate=date) {
     let content=html;
     return {scrollTop:0,writes:0,get innerHTML(){return content.replace(/(<path\b[^>]*?)\/>/g,'$1></path>');},set innerHTML(value){content=value;this.writes++;}};
   }
-  const nodes=new Map(),node=k=>{if(!nodes.has(k))nodes.set(k,{innerHTML:'',addEventListener(){},remove(){},append(){},querySelector:node,focus(){}});return nodes.get(k);};
+  const nodes=new Map(),node=k=>{if(!nodes.has(k))nodes.set(k,{innerHTML:'',addEventListener(){},setAttribute(){},querySelectorAll(){return [];},remove(){},append(){},querySelector:node,focus(){}});return nodes.get(k);};
   const display=node('#display');
   Object.defineProperty(display,'innerHTML',{configurable:true,get:()=>lastMarkup,set:html=>{lastMarkup=html;scroller=html.includes('class="rows ')?scrollNode(rowMarkup(html)):null;}});
   let header=null;
@@ -40,7 +40,7 @@ function renderer(input,renderDate=date) {
   }})};};
   const data=new Map(),storage={getItem:k=>data.get(k)??null,setItem:(k,v)=>data.set(k,v)};
   class FixedDate extends Date {constructor(...args){super(...(args.length?args:[now]));}static now(){return now;}}
-  const sandbox={...core,...states,...profiles,...schools,esc:core.escapeHTML,Intl,Date:FixedDate,JSON,Set,crypto:globalThis.crypto,document:{querySelector:node,querySelectorAll:()=>[],createElement:temporary,body:node('body'),addEventListener(){}},localStorage:storage,clearInterval(){},setInterval(){},alert:m=>{throw Error(m);}};
+  const sandbox={location:{hostname:'test.invalid',search:''},...core,...states,...profiles,...schools,esc:core.escapeHTML,Intl,Date:FixedDate,JSON,Set,crypto:globalThis.crypto,document:{querySelector:node,querySelectorAll:()=>[],createElement:temporary,body:node('body'),addEventListener(){}},localStorage:storage,clearInterval(){},setInterval(){},alert:m=>{throw Error(m);}};
   vm.createContext(sandbox);vm.runInContext(source,sandbox);sandbox.input=input;vm.runInContext('save(input,null)',sandbox);
   return {fullscreen(value){sandbox.document.fullscreenElement=value?{}:null;},header:()=>header,scroller:()=>scroller,node,render(time){now=fixedAt(time);vm.runInContext('update()',sandbox);return lastMarkup;},stored:()=>JSON.parse(storage.getItem(profiles.PROFILE_KEY)),badge(event,mode){sandbox.event=event;sandbox.mode=mode;return vm.runInContext('scheduleBadge(event,mode)',sandbox);},density(count){sandbox.count=count;return vm.runInContext('scheduleDensity(count)',sandbox);}};
 }

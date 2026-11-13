@@ -52,15 +52,15 @@ All preferences are local to this browser.
 
 **Try Demo** loads a development/testing schedule into the current page. Demo Classroom is always available under **Change Schedule**. Its configuration is never written to local storage unless you explicitly choose **Save Demo as New Schedule** in the picker. **Apply Demo Changes** changes the temporary Demo only. Normal switching stores only the Demo selection marker.
 
-## Deploy to GitHub Pages
+## Production deployment on Vercel
 
-There is no build step. This folder is ready to publish as a static site: it uses only relative paths, browser `localStorage`, and bundled JSON resources. The included `.nojekyll` file keeps GitHub Pages from applying Jekyll processing.
+The live site is [display.bellsync.app](https://display.bellsync.app/). The existing
+Vercel project `bellsync-web-display` in `class-forge-s-projects` deploys this
+repository's `main` branch. There is no local build step. Do not publish this site
+through GitHub Pages or create another hosting project.
 
-1. Put `BellSyncWebDisplay/` in a GitHub repository.
-2. In **Settings → Pages**, publish from the branch/folder that contains this `index.html`.
-3. Open the GitHub Pages URL, including its repository subpath when applicable, such as `https://username.github.io/BellSyncWebDisplay/`.
-
-To use the intended custom domain later, add `display.bellsync.app` in GitHub Pages and create the DNS record GitHub provides. Keep the included `.nojekyll` file at the published root. No server configuration, secret, API key, or machine-specific path is required.
+See [Bell View and Classroom View release notes](docs/agenda-release.md) for the
+public feature gate, backup compatibility, verification and rollback procedure.
 
 Before publishing, test locally:
 

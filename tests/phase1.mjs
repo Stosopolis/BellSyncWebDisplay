@@ -17,8 +17,8 @@ const copy=v=>structuredClone(v);
 const reject=(v,pattern)=>assert.throws(()=>core.normalize(v),pattern);
 // Execute the actual app's date/event logic with inert browser globals; no browser or UI automation.
 const nodes=new Map();
-const node=key=>{if(!nodes.has(key))nodes.set(key,{innerHTML:'',addEventListener(){},remove(){}});return nodes.get(key);};
-const sandbox={...core,...states,...profiles,...schools,resolveSchoolDay:core.schoolDay,esc:core.escapeHTML,Intl,Date,JSON,Set,crypto:{randomUUID:()=> 'test-id'},document:{querySelector:node,querySelectorAll:()=>[],addEventListener(){}},localStorage:{getItem:()=>null},clearInterval(){},setInterval(){}};
+const node=key=>{if(!nodes.has(key))nodes.set(key,{innerHTML:'',addEventListener(){},querySelector:node,querySelectorAll:()=>[],setAttribute(){},remove(){}});return nodes.get(key);};
+const sandbox={location:{hostname:'test.invalid',search:''},...core,...states,...profiles,...schools,resolveSchoolDay:core.schoolDay,esc:core.escapeHTML,Intl,Date,JSON,Set,crypto:{randomUUID:()=> 'test-id'},document:{querySelector:node,querySelectorAll:()=>[],addEventListener(){}},localStorage:{getItem:()=>null},clearInterval(){},setInterval(){}};
 vm.createContext(sandbox);
 const source=fs.readFileSync(new URL('../app.js',import.meta.url),'utf8');
 vm.runInContext(source.replace(/^import .*;\n/gm,''),sandbox);

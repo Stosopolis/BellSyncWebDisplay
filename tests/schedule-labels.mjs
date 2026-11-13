@@ -73,9 +73,9 @@ test('NO_LUNCH and missing lunch have no invented lunch rows or labels',()=>{
 // Execute the actual settings submit and dashboard renderer with inert DOM nodes.
 test('settings persist per profile, hide real badges, and survive restart and backups',()=>{
   const data=new Map(),storage={getItem:k=>data.get(k)??null,setItem:(k,v)=>data.set(k,v)};
-  const nodes=new Map(),node=k=>{if(!nodes.has(k))nodes.set(k,{innerHTML:'',textContent:'',addEventListener(){},remove(){},append(){},querySelector:node,focus(){}});return nodes.get(k);};
+  const nodes=new Map(),node=k=>{if(!nodes.has(k))nodes.set(k,{innerHTML:'',textContent:'',addEventListener(){},setAttribute(){},querySelectorAll(){return [];},remove(){},append(){},querySelector:node,focus(){}});return nodes.get(k);};
   class FixedDate extends Date {constructor(...args){super(...(args.length?args:[at('11:30')]));}static now(){return at('11:30');}}
-  const sandbox={...core,...states,...profiles,...schools,esc:core.escapeHTML,Intl,Date:FixedDate,JSON,Set,crypto:globalThis.crypto,document:{querySelector:node,querySelectorAll:()=>[],createElement:()=>node('new'),body:node('body'),addEventListener(){}},localStorage:storage,clearInterval(){},setInterval(){},alert:message=>{throw Error(message);}};
+  const sandbox={location:{hostname:'test.invalid',search:''},...core,...states,...profiles,...schools,esc:core.escapeHTML,Intl,Date:FixedDate,JSON,Set,crypto:globalThis.crypto,document:{querySelector:node,querySelectorAll:()=>[],createElement:()=>node('new'),body:node('body'),addEventListener(){}},localStorage:storage,clearInterval(){},setInterval(){},alert:message=>{throw Error(message);}};
   vm.createContext(sandbox);
   vm.runInContext(fs.readFileSync(new URL('../app.js',import.meta.url),'utf8').replace(/^import .*;\n/gm,''),sandbox);
   sandbox.input=imported();vm.runInContext('save(input,null);save(input,null)',sandbox);
