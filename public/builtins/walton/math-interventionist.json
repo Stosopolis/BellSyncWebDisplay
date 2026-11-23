@@ -2,15 +2,15 @@
   "formatVersion": 2,
   "createdAt": "2026-11-23T00:00:00Z",
   "schoolProfileID": "walton.math-interventionist",
-  "schoolContentVersion": "2026-11-23.review-1",
-  "scheduleName": "Math Interventionist (Monday Preview)",
+  "schoolContentVersion": "2026-2027.monday-provisional-1",
+  "scheduleName": "Math Interventionist (Provisional Monday)",
   "assignments": {},
   "personalActivities": [],
   "schoolDefinitionSnapshot": {
     "schemaVersion": 1,
     "id": "walton.math-interventionist",
     "displayName": "Walton Elementary School",
-    "contentVersion": "2026-11-23.review-1",
+    "contentVersion": "2026-2027.monday-provisional-1",
     "timeZoneIdentifier": "America/New_York",
     "cycle": {
       "kind": "sameEveryDay",
@@ -18,7 +18,7 @@
         "review"
       ],
       "dayDisplayNames": {
-        "review": "Review only · attendance unconfirmed"
+        "review": "Provisional · Awaiting teacher confirmation · Not official bells"
       }
     },
     "calendarRule": {
@@ -37,7 +37,296 @@
         "kind": "scheduled",
         "cycleDayID": "review",
         "templateID": "monday-review",
-        "note": "Single review date only; school attendance not confirmed. No recurrence."
+        "note": "Proposed Monday recurrence; staff confirmation required."
+      },
+      "2026-11-25": {
+        "cycleDayID": "review",
+        "kind": "scheduleUnavailable",
+        "note": "Early Release · Walton modified schedule not fully available"
+      },
+      "2026-11-26": {
+        "kind": "noSchool",
+        "note": "No School · Thanksgiving Recess"
+      },
+      "2026-11-27": {
+        "kind": "noSchool",
+        "note": "No School · Thanksgiving Recess"
+      },
+      "2026-11-30": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Proposed Monday recurrence; staff confirmation required."
+      },
+      "2026-12-03": {
+        "cycleDayID": "review",
+        "kind": "scheduleUnavailable",
+        "note": "Early Release · Walton modified schedule not fully available"
+      },
+      "2026-12-04": {
+        "cycleDayID": "review",
+        "kind": "scheduleUnavailable",
+        "note": "Early Release · Walton modified schedule not fully available"
+      },
+      "2026-12-07": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Proposed Monday recurrence; staff confirmation required."
+      },
+      "2026-12-14": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Proposed Monday recurrence; staff confirmation required."
+      },
+      "2026-12-21": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Proposed Monday recurrence; staff confirmation required."
+      },
+      "2026-12-23": {
+        "kind": "noSchool",
+        "note": "No School · Winter Recess"
+      },
+      "2026-12-24": {
+        "kind": "noSchool",
+        "note": "No School · Winter Recess"
+      },
+      "2026-12-25": {
+        "kind": "noSchool",
+        "note": "No School · Winter Recess"
+      },
+      "2026-12-26": {
+        "kind": "noSchool",
+        "note": "No School · Winter Recess"
+      },
+      "2026-12-27": {
+        "kind": "noSchool",
+        "note": "No School · Winter Recess"
+      },
+      "2026-12-28": {
+        "kind": "noSchool",
+        "note": "No School · Winter Recess"
+      },
+      "2026-12-29": {
+        "kind": "noSchool",
+        "note": "No School · Winter Recess"
+      },
+      "2026-12-30": {
+        "kind": "noSchool",
+        "note": "No School · Winter Recess"
+      },
+      "2026-12-31": {
+        "kind": "noSchool",
+        "note": "No School · Winter Recess"
+      },
+      "2027-01-01": {
+        "kind": "noSchool",
+        "note": "No School · Winter Recess"
+      },
+      "2027-01-04": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Proposed Monday recurrence; staff confirmation required."
+      },
+      "2027-01-11": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Proposed Monday recurrence; staff confirmation required."
+      },
+      "2027-01-18": {
+        "kind": "noSchool",
+        "note": "No School · Martin Luther King Day"
+      },
+      "2027-01-25": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Proposed Monday recurrence; staff confirmation required."
+      },
+      "2027-01-29": {
+        "cycleDayID": "review",
+        "kind": "scheduleUnavailable",
+        "note": "Early Release · Walton modified schedule not fully available"
+      },
+      "2027-02-01": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Proposed Monday recurrence; staff confirmation required."
+      },
+      "2027-02-08": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Proposed Monday recurrence; staff confirmation required."
+      },
+      "2027-02-15": {
+        "kind": "noSchool",
+        "note": "No School · Presidents Day"
+      },
+      "2027-02-16": {
+        "kind": "noSchool",
+        "note": "No School · Winter Recess"
+      },
+      "2027-02-17": {
+        "kind": "noSchool",
+        "note": "No School · Winter Recess"
+      },
+      "2027-02-18": {
+        "kind": "noSchool",
+        "note": "No School · Winter Recess"
+      },
+      "2027-02-19": {
+        "kind": "noSchool",
+        "note": "No School · Winter Recess"
+      },
+      "2027-02-22": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Proposed Monday recurrence; staff confirmation required."
+      },
+      "2027-02-26": {
+        "cycleDayID": "review",
+        "kind": "scheduleUnavailable",
+        "note": "Early Release · Walton modified schedule not fully available"
+      },
+      "2027-03-01": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Proposed Monday recurrence; staff confirmation required."
+      },
+      "2027-03-08": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Proposed Monday recurrence; staff confirmation required."
+      },
+      "2027-03-15": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Proposed Monday recurrence; staff confirmation required."
+      },
+      "2027-03-18": {
+        "cycleDayID": "review",
+        "kind": "scheduleUnavailable",
+        "note": "Early Release · Walton modified schedule not fully available"
+      },
+      "2027-03-19": {
+        "cycleDayID": "review",
+        "kind": "scheduleUnavailable",
+        "note": "Early Release · Walton modified schedule not fully available"
+      },
+      "2027-03-22": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Proposed Monday recurrence; staff confirmation required."
+      },
+      "2027-03-29": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Proposed Monday recurrence; staff confirmation required."
+      },
+      "2027-04-05": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Proposed Monday recurrence; staff confirmation required."
+      },
+      "2027-04-12": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Proposed Monday recurrence; staff confirmation required."
+      },
+      "2027-04-19": {
+        "kind": "noSchool",
+        "note": "No School · Patriots Day"
+      },
+      "2027-04-20": {
+        "kind": "noSchool",
+        "note": "No School · Spring Recess"
+      },
+      "2027-04-21": {
+        "kind": "noSchool",
+        "note": "No School · Spring Recess"
+      },
+      "2027-04-22": {
+        "kind": "noSchool",
+        "note": "No School · Spring Recess"
+      },
+      "2027-04-23": {
+        "kind": "noSchool",
+        "note": "No School · Spring Recess"
+      },
+      "2027-04-26": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Proposed Monday recurrence; staff confirmation required."
+      },
+      "2027-05-03": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Proposed Monday recurrence; staff confirmation required."
+      },
+      "2027-05-10": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Proposed Monday recurrence; staff confirmation required."
+      },
+      "2027-05-14": {
+        "cycleDayID": "review",
+        "kind": "scheduleUnavailable",
+        "note": "Early Release · Walton modified schedule not fully available"
+      },
+      "2027-05-17": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Proposed Monday recurrence; staff confirmation required."
+      },
+      "2027-05-24": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Proposed Monday recurrence; staff confirmation required."
+      },
+      "2027-05-31": {
+        "kind": "noSchool",
+        "note": "No School · Memorial Day"
+      },
+      "2027-06-07": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Proposed Monday recurrence; staff confirmation required."
+      },
+      "2027-06-14": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Proposed Monday recurrence; staff confirmation required."
+      },
+      "2027-06-17": {
+        "cycleDayID": "review",
+        "kind": "scheduleUnavailable",
+        "note": "Early Release · Walton modified schedule not fully available · Planned last day (no snow days)"
+      },
+      "2027-06-18": {
+        "kind": "noSchool",
+        "note": "No School · Juneteenth Federal Holiday Observed"
       }
     },
     "periodDefinitions": [
@@ -75,7 +364,7 @@
     "scheduleTemplates": [
       {
         "id": "monday-review",
-        "displayName": "Monday Preview · November 23 only",
+        "displayName": "Provisional Monday · Awaiting teacher confirmation",
         "periods": [
           {
             "id": "review-0",
@@ -111,12 +400,15 @@
       }
     ],
     "activityPresentation": {
-      "contextLabel": "Math Interventionist · Monday Preview",
-      "setupDetail": "Five verified blocks for November 23, 2026, as a review date only. Attendance is unconfirmed. No recurring schedule.",
+      "contextLabel": "Provisional Math Interventionist · Not official bells",
+      "setupDetail": "Provisional Monday schedule, November 23, 2026–June 14, 2027. Weekly recurrence awaits teacher confirmation; not an official Walton bell schedule.",
       "unavailableScheduleTitle": "Intervention Schedule Unavailable",
       "notes": [
-        "Separate intervention preview; not Walton’s schoolwide bell schedule.",
-        "10:00–10:40 and 11:30–11:50 are excluded because their labels are unconfirmed."
+        "Separate intervention schedule; not Walton’s schoolwide bell schedule.",
+        "Weekly recurrence and November 23 effective date are proposed, not confirmed by the photo.",
+        "Calendar inherited from Walton 1G 2026-2027.2; planned last day June 17 with no snow-day extension assumed.",
+        "Tuesday–Friday intervention schedules and modified-day times are unconfirmed.",
+        "10:00–10:40 and 11:30–11:50 remain excluded: labels unconfirmed."
       ]
     }
   }
