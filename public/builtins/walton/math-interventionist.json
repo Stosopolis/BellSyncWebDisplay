@@ -1,0 +1,123 @@
+{
+  "formatVersion": 2,
+  "createdAt": "2026-11-23T00:00:00Z",
+  "schoolProfileID": "walton.math-interventionist",
+  "schoolContentVersion": "2026-11-23.review-1",
+  "scheduleName": "Math Interventionist (Monday Preview)",
+  "assignments": {},
+  "personalActivities": [],
+  "schoolDefinitionSnapshot": {
+    "schemaVersion": 1,
+    "id": "walton.math-interventionist",
+    "displayName": "Walton Elementary School",
+    "contentVersion": "2026-11-23.review-1",
+    "timeZoneIdentifier": "America/New_York",
+    "cycle": {
+      "kind": "sameEveryDay",
+      "dayIDs": [
+        "review"
+      ],
+      "dayDisplayNames": {
+        "review": "Review only · attendance unconfirmed"
+      }
+    },
+    "calendarRule": {
+      "mode": "explicitDates",
+      "schoolWeekdays": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "personalAssignmentLayout": "perCycleDay"
+    },
+    "calendarExceptions": {
+      "2026-11-23": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Single review date only; school attendance not confirmed. No recurrence."
+      }
+    },
+    "periodDefinitions": [
+      {
+        "id": "grade-0",
+        "displayName": "Kindergarten",
+        "kind": "academic",
+        "acceptsPersonalAssignment": false
+      },
+      {
+        "id": "grade-1",
+        "displayName": "Grade 1",
+        "kind": "academic",
+        "acceptsPersonalAssignment": false
+      },
+      {
+        "id": "grade-2",
+        "displayName": "Grade 2",
+        "kind": "academic",
+        "acceptsPersonalAssignment": false
+      },
+      {
+        "id": "grade-3",
+        "displayName": "Grade 3",
+        "kind": "academic",
+        "acceptsPersonalAssignment": false
+      },
+      {
+        "id": "grade-4",
+        "displayName": "Grade 4",
+        "kind": "academic",
+        "acceptsPersonalAssignment": false
+      }
+    ],
+    "scheduleTemplates": [
+      {
+        "id": "monday-review",
+        "displayName": "Monday Preview · November 23 only",
+        "periods": [
+          {
+            "id": "review-0",
+            "periodID": "grade-0",
+            "start": "10:45",
+            "end": "11:25"
+          },
+          {
+            "id": "review-1",
+            "periodID": "grade-1",
+            "start": "11:55",
+            "end": "12:30"
+          },
+          {
+            "id": "review-2",
+            "periodID": "grade-2",
+            "start": "12:40",
+            "end": "13:15"
+          },
+          {
+            "id": "review-3",
+            "periodID": "grade-3",
+            "start": "13:25",
+            "end": "13:55"
+          },
+          {
+            "id": "review-4",
+            "periodID": "grade-4",
+            "start": "14:05",
+            "end": "14:40"
+          }
+        ]
+      }
+    ],
+    "activityPresentation": {
+      "contextLabel": "Math Interventionist · Monday Preview",
+      "setupDetail": "Five verified blocks for November 23, 2026, as a review date only. Attendance is unconfirmed. No recurring schedule.",
+      "unavailableScheduleTitle": "Intervention Schedule Unavailable",
+      "notes": [
+        "Separate intervention preview; not Walton’s schoolwide bell schedule.",
+        "10:00–10:40 and 11:30–11:50 are excluded because their labels are unconfirmed."
+      ]
+    }
+  }
+}

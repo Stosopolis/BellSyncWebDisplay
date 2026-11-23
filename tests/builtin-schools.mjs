@@ -6,12 +6,12 @@ import { scheduleSnapshot } from '../schedule-presentation.mjs';
 const read=p=>JSON.parse(fs.readFileSync(new URL(p,import.meta.url),'utf8'));
 const native=read('./fixtures/builtin-schools-native-days.json');
 let passed=0,dates=0;function test(name,fn){fn();passed++;console.log(`PASS ${name}`);}
-for(const [school,count] of [['woodville',22],['ferryway',1],['walton',10]]) {
+for(const [school,count] of [['woodville',22],['ferryway',1],['walton',11]]) {
  const choices=snapshotChoices(school,read(`../public/builtins/${school}/profiles.json`));test(`${school} authoritative public catalog`,()=>{
   assert.equal(choices.length,count);assert.deepEqual(schoolLinkSelection(`?school=${school}`),{school,profile:null});
-  for(const choice of choices){assert.deepEqual(schoolLinkSelection(`?school=${school}&profile=${choice.code.toUpperCase()}`),{school,profile:choice.code});assert.ok(choice.label===`Ferryway School` || new RegExp(`^${school[0].toUpperCase()+school.slice(1)} [A-Z0-9]+$`).test(choice.label));}
+  for(const choice of choices){assert.deepEqual(schoolLinkSelection(`?school=${school}&profile=${choice.code.toUpperCase()}`),{school,profile:choice.code});assert.ok(choice.code==='math-interventionist' || choice.label===`Ferryway School` || new RegExp(`^${school[0].toUpperCase()+school.slice(1)} [A-Z0-9]+$`).test(choice.label));}
  });
- for(const choice of choices)test(`${choice.label}: native timing/calendar/point parity and preview`,()=>{
+ for(const choice of choices.filter(c=>c.code!=='math-interventionist'))test(`${choice.label}: native timing/calendar/point parity and preview`,()=>{
   const raw=read(`../public/builtins/${school}/${choice.file}`),c=snapshotConfiguration(choice,raw);
   assert.equal(c.profileName,choice.label);
   for(const day of native[raw.schoolProfileID]) {

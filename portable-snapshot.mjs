@@ -202,6 +202,7 @@ export function profileOwnerEvents(raw,key,day,at,templateID='profile-personal',
 export function portableTimeline(config,key,at) {
   const raw=config.portable.shared,d=raw.schoolDefinitionSnapshot,day=portableDay(d,key,raw.calendarCorrections);
   const result={key,timeZone:d.timeZoneIdentifier,day,status:'scheduled',events:[],passing:[],classroom:[],contextualStaff:[],points:[]};
+  if(!day && d.id==='walton.math-interventionist' && d.calendarExceptions[key]?.kind!=='noSchool')return {...result,status:'unavailable'};
   if(!day)return {...result,status:d.calendarExceptions[key]?.kind==='noSchool'?'no-school':[1,7].includes(weekday(key))?'weekend':'no-school'};
   const template=d.scheduleTemplates.find(t=>t.id===day.schedule);if(!template)return {...result,status:'unavailable'};
   if(template.unconfirmedEndFrom && key>=template.unconfirmedEndFrom)result.unconfirmedEnd=true;

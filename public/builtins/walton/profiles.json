@@ -48,5 +48,10 @@
     "code" : "kg",
     "label" : "Walton KG",
     "schoolProfileID" : "walton.kg"
+  },
+  {
+    "code" : "math-interventionist",
+    "label" : "Math Interventionist (Monday Preview)",
+    "schoolProfileID" : "walton.math-interventionist"
   }
 ]
