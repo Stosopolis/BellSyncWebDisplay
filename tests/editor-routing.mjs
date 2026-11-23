@@ -516,7 +516,7 @@ for(const school of ['woodville','walton'])await test(`${school} groups every pr
  const groups=[...html.matchAll(/<section class="setup-grade"[^>]*><h3[^>]*>([^<]+)<\/h3><div class="school-list setup-rows">([\s\S]*?)<\/div><\/section>/g)];
  assert.deepEqual(groups.map(g=>[g[1],[...g[2].matchAll(/data-classroom="([^"]+)"/g)].map(m=>m[1])]),gradeGroups[school]);
  const buttons=[...html.matchAll(/<button type="button" data-classroom="([^"]+)" aria-label="([^"]+)">[\s\S]*?<strong>([^<]+)<\/strong>/g)];assert.equal(buttons.length,school==='woodville'?22:11);
- for(const [,code,accessible,label] of buttons){assert.equal(label,code==='math-interventionist'?'Math Interventionist (Provisional Monday)':`Schedule ${code.replace(/^(pk|k|[1-4])/,'').toUpperCase()}`);assert.ok(accessible.endsWith(label));assert.ok(!label.includes(school));}
+ for(const [,code,accessible,label] of buttons){assert.equal(label,code==='math-interventionist'?'Math Interventionist (Provisional Daily)':`Schedule ${code.replace(/^(pk|k|[1-4])/,'').toUpperCase()}`);assert.ok(accessible.endsWith(label));assert.ok(!label.includes(school));}
  assert.match(html,/Choose a schedule/);assert.match(html,/Contact Support/);assert.equal(a.snapshot(),null);
 });
 for(const school of ['woodville','walton'])await test(`${school} every choice previews/saves the original profile, returns to grouped picker and reuses direct URLs`,async()=>{
@@ -524,7 +524,7 @@ for(const school of ['woodville','walton'])await test(`${school} every choice pr
  for(const choice of choices){
  const a=app();await a.node(`[data-school="${school}"]`).onclick();await new Promise(resolve=>setImmediate(resolve));await a.node(`[data-classroom="${choice.code}"]`).onclick();
  const raw=read(`../public/builtins/${school}/${choice.file}`),expected=schools.snapshotConfiguration(choice,raw),preview=schools.schoolSchedulePreview(expected,null,core.dateInZone(Date.now(),expected.school.timeZone));
- assert.equal(a.snapshot(),null);assert.match(a.markup(),/Use This Schedule/);assert.ok(a.node('#setup-preview-list').innerHTML.includes(core.escapeHTML(core.eventTitle(preview.events[0]))));assert.ok(a.markup().includes(choice.code==='math-interventionist'?'Math Interventionist (Provisional Monday)':`Schedule ${choice.code.replace(/^(pk|k|[1-4])/,'').toUpperCase()}`));
+ assert.equal(a.snapshot(),null);assert.match(a.markup(),/Use This Schedule/);assert.ok(a.node('#setup-preview-list').innerHTML.includes(core.escapeHTML(core.eventTitle(preview.events[0]))));assert.ok(a.markup().includes(choice.code==='math-interventionist'?'Math Interventionist (Provisional Daily)':`Schedule ${choice.code.replace(/^(pk|k|[1-4])/,'').toUpperCase()}`));
  a.node('#builtin-back').onclick();assert.match(a.markup(),/class="setup-grade"/);await a.node(`[data-classroom="${choice.code}"]`).onclick();a.node('#builtin-use').onclick();assert.equal(a.snapshot().savedProfiles.length,1);assert.deepEqual(a.run('config'),expected);
  const url=app(a.storage,null,`?school=${school}&profile=${choice.code}`);await new Promise(resolve=>setImmediate(resolve));assert.equal(url.snapshot().savedProfiles.length,1);assert.equal(url.run('config.school.id'),choice.schoolProfileID);assert.deepEqual(url.run('config.portable.shared'),raw);
  await url.run(`chooseBuiltinProfile('${school}')`);await url.node(`[data-classroom="${choice.code}"]`).onclick();url.node('#builtin-use').onclick();assert.equal(url.snapshot().savedProfiles.length,1);

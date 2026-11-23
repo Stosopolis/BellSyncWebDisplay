@@ -1,21 +1,17 @@
-# Walton Math Interventionist — provisional Monday release
+# Walton Math Interventionist — provisional daily release
 
-Publication authorized explicitly as provisional. The photo confirms five Monday blocks, not their recurrence. Teacher confirmation remains outstanding.
+Daily recurrence is explicitly authorized as an assumption, not a teacher-confirmed timetable. Label: Math Interventionist (Provisional Daily). Source day/template labels identify an assumed personal timetable, not official schoolwide bells.
 
-The existing profile ID `walton.math-interventionist` and source cycle/template/item/period identities are retained. The local selector label is Math Interventionist (Provisional Monday). The five instructional blocks remain unchanged; the two unlabeled blocks remain excluded.
+Coverage starts November 23, 2026 and uses Walton's existing 2026–2027 explicit-date calendars through the planned June 17 school-year ending. There are 116 regular instructional dates through June 14. All five exact activity times are unchanged. The two unlabeled blocks remain excluded.
 
-Coverage assumes November 23, 2026 as the effective date and the existing Walton planned year ending June 17, 2027 (no snow days). The existing explicit-date calendar architecture materializes 25 ordinary Mondays through June 14. It does not enable indefinite weekday recurrence. Calendar source: Walton 1G snapshot version 2026-2027.2. All ten Walton profiles agree on relevant Mondays and closures. Kindergarten has additional unavailable endings June 15–16; these are non-Mondays and no intervention schedule is provided on either date.
+Only weekdays marked scheduled in all ten Walton classroom calendars receive activities. Existing closures/vacations remain no-school (25 dates including June 18 observed Juneteenth); 11 modified dates remain unavailable. Kindergarten's unavailable June 15–16 endings exclude those dates conservatively from the entire intervention timetable. Weekends, dates before coverage, and dates beyond the school year have no intervention countdown. No snow-day extension or emergency closure is invented. Calendar source: existing Walton 2026-2027.2 snapshots, not a newly verified external calendar.
 
-Excluded Mondays: December 28 (winter recess), January 18 (MLK Day), February 15 (Presidents Day), April 19 (Patriots Day), May 31 (Memorial Day). All stored remaining-year closures, including vacation days, retain no-school status. Stored modified/early-release days remain unavailable; ordinary Tuesday–Friday dates, weekends, and dates outside coverage have no intervention events or countdowns. June 18 retains the existing observed Juneteenth closure. No snow-day extension or future emergency closure is inferred.
+The school ID walton.math-interventionist and source cycle/template/item/period IDs are unchanged, including legacy internal identifiers review and monday-review. These identifiers are retained for edits and agenda identity; they no longer limit recurrence to Mondays. No resolver, storage schema, or other school definition changes are introduced.
 
-No resolver, profile storage, or automatic saved-profile update is introduced. Already-saved profiles contain frozen snapshots and remain unchanged; a later release must explicitly plan how existing preview users opt into updated data without losing edits or agendas. Do not silently replace their saved profiles.
+## Existing saved profiles
 
-Still awaiting teacher confirmation: weekly Monday recurrence; November 23 effective date; whether all five blocks remain valid through June; any modified-Monday timetable; calendar revisions/snow days. Tuesday–Friday schedules and the two missing labels remain outstanding. This inspection uses the existing project calendar, not a newly verified external calendar.
+The selector/direct link reuse the user's frozen saved snapshot. Existing preview or Monday profiles, preferences, edits, UUIDs, and Classroom agendas are untouched and do not automatically become daily schedules. New users receive the daily snapshot. Existing users can select it in a separate Safari browser profile while retaining the original browser data; preferences and agendas do not automatically transfer. No in-place migration or merge is introduced. Do not delete an existing profile to upgrade.
 
-Validation: exact times and Classroom eligibility on all 25 Mondays; all 730 dates in 2026–2027 checked for appropriate schedule/closure/unavailable behavior; active and completed countdown checks; original school native parity, selector/save/reuse, portable snapshots, syntax and whitespace. No browser or visual testing performed.
+## Validation and review
 
-## Saved preview profiles
-
-The selector and direct link reuse an existing saved snapshot of this school ID. They do not refresh or overwrite it. Existing edits, preferences, profile UUIDs, and Classroom agendas remain intact. New users receive the provisional 25-Monday snapshot. Existing users can use a separate Safari browser profile to select the new schedule while retaining all original data in the original browser profile; settings and agendas do not transfer automatically. There is no supported in-place merge in this release. Do not delete the old profile as an upgrade step.
-
-Provisional status is visible in the selector, preview heading, default Bell/Classroom display profile title, schedule-type selector, and Bell View day label. Renaming the user-controlled profile title remains possible; the source day/template labels remain provisional.
+Check all 730 dates in 2026–2027, exact five blocks on 116 eligible weekdays, all weekday types, closure and modified-day countdown suppression, completion after 14:40, original school regressions, selectors and profile reuse. Browser interactions remain manually untested. Review regular weekdays November 30–December 2 and December 10–11; closed December 28; modified December 3 and June 15–17. Daily recurrence remains an explicit assumption pending any future teacher correction.

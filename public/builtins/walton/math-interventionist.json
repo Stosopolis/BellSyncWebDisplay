@@ -2,15 +2,15 @@
   "formatVersion": 2,
   "createdAt": "2026-11-23T00:00:00Z",
   "schoolProfileID": "walton.math-interventionist",
-  "schoolContentVersion": "2026-2027.monday-provisional-1",
-  "scheduleName": "Math Interventionist (Provisional Monday)",
+  "schoolContentVersion": "2026-2027.daily-provisional-1",
+  "scheduleName": "Math Interventionist (Provisional Daily)",
   "assignments": {},
   "personalActivities": [],
   "schoolDefinitionSnapshot": {
     "schemaVersion": 1,
     "id": "walton.math-interventionist",
     "displayName": "Walton Elementary School",
-    "contentVersion": "2026-2027.monday-provisional-1",
+    "contentVersion": "2026-2027.daily-provisional-1",
     "timeZoneIdentifier": "America/New_York",
     "cycle": {
       "kind": "sameEveryDay",
@@ -18,7 +18,7 @@
         "review"
       ],
       "dayDisplayNames": {
-        "review": "Provisional · Awaiting teacher confirmation · Not official bells"
+        "review": "Provisional · Assumed personal schedule · Not official bells"
       }
     },
     "calendarRule": {
@@ -37,12 +37,18 @@
         "kind": "scheduled",
         "cycleDayID": "review",
         "templateID": "monday-review",
-        "note": "Proposed Monday recurrence; staff confirmation required."
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2026-11-24": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
       },
       "2026-11-25": {
-        "cycleDayID": "review",
         "kind": "scheduleUnavailable",
-        "note": "Early Release · Walton modified schedule not fully available"
+        "cycleDayID": "review",
+        "note": "Modified school day · regular intervention timetable unavailable"
       },
       "2026-11-26": {
         "kind": "noSchool",
@@ -56,35 +62,101 @@
         "kind": "scheduled",
         "cycleDayID": "review",
         "templateID": "monday-review",
-        "note": "Proposed Monday recurrence; staff confirmation required."
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2026-12-01": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2026-12-02": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
       },
       "2026-12-03": {
-        "cycleDayID": "review",
         "kind": "scheduleUnavailable",
-        "note": "Early Release · Walton modified schedule not fully available"
+        "cycleDayID": "review",
+        "note": "Modified school day · regular intervention timetable unavailable"
       },
       "2026-12-04": {
-        "cycleDayID": "review",
         "kind": "scheduleUnavailable",
-        "note": "Early Release · Walton modified schedule not fully available"
+        "cycleDayID": "review",
+        "note": "Modified school day · regular intervention timetable unavailable"
       },
       "2026-12-07": {
         "kind": "scheduled",
         "cycleDayID": "review",
         "templateID": "monday-review",
-        "note": "Proposed Monday recurrence; staff confirmation required."
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2026-12-08": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2026-12-09": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2026-12-10": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2026-12-11": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
       },
       "2026-12-14": {
         "kind": "scheduled",
         "cycleDayID": "review",
         "templateID": "monday-review",
-        "note": "Proposed Monday recurrence; staff confirmation required."
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2026-12-15": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2026-12-16": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2026-12-17": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2026-12-18": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
       },
       "2026-12-21": {
         "kind": "scheduled",
         "cycleDayID": "review",
         "templateID": "monday-review",
-        "note": "Proposed Monday recurrence; staff confirmation required."
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2026-12-22": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
       },
       "2026-12-23": {
         "kind": "noSchool",
@@ -130,40 +202,178 @@
         "kind": "scheduled",
         "cycleDayID": "review",
         "templateID": "monday-review",
-        "note": "Proposed Monday recurrence; staff confirmation required."
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-01-05": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-01-06": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-01-07": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-01-08": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
       },
       "2027-01-11": {
         "kind": "scheduled",
         "cycleDayID": "review",
         "templateID": "monday-review",
-        "note": "Proposed Monday recurrence; staff confirmation required."
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-01-12": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-01-13": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-01-14": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-01-15": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
       },
       "2027-01-18": {
         "kind": "noSchool",
         "note": "No School · Martin Luther King Day"
       },
+      "2027-01-19": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-01-20": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-01-21": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-01-22": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
       "2027-01-25": {
         "kind": "scheduled",
         "cycleDayID": "review",
         "templateID": "monday-review",
-        "note": "Proposed Monday recurrence; staff confirmation required."
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-01-26": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-01-27": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-01-28": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
       },
       "2027-01-29": {
-        "cycleDayID": "review",
         "kind": "scheduleUnavailable",
-        "note": "Early Release · Walton modified schedule not fully available"
+        "cycleDayID": "review",
+        "note": "Modified school day · regular intervention timetable unavailable"
       },
       "2027-02-01": {
         "kind": "scheduled",
         "cycleDayID": "review",
         "templateID": "monday-review",
-        "note": "Proposed Monday recurrence; staff confirmation required."
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-02-02": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-02-03": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-02-04": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-02-05": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
       },
       "2027-02-08": {
         "kind": "scheduled",
         "cycleDayID": "review",
         "templateID": "monday-review",
-        "note": "Proposed Monday recurrence; staff confirmation required."
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-02-09": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-02-10": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-02-11": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-02-12": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
       },
       "2027-02-15": {
         "kind": "noSchool",
@@ -189,64 +399,238 @@
         "kind": "scheduled",
         "cycleDayID": "review",
         "templateID": "monday-review",
-        "note": "Proposed Monday recurrence; staff confirmation required."
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-02-23": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-02-24": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-02-25": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
       },
       "2027-02-26": {
-        "cycleDayID": "review",
         "kind": "scheduleUnavailable",
-        "note": "Early Release · Walton modified schedule not fully available"
+        "cycleDayID": "review",
+        "note": "Modified school day · regular intervention timetable unavailable"
       },
       "2027-03-01": {
         "kind": "scheduled",
         "cycleDayID": "review",
         "templateID": "monday-review",
-        "note": "Proposed Monday recurrence; staff confirmation required."
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-03-02": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-03-03": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-03-04": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-03-05": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
       },
       "2027-03-08": {
         "kind": "scheduled",
         "cycleDayID": "review",
         "templateID": "monday-review",
-        "note": "Proposed Monday recurrence; staff confirmation required."
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-03-09": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-03-10": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-03-11": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-03-12": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
       },
       "2027-03-15": {
         "kind": "scheduled",
         "cycleDayID": "review",
         "templateID": "monday-review",
-        "note": "Proposed Monday recurrence; staff confirmation required."
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-03-16": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-03-17": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
       },
       "2027-03-18": {
-        "cycleDayID": "review",
         "kind": "scheduleUnavailable",
-        "note": "Early Release · Walton modified schedule not fully available"
+        "cycleDayID": "review",
+        "note": "Modified school day · regular intervention timetable unavailable"
       },
       "2027-03-19": {
-        "cycleDayID": "review",
         "kind": "scheduleUnavailable",
-        "note": "Early Release · Walton modified schedule not fully available"
+        "cycleDayID": "review",
+        "note": "Modified school day · regular intervention timetable unavailable"
       },
       "2027-03-22": {
         "kind": "scheduled",
         "cycleDayID": "review",
         "templateID": "monday-review",
-        "note": "Proposed Monday recurrence; staff confirmation required."
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-03-23": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-03-24": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-03-25": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-03-26": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
       },
       "2027-03-29": {
         "kind": "scheduled",
         "cycleDayID": "review",
         "templateID": "monday-review",
-        "note": "Proposed Monday recurrence; staff confirmation required."
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-03-30": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-03-31": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-04-01": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-04-02": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
       },
       "2027-04-05": {
         "kind": "scheduled",
         "cycleDayID": "review",
         "templateID": "monday-review",
-        "note": "Proposed Monday recurrence; staff confirmation required."
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-04-06": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-04-07": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-04-08": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-04-09": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
       },
       "2027-04-12": {
         "kind": "scheduled",
         "cycleDayID": "review",
         "templateID": "monday-review",
-        "note": "Proposed Monday recurrence; staff confirmation required."
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-04-13": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-04-14": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-04-15": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-04-16": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
       },
       "2027-04-19": {
         "kind": "noSchool",
@@ -272,57 +656,229 @@
         "kind": "scheduled",
         "cycleDayID": "review",
         "templateID": "monday-review",
-        "note": "Proposed Monday recurrence; staff confirmation required."
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-04-27": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-04-28": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-04-29": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-04-30": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
       },
       "2027-05-03": {
         "kind": "scheduled",
         "cycleDayID": "review",
         "templateID": "monday-review",
-        "note": "Proposed Monday recurrence; staff confirmation required."
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-05-04": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-05-05": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-05-06": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-05-07": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
       },
       "2027-05-10": {
         "kind": "scheduled",
         "cycleDayID": "review",
         "templateID": "monday-review",
-        "note": "Proposed Monday recurrence; staff confirmation required."
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-05-11": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-05-12": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-05-13": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
       },
       "2027-05-14": {
-        "cycleDayID": "review",
         "kind": "scheduleUnavailable",
-        "note": "Early Release · Walton modified schedule not fully available"
+        "cycleDayID": "review",
+        "note": "Modified school day · regular intervention timetable unavailable"
       },
       "2027-05-17": {
         "kind": "scheduled",
         "cycleDayID": "review",
         "templateID": "monday-review",
-        "note": "Proposed Monday recurrence; staff confirmation required."
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-05-18": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-05-19": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-05-20": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-05-21": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
       },
       "2027-05-24": {
         "kind": "scheduled",
         "cycleDayID": "review",
         "templateID": "monday-review",
-        "note": "Proposed Monday recurrence; staff confirmation required."
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-05-25": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-05-26": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-05-27": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-05-28": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
       },
       "2027-05-31": {
         "kind": "noSchool",
         "note": "No School · Memorial Day"
       },
+      "2027-06-01": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-06-02": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-06-03": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-06-04": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
       "2027-06-07": {
         "kind": "scheduled",
         "cycleDayID": "review",
         "templateID": "monday-review",
-        "note": "Proposed Monday recurrence; staff confirmation required."
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-06-08": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-06-09": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-06-10": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-06-11": {
+        "kind": "scheduled",
+        "cycleDayID": "review",
+        "templateID": "monday-review",
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
       },
       "2027-06-14": {
         "kind": "scheduled",
         "cycleDayID": "review",
         "templateID": "monday-review",
-        "note": "Proposed Monday recurrence; staff confirmation required."
+        "note": "Assumed personal daily timetable · provisional, not official schoolwide bells"
+      },
+      "2027-06-15": {
+        "kind": "scheduleUnavailable",
+        "cycleDayID": "review",
+        "note": "Modified school day · regular intervention timetable unavailable"
+      },
+      "2027-06-16": {
+        "kind": "scheduleUnavailable",
+        "cycleDayID": "review",
+        "note": "Modified school day · regular intervention timetable unavailable"
       },
       "2027-06-17": {
-        "cycleDayID": "review",
         "kind": "scheduleUnavailable",
-        "note": "Early Release · Walton modified schedule not fully available · Planned last day (no snow days)"
+        "cycleDayID": "review",
+        "note": "Modified school day · regular intervention timetable unavailable"
       },
       "2027-06-18": {
         "kind": "noSchool",
@@ -364,7 +920,7 @@
     "scheduleTemplates": [
       {
         "id": "monday-review",
-        "displayName": "Provisional Monday · Awaiting teacher confirmation",
+        "displayName": "Provisional Daily · Assumed personal timetable",
         "periods": [
           {
             "id": "review-0",
@@ -400,15 +956,14 @@
       }
     ],
     "activityPresentation": {
-      "contextLabel": "Provisional Math Interventionist · Not official bells",
-      "setupDetail": "Provisional Monday schedule, November 23, 2026–June 14, 2027. Weekly recurrence awaits teacher confirmation; not an official Walton bell schedule.",
+      "contextLabel": "Provisional Daily Math Interventionist · Not official bells",
+      "setupDetail": "Assumed personal weekday timetable through the remaining 2026–2027 school year, excluding closures and modified days. Not official Walton schoolwide bell times.",
       "unavailableScheduleTitle": "Intervention Schedule Unavailable",
       "notes": [
-        "Separate intervention schedule; not Walton’s schoolwide bell schedule.",
-        "Weekly recurrence and November 23 effective date are proposed, not confirmed by the photo.",
-        "Calendar inherited from Walton 1G 2026-2027.2; planned last day June 17 with no snow-day extension assumed.",
-        "Tuesday–Friday intervention schedules and modified-day times are unconfirmed.",
-        "10:00–10:40 and 11:30–11:50 remain excluded: labels unconfirmed."
+        "Daily repetition is an authorized assumption, not teacher-confirmed recurrence.",
+        "Calendar uses existing Walton 2026-2027.2 snapshots; any classroom modified day is excluded conservatively, including June 15–16 kindergarten endings.",
+        "Effective November 23, 2026; planned school-year end June 17, 2027. No snow-day extension assumed.",
+        "10:00–10:40 and 11:30–11:50 remain excluded because their labels are unconfirmed."
       ]
     }
   }
